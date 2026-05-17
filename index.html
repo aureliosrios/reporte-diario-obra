@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Reporte Diario de Obra | Vivienda Unifamiliar</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Vanilla CSS -->
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --primary-light: #e0f2fe;
+            --secondary: #475569;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --bg-app: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 9:16 Mobile Mockup Frame on Desktop */
+        .phone-frame {
+            width: 100%;
+            max-width: 430px; /* iPhone 15 Pro Max approx width */
+            height: 100vh;
+            max-height: 932px; /* iPhone 15 Pro Max approx height */
+            background-color: var(--bg-app);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 0;
+            transition: var(--transition);
+        }
+
+        @media (min-width: 480px) {
+            .phone-frame {
+                border-radius: 40px;
+                border: 12px solid #1e293b;
+                height: 90vh;
+                margin: 20px 0;
+            }
+            
+            /* Home indicator bar for premium mobile look on desktop */
+            .phone-frame::after {
+                content: '';
+                position: absolute;
+                bottom: 8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 140px;
+                height: 5px;
+                background-color: #cbd5e1;
+                border-radius: 10px;
+                z-index: 1000;
+                pointer-events: none;
+            }
+            
+            /* Top notch / Dynamic Island */
+            .phone-frame::before {
+                content: '';
+                position: absolute;
+                top: 12px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 110px;
+                height: 30px;
+                background-color: #1e293b;
+                border-radius: 20px;
+                z-index: 1000;
+                pointer-events: none;
+            }
+        }
+
+        /* Screen Container */
+        .screen-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 16px 90px 16px;
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar for Phone Frame */
+        .screen-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .screen-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .screen-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        h1 { font-size: 1.5rem; }
+        h2 { font-size: 1.2rem; }
+        h3 { font-size: 1rem; }
+
+        /* Sticky Header */
+        header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 44px 20px 16px 20px; /* Padding top accommodates top notch */
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding-top: 24px;
+            }
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-box {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary) 0%, #0284c7 100%);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.3);
+        }
+
+        .header-title-container h1 {
+            font-size: 1.15rem;
+            line-height: 1.2;
+            color: #0f172a;
+        }
+
+        .header-title-container span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Status badge */
+        .status-header-badge {
+            background-color: var(--primary-light);
+            color: var(--primary-hover);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(2, 132, 199, 0.2);
+        }
+
+        /* Cards & Containers */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .card-title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--primary);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background-color: #f8fafc;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+        }
+
+        /* Select styling override */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        /* Weather Selector Buttons */
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .weather-btn {
+            background: #f8fafc;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 10px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .weather-btn svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .weather-btn span {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .weather-btn.active {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .weather-btn.active svg {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .weather-btn.active span {
+            color: var(--primary-hover);
+        }
+
+        /* Shift / Jornada Switcher */
+        .shift-toggle {
+            display: flex;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: var(--radius-md);
+            border: 1.5px solid var(--border-color);
+        }
+
+        .shift-option {
+            flex: 1;
+            text-align: center;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .shift-option.active {
+            background: white;
+            color: var(--primary-hover);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Mano de Obra Counter */
+        .labor-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .labor-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .labor-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .labor-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .labor-counter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 4px;
+        }
+
+        .counter-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .counter-btn:hover {
+            background: #cbd5e1;
+        }
+
+        .counter-val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            width: 30px;
+            text-align: center;
+        }
+
+        /* Dynamic Form List (Activities / Materials) */
+        .dynamic-item {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 12px;
+            position: relative;
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: var(--transition);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dynamic-item.removing {
+            opacity: 0;
+            transform: scale(0.9);
+            margin-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            overflow: hidden;
+        }
+
+        .btn-delete-item {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #fee2e2;
+            color: var(--danger);
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-delete-item:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-add {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            background-color: var(--primary-light);
+            color: var(--primary-hover);
+            border: 1.5px dashed var(--primary);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 8px;
+        }
+
+        .btn-add:hover {
+            background-color: #bae6fd;
+            border-style: solid;
+        }
+
+        /* Custom Slider (Progress Bar) */
+        .slider-container {
+            margin-top: 8px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .slider-value-badge {
+            background-color: var(--primary-light);
+            color: var(--primary-hover);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .custom-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #cbd5e1;
+            outline: none;
+            margin: 10px 0;
+        }
+
+        .custom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+
+        .custom-slider::-webkit-slider-thumb:active {
+            transform: scale(1.2);
+        }
+
+        /* Status Badge Checkbox grid */
+        .status-badge-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .status-badge-btn {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 6px 2px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .status-badge-btn[data-status="Iniciado"].active {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+            color: #1d4ed8;
+        }
+
+        .status-badge-btn[data-status="En Proceso"].active {
+            background-color: var(--warning-light);
+            border-color: var(--warning);
+            color: #b45309;
+        }
+
+        .status-badge-btn[data-status="Completado"].active {
+            background-color: var(--success-light);
+            border-color: var(--success);
+            color: #047857;
+        }
+
+        .status-badge-btn[data-status="Paralizado"].active {
+            background-color: var(--danger-light);
+            border-color: var(--danger);
+            color: #b91c1c;
+        }
+
+        /* Delay / Restrictions Checklist */
+        .blockers-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .blocker-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .blocker-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .blocker-option span {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .blocker-option.selected {
+            background-color: var(--danger-light);
+            border-color: #fca5a5;
+        }
+
+        /* Photo Upload Dropzone */
+        .photo-dropzone {
+            border: 2.5px dashed var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            background: #f8fafc;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .photo-dropzone:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .photo-dropzone svg {
+            width: 36px;
+            height: 36px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .photo-dropzone p {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .photo-dropzone span {
+            font-size: 0.75rem;
+            color: var(--primary-hover);
+            font-weight: 600;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .photo-preview-card {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            animation: slideIn 0.3s var(--transition);
+        }
+
+        .photo-preview-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-delete-photo {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(4px);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .btn-delete-photo:hover {
+            background: var(--danger);
+        }
+
+        /* Signature Canvas Pad */
+        .signature-wrapper {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: #f8fafc;
+            position: relative;
+        }
+
+        .signature-canvas {
+            display: block;
+            width: 100%;
+            height: 150px;
+            touch-action: none;
+            cursor: crosshair;
+        }
+
+        .signature-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: white;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-signature-clear {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--danger);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Sticky Footer Navigation */
+        footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-color);
+            padding: 12px 16px 24px 16px;
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        @media (max-width: 480px) {
+            footer {
+                padding-bottom: 16px;
+            }
+        }
+
+        .btn-submit {
+            flex: 2;
+            background: linear-gradient(135deg, var(--primary) 0%, #0284c7 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px -2px rgba(2, 132, 199, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background: #e2e8f0;
+            color: var(--secondary);
+            border: none;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+            color: var(--text-main);
+        }
+
+        /* Success & Setup Modals */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            padding: 24px;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px auto;
+        }
+
+        .modal-icon.success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .modal-title {
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+        }
+
+        .modal-body {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .modal-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .modal-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .modal-btn-danger {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .modal-btn-danger:hover {
+            background: #dc2626;
+        }
+
+        /* Loading Indicator Spinner */
+        .spinner {
+            border: 3px solid #cbd5e1;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- iPhone Mockup Shell Frame -->
+    <div class="phone-frame">
+        
+        <!-- Header -->
+        <header>
+            <div class="header-logo">
+                <div class="logo-box">V</div>
+                <div class="header-title-container">
+                    <h1>Reporte de Obra</h1>
+                    <span>Vivienda Unifamiliar</span>
+                </div>
+            </div>
+            
+            <div class="status-header-badge">
+                Frente 1
+            </div>
+        </header>
+
+        <!-- Scrollable Form Body -->
+        <main class="screen-content" id="formContainer">
+            <form id="dailyReportForm">
+                
+                <!-- Section 1: General Info -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <!-- Info Icon -->
+                            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <h2>Información General</h2>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="projectName">Nombre del Proyecto</label>
+                        <input type="text" id="projectName" value="Vivienda Unifamiliar - Casa Campestre" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reportDate">Fecha del Reporte</label>
+                        <input type="date" id="reportDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="supervisorName">Responsable / Supervisor</label>
+                        <input type="text" id="supervisorName" placeholder="Ej. Ing. Carlos Mendoza" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Clima Predominante</label>
+                        <div class="weather-grid">
+                            <div class="weather-btn active" data-weather="Soleado">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+                                <span>Soleado</span>
+                            </div>
+                            <div class="weather-btn" data-weather="Nublado">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19A3.5 3.5 0 0 0 21 15.5c0-2.79-2.54-4.5-5-4.5-.42-1.01-1.04-1.88-1.8-2.58A5.5 5.5 0 0 0 5 11c0 2.76 2.24 5 5 5h7.5"></path></svg>
+                                <span>Nublado</span>
+                            </div>
+                            <div class="weather-btn" data-weather="Llovizna">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path><path d="M8 19v2M12 19v2M16 19v2"></path></svg>
+                                <span>Llovizna</span>
+                            </div>
+                            <div class="weather-btn" data-weather="Lluvia">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16" y1="13" x2="16" y2="21"></line><line x1="8" y1="13" x2="8" y2="21"></line><line x1="12" y1="15" x2="12" y2="23"></line><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"></path></svg>
+                                <span>Lluvia</span>
+                            </div>
+                            <div class="weather-btn" data-weather="Viento">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path></svg>
+                                <span>Viento</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Jornada Laboral</label>
+                        <div class="shift-toggle">
+                            <div class="shift-option active" data-shift="Diurno">Diurno</div>
+                            <div class="shift-option" data-shift="Nocturno">Nocturno</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Mano de Obra (Labor Counter) -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <!-- Users Icon -->
+                            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            <h2>Personal en Obra</h2>
+                        </div>
+                        <span class="slider-value-badge" id="totalLaborText">Total: 0</span>
+                    </div>
+
+                    <div class="labor-grid">
+                        <div class="labor-card">
+                            <div class="labor-info">
+                                <span class="labor-label">Capataz</span>
+                            </div>
+                            <div class="labor-counter">
+                                <button type="button" class="counter-btn" onclick="decrementLabor('capataz')">-</button>
+                                <span class="counter-val" id="cnt_capataz">0</span>
+                                <button type="button" class="counter-btn" onclick="incrementLabor('capataz')">+</button>
+                            </div>
+                        </div>
+                        <div class="labor-card">
+                            <div class="labor-info">
+                                <span class="labor-label">Operarios</span>
+                            </div>
+                            <div class="labor-counter">
+                                <button type="button" class="counter-btn" onclick="decrementLabor('operario')">-</button>
+                                <span class="counter-val" id="cnt_operario">0</span>
+                                <button type="button" class="counter-btn" onclick="incrementLabor('operario')">+</button>
+                            </div>
+                        </div>
+                        <div class="labor-card">
+                            <div class="labor-info">
+                                <span class="labor-label">Oficiales</span>
+                            </div>
+                            <div class="labor-counter">
+                                <button type="button" class="counter-btn" onclick="decrementLabor('oficial')">-</button>
+                                <span class="counter-val" id="cnt_oficial">0</span>
+                                <button type="button" class="counter-btn" onclick="incrementLabor('oficial')">+</button>
+                            </div>
+                        </div>
+                        <div class="labor-card">
+                            <div class="labor-info">
+                                <span class="labor-label">Peones</span>
+                            </div>
+                            <div class="labor-counter">
+                                <button type="button" class="counter-btn" onclick="decrementLabor('peon')">-</button>
+                                <span class="counter-val" id="cnt_peon">0</span>
+                                <button type="button" class="counter-btn" onclick="incrementLabor('peon')">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Actividades Realizadas -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <!-- Activity Icon -->
+                            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <h2>Actividades Realizadas</h2>
+                        </div>
+                    </div>
+
+                    <div id="activitiesList">
+                        <!-- Dynamically inserted activities will go here -->
+                    </div>
+
+                    <button type="button" class="btn-add" id="addActivityBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Agregar Actividad
+                    </button>
+                </div>
+
+                <!-- Section 4: Materiales Recibidos -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <!-- Box/Package Icon -->
+                            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><polygon points="12 22.08 12 12 3 6.92 3 17.08 12 22.08"></polygon><polygon points="12 12 21 6.92 21 17.08 12 22.08"></polygon><polygon points="12 2 3 6.92 12 12 21 6.92 12 2"></polygon><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                            <h2>Materiales Recibidos</h2>
+                        </div>
+                    </div>
+
+                    <div id="materialsList">
+                        <!-- Dynamically inserted materials will go here -->
+                    </div>
+
+                    <button type="button" class="btn-add" id="addMaterialBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Agregar Material
+                    </button>
+                </div>
+
+                <!-- Section 5: Restricciones e Incidentes -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <!-- Alert Triangle Icon -->
+                            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            <h2>Restricciones o Demoras</h2>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Causa del Retraso (Marcar si aplica)</label>
+                        <div class="blockers-grid">
+                            <label class="blocker-option" id="lbl_b_clima">
+                                <input type="checkbox" id="b_clima" onchange="toggleBlockerStyle(this)">
+                                <span>Factores Climáticos</span>
+                            </label>
+                            <label class="blocker-option" id="lbl_b_material">
+                                <input type="checkbox" id="b_material" onchange="toggleBlockerStyle(this)">
+                                <span>Retraso de Proveedores / Materiales</span>
+                            </label>
+                            <label class="blocker-option" id="lbl_b_planos">
+                                <input type="checkbox" id="b_planos" onchange="toggleBlockerStyle(this)">
+                                <span>Incompatibilidad / Error de Planos</span>
+                            </label>
+                            <label class="blocker-option" id="lbl_b_labor">
+                                <input type="checkbox" id="b_labor" onchange="toggleBlockerStyle(this)">
+                                <span>Inasistencia / Falta de Mano de Obra</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="observations">Descripción de Observaciones / Incidentes</label>
+                        <textarea id="observations" rows="3" placeholder="Describa a detalle cualquier problema, retraso o situación de seguridad en obra..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Section 6: Registro Fotográfico -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <!-- Camera Icon -->
+                            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            <h2>Registro Fotográfico</h2>
+                        </div>
+                    </div>
+
+                    <div class="photo-dropzone" onclick="triggerPhotoUpload()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <p>Toca para abrir cámara o galería</p>
+                        <span>Cargar fotos de avance</span>
+                        <input type="file" id="photoInput" accept="image/*" multiple style="display: none;" onchange="handlePhotoFiles(this)">
+                    </div>
+
+                    <div class="photo-grid" id="photoPreviewContainer">
+                        <!-- Image cards dynamically placed here -->
+                    </div>
+                </div>
+
+                <!-- Section 7: Firma Digital -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-group">
+                            <!-- Pen Tool Icon -->
+                            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                            <h2>Firma del Supervisor</h2>
+                        </div>
+                    </div>
+
+                    <div class="signature-wrapper">
+                        <canvas class="signature-canvas" id="sigCanvas"></canvas>
+                        <div class="signature-actions">
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">Dibuje su firma con el dedo</span>
+                            <button type="button" class="btn-signature-clear" onclick="clearSignature()">Limpiar Firma</button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </main>
+
+        <!-- Fixed Footer Actions -->
+        <footer>
+            <button type="button" class="btn-secondary" id="saveDraftBtn">Guardar</button>
+            <button type="button" class="btn-submit" id="submitReportBtn">
+                <!-- Check Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Enviar Reporte
+            </button>
+        </footer>
+
+        <!-- STATUS OVERLAY (LOADING / SUCCESS / ERROR) -->
+        <div class="overlay" id="statusOverlay">
+            <div class="modal-content" id="statusModalContent">
+                <!-- Content injected dynamically -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripting -->
+    <script>
+        /************************************************************************
+         * CONFIGURACIÓN DE ENLACE DIRECTO
+         * Pegue aquí abajo la URL de su implementación web de Google Apps Script.
+         * El formulario se conectará de manera inmediata y segura sin intermediarios.
+         ************************************************************************/
+        const GOOGLE_SCRIPT_URL = "SU_URL_DE_APPS_SCRIPT_AQUI";
+
+
+        // State variables
+        let selectedWeather = 'Soleado';
+        let selectedShift = 'Diurno';
+        let laborCounts = {
+            capataz: 0,
+            operario: 0,
+            oficial: 0,
+            peon: 0
+        };
+        let uploadedPhotos = []; // base64 strings
+        let signatureData = null; // base64 string
+
+        // Signature Canvas setup
+        const canvas = document.getElementById('sigCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // Auto-initialize layout on window load
+        window.addEventListener('load', () => {
+            // Set default date as today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('reportDate').value = today;
+
+            // Setup signature size
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            // Setup signature draw events
+            setupSignaturePad();
+
+            // Load saved draft if exists
+            loadDraftFromLocalStorage();
+
+            // Add one default activity and material to avoid blank form
+            if (document.querySelectorAll('.activity-item').length === 0) {
+                addActivity();
+            }
+            if (document.querySelectorAll('.material-item').length === 0) {
+                addMaterial();
+            }
+        });
+
+        // Resize Canvas to fit screen correctly
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            // High-DPI screens support
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            ctx.strokeStyle = '#0f172a';
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            if (signatureData) {
+                // Restore signature if drawing existed
+                let img = new Image();
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0, rect.width, rect.height);
+                }
+                img.src = signatureData;
+            }
+        }
+
+        // Setup drawing events for Touch and Mouse
+        function setupSignaturePad() {
+            function getCoordinates(e) {
+                const rect = canvas.getBoundingClientRect();
+                let clientX, clientY;
+                if (e.touches && e.touches.length > 0) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function startDraw(e) {
+                isDrawing = true;
+                const coords = getCoordinates(e);
+                lastX = coords.x;
+                lastY = coords.y;
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                // Prevent scrolling on touch screens
+                if (e.cancelable) e.preventDefault();
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                const coords = getCoordinates(e);
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(coords.x, coords.y);
+                ctx.stroke();
+                lastX = coords.x;
+                lastY = coords.y;
+                if (e.cancelable) e.preventDefault();
+            }
+
+            // Save drawing state
+            function stopDraw() {
+                if (isDrawing) {
+                    isDrawing = false;
+                    signatureData = canvas.toDataURL();
+                }
+            }
+
+            // Touch events
+            canvas.addEventListener('touchstart', startDraw, {passive: false});
+            canvas.addEventListener('touchmove', draw, {passive: false});
+            canvas.addEventListener('touchend', stopDraw);
+            
+            // Mouse events
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDraw);
+            canvas.addEventListener('mouseleave', stopDraw);
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            signatureData = null;
+        }
+
+        // Weather Selector
+        const weatherBtns = document.querySelectorAll('.weather-btn');
+        weatherBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                weatherBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedWeather = btn.getAttribute('data-weather');
+                saveToLocalStorage();
+            });
+        });
+
+        // Shift Selector
+        const shiftOptions = document.querySelectorAll('.shift-option');
+        shiftOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                shiftOptions.forEach(o => o.classList.remove('active'));
+                opt.classList.add('active');
+                selectedShift = opt.getAttribute('data-shift');
+                saveToLocalStorage();
+            });
+        });
+
+        // Labor Force Increment / Decrement
+        function incrementLabor(type) {
+            laborCounts[type]++;
+            document.getElementById(`cnt_${type}`).textContent = laborCounts[type];
+            updateTotalLabor();
+            saveToLocalStorage();
+        }
+
+        function decrementLabor(type) {
+            if (laborCounts[type] > 0) {
+                laborCounts[type]--;
+                document.getElementById(`cnt_${type}`).textContent = laborCounts[type];
+                updateTotalLabor();
+                saveToLocalStorage();
+            }
+        }
+
+        function updateTotalLabor() {
+            const total = Object.values(laborCounts).reduce((a, b) => a + b, 0);
+            document.getElementById('totalLaborText').textContent = `Total: ${total}`;
+        }
+
+        // Dynamic Activities Logic
+        const activitiesList = document.getElementById('activitiesList');
+        const addActivityBtn = document.getElementById('addActivityBtn');
+
+        let activityCounter = 0;
+
+        addActivityBtn.addEventListener('click', () => addActivity());
+
+        function addActivity(savedData = null) {
+            activityCounter++;
+            const itemId = `activity_${activityCounter}`;
+            
+            const itemHTML = `
+                <div class="dynamic-item activity-item" id="${itemId}">
+                    <button type="button" class="btn-delete-item" onclick="removeItem('${itemId}')" title="Eliminar Actividad">×</button>
+                    
+                    <div class="form-group" style="padding-right: 24px;">
+                        <label>Actividad / Tarea</label>
+                        <input type="text" class="act-name" placeholder="Ej. Vaciado de columnas de concreto" value="${savedData ? savedData.name : ''}" required oninput="saveToLocalStorage()">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Sector / Ubicación</label>
+                        <input type="text" class="act-sector" placeholder="Ej. Primer piso, Ejes A-C" value="${savedData ? savedData.sector : ''}" required oninput="saveToLocalStorage()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <div class="status-badge-grid">
+                            <div class="status-badge-btn ${(!savedData || savedData.status === 'Iniciado') ? 'active' : ''}" data-status="Iniciado" onclick="setActivityStatus('${itemId}', 'Iniciado')">Iniciado</div>
+                            <div class="status-badge-btn ${(savedData && savedData.status === 'En Proceso') ? 'active' : ''}" data-status="En Proceso" onclick="setActivityStatus('${itemId}', 'En Proceso')">Proceso</div>
+                            <div class="status-badge-btn ${(savedData && savedData.status === 'Completado') ? 'active' : ''}" data-status="Completado" onclick="setActivityStatus('${itemId}', 'Completado')">Hecho</div>
+                            <div class="status-badge-btn ${(savedData && savedData.status === 'Paralizado') ? 'active' : ''}" data-status="Paralizado" onclick="setActivityStatus('${itemId}', 'Paralizado')">Parado</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group slider-container">
+                        <div class="slider-header">
+                            <span>Avance de la Actividad</span>
+                            <span class="slider-value-badge" id="val_badge_${itemId}">${savedData ? savedData.progress : '0'}%</span>
+                        </div>
+                        <input type="range" class="custom-slider act-progress" min="0" max="100" value="${savedData ? savedData.progress : '0'}" oninput="updateSliderValue('${itemId}', this.value)">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Notas / Comentarios</label>
+                        <input type="text" class="act-notes" placeholder="Adicionales..." value="${savedData ? savedData.notes : ''}" oninput="saveToLocalStorage()">
+                    </div>
+                </div>
+            `;
+            
+            activitiesList.insertAdjacentHTML('beforeend', itemHTML);
+            saveToLocalStorage();
+        }
+
+        function setActivityStatus(itemId, status) {
+            const container = document.getElementById(itemId);
+            const buttons = container.querySelectorAll('.status-badge-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-status') === status) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            saveToLocalStorage();
+        }
+
+        function updateSliderValue(itemId, val) {
+            document.getElementById(`val_badge_${itemId}`).textContent = `${val}%`;
+            saveToLocalStorage();
+        }
+
+        // Dynamic Materials Logic
+        const materialsList = document.getElementById('materialsList');
+        const addMaterialBtn = document.getElementById('addMaterialBtn');
+
+        let materialCounter = 0;
+
+        addMaterialBtn.addEventListener('click', () => addMaterial());
+
+        function addMaterial(savedData = null) {
+            materialCounter++;
+            const itemId = `material_${materialCounter}`;
+            
+            const itemHTML = `
+                <div class="dynamic-item material-item" id="${itemId}">
+                    <button type="button" class="btn-delete-item" onclick="removeItem('${itemId}')" title="Eliminar Material">×</button>
+                    
+                    <div class="form-group" style="padding-right: 24px;">
+                        <label>Material Recibido</label>
+                        <input type="text" class="mat-name" placeholder="Ej. Cemento Portland Tipo I" value="${savedData ? savedData.name : ''}" required oninput="saveToLocalStorage()">
+                    </div>
+                    
+                    <div class="form-group" style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px;">
+                        <div>
+                            <label>Cantidad</label>
+                            <input type="number" class="mat-qty" step="any" placeholder="Ej. 150" value="${savedData ? savedData.qty : ''}" required oninput="saveToLocalStorage()">
+                        </div>
+                        <div>
+                            <label>Unidad</label>
+                            <input type="text" class="mat-unit" placeholder="Bolsas, m3" value="${savedData ? savedData.unit : ''}" required oninput="saveToLocalStorage()">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Proveedor</label>
+                        <input type="text" class="mat-supplier" placeholder="Ej. Concretera Sol S.A." value="${savedData ? savedData.supplier : ''}" oninput="saveToLocalStorage()">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>Estado de Recepción</label>
+                        <select class="mat-status" onchange="saveToLocalStorage()">
+                            <option value="Conforme" ${(!savedData || savedData.status === 'Conforme') ? 'selected' : ''}>Conforme - Todo en orden</option>
+                            <option value="Con Observación" ${(savedData && savedData.status === 'Con Observación') ? 'selected' : ''}>Con Observación - Ver detalles</option>
+                            <option value="Rechazado" ${(savedData && savedData.status === 'Rechazado') ? 'selected' : ''}>Rechazado - De vuelto</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            
+            materialsList.insertAdjacentHTML('beforeend', itemHTML);
+            saveToLocalStorage();
+        }
+
+        // Helper to remove dynamic elements nicely with transitions
+        function removeItem(itemId) {
+            const item = document.getElementById(itemId);
+            item.classList.add('removing');
+            setTimeout(() => {
+                item.remove();
+                saveToLocalStorage();
+            }, 250);
+        }
+
+        // Style the blocker cards interactively
+        function toggleBlockerStyle(checkbox) {
+            const label = document.getElementById(`lbl_${checkbox.id}`);
+            if (checkbox.checked) {
+                label.classList.add('selected');
+            } else {
+                label.classList.remove('selected');
+            }
+            saveToLocalStorage();
+        }
+
+        // Photo Upload Handling
+        function triggerPhotoUpload() {
+            document.getElementById('photoInput').click();
+        }
+
+        function handlePhotoFiles(input) {
+            const files = Array.from(input.files);
+            const maxFiles = 4;
+            
+            if (uploadedPhotos.length + files.length > maxFiles) {
+                alert('Puede cargar un máximo de 4 fotografías de avance.');
+                return;
+            }
+
+            files.forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Str = e.target.result;
+                    uploadedPhotos.push(base64Str);
+                    renderPhotoPreviews();
+                    saveToLocalStorage();
+                }
+                reader.readAsDataURL(file);
+            });
+            
+            input.value = ''; // Reset input so the same file can be loaded again if deleted
+        }
+
+        function renderPhotoPreviews() {
+            const container = document.getElementById('photoPreviewContainer');
+            container.innerHTML = '';
+            
+            uploadedPhotos.forEach((photo, index) => {
+                const previewHTML = `
+                    <div class="photo-preview-card">
+                        <img src="${photo}" alt="Avance de Obra">
+                        <button type="button" class="btn-delete-photo" onclick="deletePhoto(${index})">×</button>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', previewHTML);
+            });
+        }
+
+        function deletePhoto(index) {
+            uploadedPhotos.splice(index, 1);
+            renderPhotoPreviews();
+            saveToLocalStorage();
+        }
+
+        // Local Storage Saving / Auto-save features
+        function getFormData() {
+            // Get activities
+            const activities = [];
+            document.querySelectorAll('.activity-item').forEach(item => {
+                const itemId = item.id;
+                const name = item.querySelector('.act-name').value;
+                const sector = item.querySelector('.act-sector').value;
+                
+                // Read active status badge
+                let status = 'Iniciado';
+                item.querySelectorAll('.status-badge-btn').forEach(btn => {
+                    if (btn.classList.contains('active')) {
+                        status = btn.getAttribute('data-status');
+                    }
+                });
+                
+                const progress = item.querySelector('.act-progress').value;
+                const notes = item.querySelector('.act-notes').value;
+                
+                activities.push({ name, sector, status, progress, notes });
+            });
+
+            // Get materials
+            const materials = [];
+            document.querySelectorAll('.material-item').forEach(item => {
+                const name = item.querySelector('.mat-name').value;
+                const qty = item.querySelector('.mat-qty').value;
+                const unit = item.querySelector('.mat-unit').value;
+                const supplier = item.querySelector('.mat-supplier').value;
+                const status = item.querySelector('.mat-status').value;
+                
+                materials.push({ name, qty, unit, supplier, status });
+            });
+
+            return {
+                projectName: document.getElementById('projectName').value,
+                reportDate: document.getElementById('reportDate').value,
+                supervisorName: document.getElementById('supervisorName').value,
+                weather: selectedWeather,
+                shift: selectedShift,
+                labor: laborCounts,
+                activities: activities,
+                materials: materials,
+                blockers: {
+                    weather: document.getElementById('b_clima').checked,
+                    material: document.getElementById('b_material').checked,
+                    blueprints: document.getElementById('b_planos').checked,
+                    labor: document.getElementById('b_labor').checked
+                },
+                observations: document.getElementById('observations').value,
+                photos: uploadedPhotos, // array of base64
+                signature: signatureData // base64
+            };
+        }
+
+        function saveToLocalStorage() {
+            try {
+                const data = getFormData();
+                localStorage.setItem('pca_daily_report_draft', JSON.stringify(data));
+            } catch (e) {
+                console.warn('Fallo guardando borrador local (puede ser por límite de espacio de imágenes).', e);
+            }
+        }
+
+        function loadDraftFromLocalStorage() {
+            const rawDraft = localStorage.getItem('pca_daily_report_draft');
+            if (!rawDraft) return;
+
+            try {
+                const draft = JSON.parse(rawDraft);
+                
+                document.getElementById('projectName').value = draft.projectName || '';
+                document.getElementById('reportDate').value = draft.reportDate || '';
+                document.getElementById('supervisorName').value = draft.supervisorName || '';
+                
+                // Weather
+                selectedWeather = draft.weather || 'Soleado';
+                weatherBtns.forEach(btn => {
+                    if (btn.getAttribute('data-weather') === selectedWeather) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                // Shift
+                selectedShift = draft.shift || 'Diurno';
+                shiftOptions.forEach(opt => {
+                    if (opt.getAttribute('data-shift') === selectedShift) {
+                        opt.classList.add('active');
+                    } else {
+                        opt.classList.remove('active');
+                    }
+                });
+
+                // Labor
+                laborCounts = draft.labor || { capataz: 0, operario: 0, oficial: 0, peon: 0 };
+                Object.keys(laborCounts).forEach(type => {
+                    document.getElementById(`cnt_${type}`).textContent = laborCounts[type];
+                });
+                updateTotalLabor();
+
+                // Activities
+                activitiesList.innerHTML = '';
+                if (draft.activities && draft.activities.length > 0) {
+                    draft.activities.forEach(act => addActivity(act));
+                }
+
+                // Materials
+                materialsList.innerHTML = '';
+                if (draft.materials && draft.materials.length > 0) {
+                    draft.materials.forEach(mat => addMaterial(mat));
+                }
+
+                // Blockers
+                if (draft.blockers) {
+                    document.getElementById('b_clima').checked = draft.blockers.weather || false;
+                    toggleBlockerStyle(document.getElementById('b_clima'));
+                    
+                    document.getElementById('b_material').checked = draft.blockers.material || false;
+                    toggleBlockerStyle(document.getElementById('b_material'));
+                    
+                    document.getElementById('b_planos').checked = draft.blockers.blueprints || false;
+                    toggleBlockerStyle(document.getElementById('b_planos'));
+                    
+                    document.getElementById('b_labor').checked = draft.blockers.labor || false;
+                    toggleBlockerStyle(document.getElementById('b_labor'));
+                }
+
+                document.getElementById('observations').value = draft.observations || '';
+
+                // Photos
+                uploadedPhotos = draft.photos || [];
+                renderPhotoPreviews();
+
+                // Signature restore
+                if (draft.signature) {
+                    signatureData = draft.signature;
+                    setTimeout(() => {
+                        const img = new Image();
+                        img.onload = function() {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(img, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
+                        }
+                        img.src = signatureData;
+                    }, 300);
+                }
+
+            } catch (e) {
+                console.error("Error cargando borrador:", e);
+            }
+        }
+
+        // Show Full Screen Notification overlay
+        const statusOverlay = document.getElementById('statusOverlay');
+        const statusModalContent = document.getElementById('statusModalContent');
+
+        function showOverlay(title, text, type) {
+            statusOverlay.classList.add('active');
+            
+            if (type === 'loading') {
+                statusModalContent.innerHTML = `
+                    <div class="spinner"></div>
+                    <h2 class="modal-title">${title}</h2>
+                    <p class="modal-body">${text}</p>
+                `;
+            } else if (type === 'success') {
+                statusModalContent.innerHTML = `
+                    <div class="modal-icon success">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <h2 class="modal-title">${title}</h2>
+                    <p class="modal-body">${text}</p>
+                    <button type="button" class="modal-btn" onclick="closeOverlay()">Aceptar</button>
+                `;
+            } else {
+                statusModalContent.innerHTML = `
+                    <div class="modal-icon" style="background:var(--danger-light); color:var(--danger)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </div>
+                    <h2 class="modal-title">${title}</h2>
+                    <p class="modal-body">${text}</p>
+                    <button type="button" class="modal-btn-danger" onclick="closeOverlay()">Reintentar</button>
+                `;
+            }
+        }
+
+        function closeOverlay() {
+            statusOverlay.classList.remove('active');
+        }
+
+        // Form Manual Draft Save trigger
+        document.getElementById('saveDraftBtn').addEventListener('click', () => {
+            saveToLocalStorage();
+            showOverlay('Borrador Guardado', 'El reporte se guardó localmente en este dispositivo.', 'success');
+        });
+
+        // Submit Form Trigger (Sends to Google Script URL)
+        document.getElementById('submitReportBtn').addEventListener('click', async () => {
+            const form = document.getElementById('dailyReportForm');
+            
+            // Form native validations check
+            if (!form.reportValidity()) {
+                const firstInvalid = form.querySelector(':invalid');
+                if (firstInvalid) {
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+
+            // Check if default URL is still placeholder
+            if (GOOGLE_SCRIPT_URL === "SU_URL_DE_APPS_SCRIPT_AQUI" || !GOOGLE_SCRIPT_URL) {
+                showOverlay(
+                    'Configuración Pendiente',
+                    'Debe ingresar la URL real de su Google Apps Script en el código de este archivo (línea 655 de index.html) antes de poder enviar los datos.',
+                    'error'
+                );
+                return;
+            }
+
+            // Show sending progress
+            showOverlay('Sincronizando', 'Transmitiendo información del reporte al Google Sheet en tiempo real...', 'loading');
+
+            const payload = getFormData();
+
+            try {
+                // Send standard POST fetch
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // standard bypass for Google Script redirects
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                // Clear draft local storage after successful transmission
+                localStorage.removeItem('pca_daily_report_draft');
+                clearSignature();
+                uploadedPhotos = [];
+                renderPhotoPreviews();
+                
+                // Reset form to defaults
+                document.getElementById('observations').value = '';
+                document.getElementById('b_clima').checked = false;
+                document.getElementById('b_material').checked = false;
+                document.getElementById('b_planos').checked = false;
+                document.getElementById('b_labor').checked = false;
+                toggleBlockerStyle(document.getElementById('b_clima'));
+                toggleBlockerStyle(document.getElementById('b_material'));
+                toggleBlockerStyle(document.getElementById('b_planos'));
+                toggleBlockerStyle(document.getElementById('b_labor'));
+                
+                laborCounts = { capataz: 0, operario: 0, oficial: 0, peon: 0 };
+                Object.keys(laborCounts).forEach(type => {
+                    document.getElementById(`cnt_${type}`).textContent = 0;
+                });
+                updateTotalLabor();
+                
+                activitiesList.innerHTML = '';
+                addActivity();
+                materialsList.innerHTML = '';
+                addMaterial();
+
+                showOverlay('¡Sincronización Exitosa!', 'El reporte diario ha sido enviado y registrado correctamente en su Google Sheet.', 'success');
+                
+            } catch (err) {
+                console.error("Transmit error:", err);
+                showOverlay(
+                    'Fallo de Envío',
+                    `No se pudo sincronizar con Google Sheets. Verifique su conexión de red e intente nuevamente. Detalle: ${err.message}`,
+                    'error'
+                );
+            }
+        });
+    </script>
+</body>
+</html>
