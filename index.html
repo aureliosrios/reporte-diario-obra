@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- SheetJS (Excel Parser Library) CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
     <!-- Custom Vanilla CSS -->
     <style>
         :root {
@@ -204,6 +207,17 @@
             font-size: 0.75rem;
             font-weight: 600;
             border: 1px solid rgba(2, 132, 199, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--success);
+            box-shadow: 0 0 6px var(--success);
         }
 
         /* Cards & Containers */
@@ -960,13 +974,14 @@
             <div class="header-logo">
                 <div class="logo-box">V</div>
                 <div class="header-title-container">
-                    <h1>Reporte de Obra</h1>
-                    <span>Vivienda Unifamiliar</span>
+                    <h1 id="headerProjName">Cargando...</h1>
+                    <span id="headerFrente">Cargando WBS Excel...</span>
                 </div>
             </div>
             
-            <div class="status-header-badge">
-                Frente 1
+            <div class="status-header-badge" id="statusBadgeExcel">
+                <div class="pulse-dot"></div>
+                <span id="statusBadgeText">Local</span>
             </div>
         </header>
 
@@ -1233,12 +1248,22 @@
     <!-- Scripting -->
     <script>
         /************************************************************************
-         * CONFIGURACIÓN DE ENLACE DIRECTO
-         * Pegue aquí abajo la URL de su implementación web de Google Apps Script.
-         * El formulario se conectará de manera inmediata y segura sin intermediarios.
+         * VARIABLES GLOBALES Y CONFIGURACIÓN DINÁMICA
+         * El script intentará cargar 'plantilla_wbs.xlsx' al iniciar.
+         * Si lo logra, rellenará las variables desde el Excel.
+         * Si no, utilizará este WBS predeterminado de respaldo.
          ************************************************************************/
-        const GOOGLE_SCRIPT_URL = "SU_URL_DE_APPS_SCRIPT_AQUI";
-
+        let googleScriptUrl = ""; // Se cargará de la Celda C7 del Excel
+        let wbsList = [
+            // Respaldo de seguridad en caso de que no exista el Excel
+            { wbs: "1.1", desc: "Limpieza y desbroce de terreno", sector: "Terreno" },
+            { wbs: "1.2", desc: "Trazo y replanteo de ejes", sector: "Terreno" },
+            { wbs: "2.1", desc: "Excavación manual de zanjas", sector: "Cimentación" },
+            { wbs: "2.2", desc: "Vaciado de concreto en zapatas", sector: "Cimentación" },
+            { wbs: "3.1", desc: "Asentado de ladrillos de muros", sector: "Primer Piso" },
+            { wbs: "3.2", desc: "Vaciado de columnas de amarre", sector: "Primer Piso" },
+            { wbs: "4.1", desc: "Instalaciones sanitarias", sector: "Pisos e Interiores" }
+        ];
 
         // State variables
         let selectedWeather = 'Soleado';
@@ -1260,19 +1285,20 @@
         let lastY = 0;
 
         // Auto-initialize layout on window load
-        window.addEventListener('load', () => {
+        window.addEventListener('load', async () => {
             // Set default date as today
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('reportDate').value = today;
 
-            // Setup signature size
+            // Setup signature size & drawing
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas);
-
-            // Setup signature draw events
             setupSignaturePad();
 
-            // Load saved draft if exists
+            // 1. CARGAR DATOS DESDE EXCEL DINÁMICAMENTE (SheetJS)
+            await loadWbsFromExcel();
+
+            // Restore saved draft if exists
             loadDraftFromLocalStorage();
 
             // Add one default activity and material to avoid blank form
@@ -1284,10 +1310,78 @@
             }
         });
 
+        // Carga y parsea el archivo binario Excel
+        async function loadWbsFromExcel() {
+            const badge = document.getElementById('statusBadgeExcel');
+            const badgeText = document.getElementById('statusBadgeText');
+            
+            try {
+                // Fetch the binary excel file from the repo (relative path)
+                const response = await fetch('plantilla_wbs.xlsx');
+                if (!response.ok) throw new Error("Archivo Excel plantilla_wbs.xlsx no encontrado");
+                
+                const data = await response.arrayBuffer();
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                // 1. Cargar Configuración del Proyecto (Pestaña "Proyecto")
+                const sheetProj = workbook.Sheets['Proyecto'];
+                if (sheetProj) {
+                    const projName = sheetProj['C4'] ? sheetProj['C4'].v : "Vivienda Unifamiliar";
+                    const frenteName = sheetProj['C5'] ? sheetProj['C5'].v : "Frente Estructuras";
+                    const supervisorNameVal = sheetProj['C6'] ? sheetProj['C6'].v : "";
+                    const scriptUrlVal = sheetProj['C7'] ? sheetProj['C7'].v : "";
+
+                    // Actualizar inputs del DOM
+                    document.getElementById('projectName').value = projName;
+                    document.getElementById('headerProjName').textContent = projName;
+                    document.getElementById('headerFrente').textContent = frenteName;
+                    
+                    if (supervisorNameVal) {
+                        document.getElementById('supervisorName').value = supervisorNameVal;
+                    }
+                    
+                    if (scriptUrlVal && scriptUrlVal !== "SU_URL_DE_APPS_SCRIPT_AQUI") {
+                        googleScriptUrl = scriptUrlVal.trim();
+                    }
+                }
+
+                // 2. Cargar WBS de Actividades (Pestaña "WBS_Actividades")
+                const sheetWbs = workbook.Sheets['WBS_Actividades'];
+                if (sheetWbs) {
+                    const rows = XLSX.utils.sheet_to_json(sheetWbs);
+                    if (rows && rows.length > 0) {
+                        wbsList = rows.map(r => ({
+                            wbs: r['Código WBS'] || '',
+                            desc: r['Descripción de la Actividad / Tarea'] || '',
+                            sector: r['Sector / Ubicación Predeterminada'] || 'General'
+                        })).filter(x => x.desc !== '');
+                    }
+                }
+
+                // Actualizar UI indicando carga del Excel
+                badge.style.backgroundColor = "var(--success-light)";
+                badge.style.color = "var(--success)";
+                badge.querySelector('.pulse-dot').style.backgroundColor = "var(--success)";
+                badgeText.textContent = "Excel WBS";
+                console.log("Success: Loaded metadata & WBS list from plantilla_wbs.xlsx directly!");
+
+            } catch (err) {
+                console.warn("Fallo de lectura de Excel (Usando WBS local): ", err.message);
+                
+                // Cargar valores por defecto en cabecera
+                document.getElementById('headerProjName').textContent = "Reporte Diario";
+                document.getElementById('headerFrente').textContent = "Vivienda Unifamiliar";
+                
+                badge.style.backgroundColor = "var(--warning-light)";
+                badge.style.color = "var(--warning)";
+                badge.querySelector('.pulse-dot').style.backgroundColor = "var(--warning)";
+                badgeText.textContent = "Offline / Local";
+            }
+        }
+
         // Resize Canvas to fit screen correctly
         function resizeCanvas() {
             const rect = canvas.getBoundingClientRect();
-            // High-DPI screens support
             const dpr = window.devicePixelRatio || 1;
             canvas.width = rect.width * dpr;
             canvas.height = rect.height * dpr;
@@ -1297,7 +1391,6 @@
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
             if (signatureData) {
-                // Restore signature if drawing existed
                 let img = new Image();
                 img.onload = function() {
                     ctx.drawImage(img, 0, 0, rect.width, rect.height);
@@ -1331,7 +1424,6 @@
                 lastY = coords.y;
                 ctx.beginPath();
                 ctx.moveTo(lastX, lastY);
-                // Prevent scrolling on touch screens
                 if (e.cancelable) e.preventDefault();
             }
 
@@ -1347,7 +1439,6 @@
                 if (e.cancelable) e.preventDefault();
             }
 
-            // Save drawing state
             function stopDraw() {
                 if (isDrawing) {
                     isDrawing = false;
@@ -1355,12 +1446,10 @@
                 }
             }
 
-            // Touch events
             canvas.addEventListener('touchstart', startDraw, {passive: false});
             canvas.addEventListener('touchmove', draw, {passive: false});
             canvas.addEventListener('touchend', stopDraw);
             
-            // Mouse events
             canvas.addEventListener('mousedown', startDraw);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', stopDraw);
@@ -1428,18 +1517,39 @@
             activityCounter++;
             const itemId = `activity_${activityCounter}`;
             
+            // Build the Options block from our WBS list
+            let wbsOptions = '<option value="">--- Seleccione Actividad WBS ---</option>';
+            wbsList.forEach(item => {
+                const optVal = `[${item.wbs}] ${item.desc}`;
+                const isSelected = savedData && savedData.name === optVal ? 'selected' : '';
+                wbsOptions += `<option value="${optVal}" data-sector="${item.sector}" ${isSelected}>[${item.wbs}] ${item.desc}</option>`;
+            });
+            
+            // If savedData contains an activity not in WBS, it's a custom typed "Otro" activity
+            const isCustom = savedData && savedData.name && !wbsList.some(item => `[${item.wbs}] ${item.desc}` === savedData.name);
+            const isOtroSelected = isCustom ? 'selected' : '';
+            wbsOptions += `<option value="OTRO" ${isOtroSelected}>--- OTRO (Actividad no programada) ---</option>`;
+
             const itemHTML = `
                 <div class="dynamic-item activity-item" id="${itemId}">
                     <button type="button" class="btn-delete-item" onclick="removeItem('${itemId}')" title="Eliminar Actividad">×</button>
                     
                     <div class="form-group" style="padding-right: 24px;">
-                        <label>Actividad / Tarea</label>
-                        <input type="text" class="act-name" placeholder="Ej. Vaciado de columnas de concreto" value="${savedData ? savedData.name : ''}" required oninput="saveToLocalStorage()">
+                        <label>Actividad / Tarea (WBS)</label>
+                        <select class="act-wbs-select" onchange="onWbsActivityChange('${itemId}', this)" required>
+                            ${wbsOptions}
+                        </select>
+                    </div>
+
+                    <!-- Custom input shown ONLY if "OTRO" is selected -->
+                    <div class="form-group custom-act-input-group" id="custom_input_group_${itemId}" style="display: ${isCustom ? 'block' : 'none'};">
+                        <label>Describa Actividad No Programada</label>
+                        <input type="text" class="act-name-custom" placeholder="Ej. Reparación de tubería rota de emergencia" value="${isCustom ? savedData.name : ''}" oninput="saveToLocalStorage()">
                     </div>
                     
                     <div class="form-group">
                         <label>Sector / Ubicación</label>
-                        <input type="text" class="act-sector" placeholder="Ej. Primer piso, Ejes A-C" value="${savedData ? savedData.sector : ''}" required oninput="saveToLocalStorage()">
+                        <input type="text" class="act-sector" id="sector_${itemId}" placeholder="Ej. Primer piso, Ejes A-C" value="${savedData ? savedData.sector : ''}" required oninput="saveToLocalStorage()">
                     </div>
 
                     <div class="form-group">
@@ -1468,6 +1578,34 @@
             `;
             
             activitiesList.insertAdjacentHTML('beforeend', itemHTML);
+            saveToLocalStorage();
+        }
+
+        // When supervisor changes activity dropdown
+        function onWbsActivityChange(itemId, selectElement) {
+            const selectedOpt = selectElement.options[selectElement.selectedIndex];
+            const val = selectedOpt.value;
+            const sectorInput = document.getElementById(`sector_${itemId}`);
+            const customInputGroup = document.getElementById(`custom_input_group_${itemId}`);
+            const customInput = customInputGroup.querySelector('.act-name-custom');
+
+            if (val === "OTRO") {
+                // Show custom input box
+                customInputGroup.style.display = "block";
+                customInput.setAttribute('required', 'true');
+                sectorInput.value = ""; // Let them type
+            } else {
+                // Hide custom input
+                customInputGroup.style.display = "none";
+                customInput.removeAttribute('required');
+                customInput.value = "";
+
+                // Auto-fill predefined sector from Excel metadata!
+                const sectorVal = selectedOpt.getAttribute('data-sector') || "";
+                if (sectorVal) {
+                    sectorInput.value = sectorVal;
+                }
+            }
             saveToLocalStorage();
         }
 
@@ -1541,7 +1679,6 @@
             saveToLocalStorage();
         }
 
-        // Helper to remove dynamic elements nicely with transitions
         function removeItem(itemId) {
             const item = document.getElementById(itemId);
             item.classList.add('removing');
@@ -1551,7 +1688,6 @@
             }, 250);
         }
 
-        // Style the blocker cards interactively
         function toggleBlockerStyle(checkbox) {
             const label = document.getElementById(`lbl_${checkbox.id}`);
             if (checkbox.checked) {
@@ -1589,7 +1725,7 @@
                 reader.readAsDataURL(file);
             });
             
-            input.value = ''; // Reset input so the same file can be loaded again if deleted
+            input.value = '';
         }
 
         function renderPhotoPreviews() {
@@ -1615,14 +1751,19 @@
 
         // Local Storage Saving / Auto-save features
         function getFormData() {
-            // Get activities
+            // Get activities (WBS mapped)
             const activities = [];
             document.querySelectorAll('.activity-item').forEach(item => {
-                const itemId = item.id;
-                const name = item.querySelector('.act-name').value;
+                const selectEl = item.querySelector('.act-wbs-select');
+                let name = selectEl.value;
+                
+                // If "Otro", grab custom typed name
+                if (name === "OTRO") {
+                    name = item.querySelector('.act-name-custom').value;
+                }
+                
                 const sector = item.querySelector('.act-sector').value;
                 
-                // Read active status badge
                 let status = 'Iniciado';
                 item.querySelectorAll('.status-badge-btn').forEach(btn => {
                     if (btn.classList.contains('active')) {
@@ -1672,14 +1813,14 @@
         function saveToLocalStorage() {
             try {
                 const data = getFormData();
-                localStorage.setItem('pca_daily_report_draft', JSON.stringify(data));
+                localStorage.setItem('pca_daily_report_draft_wbs', JSON.stringify(data));
             } catch (e) {
-                console.warn('Fallo guardando borrador local (puede ser por límite de espacio de imágenes).', e);
+                console.warn('Fallo guardando borrador local.', e);
             }
         }
 
         function loadDraftFromLocalStorage() {
-            const rawDraft = localStorage.getItem('pca_daily_report_draft');
+            const rawDraft = localStorage.getItem('pca_daily_report_draft_wbs');
             if (!rawDraft) return;
 
             try {
@@ -1824,11 +1965,11 @@
                 return;
             }
 
-            // Check if default URL is still placeholder
-            if (GOOGLE_SCRIPT_URL === "SU_URL_DE_APPS_SCRIPT_AQUI" || !GOOGLE_SCRIPT_URL) {
+            // Check if Apps Script WebApp URL has been configured in Excel Cell C7!
+            if (!googleScriptUrl) {
                 showOverlay(
                     'Configuración Pendiente',
-                    'Debe ingresar la URL real de su Google Apps Script en el código de este archivo (línea 655 de index.html) antes de poder enviar los datos.',
+                    'Debe ingresar la URL real de su Google Apps Script en la celda C7 de la pestaña \'Proyecto\' en su archivo Excel (plantilla_wbs.xlsx) antes de poder sincronizar.',
                     'error'
                 );
                 return;
@@ -1841,7 +1982,7 @@
 
             try {
                 // Send standard POST fetch
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                const response = await fetch(googleScriptUrl, {
                     method: 'POST',
                     mode: 'no-cors', // standard bypass for Google Script redirects
                     headers: {
@@ -1851,7 +1992,7 @@
                 });
 
                 // Clear draft local storage after successful transmission
-                localStorage.removeItem('pca_daily_report_draft');
+                localStorage.removeItem('pca_daily_report_draft_wbs');
                 clearSignature();
                 uploadedPhotos = [];
                 renderPhotoPreviews();
