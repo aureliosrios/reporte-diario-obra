@@ -118,48 +118,74 @@ export function ProjectDashboard({
   // Find the selected report to determine the "Status Date" (Fecha de Corte)
   const selectedReport = enrichedReports.find(r => r.id === selectedReportId) || enrichedReports[enrichedReports.length - 1];
 
-  // Build a lookup of real PV cumulative by date from the schedule baseline (BD_Metrados_Planificados)
-  const pvCurveByDate: Record<string, number> = {};
-  pvCurveData.forEach(p => { pvCurveByDate[p.date] = p.pvCumulative; });
-
   // 2. Generate cumulative series for the S-Curve SVG Plot
+  // PV = full project baseline from PV.xlsx (177 dates)
+  // EV & AC = accumulated from reports up to selected status date
   const generateChartData = () => {
+    const statusDate = selectedReport ? selectedReport.date : (enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : '');
+    const statusDateTime = new Date(statusDate).getTime();
+
+    // Build cumulative EV and AC from reports
+    const reportCumulatives: { date: string; dateTime: number; ev: number; ac: number }[] = [];
+    let cumEv = 0;
+    let cumAc = 0;
+    enrichedReports.forEach(r => {
+      cumEv += r.computedMetrics.earnedValue;
+      cumAc += r.computedMetrics.actualCost;
+      reportCumulatives.push({
+        date: r.date,
+        dateTime: new Date(r.date).getTime(),
+        ev: cumEv,
+        ac: cumAc
+      });
+    });
+
+    // Use PV curve data as the base timeline (full project schedule)
+    if (pvCurveData.length > 0) {
+      return pvCurveData.map(p => {
+        const pDateTime = new Date(p.date).getTime();
+        const isBeforeOrAtStatus = pDateTime <= statusDateTime;
+
+        // Find last known cumulative EV/AC up to this date
+        let lastEv = 0;
+        let lastAc = 0;
+        for (const rc of reportCumulatives) {
+          if (rc.dateTime <= pDateTime) {
+            lastEv = rc.ev;
+            lastAc = rc.ac;
+          } else {
+            break;
+          }
+        }
+
+        return {
+          date: p.date,
+          pv: p.pvCumulative,
+          ev: isBeforeOrAtStatus ? lastEv : undefined,
+          ac: isBeforeOrAtStatus ? lastAc : undefined,
+        };
+      });
+    }
+
+    // Fallback: use report data only if no PV curve loaded
     let cumulativePv = 0;
-    let cumulativePvReal = 0;
     let cumulativeEv = 0;
     let cumulativeAc = 0;
-    const statusDateTime = selectedReport ? new Date(selectedReport.date).getTime() : Infinity;
 
     return enrichedReports.map((r, index) => {
       const metrics = r.computedMetrics;
       const reportDateTime = new Date(r.date).getTime();
-      
-      // PV from report (plannedQty * unitPrice)
       cumulativePv += metrics.plannedValue;
-      
-      // PV Real from schedule baseline (BD_Metrados_Planificados)
-      const realPvAtDate = pvCurveByDate[r.date];
-      if (realPvAtDate !== undefined) {
-        cumulativePvReal = realPvAtDate;
-      } else {
-        cumulativePvReal += metrics.plannedValue;
-      }
-      
-      // EV and AC accumulate only up to the Status Date (Fecha de Corte)
       const isBeforeOrAtStatusDate = reportDateTime <= statusDateTime;
       if (isBeforeOrAtStatusDate) {
         cumulativeEv += metrics.earnedValue;
         cumulativeAc += metrics.actualCost;
       }
-
       return {
         date: r.date,
-        dayLabel: `Día ${index + 1}`,
         pv: cumulativePv,
-        pvReal: cumulativePvReal,
         ev: isBeforeOrAtStatusDate ? cumulativeEv : undefined,
         ac: isBeforeOrAtStatusDate ? cumulativeAc : undefined,
-        raw: metrics
       };
     });
   };
@@ -168,22 +194,20 @@ export function ProjectDashboard({
 
   // Get current active cumulative values (totals at the selected status date)
   let latestPv = 0;
-  let latestPvReal = 0;
   let latestEv = 0;
   let latestAc = 0;
 
   chartData.forEach(d => {
     if (d.ev !== undefined && d.ac !== undefined) {
       latestPv = d.pv;
-      latestPvReal = d.pvReal;
       latestEv = d.ev;
       latestAc = d.ac;
     }
   });
 
-  const latestSv = latestEv - latestPvReal;
+  const latestSv = latestEv - latestPv;
   const latestCv = latestEv - latestAc;
-  const latestSpi = latestPvReal > 0 ? latestEv / latestPvReal : 1;
+  const latestSpi = latestPv > 0 ? latestEv / latestPv : 1;
   const latestCpi = latestAc > 0 ? latestEv / latestAc : 1;
 
   // 3. Generate EDT/WBS Chapter Breakdown (Estructuras vs Arquitectura)
@@ -270,7 +294,7 @@ export function ProjectDashboard({
     const paddingTop = 40;
     const paddingBottom = 40;
 
-    const allValues = chartData.flatMap(d => [d.pv, d.pvReal, d.ev !== undefined ? d.ev : 0, d.ac !== undefined ? d.ac : 0]);
+    const allValues = chartData.flatMap(d => [d.pv, d.ev !== undefined ? d.ev : 0, d.ac !== undefined ? d.ac : 0]);
     const maxVal = Math.max(...allValues, 1000) * 1.15; // 15% margin
     const minVal = 0;
 
@@ -285,21 +309,17 @@ export function ProjectDashboard({
     };
 
     let pvPath = "";
-    let pvRealPath = "";
     let evPath = "";
     let acPath = "";
 
     chartData.forEach((d, i) => {
       const x = getX(i);
       const yPv = getY(d.pv);
-      const yPvReal = getY(d.pvReal);
 
       if (i === 0) {
         pvPath = `M ${x} ${yPv}`;
-        pvRealPath = `M ${x} ${yPvReal}`;
       } else {
         pvPath += ` L ${x} ${yPv}`;
-        pvRealPath += ` L ${x} ${yPvReal}`;
       }
 
       if (d.ev !== undefined) {
@@ -347,7 +367,9 @@ export function ProjectDashboard({
 
         {/* Draw X Axis Dates */}
         {chartData.map((d, i) => {
-          if (chartData.length > 10 && i % 2 !== 0 && i !== chartData.length - 1) return null; // reduce clutter
+          const isFirstOrLast = i === 0 || i === chartData.length - 1;
+          const step = chartData.length > 60 ? 15 : (chartData.length > 30 ? 7 : 3);
+          if (!isFirstOrLast && i % step !== 0) return null;
           const x = getX(i);
           return (
             <g key={i}>
@@ -372,9 +394,25 @@ export function ProjectDashboard({
           );
         })}
 
+        {/* Cutoff date vertical line */}
+        {(() => {
+          const statusIdx = chartData.findIndex(d => d.date === (selectedReport?.date || ''));
+          if (statusIdx >= 0) {
+            const x = getX(statusIdx);
+            return (
+              <g>
+                <line x1={x} y1={paddingTop} x2={x} y2={height - paddingBottom} stroke="#fbbf24" strokeWidth={2} strokeDasharray="6,3" opacity="0.7" />
+                <text x={x} y={paddingTop - 5} className="text-[8px] font-bold fill-amber-400" textAnchor="middle">
+                  CORTE
+                </text>
+              </g>
+            );
+          }
+          return null;
+        })()}
+
         {/* Curves paths */}
-        <path d={pvPath} fill="none" stroke="#0ea5e9" strokeWidth={2.5} strokeDasharray="5,5" /> 
-        <path d={pvRealPath} fill="none" stroke="#6366f1" strokeWidth={3.5} /> 
+        <path d={pvPath} fill="none" stroke="#6366f1" strokeWidth={3.5} /> 
         {evPath && <path d={evPath} fill="none" stroke="#10b981" strokeWidth={3.5} />} 
         {acPath && <path d={acPath} fill="none" stroke="#f43f5e" strokeWidth={3.5} />} 
 
@@ -383,13 +421,14 @@ export function ProjectDashboard({
           const x = getX(i);
           return (
             <g key={i} className="cursor-pointer group">
-              <circle cx={x} cy={getY(d.pv)} r={3} className="fill-sky-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
-              <circle cx={x} cy={getY(d.pvReal)} r={4} className="fill-indigo-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
+              {chartData.length > 50 && i % 5 !== 0 && i !== chartData.length - 1 ? null : (
+                <circle cx={x} cy={getY(d.pv)} r={3} className="fill-indigo-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
+              )}
               {d.ev !== undefined && (
-                <circle cx={x} cy={getY(d.ev)} r={4} className="fill-emerald-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
+                <circle cx={x} cy={getY(d.ev)} r={3} className="fill-emerald-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
               )}
               {d.ac !== undefined && (
-                <circle cx={x} cy={getY(d.ac)} r={4} className="fill-rose-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
+                <circle cx={x} cy={getY(d.ac)} r={3} className="fill-rose-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
               )}
             </g>
           );
@@ -513,7 +552,7 @@ export function ProjectDashboard({
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
         <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-xl">
           <span className="text-[10px] text-slate-450 block font-bold uppercase tracking-wider">Valor Planificado (PV)</span>
-          <span className="text-lg font-black font-mono text-indigo-400 block mt-1">${latestPvReal.toLocaleString()}</span>
+          <span className="text-lg font-black font-mono text-indigo-400 block mt-1">${latestPv.toLocaleString()}</span>
           <span className="text-[9px] text-slate-500 block mt-0.5">Línea base programada (Curva S real)</span>
         </div>
 
@@ -560,7 +599,7 @@ export function ProjectDashboard({
         <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-xl flex flex-col justify-center">
           <span className="text-[10px] text-slate-450 block font-bold uppercase tracking-wider">Metrado Restante</span>
           <span className="text-sm font-bold font-mono text-slate-300 block mt-1">
-            {(latestPvReal > 0 ? (100 - (latestEv/latestPvReal)*100).toFixed(1) : 0)}% por ejecutar
+            {(latestPv > 0 ? (100 - (latestEv/latestPv)*100).toFixed(1) : 0)}% por ejecutar
           </span>
           <span className="text-[9px] text-slate-500 block mt-0.5">Avance estimado total</span>
         </div>
@@ -574,14 +613,18 @@ export function ProjectDashboard({
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-4 mb-4 gap-2">
             <h2 className="text-base font-bold text-white flex items-center gap-2 uppercase tracking-wider">
               <TrendingUp className="w-5 h-5 text-sky-400" />
-              Curva S de Rendimiento EVM Acumulado (Línea Base vs Real)
+              Curva S de Rendimiento EVM
             </h2>
+            <span className="text-[10px] font-mono text-slate-500 mt-1 block">
+              Fecha de corte: <span className="text-sky-400 font-bold">{selectedReport?.date || '—'}</span> | 
+              PV: proyecto completo ({pvCurveData.length} días) | 
+              EV/AC: acumulado hasta la fecha
+            </span>
             
             <div className="flex flex-wrap gap-3 text-xxs font-extrabold tracking-wider">
-              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-indigo-500 inline-block rounded-full"></span> PV REAL (LÍNEA BASE)</span>
-              <span className="flex items-center gap-1.5"><span className="w-3 h-1 border-t-2 border-sky-400 border-dashed inline-block"></span> PV REPORTES</span>
-              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-emerald-500 inline-block rounded-full"></span> EV REAL</span>
-              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-rose-500 inline-block rounded-full"></span> AC REAL</span>
+              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-indigo-500 inline-block rounded-full"></span> PV (LÍNEA BASE)</span>
+              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-emerald-500 inline-block rounded-full"></span> EV (VALOR GANADO)</span>
+              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-rose-500 inline-block rounded-full"></span> AC (COSTO REAL)</span>
             </div>
           </div>
 
