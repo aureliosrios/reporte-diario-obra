@@ -70,12 +70,14 @@ console.log('\n[3b/7] Leyendo BD_Proyecto.xlsx …');
 let projectMeta = null;
 try {
   const wbProj = XLSX.readFile(path.join(ROOT, 'BD_Proyecto.xlsx'));
-  const projRaw = XLSX.utils.sheet_to_json(wbProj.Sheets['Proyecto'], { defval: '' });
-  
+  const projRaw = XLSX.utils.sheet_to_json(wbProj.Sheets['Proyecto'], { header: 1, defval: '' });
+
   const meta = {};
   projRaw.forEach(row => {
-    if (row.Propiedad && row.Valor !== undefined) {
-      meta[row.Propiedad] = row.Valor;
+    const key = row[0];
+    const val = row[1];
+    if (key && val !== undefined && val !== '') {
+      meta[key] = val;
     }
   });
 

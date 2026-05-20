@@ -3,8 +3,8 @@ import {
   Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics 
 } from "../types";
 import { 
-  Calendar, User, Clock, CloudSun, Plus, Trash, FileSpreadsheet, Send, 
-  Save, AlertTriangle, ShieldCheck, HelpCircle, HardHat, Sparkles, RefreshCw, Layers, FileUp, Check
+  Calendar, User, Clock, CloudSun, Plus, FileSpreadsheet, Send, 
+  Save, AlertTriangle, ShieldCheck, HelpCircle, HardHat, Sparkles, RefreshCw, Layers, Check
 } from "lucide-react";
 import * as XLSX from "xlsx";
 
@@ -40,12 +40,15 @@ export function ReportForm({
   // Historic auto-completions
   const [supervisorHistory, setSupervisorHistory] = useState<string[]>([]);
   
+  // Capítulo EDT seleccionado (1 capítulo por reporte)
+  const [selectedEdtChapter, setSelectedEdtChapter] = useState<string>("");
+
   // Section 2: Actividades Ejecutadas (EV)
   const [activities, setActivities] = useState<{
     edtCode: string;
     qtyExecuted: number;
     notes: string;
-  }[]>([{ edtCode: "", qtyExecuted: 0, notes: "" }]);
+  }[]>([]);
 
   // Section 3-5: Mano de Obra, Materiales, Equipos
   const [manoObra, setManoObra] = useState<{
@@ -145,6 +148,24 @@ export function ReportForm({
     }
   }, [projects]);
 
+  // When chapter or date changes, auto-populate activities with planned qtys
+  useEffect(() => {
+    if (!selectedEdtChapter || !reportDate) {
+      setActivities([]);
+      return;
+    }
+    const chapterActivities = edtList.filter(e => e.parentId === selectedEdtChapter);
+    const newActivities = chapterActivities.map(act => {
+      const planned = plannedValues.find(pv => pv.date === reportDate && pv.edtCode === act.code);
+      return {
+        edtCode: act.code,
+        qtyExecuted: 0,
+        notes: ""
+      };
+    });
+    setActivities(newActivities);
+  }, [selectedEdtChapter, reportDate, edtList, plannedValues]);
+
   // Autosave periodically every 30 seconds
   useEffect(() => {
     const draftPayload = {
@@ -189,7 +210,7 @@ export function ReportForm({
     if (selectedProjectCode) completedPoints++;
     if (reportDate) completedPoints++;
     if (supervisorName.trim().length > 1) completedPoints++;
-    if (activities.length > 0 && activities[0].edtCode !== "") completedPoints++;
+    if (selectedEdtChapter) completedPoints++;
     if (manoObra.length > 0) completedPoints++;
     if (totalStaff > 0) completedPoints++;
     if (signatureData) completedPoints++;
@@ -197,7 +218,7 @@ export function ReportForm({
 
     setProgressPercent(Math.round((completedPoints / maxPoints) * 100));
   }, [
-    selectedProjectCode, reportDate, supervisorName, activities, 
+    selectedProjectCode, reportDate, supervisorName, selectedEdtChapter,
     manoObra, totalStaff, signatureData, photoFiles
   ]);
 
@@ -308,19 +329,9 @@ export function ReportForm({
   };
 
   // Handlers for Add/Remove Items
-  const addActivity = () => {
-    setActivities([...activities, { edtCode: "", qtyExecuted: 0, notes: "" }]);
-  };
-
   const updateActivityField = (index: number, key: string, val: any) => {
     const updated = [...activities];
     updated[index] = { ...updated[index], [key]: val };
-    setActivities(updated);
-  };
-
-  const removeActivity = (index: number) => {
-    const updated = [...activities];
-    updated.splice(index, 1);
     setActivities(updated);
   };
 
@@ -397,28 +408,6 @@ export function ReportForm({
 
   const removePhoto = (id: string) => {
     setPhotoFiles(prev => prev.filter(p => p.id !== id));
-  };
-
-  // manual configuration/databases import
-  const handleDatabaseBackupUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      try {
-        const importedData = JSON.parse(event.target?.result as string);
-        if (importedData.supervisor) setSupervisorName(importedData.supervisor);
-        if (importedData.activities) setActivities(importedData.activities);
-        if (importedData.manoObra) setManoObra(importedData.manoObra);
-        if (importedData.materials) setMaterials(importedData.materials);
-        if (importedData.equipos) setEquipos(importedData.equipos);
-        alert("¡Carga local de borrador exitosa! Datos sincronizados.");
-      } catch (err) {
-        alert("El archivo subido no contiene un formato de borrador de RDO válido.");
-      }
-    };
-    reader.readAsText(file);
   };
 
   // Manual save Draft Click
@@ -637,8 +626,12 @@ export function ReportForm({
       setSubmitMessage({ type: 'error', text: 'Por favor, ingrese el nombre del supervisor responsable.' });
       return;
     }
-    if (activities.length === 0 || activities.some(act => !act.edtCode)) {
-      setSubmitMessage({ type: 'error', text: 'Asocie al menos una partida EDT a las actividades ejecutadas.' });
+    if (!selectedEdtChapter) {
+      setSubmitMessage({ type: 'error', text: 'Seleccione un capítulo EDT antes de enviar el reporte.' });
+      return;
+    }
+    if (activities.length === 0) {
+      setSubmitMessage({ type: 'error', text: 'No hay actividades para el capítulo seleccionado en esta fecha.' });
       return;
     }
 
@@ -719,7 +712,8 @@ export function ReportForm({
         localStorage.removeItem("RDO_FORM_DRAFT");
         clearCanvas();
         setPhotoFiles([]);
-        setActivities([{ edtCode: "", qtyExecuted: 0, notes: "" }]);
+        setSelectedEdtChapter("");
+        setActivities([]);
         setManoObra([]);
         setMaterials([]);
         setEquipos([]);
@@ -928,147 +922,91 @@ export function ReportForm({
               </div>
             </div>
 
-            {/* Offline backup upload */}
-            <div className="border-t border-slate-100 pt-3">
-              <label className="block text-[10px] font-semibold text-slate-400 mb-2">
-                ¿SUBIR UN ARCHIVO BORRADOR DE COPIA DE SEGURIDAD?
-              </label>
-              <div className="flex items-center gap-2">
-                <label className="flex-1 flex items-center justify-center gap-2 border border-dashed border-slate-200 hover:bg-slate-50 text-slate-500 hover:text-slate-800 transition py-2 px-3 rounded-xl cursor-pointer">
-                  <FileUp className="w-4 h-4 text-sky-500 shrink-0" />
-                  <span className="text-[10px] font-semibold">Seleccionar Borrador .json</span>
-                  <input 
-                    type="file" 
-                    accept=".json" 
-                    onChange={handleDatabaseBackupUpload} 
-                    className="hidden" 
-                  />
-                </label>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* SECTION 2: ACTIVIDADES EJECUTADAS (EV) */}
         <div id="sec-actividades" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <div className="flex items-center gap-1.5">
-              <Plus className="w-4 h-4 text-sky-500" />
-              <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">2. Actividades Ejecutadas (EV)</h2>
-            </div>
-            <button
-              type="button"
-              onClick={addActivity}
-              className="bg-sky-50 hover:bg-sky-100 text-sky-600 border border-sky-200 hover:border-sky-300 font-bold px-2 py-1 rounded-lg text-[10px] transition flex items-center gap-1 shadow-sm"
-            >
-              Agregar Fila
-            </button>
+          <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
+            <Plus className="w-4 h-4 text-sky-500" />
+            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">2. Actividades Ejecutadas (EV)</h2>
           </div>
 
-          <div className="space-y-4">
-            {activities.map((act, index) => {
-              const edtInfo = getEdtItemNameAndUnit(act.edtCode);
-              const plannedQty = getPlannedProduction(act.edtCode);
-              
-              // Warning if exceeded total budgeted quantity
-              const exceededBudget = act.qtyExecuted > edtInfo.maxAcum;
+          {/* Selector de capítulo EDT (1 capítulo por reporte) */}
+          <div>
+            <label className="block text-[11px] font-semibold text-slate-500 mb-1">SELECCIONAR CAPÍTULO EDT</label>
+            <select
+              value={selectedEdtChapter}
+              onChange={(e) => setSelectedEdtChapter(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-bold"
+            >
+              <option value="">-- Seleccionar capítulo --</option>
+              {edtList.filter(e => e.parentId === null).map(ch => (
+                <option key={ch.code} value={ch.code}>
+                  [{ch.code}] {ch.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-              return (
-                <div key={index} className="p-3 bg-slate-50/50 rounded-xl border border-slate-100 space-y-2 text-xs relative">
-                  
-                  {/* Delete button */}
-                  {activities.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeActivity(index)}
-                      className="absolute right-3 top-3 text-rose-500 hover:text-rose-700 p-0.5"
-                    >
-                      <Trash className="w-4 h-4" />
-                    </button>
-                  )}
+          {selectedEdtChapter && (
+            <div className="space-y-3">
+              {activities.length === 0 && (
+                <p className="text-xs text-slate-400 text-center py-4">No hay actividades para este capítulo en la fecha seleccionada.</p>
+              )}
+              {activities.map((act, index) => {
+                const edtInfo = getEdtItemNameAndUnit(act.edtCode);
+                const plannedQty = getPlannedProduction(act.edtCode);
+                const exceededBudget = act.qtyExecuted > edtInfo.maxAcum;
 
-                  <div className="space-y-2 pr-6">
-                    {/* Item selector matching Partida de Nivel 2 */}
-                    <div>
-                      <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">SELECCIONAR PARTIDA (EDT_BD)</label>
-                      <select
-                        value={act.edtCode}
-                        onChange={(e) => updateActivityField(index, "edtCode", e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-medium"
-                      >
-                        <option value="">-- Seleccionar --</option>
-                        {edtList.filter(e => e.parentId !== null).map(item => (
-                          <option key={item.code} value={item.code}>
-                            [{item.code}] {item.name}
-                          </option>
-                        ))}
-                      </select>
+                return (
+                  <div key={act.edtCode} className="p-3 bg-slate-50/50 rounded-xl border border-slate-100 space-y-2 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-slate-700 text-[11px]">[{act.edtCode}] {edtInfo.name}</span>
+                      <span className="text-[10px] text-slate-400 font-medium">{edtInfo.unit}</span>
                     </div>
 
-                    {act.edtCode && (
-                      <div className="grid grid-cols-2 gap-2 bg-white p-2 rounded-lg border border-slate-100 text-[10px] space-y-0.5">
-                        <div className="col-span-2 text-slate-600 font-bold">
-                          {edtInfo.name} <span className="text-[9px] text-slate-400 font-normal">({edtInfo.unit})</span>
-                        </div>
-                        <div>
-                          <span className="text-slate-400">Meta planificada hoy:</span>
-                          <span className="block font-mono font-bold text-slate-700">{plannedQty} {edtInfo.unit}</span>
-                        </div>
-                        <div>
-                          <span className="text-slate-400">Presupuesto Máx:</span>
-                          <span className="block font-mono text-slate-500">{edtInfo.maxAcum} {edtInfo.unit}</span>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Quantity completed */}
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-3 bg-white p-2 rounded-lg border border-slate-100">
                       <div>
-                        <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">CANTIDAD EJECUTADA HOY</label>
+                        <span className="text-[10px] text-slate-400">Metrado programado (BD_PV_Diario):</span>
+                        <span className="block font-mono font-bold text-slate-700 text-sm">{plannedQty} {edtInfo.unit}</span>
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-semibold text-sky-600">AVANCE REAL (EV) — Ingrese ejecutado</label>
                         <input
                           type="number"
                           step="any"
+                          min={0}
                           value={act.qtyExecuted}
                           onChange={(e) => updateActivityField(index, "qtyExecuted", parseFloat(e.target.value) || 0)}
-                          className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold"
+                          className="w-full bg-white border border-sky-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
+                          placeholder="0"
                         />
-                      </div>
-
-                      {/* estimated % progress against baseline metrado */}
-                      <div>
-                        <label className="block text-[10px] text-slate-400 mb-0.5">% AVANCE ESTIMADO (PARTIDA)</label>
-                        <span className="block py-1 px-2.5 bg-slate-100 rounded-lg text-[11px] font-mono font-semibold text-slate-600">
-                          {act.qtyExecuted > 0 && edtInfo.maxAcum > 0 
-                            ? `${((act.qtyExecuted / edtInfo.maxAcum) * 100).toFixed(1)}%` 
-                            : "0.0%"}
-                        </span>
                       </div>
                     </div>
 
-                    {/* Exceeded alert (Yellow alert visual warning) */}
                     {exceededBudget && (
-                      <div className="bg-amber-50 border border-amber-200 text-amber-800 p-2 rounded-lg flex items-start gap-1.5 text-[9px] font-semibold select-none">
+                      <div className="bg-amber-50 border border-amber-200 text-amber-800 p-2 rounded-lg flex items-start gap-1.5 text-[9px] font-semibold">
                         <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                        <span>¡Alerta! La cantidad real ejecutada hoy supera el metrado total acumulado planificado para este contrato.</span>
+                        <span>Supera el metrado total presupuestado ({edtInfo.maxAcum} {edtInfo.unit})</span>
                       </div>
                     )}
 
-                    {/* Short text notes */}
                     <div>
-                      <label className="block text-[10px] font-semibold text-sky-600 mb-0.5">OBSERVACIONES DE AVANCE</label>
+                      <label className="block text-[10px] font-semibold text-sky-600 mb-0.5">OBSERVACIONES</label>
                       <input
                         type="text"
-                        placeholder="Ubicación, ejes, avance de vaciado, etc."
+                        placeholder="Ubicación, ejes, observaciones…"
                         value={act.notes}
                         onChange={(e) => updateActivityField(index, "notes", e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-sans"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-sans"
                       />
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* SECTION 3: PERSONAL DE MANO DE OBRA (AC) */}
