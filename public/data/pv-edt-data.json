@@ -14,23 +14,23 @@
       "parentId": "OBR-PRE",
       "name": "Trazos y niveles",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 8500
+      "totalBudgetQty": 1700,
+      "unitPrice": 5
     },
     {
       "code": "OBR-PRE-02",
       "parentId": "OBR-PRE",
       "name": "Limpieza del terreno",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 5200
+      "totalBudgetQty": 1300,
+      "unitPrice": 4
     },
     {
       "code": "OBR-PRE-03",
       "parentId": "OBR-PRE",
       "name": "Movilización y desmovilización",
       "unit": "glb",
-      "totalBudgetQty": 0,
+      "totalBudgetQty": 1,
       "unitPrice": 12000
     },
     {
@@ -38,8 +38,8 @@
       "parentId": "OBR-PRE",
       "name": "Demoliciones",
       "unit": "m3",
-      "totalBudgetQty": 0,
-      "unitPrice": 15800
+      "totalBudgetQty": 1580,
+      "unitPrice": 10
     },
     {
       "code": "CIM",
@@ -54,40 +54,40 @@
       "parentId": "CIM",
       "name": "Excavación masiva",
       "unit": "m3",
-      "totalBudgetQty": 0,
-      "unitPrice": 45600
+      "totalBudgetQty": 1520,
+      "unitPrice": 30
     },
     {
       "code": "CIM-02",
       "parentId": "CIM",
       "name": "Concreto de solado",
       "unit": "m3",
-      "totalBudgetQty": 0,
-      "unitPrice": 18200
+      "totalBudgetQty": 130,
+      "unitPrice": 140
     },
     {
       "code": "CIM-03",
       "parentId": "CIM",
       "name": "Encofrado de cimentación",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 32500
+      "totalBudgetQty": 1300,
+      "unitPrice": 25
     },
     {
       "code": "CIM-04",
       "parentId": "CIM",
       "name": "Acero de refuerzo cimentación",
       "unit": "kg",
-      "totalBudgetQty": 0,
-      "unitPrice": 68400
+      "totalBudgetQty": 15200,
+      "unitPrice": 4.5
     },
     {
       "code": "CIM-05",
       "parentId": "CIM",
       "name": "Concreto de cimentación",
       "unit": "m3",
-      "totalBudgetQty": 0,
-      "unitPrice": 85000
+      "totalBudgetQty": 340,
+      "unitPrice": 250
     },
     {
       "code": "EST",
@@ -102,64 +102,64 @@
       "parentId": "EST",
       "name": "Encofrado de columnas",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 42300
+      "totalBudgetQty": 1410,
+      "unitPrice": 30
     },
     {
       "code": "EST-02",
       "parentId": "EST",
       "name": "Acero de refuerzo columnas",
       "unit": "kg",
-      "totalBudgetQty": 0,
-      "unitPrice": 55800
+      "totalBudgetQty": 12400,
+      "unitPrice": 4.5
     },
     {
       "code": "EST-03",
       "parentId": "EST",
       "name": "Concreto de columnas",
       "unit": "m3",
-      "totalBudgetQty": 0,
-      "unitPrice": 48600
+      "totalBudgetQty": 180,
+      "unitPrice": 270
     },
     {
       "code": "EST-04",
       "parentId": "EST",
       "name": "Encofrado de vigas y losas",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 65200
+      "totalBudgetQty": 2037.5,
+      "unitPrice": 32
     },
     {
       "code": "EST-05",
       "parentId": "EST",
       "name": "Acero de vigas y losas",
       "unit": "kg",
-      "totalBudgetQty": 0,
-      "unitPrice": 78500
+      "totalBudgetQty": 17444.45,
+      "unitPrice": 4.5
     },
     {
       "code": "EST-06",
       "parentId": "EST",
       "name": "Concreto de vigas y losas",
       "unit": "m3",
-      "totalBudgetQty": 0,
-      "unitPrice": 92400
+      "totalBudgetQty": 330,
+      "unitPrice": 280
     },
     {
       "code": "EST-07",
       "parentId": "EST",
       "name": "Encofrado de escaleras",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 18900
+      "totalBudgetQty": 540,
+      "unitPrice": 35
     },
     {
       "code": "EST-08",
       "parentId": "EST",
       "name": "Concreto de escaleras",
       "unit": "m3",
-      "totalBudgetQty": 0,
-      "unitPrice": 22500
+      "totalBudgetQty": 75,
+      "unitPrice": 300
     },
     {
       "code": "ALB",
@@ -174,32 +174,32 @@
       "parentId": "ALB",
       "name": "Muros de ladrillo 1er piso",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 38700
+      "totalBudgetQty": 2580,
+      "unitPrice": 15
     },
     {
       "code": "ALB-02",
       "parentId": "ALB",
       "name": "Muros de ladrillo 2do piso",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 35400
+      "totalBudgetQty": 2360,
+      "unitPrice": 15
     },
     {
       "code": "ALB-03",
       "parentId": "ALB",
       "name": "Tarrajeo interior",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 28600
+      "totalBudgetQty": 3575,
+      "unitPrice": 8
     },
     {
       "code": "ALB-04",
       "parentId": "ALB",
       "name": "Tarrajeo exterior",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 22800
+      "totalBudgetQty": 2400,
+      "unitPrice": 9.5
     },
     {
       "code": "INS",
@@ -214,24 +214,24 @@
       "parentId": "INS",
       "name": "Instalaciones sanitarias",
       "unit": "pto",
-      "totalBudgetQty": 0,
-      "unitPrice": 42000
+      "totalBudgetQty": 120,
+      "unitPrice": 350
     },
     {
       "code": "INS-02",
       "parentId": "INS",
       "name": "Instalaciones eléctricas",
       "unit": "pto",
-      "totalBudgetQty": 0,
-      "unitPrice": 38500
+      "totalBudgetQty": 110,
+      "unitPrice": 350
     },
     {
       "code": "INS-03",
       "parentId": "INS",
       "name": "Instalaciones de gas",
       "unit": "pto",
-      "totalBudgetQty": 0,
-      "unitPrice": 15200
+      "totalBudgetQty": 32,
+      "unitPrice": 475
     },
     {
       "code": "ACA",
@@ -246,48 +246,48 @@
       "parentId": "ACA",
       "name": "Pisos cerámicos",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 32400
+      "totalBudgetQty": 900,
+      "unitPrice": 36
     },
     {
       "code": "ACA-02",
       "parentId": "ACA",
       "name": "Pintura interior",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 24600
+      "totalBudgetQty": 3000,
+      "unitPrice": 8.2
     },
     {
       "code": "ACA-03",
       "parentId": "ACA",
       "name": "Pintura exterior",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 16800
+      "totalBudgetQty": 1600,
+      "unitPrice": 10.5
     },
     {
       "code": "ACA-04",
       "parentId": "ACA",
       "name": "Puertas y ventanas",
       "unit": "und",
-      "totalBudgetQty": 0,
-      "unitPrice": 45000
+      "totalBudgetQty": 36,
+      "unitPrice": 1250
     },
     {
       "code": "ACA-05",
       "parentId": "ACA",
       "name": "Grifería y sanitarios",
       "unit": "und",
-      "totalBudgetQty": 0,
-      "unitPrice": 28500
+      "totalBudgetQty": 50,
+      "unitPrice": 570
     },
     {
       "code": "ACA-06",
       "parentId": "ACA",
       "name": "Cerámica cocinas y baños",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 22800
+      "totalBudgetQty": 570,
+      "unitPrice": 40
     },
     {
       "code": "OBR-EXT",
@@ -302,23 +302,23 @@
       "parentId": "OBR-EXT",
       "name": "Veredas y pavimentos",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 18600
+      "totalBudgetQty": 400,
+      "unitPrice": 46.5
     },
     {
       "code": "OBR-EXT-02",
       "parentId": "OBR-EXT",
       "name": "Jardinería",
       "unit": "m2",
-      "totalBudgetQty": 0,
-      "unitPrice": 12400
+      "totalBudgetQty": 500,
+      "unitPrice": 24.8
     },
     {
       "code": "OBR-EXT-03",
       "parentId": "OBR-EXT",
       "name": "Tanque elevado y cisterna",
       "unit": "und",
-      "totalBudgetQty": 0,
+      "totalBudgetQty": 1,
       "unitPrice": 35200
     }
   ],

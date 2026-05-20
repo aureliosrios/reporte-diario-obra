@@ -49,19 +49,43 @@ function writeJson(filename, data, copyToPublic = true) {
 }
 
 // ─── 1. Leer BD_EDT.xlsx ─────────────────────────────────────────────────────
-console.log('\n[1/5] Leyendo BD_EDT.xlsx …');
+console.log('\n[1/6] Leyendo BD_EDT.xlsx …');
 const wbEdt  = XLSX.readFile(path.join(ROOT, 'BD_EDT.xlsx'));
 const edtRaw = XLSX.utils.sheet_to_json(wbEdt.Sheets['Sheet1'], { defval: '' });
 console.log(`  → ${edtRaw.length} filas leídas`);
 
 // ─── 2. Leer BD_Metrados_Planificados.xlsx ───────────────────────────────────
-console.log('\n[2/5] Leyendo BD_Metrados_Planificados.xlsx …');
+console.log('\n[2/6] Leyendo BD_Metrados_Planificados.xlsx …');
 const wbMet  = XLSX.readFile(path.join(ROOT, 'BD_Metrados_Planificados.xlsx'));
 const metRaw = XLSX.utils.sheet_to_json(wbMet.Sheets['Sheet1'], { defval: '' });
 console.log(`  → ${metRaw.length} filas leídas`);
 
-// ─── 3. Leer BD_RRHH.xlsx (catálogo de recursos) ────────────────────────────
-console.log('\n[3/5] Leyendo BD_RRHH.xlsx …');
+// ─── 3. Leer PV.xlsx/PV_General para obtener metrado_total_planificado ────────
+// BD_EDT.xlsx NO tiene esta columna; PV.xlsx SÍ la tiene junto con presupuesto_total
+// unitPrice = presupuesto_total / metrado_total_planificado  (S/ por unidad real)
+console.log('\n[3/6] Leyendo PV.xlsx/PV_General (metrado_total_planificado) …');
+const pvMetradoLookup = {};  // actividad_id → { metrado, presupuesto }
+try {
+  const wbPv  = XLSX.readFile(path.join(ROOT, 'PV.xlsx'));
+  const pvGen = XLSX.utils.sheet_to_json(wbPv.Sheets['PV_General'], { defval: '' });
+  pvGen.forEach(r => {
+    if (r.actividad_id) {
+      pvMetradoLookup[r.actividad_id] = {
+        metrado:      r.metrado_total_planificado || 0,
+        presupuesto:  r.presupuesto_total || 0
+      };
+    }
+  });
+  console.log(`  → ${pvGen.length} actividades con metrado y presupuesto cargados`);
+  // Verificación de coherencia
+  const pvTotal = pvGen.reduce((s, r) => s + (r.presupuesto_total || 0), 0);
+  console.log(`  → Σ presupuesto (PV_General): S/ ${pvTotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}`);
+} catch (e) {
+  console.warn('  ⚠ PV.xlsx no encontrado — se usará presupuesto/1 como fallback');
+}
+
+// ─── 4. Leer BD_RRHH.xlsx (catálogo de recursos) ────────────────────────────
+console.log('\n[4/6] Leyendo BD_RRHH.xlsx …');
 let resourceItems = [];
 try {
   const wbRrhh = XLSX.readFile(path.join(ROOT, 'BD_RRHH.xlsx'));
@@ -78,8 +102,8 @@ try {
   console.warn('  ⚠ BD_RRHH.xlsx no encontrado — recursos vacíos');
 }
 
-// ─── 4. Construir lookups de EDT ─────────────────────────────────────────────
-console.log('\n[4/5] Procesando estructura EDT …');
+// ─── 5. Construir lookups de EDT ─────────────────────────────────────────────
+console.log('\n[5/6] Procesando estructura EDT …');
 
 // edt_id (número) → código alphanumerico del capítulo (Nivel 1)
 const chapterCodeById   = {};   // edt_id → 'OBR-PRE'
@@ -108,16 +132,22 @@ edtRaw.forEach(r => {
 // ─── 5. Construir la lista de ítems EDT (EdtItem interface) ──────────────────
 
 /**
- * unitPrice = presupuesto_total / metrado_total_planificado
- * Esto garantiza que:  EV = qty_ejecutado × unitPrice  esté en S/ (soles)
- * Y sea coherente con el PV de la curva S.
+ * unitPrice = presupuesto_total / metrado_total_planificado  (S/ por unidad real)
+ *
+ * FUENTE PRIORITARIA: PV.xlsx/PV_General (tiene ambas columnas)
+ * FALLBACK: BD_EDT.xlsx presupuesto_total / 1  (si PV.xlsx no está disponible)
+ *
+ * Esto garantiza que:
+ *   PV = Σ (metrado_diario_planificado × unitPrice) reproduce exactamente el pv_diario del Excel
+ *   EV = Σ (qty_ejecutado × unitPrice) está en la misma unidad monetaria (S/) que PV
+ *   SV = EV - PV y SPI = EV/PV son indicadores EVM válidos y comparables
  */
 const edtItems = edtRaw.map(r => {
   if (r.nivel_wbs === 1) {
-    // Capítulo: calcular presupuesto total sumando partidas hijas
+    // Capítulo: calcular presupuesto total sumando partidas hijas desde PV_General
     const childBudgets = Object.entries(activityParentId)
       .filter(([, pid]) => pid === r.edt_id)
-      .map(([actId]) => activityBudget[activityCodeById[actId]]?.budget || 0);
+      .map(([actId]) => (pvMetradoLookup[actId]?.presupuesto || activityBudget[activityCodeById[actId]]?.budget || 0));
     const totalBudget = childBudgets.reduce((s, v) => s + v, 0);
     return {
       code:           r.codigo,
@@ -128,17 +158,20 @@ const edtItems = edtRaw.map(r => {
       unitPrice:      0              // capítulos no tienen unitPrice directo
     };
   } else {
-    const code     = r.codigo;
-    const budInfo  = activityBudget[code] || { budget: 0, metrado: 1 };
-    // unitPrice real en S/ por unidad de metrado
-    const uPrice   = budInfo.metrado > 0 ? r2(budInfo.budget / budInfo.metrado) : 0;
+    const code    = r.codigo;
+    // Prioridad: metrado y presupuesto de PV.xlsx/PV_General
+    const pvInfo  = pvMetradoLookup[r.actividad_id];
+    const budget  = pvInfo?.presupuesto || activityBudget[code]?.budget || 0;
+    const metrado = pvInfo?.metrado     || activityBudget[code]?.metrado || 1;
+    // unitPrice en S/ por unidad de metrado (COHERENTE con pv_diario del Excel)
+    const uPrice  = metrado > 0 ? r2(budget / metrado) : 0;
     return {
       code,
       parentId:       chapterCodeById[r.padre_id] || String(r.padre_id),
       name:           r.actividad_nombre,
       unit:           r.unidad || 'Global',
-      totalBudgetQty: r.metrado_total_planificado || 0,  // metrado contratado
-      unitPrice:      uPrice                             // S/ por unidad
+      totalBudgetQty: metrado,   // metrado total contratado (unidades)
+      unitPrice:      uPrice     // S/ por unidad (CORRECTO)
     };
   }
 });
@@ -148,6 +181,18 @@ const bac = edtItems
   .filter(e => e.parentId === null)
   .reduce((s, ch) => s + ch.totalBudgetQty, 0);
 console.log(`  → ${edtItems.length} ítems EDT generados | BAC total: S/ ${bac.toFixed(2)}`);
+
+// Verificar que unitPrice sea coherente: Σ (metrado × unitPrice) ≈ presupuesto
+let coherenciaUP = true;
+edtItems.filter(e => e.parentId !== null).forEach(e => {
+  const budget = pvMetradoLookup[edtRaw.find(r => r.codigo === e.code)?.actividad_id]?.presupuesto || 0;
+  const diff = Math.abs((e.totalBudgetQty * e.unitPrice) - budget);
+  if (budget > 0 && diff > 1) {
+    console.warn(`  ⚠ [${e.code}] metrado×unitPrice=${(e.totalBudgetQty * e.unitPrice).toFixed(0)} ≠ presupuesto=${budget}`);
+    coherenciaUP = false;
+  }
+});
+if (coherenciaUP) console.log(`  ✓ Coherencia unitPrice: metrado × unitPrice = presupuesto para todas las partidas`);
 
 // ─── 6. Valores Planificados diarios (PlannedValue interface) ─────────────────
 const plannedValues = metRaw.map(r => ({
@@ -170,6 +215,11 @@ const pvCurve = sortedDates.map(fecha => {
   return { date: fecha, pvDaily: r2(pvByDate[fecha]), pvCumulative: r2(acum) };
 });
 console.log(`  → Curva S: ${pvCurve.length} fechas | PV total: S/ ${acum.toFixed(2)}`);
+
+// Verificar coherencia: PV total curva S ≈ BAC
+const diffBac = Math.abs(acum - bac);
+if (diffBac < 1) console.log(`  ✓ Coherencia Curva S: PV total ≈ BAC (diff < S/ 1)`);
+else console.warn(`  ⚠ PV total curva S (${acum.toFixed(0)}) ≠ BAC (${bac.toFixed(0)}) — diff S/ ${diffBac.toFixed(2)}`);
 
 // ─── 8. PV acumulado por capítulo EDT ────────────────────────────────────────
 
@@ -222,7 +272,7 @@ if (diff > 1) {
 }
 
 // ─── 9. Escribir todos los archivos ──────────────────────────────────────────
-console.log('\n[5/5] Escribiendo archivos JSON …');
+console.log(`\n[6/6] Escribiendo archivos JSON …`);
 
 // pv-edt-data.json → incluye BAC total del proyecto
 writeJson('pv-edt-data.json', { bac, edt: edtItems, plannedValues });
