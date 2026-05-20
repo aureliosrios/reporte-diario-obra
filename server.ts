@@ -24,6 +24,8 @@ const PV_CURVE_FILE = path.join(DATA_DIR, "pv-curve.json");
 const PV_EDT_DATA_FILE = path.join(DATA_DIR, "pv-edt-data.json");
 const PV_BY_CHAPTER_FILE = path.join(DATA_DIR, "pv-by-chapter.json");
 const RESOURCES_FILE = path.join(DATA_DIR, "resources.json");
+const PROJECT_FILE = path.join(DATA_DIR, "project.json");
+
 
 // Ensure directories exist
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
@@ -43,8 +45,28 @@ let REAL_PLANNED_VALUES: any[] = [];
 let REAL_PV_CURVE: any[] = [];
 let REAL_PV_BY_CHAPTER: any[] = [];
 let REAL_RESOURCES: any[] = [];
+let REAL_PROJECTS: any[] = [];
 
 try {
+  if (fs.existsSync(PROJECT_FILE)) {
+    const proj = JSON.parse(fs.readFileSync(PROJECT_FILE, "utf-8"));
+    REAL_PROJECTS = [
+      {
+        id: proj.id,
+        name: proj.name,
+        code: proj.code,
+        location: proj.location,
+        manager: proj.manager,
+        company: proj.company,
+        client: proj.client,
+        supervisorCompany: proj.supervisorCompany,
+        contractAmount: proj.contractAmount,
+        plazo: proj.plazo,
+        moneda: proj.moneda
+      }
+    ];
+    console.log(`[RDO BACKEND] Cargados metadatos del proyecto único: ${proj.name}`);
+  }
   if (fs.existsSync(PV_EDT_DATA_FILE)) {
     const raw = JSON.parse(fs.readFileSync(PV_EDT_DATA_FILE, "utf-8"));
     REAL_EDT = raw.edt || [];
@@ -63,6 +85,7 @@ try {
     REAL_RESOURCES = JSON.parse(fs.readFileSync(RESOURCES_FILE, "utf-8"));
     console.log(`[RDO BACKEND] Catálogo de recursos cargado: ${REAL_RESOURCES.length} recursos`);
   }
+
 } catch (e) {
   console.warn("[RDO BACKEND] Error cargando datos reales desde JSON, usando defaults sintéticos:", (e as Error).message);
 }
@@ -294,8 +317,9 @@ if (fs.existsSync(REPORTS_FILE)) {
 
 // 1. Get List of active projects
 app.get("/api/projects", (req, res) => {
-  res.json(DEFAULT_PROJECTS);
+  res.json(REAL_PROJECTS.length > 0 ? REAL_PROJECTS : DEFAULT_PROJECTS);
 });
+
 
 // 2. Get master data (EDT, Planned Value, Resource Catalog, BAC)
 app.get("/api/master-data", (req, res) => {

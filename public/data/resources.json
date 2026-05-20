@@ -8,14 +8,14 @@
   },
   {
     "id": "LH-OPE",
-    "name": "Operario Civil",
+    "name": "Operario de Obra Civil",
     "type": "mano_obra",
     "unit": "Hora Hombre",
     "unitCost": 22.5
   },
   {
     "id": "LH-OFI",
-    "name": "Oficial Carpintero/Fierrero",
+    "name": "Oficial de Obra Civil",
     "type": "mano_obra",
     "unit": "Hora Hombre",
     "unitCost": 18
@@ -28,38 +28,115 @@
     "unitCost": 14.5
   },
   {
+    "id": "LH-SUP",
+    "name": "Supervisor SST (Prevencionista)",
+    "type": "mano_obra",
+    "unit": "Hora Hombre",
+    "unitCost": 35
+  },
+  {
     "id": "MAT-CEM",
-    "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+    "name": "Cemento Portland Tipo I (bolsa 42.5kg)",
     "type": "material",
     "unit": "Bolsa",
-    "unitCost": 8.9
+    "unitCost": 24.5
+  },
+  {
+    "id": "MAT-ACE",
+    "name": "Acero de refuerzo corrugado fy=4200 kg/cm2",
+    "type": "material",
+    "unit": "kg",
+    "unitCost": 4.8
   },
   {
     "id": "MAT-ARE",
-    "name": "Arena Gruesa",
+    "name": "Arena gruesa para mezclas",
     "type": "material",
     "unit": "m3",
-    "unitCost": 24
+    "unitCost": 65
+  },
+  {
+    "id": "MAT-PIE",
+    "name": "Piedra chancada de 1/2\"",
+    "type": "material",
+    "unit": "m3",
+    "unitCost": 72
   },
   {
     "id": "MAT-LAD",
-    "name": "Ladrillo King Kong Arcilla Cocida 18H",
+    "name": "Ladrillo King Kong arcilla 18 huecos",
     "type": "material",
     "unit": "Millar",
-    "unitCost": 320
+    "unitCost": 850
+  },
+  {
+    "id": "MAT-POR",
+    "name": "Porcelanato pulido premium 60x60cm",
+    "type": "material",
+    "unit": "m2",
+    "unitCost": 45
+  },
+  {
+    "id": "MAT-PUE",
+    "name": "Puerta contraplacada de cedro c/marco",
+    "type": "material",
+    "unit": "und",
+    "unitCost": 350
+  },
+  {
+    "id": "MAT-VID",
+    "name": "Vidrio templado e=8mm c/perfilerías",
+    "type": "material",
+    "unit": "m2",
+    "unitCost": 150
+  },
+  {
+    "id": "MAT-DES",
+    "name": "Tubería PVC Sanitaria pesada de 4\"",
+    "type": "material",
+    "unit": "m",
+    "unitCost": 12.5
+  },
+  {
+    "id": "MAT-AGU",
+    "name": "Tubería PVC agua fría de 1/2\"",
+    "type": "material",
+    "unit": "m",
+    "unitCost": 8.5
   },
   {
     "id": "EQ-MEZ",
-    "name": "Mezcladora de Concreto Trompo 9p3",
+    "name": "Mezcladora de concreto trompo 9p3",
     "type": "equipo",
     "unit": "Hora Máquina",
-    "unitCost": 12
+    "unitCost": 15
+  },
+  {
+    "id": "EQ-VIB",
+    "name": "Vibradora de concreto naftera 2\"",
+    "type": "equipo",
+    "unit": "Hora Máquina",
+    "unitCost": 8.5
   },
   {
     "id": "EQ-RET",
-    "name": "Retroexcavadora Oruga CAT 320",
+    "name": "Retroexcavadora CAT 320 Orugas",
     "type": "equipo",
     "unit": "Hora Máquina",
-    "unitCost": 48
+    "unitCost": 55
+  },
+  {
+    "id": "EQ-VOL",
+    "name": "Camión Volquete Volvo 15m3",
+    "type": "equipo",
+    "unit": "Hora Máquina",
+    "unitCost": 42
+  },
+  {
+    "id": "EQ-AND",
+    "name": "Andamio multidireccional normado (cuerpo)",
+    "type": "equipo",
+    "unit": "Día",
+    "unitCost": 6
   }
 ]

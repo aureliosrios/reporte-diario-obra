@@ -1,5212 +1,2562 @@
 {
-  "bac": 1172900,
+  "bac": 853390,
   "edt": [
     {
       "code": "OBR-PRE",
       "parentId": null,
-      "name": "Obras Preliminares",
+      "name": "Obras Preliminares y Provisionales",
       "unit": "Global",
-      "totalBudgetQty": 41500,
+      "totalBudgetQty": 45000,
       "unitPrice": 0
     },
     {
       "code": "OBR-PRE-01",
       "parentId": "OBR-PRE",
-      "name": "Trazos y niveles",
+      "name": "Limpieza de terreno manual",
       "unit": "m2",
-      "totalBudgetQty": 1700,
-      "unitPrice": 5
+      "totalBudgetQty": 1500,
+      "unitPrice": 6
     },
     {
       "code": "OBR-PRE-02",
       "parentId": "OBR-PRE",
-      "name": "Limpieza del terreno",
+      "name": "Trazo, nivelación y replanteo de zapatas",
       "unit": "m2",
-      "totalBudgetQty": 1300,
-      "unitPrice": 4
+      "totalBudgetQty": 1500,
+      "unitPrice": 8
     },
     {
       "code": "OBR-PRE-03",
       "parentId": "OBR-PRE",
-      "name": "Movilización y desmovilización",
-      "unit": "glb",
-      "totalBudgetQty": 1,
-      "unitPrice": 12000
+      "name": "Cerco provisional de obra con madera",
+      "unit": "m",
+      "totalBudgetQty": 240,
+      "unitPrice": 50
     },
     {
       "code": "OBR-PRE-04",
       "parentId": "OBR-PRE",
-      "name": "Demoliciones",
-      "unit": "m3",
-      "totalBudgetQty": 1580,
-      "unitPrice": 10
+      "name": "Construcción de almacén y oficina provisional",
+      "unit": "Global",
+      "totalBudgetQty": 1,
+      "unitPrice": 12000
     },
     {
-      "code": "CIM",
+      "code": "MOV-TIE",
       "parentId": null,
-      "name": "Cimentación",
+      "name": "Movimiento de Tierras",
       "unit": "Global",
-      "totalBudgetQty": 249700,
+      "totalBudgetQty": 92250,
       "unitPrice": 0
     },
     {
-      "code": "CIM-01",
-      "parentId": "CIM",
-      "name": "Excavación masiva",
+      "code": "MOV-TIE-01",
+      "parentId": "MOV-TIE",
+      "name": "Excavación masiva con excavadora",
       "unit": "m3",
-      "totalBudgetQty": 1520,
-      "unitPrice": 30
+      "totalBudgetQty": 1200,
+      "unitPrice": 22
     },
     {
-      "code": "CIM-02",
-      "parentId": "CIM",
-      "name": "Concreto de solado",
-      "unit": "m3",
-      "totalBudgetQty": 130,
-      "unitPrice": 140
-    },
-    {
-      "code": "CIM-03",
-      "parentId": "CIM",
-      "name": "Encofrado de cimentación",
-      "unit": "m2",
-      "totalBudgetQty": 1300,
-      "unitPrice": 25
-    },
-    {
-      "code": "CIM-04",
-      "parentId": "CIM",
-      "name": "Acero de refuerzo cimentación",
-      "unit": "kg",
-      "totalBudgetQty": 15200,
-      "unitPrice": 4.5
-    },
-    {
-      "code": "CIM-05",
-      "parentId": "CIM",
-      "name": "Concreto de cimentación",
-      "unit": "m3",
-      "totalBudgetQty": 340,
-      "unitPrice": 250
-    },
-    {
-      "code": "EST",
-      "parentId": null,
-      "name": "Estructura",
-      "unit": "Global",
-      "totalBudgetQty": 424200,
-      "unitPrice": 0
-    },
-    {
-      "code": "EST-01",
-      "parentId": "EST",
-      "name": "Encofrado de columnas",
-      "unit": "m2",
-      "totalBudgetQty": 1410,
-      "unitPrice": 30
-    },
-    {
-      "code": "EST-02",
-      "parentId": "EST",
-      "name": "Acero de refuerzo columnas",
-      "unit": "kg",
-      "totalBudgetQty": 12400,
-      "unitPrice": 4.5
-    },
-    {
-      "code": "EST-03",
-      "parentId": "EST",
-      "name": "Concreto de columnas",
+      "code": "MOV-TIE-02",
+      "parentId": "MOV-TIE",
+      "name": "Excavación manual de zanjas y vigas cimentación",
       "unit": "m3",
       "totalBudgetQty": 180,
-      "unitPrice": 270
+      "unitPrice": 45
     },
     {
-      "code": "EST-04",
-      "parentId": "EST",
-      "name": "Encofrado de vigas y losas",
-      "unit": "m2",
-      "totalBudgetQty": 2037.5,
-      "unitPrice": 32
-    },
-    {
-      "code": "EST-05",
-      "parentId": "EST",
-      "name": "Acero de vigas y losas",
-      "unit": "kg",
-      "totalBudgetQty": 17444.45,
-      "unitPrice": 4.5
-    },
-    {
-      "code": "EST-06",
-      "parentId": "EST",
-      "name": "Concreto de vigas y losas",
+      "code": "MOV-TIE-03",
+      "parentId": "MOV-TIE",
+      "name": "Relleno y compactado con vibradora",
       "unit": "m3",
-      "totalBudgetQty": 330,
-      "unitPrice": 280
-    },
-    {
-      "code": "EST-07",
-      "parentId": "EST",
-      "name": "Encofrado de escaleras",
-      "unit": "m2",
-      "totalBudgetQty": 540,
+      "totalBudgetQty": 450,
       "unitPrice": 35
     },
     {
-      "code": "EST-08",
-      "parentId": "EST",
-      "name": "Concreto de escaleras",
+      "code": "MOV-TIE-04",
+      "parentId": "MOV-TIE",
+      "name": "Eliminación de desmonte c/volquete 15m3",
       "unit": "m3",
-      "totalBudgetQty": 75,
-      "unitPrice": 300
+      "totalBudgetQty": 1500,
+      "unitPrice": 28
     },
     {
-      "code": "ALB",
+      "code": "EST-CON",
       "parentId": null,
-      "name": "Albañilería",
+      "name": "Estructuras de Concreto",
       "unit": "Global",
-      "totalBudgetQty": 125500,
+      "totalBudgetQty": 321350,
       "unitPrice": 0
     },
     {
-      "code": "ALB-01",
-      "parentId": "ALB",
-      "name": "Muros de ladrillo 1er piso",
+      "code": "EST-CON-01",
+      "parentId": "EST-CON",
+      "name": "Solado de concreto e=3\" f'c=100 kg/cm2",
       "unit": "m2",
-      "totalBudgetQty": 2580,
-      "unitPrice": 15
+      "totalBudgetQty": 350,
+      "unitPrice": 32
     },
     {
-      "code": "ALB-02",
-      "parentId": "ALB",
-      "name": "Muros de ladrillo 2do piso",
-      "unit": "m2",
-      "totalBudgetQty": 2360,
-      "unitPrice": 15
+      "code": "EST-CON-02",
+      "parentId": "EST-CON",
+      "name": "Concreto f'c=210 kg/cm2 premezclado zapatas",
+      "unit": "m3",
+      "totalBudgetQty": 160,
+      "unitPrice": 380
     },
     {
-      "code": "ALB-03",
-      "parentId": "ALB",
-      "name": "Tarrajeo interior",
-      "unit": "m2",
-      "totalBudgetQty": 3575,
-      "unitPrice": 8
+      "code": "EST-CON-03",
+      "parentId": "EST-CON",
+      "name": "Acero de refuerzo corrugado fy=4200 en zapatas",
+      "unit": "kg",
+      "totalBudgetQty": 4500,
+      "unitPrice": 5.5
     },
     {
-      "code": "ALB-04",
-      "parentId": "ALB",
-      "name": "Tarrajeo exterior",
+      "code": "EST-CON-04",
+      "parentId": "EST-CON",
+      "name": "Concreto f'c=280 kg/cm2 en columnas",
+      "unit": "m3",
+      "totalBudgetQty": 85,
+      "unitPrice": 420
+    },
+    {
+      "code": "EST-CON-05",
+      "parentId": "EST-CON",
+      "name": "Encofrado y desencofrado metálico columnas",
+      "unit": "m2",
+      "totalBudgetQty": 320,
+      "unitPrice": 65
+    },
+    {
+      "code": "EST-CON-06",
+      "parentId": "EST-CON",
+      "name": "Acero de refuerzo corrugado en columnas",
+      "unit": "kg",
+      "totalBudgetQty": 6200,
+      "unitPrice": 5.8
+    },
+    {
+      "code": "EST-CON-07",
+      "parentId": "EST-CON",
+      "name": "Concreto f'c=210 kg/cm2 en losas y vigas",
+      "unit": "m3",
+      "totalBudgetQty": 120,
+      "unitPrice": 410
+    },
+    {
+      "code": "EST-CON-08",
+      "parentId": "EST-CON",
+      "name": "Encofrado y desencofrado de vigas y losas",
+      "unit": "m2",
+      "totalBudgetQty": 580,
+      "unitPrice": 55
+    },
+    {
+      "code": "EST-CON-09",
+      "parentId": "EST-CON",
+      "name": "Acero de refuerzo en vigas y losas aligeradas",
+      "unit": "kg",
+      "totalBudgetQty": 8800,
+      "unitPrice": 5.8
+    },
+    {
+      "code": "ARQ-ACAB",
+      "parentId": null,
+      "name": "Arquitectura y Acabados",
+      "unit": "Global",
+      "totalBudgetQty": 313200,
+      "unitPrice": 0
+    },
+    {
+      "code": "ARQ-ACAB-01",
+      "parentId": "ARQ-ACAB",
+      "name": "Muros de ladrillo King Kong arcilla cocida",
+      "unit": "m2",
+      "totalBudgetQty": 1100,
+      "unitPrice": 75
+    },
+    {
+      "code": "ARQ-ACAB-02",
+      "parentId": "ARQ-ACAB",
+      "name": "Tarrajeo frotachado de muros interiores",
       "unit": "m2",
       "totalBudgetQty": 2400,
-      "unitPrice": 9.5
+      "unitPrice": 22
     },
     {
-      "code": "INS",
-      "parentId": null,
-      "name": "Instalaciones",
-      "unit": "Global",
-      "totalBudgetQty": 95700,
-      "unitPrice": 0
+      "code": "ARQ-ACAB-03",
+      "parentId": "ARQ-ACAB",
+      "name": "Tarrajeo fino en cielorrasos y vigas",
+      "unit": "m2",
+      "totalBudgetQty": 850,
+      "unitPrice": 26
     },
     {
-      "code": "INS-01",
-      "parentId": "INS",
-      "name": "Instalaciones sanitarias",
-      "unit": "pto",
-      "totalBudgetQty": 120,
-      "unitPrice": 350
+      "code": "ARQ-ACAB-04",
+      "parentId": "ARQ-ACAB",
+      "name": "Contrapiso de concreto e=2\" en ambientes",
+      "unit": "m2",
+      "totalBudgetQty": 850,
+      "unitPrice": 24
     },
     {
-      "code": "INS-02",
-      "parentId": "INS",
-      "name": "Instalaciones eléctricas",
-      "unit": "pto",
-      "totalBudgetQty": 110,
-      "unitPrice": 350
+      "code": "ARQ-ACAB-05",
+      "parentId": "ARQ-ACAB",
+      "name": "Instalación de piso porcelanato pulido 60x60",
+      "unit": "m2",
+      "totalBudgetQty": 800,
+      "unitPrice": 85
     },
     {
-      "code": "INS-03",
-      "parentId": "INS",
-      "name": "Instalaciones de gas",
-      "unit": "pto",
+      "code": "ARQ-ACAB-06",
+      "parentId": "ARQ-ACAB",
+      "name": "Pintura látex en muros interiores y columnas",
+      "unit": "m2",
+      "totalBudgetQty": 2400,
+      "unitPrice": 12
+    },
+    {
+      "code": "ARQ-ACAB-07",
+      "parentId": "ARQ-ACAB",
+      "name": "Puertas de madera contraplacada con cerraduras",
+      "unit": "und",
       "totalBudgetQty": 32,
-      "unitPrice": 475
+      "unitPrice": 450
     },
     {
-      "code": "ACA",
+      "code": "ARQ-ACAB-08",
+      "parentId": "ARQ-ACAB",
+      "name": "Ventanas de vidrio templado templado e=8mm",
+      "unit": "m2",
+      "totalBudgetQty": 110,
+      "unitPrice": 220
+    },
+    {
+      "code": "INS-SAN",
       "parentId": null,
-      "name": "Acabados",
+      "name": "Instalaciones Sanitarias y Eléctricas",
       "unit": "Global",
-      "totalBudgetQty": 170100,
+      "totalBudgetQty": 81590,
       "unitPrice": 0
     },
     {
-      "code": "ACA-01",
-      "parentId": "ACA",
-      "name": "Pisos cerámicos",
-      "unit": "m2",
-      "totalBudgetQty": 900,
-      "unitPrice": 36
+      "code": "INS-SAN-01",
+      "parentId": "INS-SAN",
+      "name": "Redes de desagüe y ventilación PVC de 4\"",
+      "unit": "m",
+      "totalBudgetQty": 320,
+      "unitPrice": 42
     },
     {
-      "code": "ACA-02",
-      "parentId": "ACA",
-      "name": "Pintura interior",
-      "unit": "m2",
-      "totalBudgetQty": 3000,
-      "unitPrice": 8.2
+      "code": "INS-SAN-02",
+      "parentId": "INS-SAN",
+      "name": "Tendido de tubería de agua fría y caliente PVC",
+      "unit": "m",
+      "totalBudgetQty": 450,
+      "unitPrice": 35
     },
     {
-      "code": "ACA-03",
-      "parentId": "ACA",
-      "name": "Pintura exterior",
-      "unit": "m2",
-      "totalBudgetQty": 1600,
-      "unitPrice": 10.5
+      "code": "INS-SAN-03",
+      "parentId": "INS-SAN",
+      "name": "Tuberías PVC de luz empotradas en losa/muros",
+      "unit": "m",
+      "totalBudgetQty": 950,
+      "unitPrice": 18
     },
     {
-      "code": "ACA-04",
-      "parentId": "ACA",
-      "name": "Puertas y ventanas",
-      "unit": "und",
-      "totalBudgetQty": 36,
-      "unitPrice": 1250
+      "code": "INS-SAN-04",
+      "parentId": "INS-SAN",
+      "name": "Cableado eléctrico de cobre tipo NH-80",
+      "unit": "m",
+      "totalBudgetQty": 2800,
+      "unitPrice": 6.5
     },
     {
-      "code": "ACA-05",
-      "parentId": "ACA",
-      "name": "Grifería y sanitarios",
-      "unit": "und",
-      "totalBudgetQty": 50,
-      "unitPrice": 570
-    },
-    {
-      "code": "ACA-06",
-      "parentId": "ACA",
-      "name": "Cerámica cocinas y baños",
-      "unit": "m2",
-      "totalBudgetQty": 570,
-      "unitPrice": 40
-    },
-    {
-      "code": "OBR-EXT",
-      "parentId": null,
-      "name": "Obras Exteriores",
-      "unit": "Global",
-      "totalBudgetQty": 66200,
-      "unitPrice": 0
-    },
-    {
-      "code": "OBR-EXT-01",
-      "parentId": "OBR-EXT",
-      "name": "Veredas y pavimentos",
-      "unit": "m2",
-      "totalBudgetQty": 400,
-      "unitPrice": 46.5
-    },
-    {
-      "code": "OBR-EXT-02",
-      "parentId": "OBR-EXT",
-      "name": "Jardinería",
-      "unit": "m2",
-      "totalBudgetQty": 500,
-      "unitPrice": 24.8
-    },
-    {
-      "code": "OBR-EXT-03",
-      "parentId": "OBR-EXT",
-      "name": "Tanque elevado y cisterna",
-      "unit": "und",
-      "totalBudgetQty": 1,
-      "unitPrice": 35200
+      "code": "INS-SAN-05",
+      "parentId": "INS-SAN",
+      "name": "Montaje de aparatos sanitarios y grifería",
+      "unit": "jgo",
+      "totalBudgetQty": 18,
+      "unitPrice": 950
     }
   ],
   "plannedValues": [
     {
-      "date": "2026-05-15",
+      "date": "2026-06-01",
       "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
+      "plannedQty": 300
     },
     {
-      "date": "2026-05-16",
+      "date": "2026-06-02",
       "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
+      "plannedQty": 300
     },
     {
-      "date": "2026-05-17",
+      "date": "2026-06-03",
       "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
+      "plannedQty": 300
     },
     {
-      "date": "2026-05-18",
+      "date": "2026-06-04",
       "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
+      "plannedQty": 300
     },
     {
-      "date": "2026-05-19",
+      "date": "2026-06-05",
       "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
+      "plannedQty": 300
     },
     {
-      "date": "2026-05-20",
-      "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
-    },
-    {
-      "date": "2026-05-21",
-      "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
-    },
-    {
-      "date": "2026-05-22",
-      "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
-    },
-    {
-      "date": "2026-05-23",
-      "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
-    },
-    {
-      "date": "2026-05-24",
-      "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
-    },
-    {
-      "date": "2026-05-25",
-      "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
-    },
-    {
-      "date": "2026-05-26",
-      "edtCode": "OBR-PRE-01",
-      "plannedQty": 141.6667
-    },
-    {
-      "date": "2026-05-15",
+      "date": "2026-06-02",
       "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
+      "plannedQty": 250
     },
     {
-      "date": "2026-05-16",
+      "date": "2026-06-03",
       "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
+      "plannedQty": 250
     },
     {
-      "date": "2026-05-17",
+      "date": "2026-06-04",
       "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
+      "plannedQty": 250
     },
     {
-      "date": "2026-05-18",
+      "date": "2026-06-05",
       "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
+      "plannedQty": 250
     },
     {
-      "date": "2026-05-19",
+      "date": "2026-06-06",
       "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
+      "plannedQty": 250
     },
     {
-      "date": "2026-05-20",
+      "date": "2026-06-07",
       "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
+      "plannedQty": 250
     },
     {
-      "date": "2026-05-21",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-22",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-23",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-24",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-25",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-26",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-27",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-28",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-29",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-30",
-      "edtCode": "OBR-PRE-02",
-      "plannedQty": 81.25
-    },
-    {
-      "date": "2026-05-15",
+      "date": "2026-06-01",
       "edtCode": "OBR-PRE-03",
-      "plannedQty": 0.125
+      "plannedQty": 30
     },
     {
-      "date": "2026-05-16",
+      "date": "2026-06-02",
       "edtCode": "OBR-PRE-03",
-      "plannedQty": 0.125
+      "plannedQty": 30
     },
     {
-      "date": "2026-05-17",
+      "date": "2026-06-03",
       "edtCode": "OBR-PRE-03",
-      "plannedQty": 0.125
+      "plannedQty": 30
     },
     {
-      "date": "2026-05-18",
+      "date": "2026-06-04",
       "edtCode": "OBR-PRE-03",
-      "plannedQty": 0.125
+      "plannedQty": 30
     },
     {
-      "date": "2026-05-19",
+      "date": "2026-06-05",
       "edtCode": "OBR-PRE-03",
-      "plannedQty": 0.125
+      "plannedQty": 30
     },
     {
-      "date": "2026-05-20",
+      "date": "2026-06-06",
       "edtCode": "OBR-PRE-03",
-      "plannedQty": 0.125
+      "plannedQty": 30
     },
     {
-      "date": "2026-05-21",
+      "date": "2026-06-07",
       "edtCode": "OBR-PRE-03",
-      "plannedQty": 0.125
+      "plannedQty": 30
     },
     {
-      "date": "2026-05-22",
+      "date": "2026-06-08",
       "edtCode": "OBR-PRE-03",
-      "plannedQty": 0.125
-    },
-    {
-      "date": "2026-05-22",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-23",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-24",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-25",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-26",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-27",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-28",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-29",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-30",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-31",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 30
     },
     {
       "date": "2026-06-01",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-02",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-03",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-04",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-05",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-06",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-07",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-08",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-09",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-10",
       "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-06-11",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-06-12",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-06-13",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-06-14",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-06-15",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-06-16",
-      "edtCode": "OBR-PRE-04",
-      "plannedQty": 60.7692
-    },
-    {
-      "date": "2026-05-29",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-05-30",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-05-31",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-01",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-02",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-03",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-04",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "plannedQty": 0.1
     },
     {
       "date": "2026-06-05",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "edtCode": "MOV-TIE-01",
+      "plannedQty": 150
     },
     {
       "date": "2026-06-06",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "edtCode": "MOV-TIE-01",
+      "plannedQty": 150
     },
     {
       "date": "2026-06-07",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "edtCode": "MOV-TIE-01",
+      "plannedQty": 150
     },
     {
       "date": "2026-06-08",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "edtCode": "MOV-TIE-01",
+      "plannedQty": 150
     },
     {
       "date": "2026-06-09",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "edtCode": "MOV-TIE-01",
+      "plannedQty": 150
     },
     {
       "date": "2026-06-10",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "edtCode": "MOV-TIE-01",
+      "plannedQty": 150
     },
     {
       "date": "2026-06-11",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "edtCode": "MOV-TIE-01",
+      "plannedQty": 150
     },
     {
       "date": "2026-06-12",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "edtCode": "MOV-TIE-01",
+      "plannedQty": 150
     },
     {
-      "date": "2026-06-13",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "date": "2026-06-07",
+      "edtCode": "MOV-TIE-02",
+      "plannedQty": 20
     },
     {
-      "date": "2026-06-14",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "date": "2026-06-08",
+      "edtCode": "MOV-TIE-02",
+      "plannedQty": 20
     },
     {
-      "date": "2026-06-15",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "date": "2026-06-09",
+      "edtCode": "MOV-TIE-02",
+      "plannedQty": 20
     },
     {
-      "date": "2026-06-16",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "date": "2026-06-10",
+      "edtCode": "MOV-TIE-02",
+      "plannedQty": 20
     },
     {
-      "date": "2026-06-17",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-18",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-19",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-20",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-21",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-22",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-23",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-24",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-25",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-26",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-27",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-28",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-29",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
-    },
-    {
-      "date": "2026-06-30",
-      "edtCode": "CIM-01",
-      "plannedQty": 46.0606
+      "date": "2026-06-11",
+      "edtCode": "MOV-TIE-02",
+      "plannedQty": 20
     },
     {
       "date": "2026-06-12",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "edtCode": "MOV-TIE-02",
+      "plannedQty": 20
     },
     {
       "date": "2026-06-13",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "edtCode": "MOV-TIE-02",
+      "plannedQty": 20
     },
     {
       "date": "2026-06-14",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "edtCode": "MOV-TIE-02",
+      "plannedQty": 20
     },
     {
       "date": "2026-06-15",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "edtCode": "MOV-TIE-02",
+      "plannedQty": 20
+    },
+    {
+      "date": "2026-06-10",
+      "edtCode": "MOV-TIE-03",
+      "plannedQty": 50
+    },
+    {
+      "date": "2026-06-11",
+      "edtCode": "MOV-TIE-03",
+      "plannedQty": 50
+    },
+    {
+      "date": "2026-06-12",
+      "edtCode": "MOV-TIE-03",
+      "plannedQty": 50
+    },
+    {
+      "date": "2026-06-13",
+      "edtCode": "MOV-TIE-03",
+      "plannedQty": 50
+    },
+    {
+      "date": "2026-06-14",
+      "edtCode": "MOV-TIE-03",
+      "plannedQty": 50
+    },
+    {
+      "date": "2026-06-15",
+      "edtCode": "MOV-TIE-03",
+      "plannedQty": 50
     },
     {
       "date": "2026-06-16",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "edtCode": "MOV-TIE-03",
+      "plannedQty": 50
     },
     {
       "date": "2026-06-17",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "edtCode": "MOV-TIE-03",
+      "plannedQty": 50
     },
     {
       "date": "2026-06-18",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "edtCode": "MOV-TIE-03",
+      "plannedQty": 50
+    },
+    {
+      "date": "2026-06-06",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-07",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-08",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-09",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-10",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-11",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-12",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-13",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-14",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-15",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-16",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-17",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
+    },
+    {
+      "date": "2026-06-18",
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
     },
     {
       "date": "2026-06-19",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
     },
     {
       "date": "2026-06-20",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "edtCode": "MOV-TIE-04",
+      "plannedQty": 100
     },
     {
-      "date": "2026-06-21",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "date": "2026-06-15",
+      "edtCode": "EST-CON-01",
+      "plannedQty": 58.33
     },
     {
-      "date": "2026-06-22",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "date": "2026-06-16",
+      "edtCode": "EST-CON-01",
+      "plannedQty": 58.33
     },
     {
-      "date": "2026-06-23",
-      "edtCode": "CIM-02",
-      "plannedQty": 10.8333
+      "date": "2026-06-17",
+      "edtCode": "EST-CON-01",
+      "plannedQty": 58.33
+    },
+    {
+      "date": "2026-06-18",
+      "edtCode": "EST-CON-01",
+      "plannedQty": 58.33
     },
     {
       "date": "2026-06-19",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "edtCode": "EST-CON-01",
+      "plannedQty": 58.33
     },
     {
       "date": "2026-06-20",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "edtCode": "EST-CON-01",
+      "plannedQty": 58.35
+    },
+    {
+      "date": "2026-06-18",
+      "edtCode": "EST-CON-02",
+      "plannedQty": 17.78
+    },
+    {
+      "date": "2026-06-19",
+      "edtCode": "EST-CON-02",
+      "plannedQty": 17.78
+    },
+    {
+      "date": "2026-06-20",
+      "edtCode": "EST-CON-02",
+      "plannedQty": 17.78
     },
     {
       "date": "2026-06-21",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "edtCode": "EST-CON-02",
+      "plannedQty": 17.78
     },
     {
       "date": "2026-06-22",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "edtCode": "EST-CON-02",
+      "plannedQty": 17.78
     },
     {
       "date": "2026-06-23",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "edtCode": "EST-CON-02",
+      "plannedQty": 17.78
     },
     {
       "date": "2026-06-24",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "edtCode": "EST-CON-02",
+      "plannedQty": 17.78
     },
     {
       "date": "2026-06-25",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "edtCode": "EST-CON-02",
+      "plannedQty": 17.78
     },
     {
       "date": "2026-06-26",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "edtCode": "EST-CON-02",
+      "plannedQty": 17.76
     },
     {
-      "date": "2026-06-27",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "date": "2026-06-16",
+      "edtCode": "EST-CON-03",
+      "plannedQty": 500
     },
     {
-      "date": "2026-06-28",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "date": "2026-06-17",
+      "edtCode": "EST-CON-03",
+      "plannedQty": 500
     },
     {
-      "date": "2026-06-29",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
-    },
-    {
-      "date": "2026-06-30",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
-    },
-    {
-      "date": "2026-07-01",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
-    },
-    {
-      "date": "2026-07-02",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
-    },
-    {
-      "date": "2026-07-03",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
-    },
-    {
-      "date": "2026-07-04",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
-    },
-    {
-      "date": "2026-07-05",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
-    },
-    {
-      "date": "2026-07-06",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
-    },
-    {
-      "date": "2026-07-07",
-      "edtCode": "CIM-03",
-      "plannedQty": 68.4211
+      "date": "2026-06-18",
+      "edtCode": "EST-CON-03",
+      "plannedQty": 500
     },
     {
       "date": "2026-06-19",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-03",
+      "plannedQty": 500
     },
     {
       "date": "2026-06-20",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-03",
+      "plannedQty": 500
     },
     {
       "date": "2026-06-21",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-03",
+      "plannedQty": 500
     },
     {
       "date": "2026-06-22",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-03",
+      "plannedQty": 500
     },
     {
       "date": "2026-06-23",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-03",
+      "plannedQty": 500
     },
     {
       "date": "2026-06-24",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-03",
+      "plannedQty": 500
     },
     {
       "date": "2026-06-25",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-06-26",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-06-27",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-06-28",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-06-29",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-06-30",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-01",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-02",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-03",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-04",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-05",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-06",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-07",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-08",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-09",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.31
     },
     {
       "date": "2026-07-10",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "edtCode": "EST-CON-04",
+      "plannedQty": 5.35
     },
     {
-      "date": "2026-07-11",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "date": "2026-06-22",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
     },
     {
-      "date": "2026-07-12",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "date": "2026-06-23",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
     },
     {
-      "date": "2026-07-13",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "date": "2026-06-24",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
     },
     {
-      "date": "2026-07-14",
-      "edtCode": "CIM-04",
-      "plannedQty": 584.6154
+      "date": "2026-06-25",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
+    },
+    {
+      "date": "2026-06-26",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
+    },
+    {
+      "date": "2026-06-27",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
+    },
+    {
+      "date": "2026-06-28",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
+    },
+    {
+      "date": "2026-06-29",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
+    },
+    {
+      "date": "2026-06-30",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
+    },
+    {
+      "date": "2026-07-01",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
+    },
+    {
+      "date": "2026-07-02",
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
     },
     {
       "date": "2026-07-03",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
     },
     {
       "date": "2026-07-04",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
     },
     {
       "date": "2026-07-05",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
     },
     {
       "date": "2026-07-06",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
     },
     {
       "date": "2026-07-07",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.82
     },
     {
       "date": "2026-07-08",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-05",
+      "plannedQty": 18.88
+    },
+    {
+      "date": "2026-06-20",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-21",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-22",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-23",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-24",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-25",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-26",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-27",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-28",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-29",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-06-30",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-07-01",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-07-02",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-07-03",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-07-04",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-07-05",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.71
+    },
+    {
+      "date": "2026-07-06",
+      "edtCode": "EST-CON-06",
+      "plannedQty": 364.64
+    },
+    {
+      "date": "2026-07-10",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-11",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-12",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-13",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-14",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-15",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-16",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-17",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-18",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-19",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-20",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-21",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-22",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-23",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-24",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-25",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-26",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-27",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.32
+    },
+    {
+      "date": "2026-07-28",
+      "edtCode": "EST-CON-07",
+      "plannedQty": 6.24
+    },
+    {
+      "date": "2026-07-05",
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
+    },
+    {
+      "date": "2026-07-06",
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
+    },
+    {
+      "date": "2026-07-07",
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
+    },
+    {
+      "date": "2026-07-08",
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-09",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-10",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-11",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-12",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-13",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-14",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-15",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-16",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-17",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-18",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-19",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-20",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
     },
     {
       "date": "2026-07-21",
-      "edtCode": "CIM-05",
-      "plannedQty": 17.8947
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
+    },
+    {
+      "date": "2026-07-22",
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
+    },
+    {
+      "date": "2026-07-23",
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
+    },
+    {
+      "date": "2026-07-24",
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
+    },
+    {
+      "date": "2026-07-25",
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.36
+    },
+    {
+      "date": "2026-07-26",
+      "edtCode": "EST-CON-08",
+      "plannedQty": 26.44
+    },
+    {
+      "date": "2026-07-08",
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
+    },
+    {
+      "date": "2026-07-09",
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-10",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-11",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-12",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-13",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-14",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-15",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-16",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-17",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-18",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-19",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-20",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-21",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-22",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-23",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.65
     },
     {
       "date": "2026-07-24",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-07-25",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-07-26",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-07-27",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-07-28",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-07-29",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-07-30",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-07-31",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-01",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-02",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-03",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-04",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-05",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-06",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-07",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-08",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-09",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-10",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-11",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-12",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-13",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-14",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-15",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-16",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-17",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-08-18",
-      "edtCode": "EST-01",
-      "plannedQty": 35.25
-    },
-    {
-      "date": "2026-07-10",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-07-11",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-07-12",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-07-13",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-07-14",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "EST-CON-09",
+      "plannedQty": 517.6
     },
     {
       "date": "2026-07-15",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-16",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-17",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-18",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-19",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-20",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-21",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-22",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-23",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-24",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-25",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-26",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-27",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-28",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-29",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-30",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-31",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-08-01",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-08-02",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-08-03",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-08-04",
-      "edtCode": "EST-02",
-      "plannedQty": 310
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-08-05",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-06",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-07",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-08",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-09",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-10",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-11",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-12",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-13",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-14",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-15",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-16",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-17",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-08-18",
-      "edtCode": "EST-02",
-      "plannedQty": 310
-    },
-    {
-      "date": "2026-07-17",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-07-18",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-07-19",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-01",
+      "plannedQty": 50
     },
     {
       "date": "2026-07-20",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-21",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-22",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-23",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-24",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-25",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-26",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-27",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-28",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-29",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-30",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-07-31",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-01",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-02",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-03",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-04",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-05",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-06",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-07",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-08",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-09",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-10",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-11",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
       "date": "2026-08-12",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "edtCode": "ARQ-ACAB-02",
+      "plannedQty": 100
     },
     {
-      "date": "2026-08-13",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "date": "2026-07-22",
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
-      "date": "2026-08-14",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-15",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-16",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-17",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-18",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-19",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-20",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-21",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-22",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-23",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-24",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
-    },
-    {
-      "date": "2026-08-25",
-      "edtCode": "EST-03",
-      "plannedQty": 4.5
+      "date": "2026-07-23",
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-07-24",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-07-25",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-07-26",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-07-27",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-07-28",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-07-29",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-07-30",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-07-31",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-01",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-02",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-03",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-04",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-05",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-06",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-07",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-08",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-09",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-10",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-11",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-12",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-13",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-14",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
     },
     {
       "date": "2026-08-15",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-03",
+      "plannedQty": 34
+    },
+    {
+      "date": "2026-07-28",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-07-29",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-07-30",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-07-31",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-01",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-02",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-03",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-04",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-05",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-06",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-07",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-08",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-09",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-10",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-11",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-12",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-13",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-14",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
+    },
+    {
+      "date": "2026-08-15",
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
     },
     {
       "date": "2026-08-16",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
     },
     {
       "date": "2026-08-17",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.64
     },
     {
       "date": "2026-08-18",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-04",
+      "plannedQty": 38.56
+    },
+    {
+      "date": "2026-08-01",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-02",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-03",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-04",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-05",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-06",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-07",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-08",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-09",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-10",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-11",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-12",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-13",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-14",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-15",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-16",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-17",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
+    },
+    {
+      "date": "2026-08-18",
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
     },
     {
       "date": "2026-08-19",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
     },
     {
       "date": "2026-08-20",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
     },
     {
       "date": "2026-08-21",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.36
     },
     {
       "date": "2026-08-22",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-05",
+      "plannedQty": 36.44
+    },
+    {
+      "date": "2026-08-10",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-11",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-12",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-13",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-14",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-15",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-16",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-17",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-18",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-19",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-20",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-21",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
+    },
+    {
+      "date": "2026-08-22",
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
     },
     {
       "date": "2026-08-23",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
     },
     {
       "date": "2026-08-24",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
     },
     {
       "date": "2026-08-25",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "edtCode": "ARQ-ACAB-06",
+      "plannedQty": 150
     },
     {
-      "date": "2026-08-26",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-08",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-08-27",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-09",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-08-28",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-10",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-08-29",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-11",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-08-30",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-12",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-08-31",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-13",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-09-01",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-14",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-09-02",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-15",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-09-03",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-16",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-09-04",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-17",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-09-05",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-18",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-09-06",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-19",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.46
     },
     {
-      "date": "2026-09-07",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-20",
+      "edtCode": "ARQ-ACAB-07",
+      "plannedQty": 2.48
     },
     {
-      "date": "2026-09-08",
-      "edtCode": "EST-04",
-      "plannedQty": 43.3511
+      "date": "2026-08-12",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-13",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-14",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-15",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-16",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-17",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-18",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-19",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-20",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-21",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-22",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-23",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.46
+    },
+    {
+      "date": "2026-08-24",
+      "edtCode": "ARQ-ACAB-08",
+      "plannedQty": 8.48
+    },
+    {
+      "date": "2026-07-20",
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
+    },
+    {
+      "date": "2026-07-21",
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
+    },
+    {
+      "date": "2026-07-22",
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
+    },
+    {
+      "date": "2026-07-23",
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-07-24",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-07-25",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-07-26",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-07-27",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-07-28",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-07-29",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-07-30",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-07-31",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-01",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-02",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-03",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-04",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-05",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-06",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-07",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-08",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-09",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.55
     },
     {
       "date": "2026-08-10",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "edtCode": "INS-SAN-01",
+      "plannedQty": 14.45
     },
     {
-      "date": "2026-08-11",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-07-25",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-12",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-07-26",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-13",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-07-27",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-14",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-07-28",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-15",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-07-29",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-16",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-07-30",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-17",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-07-31",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-18",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-08-01",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-19",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-08-02",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-20",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-08-03",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-21",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-08-04",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-22",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-08-05",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
-      "date": "2026-08-23",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-08-24",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-08-25",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-08-26",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-08-27",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-08-28",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-08-29",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-08-30",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-08-31",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-01",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-02",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-03",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-04",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-05",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-06",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-07",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-08",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-09",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-10",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-11",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-12",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-13",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-14",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
-    },
-    {
-      "date": "2026-09-15",
-      "edtCode": "EST-05",
-      "plannedQty": 323.0453
+      "date": "2026-08-06",
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
       "date": "2026-08-07",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
       "date": "2026-08-08",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
       "date": "2026-08-09",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
       "date": "2026-08-10",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
       "date": "2026-08-11",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
       "date": "2026-08-12",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
       "date": "2026-08-13",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
       "date": "2026-08-14",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.45
     },
     {
       "date": "2026-08-15",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "edtCode": "INS-SAN-02",
+      "plannedQty": 20.55
     },
     {
-      "date": "2026-08-16",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-22",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-17",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-23",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-18",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-24",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-19",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-25",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-20",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-26",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-21",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-27",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-22",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-28",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-23",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-29",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-24",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-30",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-25",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-07-31",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-26",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-01",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-27",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-02",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-28",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-03",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-29",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-04",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-30",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-05",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-08-31",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-06",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-09-01",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-07",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-09-02",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-08",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-09-03",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-09",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-09-04",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-10",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-09-05",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-11",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.18
     },
     {
-      "date": "2026-09-06",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-12",
+      "edtCode": "INS-SAN-03",
+      "plannedQty": 43.22
     },
     {
-      "date": "2026-09-07",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-05",
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
-      "date": "2026-09-08",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-06",
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
-      "date": "2026-09-09",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-07",
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
-      "date": "2026-09-10",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-08",
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
-      "date": "2026-09-11",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-09",
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
-      "date": "2026-09-12",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-10",
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
-      "date": "2026-09-13",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-11",
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
-      "date": "2026-09-14",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-12",
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
-      "date": "2026-09-15",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
-    },
-    {
-      "date": "2026-09-16",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
-    },
-    {
-      "date": "2026-09-17",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
-    },
-    {
-      "date": "2026-09-18",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
-    },
-    {
-      "date": "2026-09-19",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
-    },
-    {
-      "date": "2026-09-20",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
-    },
-    {
-      "date": "2026-09-21",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
-    },
-    {
-      "date": "2026-09-22",
-      "edtCode": "EST-06",
-      "plannedQty": 7.0213
+      "date": "2026-08-13",
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
       "date": "2026-08-14",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
       "date": "2026-08-15",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
       "date": "2026-08-16",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
       "date": "2026-08-17",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
       "date": "2026-08-18",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
       "date": "2026-08-19",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
       "date": "2026-08-20",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
       "date": "2026-08-21",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.56
     },
     {
       "date": "2026-08-22",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-23",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-24",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-25",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-26",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-27",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-28",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-29",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-30",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-31",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-09-01",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-09-02",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-09-03",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-09-04",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-09-05",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-09-06",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-09-07",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-09-08",
-      "edtCode": "EST-07",
-      "plannedQty": 20.7692
-    },
-    {
-      "date": "2026-08-21",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-22",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-23",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-24",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-25",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-26",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-27",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-28",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-29",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-30",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-31",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-01",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-02",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-03",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-04",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-05",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-06",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-07",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-08",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-09",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-10",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-11",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-12",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-13",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-14",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-09-15",
-      "edtCode": "EST-08",
-      "plannedQty": 2.8846
-    },
-    {
-      "date": "2026-08-28",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-08-29",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-08-30",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-08-31",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-01",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-02",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-03",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-04",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-05",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-06",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-07",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-08",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-09",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-10",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-11",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-12",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-13",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-14",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-15",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-16",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-17",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-18",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-19",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-20",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-21",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-22",
-      "edtCode": "ALB-01",
-      "plannedQty": 99.2308
-    },
-    {
-      "date": "2026-09-11",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-12",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-13",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-14",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-15",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-16",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-17",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-18",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-19",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-20",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-21",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-22",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-23",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-24",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-25",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-26",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-27",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-28",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-29",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-30",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-10-01",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-10-02",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-10-03",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-10-04",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-10-05",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-10-06",
-      "edtCode": "ALB-02",
-      "plannedQty": 90.7692
-    },
-    {
-      "date": "2026-09-18",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-19",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-20",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-21",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-22",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-23",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-24",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-25",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-26",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-27",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-28",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-29",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-30",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-01",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-02",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-03",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-04",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-05",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-06",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-07",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-08",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-15",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "ALB-03",
-      "plannedQty": 108.3333
-    },
-    {
-      "date": "2026-09-25",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-09-26",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-09-27",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-09-28",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-09-29",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-09-30",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-01",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-02",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-03",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-04",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-05",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-06",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-07",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-08",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-15",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "ALB-04",
-      "plannedQty": 92.3077
-    },
-    {
-      "date": "2026-08-14",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-08-15",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-08-16",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-08-17",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-04",
+      "plannedQty": 155.48
     },
     {
       "date": "2026-08-18",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-19",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-20",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-21",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-22",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-23",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-24",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-25",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-26",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-27",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-28",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     },
     {
       "date": "2026-08-29",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-08-30",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-08-31",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-01",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-02",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-03",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-04",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-05",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-06",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-07",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-08",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-09",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-10",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-11",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-12",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-13",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-14",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-15",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-16",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-17",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-18",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-19",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-20",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-21",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-22",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-23",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-24",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-25",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-26",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-27",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-28",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-29",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-09-30",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-01",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-02",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-03",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-04",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-05",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-06",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-07",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-08",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "INS-01",
-      "plannedQty": 1.9355
-    },
-    {
-      "date": "2026-08-21",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-22",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-23",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-24",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-25",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-26",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-27",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-28",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-29",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-30",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-08-31",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-01",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-02",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-03",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-04",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-05",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-06",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-07",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-08",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-09",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-10",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-11",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-12",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-13",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-14",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-15",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-16",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-17",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-18",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-19",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-20",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-21",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-22",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-23",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-24",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-25",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-26",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-27",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-28",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-29",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-30",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-01",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-02",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-03",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-04",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-05",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-06",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-07",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-08",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-15",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-10-21",
-      "edtCode": "INS-02",
-      "plannedQty": 1.7742
-    },
-    {
-      "date": "2026-09-11",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-12",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-13",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-14",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-15",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-16",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-17",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-18",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-19",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-20",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-21",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-22",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-23",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-24",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-25",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-26",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-27",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-28",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-29",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-09-30",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-01",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-02",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-03",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-04",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-05",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-06",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-07",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-08",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "INS-03",
-      "plannedQty": 0.9412
-    },
-    {
-      "date": "2026-10-02",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-03",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-04",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-05",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-06",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-07",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-08",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-15",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-21",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-22",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-23",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-24",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-25",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-26",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-27",
-      "edtCode": "ACA-01",
-      "plannedQty": 34.6154
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-15",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-21",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-22",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-23",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-24",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-25",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-26",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-27",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-28",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-29",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-30",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-31",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-11-01",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-11-02",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-11-03",
-      "edtCode": "ACA-02",
-      "plannedQty": 115.3846
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-21",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-22",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-23",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-24",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-25",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-26",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-27",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-28",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-29",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-30",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-31",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-11-01",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-11-02",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-11-03",
-      "edtCode": "ACA-03",
-      "plannedQty": 84.2105
-    },
-    {
-      "date": "2026-10-02",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-03",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-04",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-05",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-06",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-07",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-08",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-15",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-21",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-22",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-23",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-24",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-25",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-26",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-27",
-      "edtCode": "ACA-04",
-      "plannedQty": 1.3846
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-21",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-22",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-23",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-24",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-25",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-26",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-27",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-28",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-29",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-30",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-31",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-11-01",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-11-02",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-11-03",
-      "edtCode": "ACA-05",
-      "plannedQty": 2.6316
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-15",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-21",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-22",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-23",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-24",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-25",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-26",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-27",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-28",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-29",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-30",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-31",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-11-01",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-11-02",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-11-03",
-      "edtCode": "ACA-06",
-      "plannedQty": 21.9231
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-21",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-22",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-23",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-24",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-25",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-26",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-27",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-28",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-29",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-30",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-31",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-11-01",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-11-02",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-11-03",
-      "edtCode": "OBR-EXT-01",
-      "plannedQty": 21.0526
-    },
-    {
-      "date": "2026-10-23",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-10-24",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-10-25",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-10-26",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-10-27",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-10-28",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-10-29",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-10-30",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-10-31",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-11-01",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-11-02",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-11-03",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-11-04",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-11-05",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-11-06",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-11-07",
-      "edtCode": "OBR-EXT-02",
-      "plannedQty": 31.25
-    },
-    {
-      "date": "2026-09-18",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-19",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-20",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-21",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-22",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-23",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-24",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-25",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-26",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-27",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-28",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-29",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-09-30",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-01",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-02",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-03",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-04",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-05",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-06",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-07",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-08",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-09",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-10",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-11",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-12",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-13",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-14",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-15",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-16",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-17",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-18",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-19",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-20",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-21",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-22",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-23",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-24",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-25",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-26",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
-    },
-    {
-      "date": "2026-10-27",
-      "edtCode": "OBR-EXT-03",
-      "plannedQty": 0.025
+      "edtCode": "INS-SAN-05",
+      "plannedQty": 1.5
     }
   ]
 }
