@@ -1,63 +1,163 @@
+/**
+ * generate-pv-json.cjs
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Pipeline de datos: Excel → JSON estáticos para el servidor Express y GitHub Pages.
+ *
+ * Genera:
+ *   data/pv-curve.json          — Curva S acumulada del proyecto (177 fechas)
+ *   data/pv-by-chapter.json     — PV acumulado por capítulo EDT (código real)
+ *   data/pv-edt-data.json       — Estructura EDT + valores planificados diarios
+ *   data/resources.json         — Catálogo de recursos (BD_RRHH)
+ *   public/data/*               — Copias para GitHub Pages / modo estático
+ *
+ * Regla de EVM aplicada:
+ *   PV(t) = Σ pv_diario hasta t              (de BD_Metrados_Planificados)
+ *   BAC   = PV al último día del cronograma  (fin del proyecto)
+ *   unitPrice por partida = presupuesto_total / metrado_total_planificado
+ *   → EV = Σ (qty_ejecutado × unitPrice) queda en la misma unidad monetaria que PV
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+'use strict';
+
 const XLSX = require('xlsx');
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
 
-// Generate pv-curve.json and pv-edt-data.json from Excel files
+const ROOT      = path.resolve(__dirname, '..');
+const dataDir   = path.join(ROOT, 'data');
+const publicDir = path.join(ROOT, 'public', 'data');
 
-const ROOT = path.resolve(__dirname, '..');
+// Asegurar directorios
+[dataDir, publicDir].forEach(d => { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); });
 
-// 1. Read BD_EDT
-const wbEdt = XLSX.readFile(path.join(ROOT, 'BD_EDT.xlsx'));
-const edtRaw = XLSX.utils.sheet_to_json(wbEdt.Sheets['Sheet1'], { defval: '' });
+// ─── Helpers ────────────────────────────────────────────────────────────────
 
-// 2. Read BD_Metrados_Planificados
-const wbMet = XLSX.readFile(path.join(ROOT, 'BD_Metrados_Planificados.xlsx'));
-const metRaw = XLSX.utils.sheet_to_json(wbMet.Sheets['Sheet1'], { defval: '' });
+/** Redondear a 2 decimales */
+const r2 = v => Math.round(v * 100) / 100;
 
-// 2b. Read BD_RRHH (resource catalog)
-let resources = [];
-try {
-  const wbRrhh = XLSX.readFile(path.join(ROOT, 'BD_RRHH.xlsx'));
-  resources = XLSX.utils.sheet_to_json(wbRrhh.Sheets[wbRrhh.SheetNames[0]], { defval: '' });
-  console.log(`  BD_RRHH.xlsx: ${resources.length} recursos cargados`);
-} catch (e) {
-  console.warn('  BD_RRHH.xlsx no encontrado, recursos vacíos');
+/** Escribir JSON en /data/ y también copiarlo a /public/data/ */
+function writeJson(filename, data, copyToPublic = true) {
+  const content = JSON.stringify(data, null, 2);
+  fs.writeFileSync(path.join(dataDir, filename), content, 'utf-8');
+  if (copyToPublic) {
+    fs.writeFileSync(path.join(publicDir, filename), content, 'utf-8');
+    console.log(`  ✓ data/${filename}  +  public/data/${filename}`);
+  } else {
+    console.log(`  ✓ data/${filename}`);
+  }
 }
 
-// Build codigo lookup for parent references
-const codigoLookup = {}; // edt_id -> codigo (for parentId resolution)
-const actividadCodigoLookup = {}; // actividad_id -> codigo
+// ─── 1. Leer BD_EDT.xlsx ─────────────────────────────────────────────────────
+console.log('\n[1/5] Leyendo BD_EDT.xlsx …');
+const wbEdt  = XLSX.readFile(path.join(ROOT, 'BD_EDT.xlsx'));
+const edtRaw = XLSX.utils.sheet_to_json(wbEdt.Sheets['Sheet1'], { defval: '' });
+console.log(`  → ${edtRaw.length} filas leídas`);
+
+// ─── 2. Leer BD_Metrados_Planificados.xlsx ───────────────────────────────────
+console.log('\n[2/5] Leyendo BD_Metrados_Planificados.xlsx …');
+const wbMet  = XLSX.readFile(path.join(ROOT, 'BD_Metrados_Planificados.xlsx'));
+const metRaw = XLSX.utils.sheet_to_json(wbMet.Sheets['Sheet1'], { defval: '' });
+console.log(`  → ${metRaw.length} filas leídas`);
+
+// ─── 3. Leer BD_RRHH.xlsx (catálogo de recursos) ────────────────────────────
+console.log('\n[3/5] Leyendo BD_RRHH.xlsx …');
+let resourceItems = [];
+try {
+  const wbRrhh = XLSX.readFile(path.join(ROOT, 'BD_RRHH.xlsx'));
+  const raw    = XLSX.utils.sheet_to_json(wbRrhh.Sheets[wbRrhh.SheetNames[0]], { defval: '' });
+  resourceItems = raw.map(r => ({
+    id:       r.codigo,
+    name:     r.nombre,
+    type:     r.tipo,           // 'mano_obra' | 'material' | 'equipo'
+    unit:     r.unidad,
+    unitCost: r.costo_unitario
+  })).filter(r => r.id && r.name);
+  console.log(`  → ${resourceItems.length} recursos cargados`);
+} catch (e) {
+  console.warn('  ⚠ BD_RRHH.xlsx no encontrado — recursos vacíos');
+}
+
+// ─── 4. Construir lookups de EDT ─────────────────────────────────────────────
+console.log('\n[4/5] Procesando estructura EDT …');
+
+// edt_id (número) → código alphanumerico del capítulo (Nivel 1)
+const chapterCodeById   = {};   // edt_id → 'OBR-PRE'
+const chapterNameById   = {};   // edt_id → 'Obras Preliminares'
+// actividad_id (ej. '1.1') → código alfanumérico de la partida (Nivel 2)
+const activityCodeById  = {};   // '1.1' → 'OBR-PRE-01'
+// actividad_id → edt_id del capítulo padre
+const activityParentId  = {};   // '1.1' → 1
+// partida código → presupuesto_total (S/) + metrado_total
+const activityBudget    = {};   // 'OBR-PRE-01' → { budget, metrado }
+
 edtRaw.forEach(r => {
   if (r.nivel_wbs === 1) {
-    codigoLookup[r.edt_id] = r.codigo;
+    chapterCodeById[r.edt_id] = r.codigo;
+    chapterNameById[r.edt_id] = r.edt_nombre;
   } else if (r.nivel_wbs === 2) {
-    actividadCodigoLookup[r.actividad_id] = r.codigo;
+    activityCodeById[r.actividad_id] = r.codigo;
+    activityParentId[r.actividad_id] = r.padre_id;
+    activityBudget[r.codigo] = {
+      budget:  r.presupuesto_total || 0,
+      metrado: r.metrado_total_planificado || 1
+    };
   }
 });
 
-// 3. Generate EDT items (matching EdtItem interface) using the 'codigo' column
+// ─── 5. Construir la lista de ítems EDT (EdtItem interface) ──────────────────
+
+/**
+ * unitPrice = presupuesto_total / metrado_total_planificado
+ * Esto garantiza que:  EV = qty_ejecutado × unitPrice  esté en S/ (soles)
+ * Y sea coherente con el PV de la curva S.
+ */
 const edtItems = edtRaw.map(r => {
-  const code = r.codigo || (r.nivel_wbs === 1 ? String(r.edt_id) : String(r.actividad_id));
-  const parentId = r.nivel_wbs === 1 ? null : (codigoLookup[r.padre_id] || String(r.padre_id));
-  return {
-    code,
-    parentId,
-    name: r.nivel_wbs === 1 ? r.edt_nombre : r.actividad_nombre,
-    unit: r.unidad || 'Global',
-    totalBudgetQty: r.nivel_wbs === 2 ? (r.presupuesto_total || 0) : 1,
-    unitPrice: r.nivel_wbs === 2 && r.presupuesto_total > 0 ? 1 : 0
-  };
+  if (r.nivel_wbs === 1) {
+    // Capítulo: calcular presupuesto total sumando partidas hijas
+    const childBudgets = Object.entries(activityParentId)
+      .filter(([, pid]) => pid === r.edt_id)
+      .map(([actId]) => activityBudget[activityCodeById[actId]]?.budget || 0);
+    const totalBudget = childBudgets.reduce((s, v) => s + v, 0);
+    return {
+      code:           r.codigo,
+      parentId:       null,
+      name:           r.edt_nombre,
+      unit:           'Global',
+      totalBudgetQty: totalBudget,   // presupuesto del capítulo en S/
+      unitPrice:      0              // capítulos no tienen unitPrice directo
+    };
+  } else {
+    const code     = r.codigo;
+    const budInfo  = activityBudget[code] || { budget: 0, metrado: 1 };
+    // unitPrice real en S/ por unidad de metrado
+    const uPrice   = budInfo.metrado > 0 ? r2(budInfo.budget / budInfo.metrado) : 0;
+    return {
+      code,
+      parentId:       chapterCodeById[r.padre_id] || String(r.padre_id),
+      name:           r.actividad_nombre,
+      unit:           r.unidad || 'Global',
+      totalBudgetQty: r.metrado_total_planificado || 0,  // metrado contratado
+      unitPrice:      uPrice                             // S/ por unidad
+    };
+  }
 });
 
-// 4. Generate Planned Values (matching PlannedValue interface)
-// Map actividad_id -> codigo for planned values
-const plannedValues = metRaw.map(r => ({
-  date: r.fecha,
-  edtCode: actividadCodigoLookup[r.id_wbs] || String(r.id_wbs),
-  plannedQty: r.metrado_diario_planificado || 0
-}));
+// Calcular BAC total del proyecto
+const bac = edtItems
+  .filter(e => e.parentId === null)
+  .reduce((s, ch) => s + ch.totalBudgetQty, 0);
+console.log(`  → ${edtItems.length} ítems EDT generados | BAC total: S/ ${bac.toFixed(2)}`);
 
-// 5. Generate PV Curve (daily accumulated project-level)
+// ─── 6. Valores Planificados diarios (PlannedValue interface) ─────────────────
+const plannedValues = metRaw.map(r => ({
+  date:        r.fecha,
+  edtCode:     activityCodeById[r.id_wbs] || String(r.id_wbs),
+  plannedQty:  r.metrado_diario_planificado || 0
+}));
+console.log(`  → ${plannedValues.length} registros de PV diarios`);
+
+// ─── 7. Curva S acumulada del proyecto ───────────────────────────────────────
 const pvByDate = {};
 for (const r of metRaw) {
   if (!pvByDate[r.fecha]) pvByDate[r.fecha] = 0;
@@ -67,101 +167,84 @@ const sortedDates = Object.keys(pvByDate).sort();
 let acum = 0;
 const pvCurve = sortedDates.map(fecha => {
   acum += pvByDate[fecha];
-  return {
-    date: fecha,
-    pvDaily: Math.round(pvByDate[fecha] * 100) / 100,
-    pvCumulative: Math.round(acum * 100) / 100
-  };
+  return { date: fecha, pvDaily: r2(pvByDate[fecha]), pvCumulative: r2(acum) };
+});
+console.log(`  → Curva S: ${pvCurve.length} fechas | PV total: S/ ${acum.toFixed(2)}`);
+
+// ─── 8. PV acumulado por capítulo EDT ────────────────────────────────────────
+
+/**
+ * CLAVE: usamos el CÓDIGO del capítulo (ej. "OBR-PRE") como `code`
+ * en pv-by-chapter.json, NO el nombre.
+ * Esto permite un lookup sin ambigüedad en ProjectDashboard.tsx:
+ *   chapterPvAtCutoff[ch.code]  — siempre funciona.
+ */
+const activityToChapterCode = {};  // actividad_id → código capítulo padre (ej 'OBR-PRE')
+edtRaw.forEach(r => {
+  if (r.nivel_wbs === 2 && chapterCodeById[r.padre_id]) {
+    activityToChapterCode[r.actividad_id] = chapterCodeById[r.padre_id];
+  }
 });
 
-// Write files
-const dataDir = path.join(ROOT, 'data');
-if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-
-fs.writeFileSync(path.join(dataDir, 'pv-curve.json'), JSON.stringify(pvCurve, null, 2));
-console.log(`✓ data/pv-curve.json: ${pvCurve.length} fechas, PV total: ${acum.toFixed(2)}`);
-
-fs.writeFileSync(path.join(dataDir, 'pv-edt-data.json'), JSON.stringify({
-  edt: edtItems,
-  plannedValues
-}, null, 2));
-console.log(`✓ data/pv-edt-data.json: ${edtItems.length} EDT items, ${plannedValues.length} planned values`);
-
-// Generate resources JSON from BD_RRHH
-if (resources.length > 0) {
-  const resourceItems = resources.map(r => ({
-    id: r.codigo,
-    name: r.nombre,
-    type: r.tipo,
-    unit: r.unidad,
-    unitCost: r.costo_unitario
-  }));
-  fs.writeFileSync(path.join(dataDir, 'resources.json'), JSON.stringify(resourceItems, null, 2));
-  console.log(`✓ data/resources.json: ${resourceItems.length} recursos`);
+// Inicializar acumulado por capítulo × fecha
+const dailyByChapterCode = {};
+for (const code of Object.values(chapterCodeById)) {
+  dailyByChapterCode[code] = {};
+  for (const f of sortedDates) dailyByChapterCode[code][f] = 0;
 }
-
-// Also generate a compact version for the app bundle fallback
-const compact = {
-  dates: pvCurve.map(d => d.date),
-  pvDaily: pvCurve.map(d => d.pvDaily),
-  pvCumulative: pvCurve.map(d => d.pvCumulative)
-};
-fs.writeFileSync(path.join(dataDir, 'pv-curve-compact.json'), JSON.stringify(compact));
-console.log('✓ data/pv-curve-compact.json (compact format)');
-
-// 7. Generate per-chapter PV data
-const activityToChapter = {};
-const chapterNames = {};
-
-for (const r of edtRaw) {
-  if (r.nivel_wbs === 1) {
-    chapterNames[r.edt_id] = r.edt_nombre;
-  } else if (r.nivel_wbs === 2) {
-    if (chapterNames[r.padre_id]) {
-      activityToChapter[r.actividad_id] = chapterNames[r.padre_id];
-    }
-  }
-}
-
-const dailyByChapter = {};
-for (const ch of Object.values(chapterNames)) {
-  dailyByChapter[ch] = {};
-}
-for (const f of sortedDates) {
-  for (const ch of Object.values(chapterNames)) {
-    dailyByChapter[ch][f] = 0;
-  }
-}
-
 for (const r of metRaw) {
-  const chName = activityToChapter[r.id_wbs];
-  if (chName && r.fecha && dailyByChapter[chName]) {
-    dailyByChapter[chName][r.fecha] += r.pv_diario || 0;
+  const chCode = activityToChapterCode[r.id_wbs];
+  if (chCode && r.fecha) {
+    dailyByChapterCode[chCode][r.fecha] = (dailyByChapterCode[chCode][r.fecha] || 0) + (r.pv_diario || 0);
   }
 }
 
-const pvByChapter = Object.entries(chapterNames).map(([id, name]) => {
+const pvByChapter = Object.entries(chapterCodeById).map(([edt_id, code]) => {
+  const name        = chapterNameById[edt_id];
+  const chEdtItem   = edtItems.find(e => e.code === code);
+  const totalBudget = chEdtItem ? chEdtItem.totalBudgetQty : 0;
   let cum = 0;
   const points = sortedDates.map(f => {
-    cum += dailyByChapter[name][f] || 0;
-    return { date: f, pvCumulative: Math.round(cum * 100) / 100 };
+    cum += dailyByChapterCode[code][f] || 0;
+    return { date: f, pvCumulative: r2(cum) };
   });
-  return { code: name, totalBudget: 0, points };
+  return { code, name, totalBudget: r2(totalBudget), points };
 });
 
-fs.writeFileSync(path.join(dataDir, 'pv-by-chapter.json'), JSON.stringify(pvByChapter, null, 2));
-console.log(`✓ data/pv-by-chapter.json: ${pvByChapter.length} capítulos`);
-
-// Copy to public/ for GitHub Pages
-const publicDir = path.join(ROOT, 'public', 'data');
-if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir, { recursive: true });
-fs.writeFileSync(path.join(publicDir, 'pv-by-chapter.json'), JSON.stringify(pvByChapter, null, 2));
-console.log('✓ public/data/pv-by-chapter.json (copied for GitHub Pages)');
-
-// Copy resources to public/ if generated
-const resourcesFile = path.join(dataDir, 'resources.json');
-if (fs.existsSync(resourcesFile)) {
-  const resContent = fs.readFileSync(resourcesFile, 'utf-8');
-  fs.writeFileSync(path.join(publicDir, 'resources.json'), resContent);
-  console.log('✓ public/data/resources.json (copied for GitHub Pages)');
+// Validar coherencia: suma de BAC capítulos ≈ BAC total
+const sumChapterBac = pvByChapter.reduce((s, ch) => s + ch.totalBudget, 0);
+console.log(`  → ${pvByChapter.length} capítulos | Σ BAC capítulos: S/ ${sumChapterBac.toFixed(2)} | BAC total: S/ ${bac.toFixed(2)}`);
+const diff = Math.abs(sumChapterBac - bac);
+if (diff > 1) {
+  console.warn(`  ⚠ INCONSISTENCIA: diferencia de S/ ${diff.toFixed(2)} entre Σ capítulos y BAC total`);
+} else {
+  console.log(`  ✓ Coherencia BAC: OK (diferencia < S/ 1.00)`);
 }
+
+// ─── 9. Escribir todos los archivos ──────────────────────────────────────────
+console.log('\n[5/5] Escribiendo archivos JSON …');
+
+// pv-edt-data.json → incluye BAC total del proyecto
+writeJson('pv-edt-data.json', { bac, edt: edtItems, plannedValues });
+
+// pv-curve.json
+writeJson('pv-curve.json', pvCurve);
+
+// pv-by-chapter.json (code = código EDT, no nombre)
+writeJson('pv-by-chapter.json', pvByChapter);
+
+// resources.json
+if (resourceItems.length > 0) {
+  writeJson('resources.json', resourceItems);
+} else {
+  console.log('  ⚠ resources.json omitido (BD_RRHH vacío)');
+}
+
+// Compact curve (para bundle embedded fallback)
+writeJson('pv-curve-compact.json', {
+  dates:         pvCurve.map(d => d.date),
+  pvDaily:       pvCurve.map(d => d.pvDaily),
+  pvCumulative:  pvCurve.map(d => d.pvCumulative)
+}, false);  // no necesita copia en public/
+
+console.log('\n✅ Pipeline completado. Todos los JSON están sincronizados con los Excel.\n');

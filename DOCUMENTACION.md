@@ -1,269 +1,257 @@
-# 🏗️ Documentación Técnica e Integral — Sistema RDO (Reporte Diario de Obra)
+# Documentación Técnica — Sistema RDO + EVM
+## Reporte Diario de Obra con Control de Valor Ganado
 
-Este documento centraliza todo el conocimiento arquitectónico, técnico, operativo y de bases de datos de la plataforma de **Reporte Diario de Obra (RDO)** con control **EVM (Earned Value Management)**. 
-
----
-
-## 🎯 1. Objetivo General del Proyecto
-
-La aplicación es una plataforma móvil híbrida (HTML5/React/TS/CSS vainilla y Google Sheets/Apps Script) diseñada para el control físico y financiero en tiempo real de proyectos de construcción, basándose en la metodología **EVM (Earned Value Management)**.
-
-Busca resolver la fragmentación del reporte de campo, permitiendo a los capataces y supervisores registrar de manera ágil y controlada:
-* **Avance Físico (Earned Value - EV):** Actividades realizadas con metrados comparados contra metas diarias planificadas.
-* **Costos Reales (Actual Cost - AC):** Consumos de recursos de mano de obra, materiales y equipos.
-* **Control y Seguridad (HSE):** Conteo de personal total en sitio, inspecciones y accidentes.
+**Versión**: 2.1 — Mayo 2026  
+**Última actualización**: 2026-05-20  
+**Stack**: Vite + React + TypeScript + Express.js + XLSX
 
 ---
 
-## 🏗️ 2. Arquitectura General y Modos de Operación
-
-El sistema RDO está construido con React y Vite en el frontend, y cuenta con soporte para un backend local en Express o sincronización directa a través de un webhook de Google Sheets.
+## 1. Arquitectura General
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    Frontend (React + Vite)           │
-│  ┌───────────┐  ┌────────────────┐  ┌────────────┐  │
-│  │  App.tsx   │→│ProjectDashboard│→│ ReportForm │  │
-│  │(Orquestador)│ │ (Curva S + KPI) │ │ (Campo)   │  │
-│  └───────────┘  └────────────────┘  └────────────┘  │
-│         │                                             │
-│         ▼                                             │
-│  ┌──────────────────┐   ┌────────────────────────┐   │
-│  │  data/*.ts       │   │  public/data/*.json    │   │
-│  │ (fallbacks       │   │  (static files para    │   │
-│  │  embebidos)      │   │   GitHub Pages)        │   │
-│  └──────────────────┘   └────────────────────────┘   │
-└─────────────────────┬───────────────────────────────┘
-                      │ HTTP / Fetch
-┌─────────────────────▼───────────────────────────────┐
-│               Backend (Express Server)               │
-│  ┌───────────┐ ┌──────────┐  ┌──────────────────────┐│
-│  │  /api/*   │ │  data/   │  │ Google Sheets        ││
-│  │ Endpoints │→│  JSON    │  │ Webhook (Apps Script)││
-│  └───────────┘ │  files   │  └──────────────────────┘│
-│                └──────────┘                         │
-└─────────────────────────────────────────────────────┘
+BD_EDT.xlsx ──────────────────────────────────────────────────────┐
+BD_Metrados_Planificados.xlsx ──→ generate-pv-json.cjs ──────────→ data/*.json
+BD_RRHH.xlsx ─────────────────────────────────────────────────────┘     │
+PV.xlsx (referencia de validación)                                       │
+                                                                         ↓
+                                                               public/data/*.json
+                                                           (GitHub Pages / estático)
+                                                                         │
+                                              ┌──────────────────────────┘
+                                              │       server.ts
+                                              │    /api/master-data
+                                              │    /api/pv-curve
+                                              │    /api/pv-chapter
+                                              │
+                                       App.tsx fetchAllData()
+                                  (1° Express API, 2° /data/ estático, 3° BACKUP)
+                                              │
+                                    ProjectDashboard.tsx
+                                   (Motor EVM – PMI-PMBOK)
 ```
 
-### Modos de Operación Soportados:
-1. **Modo Servidor (`npm run dev`):** Express sirve `/api/*` con datos reales cargados y guardados en archivos JSON locales.
-2. **Modo GitHub Pages (Compilación Estática):** Carga datos de curva S y configuraciones desde `public/data/*.json`. Permite la operación directa de reportes contra Google Sheets sin necesidad de un backend Express intermedio.
-3. **Resiliencia / Fallback Total:** Si no hay API disponible ni archivos estáticos accesibles, la aplicación utiliza constantes de datos TypeScript embebidas (`src/data/*-fallback.ts`) para garantizar que la interfaz siga funcionando con datos coherentes.
+### Flujo de Datos
+1. El analista actualiza los Excel (`BD_EDT.xlsx`, `BD_Metrados_Planificados.xlsx`, `BD_RRHH.xlsx`)
+2. Ejecuta `node scripts/generate-pv-json.cjs` → genera y sincroniza todos los JSON
+3. El servidor Express lee los JSON al arrancar y los sirve vía `/api/*`
+4. En modo estático (GitHub Pages), la app carga los JSON directamente desde `/data/`
+5. Solo si todo falla → datos de respaldo `BACKUP_*` hardcodeados en `App.tsx`
 
 ---
 
-## 🛡️ 3. Arquitectura de Reporte Dual (Producción vs. Seguridad)
+## 2. Bases de Datos Excel
 
-Para evitar la distorsión de bases de datos y la duplicación de operarios en obra, la plataforma implementa una **arquitectura dual** con un selector independiente en la cabecera del formulario de campo:
+### Estructura obligatoria por archivo
 
-```mermaid
-graph TD
-    A[Usuario en Celular] --> B{Tipo de Reporte}
-    B -->|🏗️ Producción| C[Formulario de Producción]
-    B -->|🛡️ Seguridad y Sitio| D[Formulario de Seguridad y HSE]
-    
-    C -->|Filtra| E[Capítulo EDT/WBS Obligatorio]
-    C --> F[Actividades EV]
-    C --> G[Recursos AC con Unidades]
-    C --> H[Conflictos/Restricciones]
-    
-    D --> I[Oculta EDT y Recursos]
-    D --> J[Muestra Panel HSE y Personal Total]
-    D --> K[Oculta Actividades]
+| Archivo | Hoja | Columnas requeridas | Propósito |
+|---------|------|---------------------|-----------|
+| `BD_EDT.xlsx` | `Sheet1` | `edt_id`, `edt_nombre`, `actividad_id`, `actividad_nombre`, `codigo`, `unidad`, `presupuesto_total`, `metrado_total_planificado`, `nivel_wbs` (1 o 2), `padre_id` | Estructura WBS/EDT del proyecto |
+| `BD_Metrados_Planificados.xlsx` | `Sheet1` | `id_wbs`, `fecha` (YYYY-MM-DD), `metrado_diario_planificado`, `pv_diario`, `pv_acumulado` | Baseline de planificación (PV diario) |
+| `BD_RRHH.xlsx` | (primera hoja) | `codigo`, `nombre`, `tipo` (`mano_obra`/`material`/`equipo`), `unidad`, `costo_unitario` | Catálogo de recursos |
+
+### Reglas de Estructura EDT
+
+- **Nivel 1** (`nivel_wbs = 1`): Capítulos / Partidas genéricas. Tienen `actividad_id` vacío.
+- **Nivel 2** (`nivel_wbs = 2`): Actividades / Partidas específicas. Tienen `padre_id` = `edt_id` del capítulo padre.
+- El campo `codigo` es la **clave única** de cada ítem (ej. `OBR-PRE`, `OBR-PRE-01`).
+
+### Regla de `unitPrice` (Precio Unitario)
+
+```
+unitPrice = presupuesto_total / metrado_total_planificado
 ```
 
-### Reglas de Negocio Clave:
-1. **Un reporte de producción = Un frente de trabajo (Capítulo EDT/WBS)**. Esto garantiza la homogeneidad y la integridad para el cálculo de EVM por capítulo del proyecto.
-2. **Un reporte de seguridad = Control de sitio global**. No se asocia a ningún código EDT de costo, registrando datos limpios del total de la fuerza laboral y eventos de seguridad.
-3. **Validación Dinámica**: En modo *Producción*, el selector de capítulo EDT es obligatorio (`required`). En modo *Seguridad*, este selector se oculta y deja de ser obligatorio en el HTML para evitar bloqueos del navegador en el envío.
+Esta fórmula garantiza que:
+- `PV = Σ (metrado_diario_planificado × unitPrice)` reproduce exactamente el `pv_diario` del Excel
+- `EV = Σ (metrado_ejecutado × unitPrice)` está en la **misma moneda** (S/) que el PV
+- `SV = EV - PV` y `SPI = EV / PV` son comparables y tienen sentido financiero real
 
-### Manejo en Código (`setReportType`):
-```typescript
-function setReportType(type: "production" | "safety") {
-  const isProd = type === "production";
-  $("#reportType").value = type;
-  
-  // Toggles de clases de botones activos/inactivos
-  $("#btnTypeProd").className = isProd ? "active-class" : "inactive-class";
-  $("#btnTypeSafety").className = !isProd ? "active-class" : "inactive-class";
-  
-  // Mostrar u ocultar selector de Capítulo
-  $("#globalChapterContainer").classList.toggle("hidden", !isProd);
-  $("#globalChapter").required = isProd;
-  
-  // Visibilidad de acordiones del formulario
-  ["#activitiesAccordion", "#laborAccordion", "#materialsAccordion", "#equipmentAccordion", "#issuesAccordion"].forEach(id => {
-    $(id).classList.toggle("hidden", !isProd);
-  });
-  $("#safetyAccordion").classList.toggle("hidden", isProd);
+---
+
+## 3. Estructura de Capítulos del Proyecto
+
+El proyecto actual tiene **7 capítulos EDT**:
+
+| Código | Nombre | BAC (S/) |
+|--------|--------|-----------|
+| OBR-PRE | Obras Preliminares | 41,500 |
+| CIM | Cimentación | 249,700 |
+| EST | Estructura | 424,200 |
+| ALB | Albañilería | 125,500 |
+| INS | Instalaciones | 95,700 |
+| ACA | Acabados | 170,100 |
+| OBR-EXT | Obras Exteriores | 66,200 |
+| **TOTAL** | **Proyecto completo** | **1,172,900** |
+
+---
+
+## 4. Archivos JSON Generados
+
+Todos ubicados en `data/` y copiados a `public/data/` automáticamente:
+
+### `pv-edt-data.json`
+```json
+{
+  "bac": 1172900,
+  "edt": [ { "code": "OBR-PRE", "parentId": null, "name": "...", "unitPrice": 0, ... } ],
+  "plannedValues": [ { "date": "2026-05-15", "edtCode": "OBR-PRE-01", "plannedQty": 141.67 } ]
 }
 ```
 
----
-
-## 📊 4. Estructura de la Base de Datos Central (Google Sheets)
-
-El backend en **Google Apps Script** procesa los datos JSON y los distribuye automáticamente en **4 tablas (pestañas)** con diseños y cabeceras HSL estilizadas de alto contraste:
-
-### 1️⃣ `R_Produccion` (Gris Oscuro `#1e293b`)
-Registra las cabeceras de producción ligadas a capítulos EDT/WBS.
-* **Columnas:** `ID Reporte`, `Fecha Envío`, `Fecha Reporte`, `Supervisor/Ingeniero`, `Turno`, `Clima Mañana`, `Clima Tarde`, `Horas Efectivas`, `Capítulo WBS ID`, `Capítulo WBS Nombre`, `Conflictos/Restricciones`, `Trabajos Mañana`, `Observaciones Generales`.
-
-### 2️⃣ `R_Seguridad` (Verde Esmeralda `#047857`)
-Registra las auditorías HSE y el total de personal sin acoplamientos WBS.
-* **Columnas:** `ID Reporte`, `Fecha Envío`, `Fecha Reporte`, `Supervisor/Ingeniero`, `Turno`, `Clima Mañana`, `Clima Tarde`, `Personal Total en Obra`, `Inspecciones Realizadas`, `Detalle Inspecciones`, `Accidentes/Incidentes`, `Observaciones Generales`.
-
-### 3️⃣ `Detalle_Actividades` (Gris Pizarra `#334155`)
-Desglose detallado del metrado físico ejecutado para la Curva S y EVM.
-* **Columnas:** `ID Reporte`, `Fecha Reporte`, `Supervisor/Ingeniero`, `Capítulo WBS ID`, `Actividad WBS ID`, `Nombre Actividad`, `Unidad`, `Meta del Día`, `Cantidad Ejecutada`, `Avance Estimado`, `Observación/Comentario`.
-
-### 4️⃣ `Detalle_Recursos` (Azul Índigo `#4338ca`)
-Detalle de costos reales (Mano de Obra, Materiales y Equipos) por capítulo.
-* **Columnas:** `ID Reporte`, `Fecha Reporte`, `Supervisor/Ingeniero`, `Tipo Recurso`, `Capítulo WBS ID`, `ID Recurso`, `Descripción Recurso`, `Categoría/Detalle`, `Unidad`, `Cantidad Registrada`.
-
----
-
-## 🗄️ 5. Estructura de Archivos Maestros (Bases de Datos Excel)
-
-La aplicación carga y autocompleta el formulario usando cuatro archivos Excel maestros ubicados en `./data/`:
-
-### 5.1 `BD_EDT.xlsx` — Estructura WBS/EDT
-Define la estructura jerárquica del proyecto (capítulos y actividades).
-
-| Columna | Descripción | Ejemplo |
-|---------|-------------|---------|
-| `edt_id` | ID numérico del capítulo | 1, 2, 3 |
-| `edt_nombre` | Nombre del capítulo (nivel 1) | "Estructuras" |
-| `actividad_id` | ID de la actividad (nivel 2) | "3.1", "3.2" |
-| `actividad_nombre` | Nombre de la actividad | "Concreto de Columnas" |
-| **`codigo`** | **Código corto legible para reportes** | **"EST-03"** |
-| `unidad` | Unidad de medida | m3, m2, kg, und |
-| `presupuesto_total` | Presupuesto asignado (S/) | 42300.00 |
-| `fecha_inicio` | Fecha de inicio planificada | 2026-05-15 |
-| `fecha_fin` | Fecha de fin planificada | 2026-08-18 |
-| `nivel_wbs` | Nivel jerárquico (1=capítulo, 2=actividad) | 2 |
-| `padre_id` | ID del capítulo padre | 1 |
-
-> [!NOTE]
-> Se utiliza la columna `codigo` formativa (`${CAPÍTULO}-${SECUENCIA}`) para mapear de forma limpia las actividades y recursos entre los reportes de campo en Sheets y los datos maestros locales, evitando depender de IDs numéricos que varían según proyecto.
-
-### 5.2 `BD_Metrados_Planificados.xlsx` — Línea Base de Avance
-Contiene la programación diaria de metrados y valor planificado (PV) para cada actividad del cronograma.
-
-| Columna | Descripción | Ejemplo |
-|---------|-------------|---------|
-| `fecha` | Fecha de la meta | 2026-05-15 |
-| `id_wbs` | Código o ID de la actividad WBS | EST-03 |
-| `metrado_diario_planificado` | Cantidad física programada para el día | 15.5 |
-| `pv_diario` | Valor planificado del día (S/) | 2092.50 |
-| `pv_acumulado` | Valor planificado acumulado (S/) | 2092.50 |
-
-### 5.3 `BD_RRHH.xlsx` — Tarifario de Mano de Obra y Recursos
-Define el catálogo de recursos disponibles con sus correspondientes costos unitarios reales.
-
-| Columna | Descripción | Ejemplo |
-|---------|-------------|---------|
-| `codigo` | Código único del recurso | LH-CAP, MAT-CEM |
-| `nombre` | Nombre descriptivo | Capataz de Edificación |
-| `tipo` | Tipo: `mano_obra`, `material`, `equipo` | mano_obra |
-| `unidad` | Unidad de medida | Hora Hombre, Bolsa |
-| `costo_unitario` | Costo unitario base en moneda local | 28.00 |
-
-### 5.4 `BD_Almacen.xlsx` — Catálogo de Materiales y Equipos
-Contiene el catálogo unificado de materiales e insumos de almacén y equipos asignables a los frentes de trabajo.
-
----
-
-## 🔄 6. Pipeline de Procesamiento de Datos
-
-Un conjunto de scripts en Node procesa los archivos Excel maestros para generar los JSON ligeros de producción:
-
+### `pv-by-chapter.json`
+```json
+[
+  {
+    "code": "OBR-PRE",      ← CÓDIGO EDT (clave unívoca, NO el nombre)
+    "name": "Obras Preliminares",
+    "totalBudget": 41500,
+    "points": [ { "date": "2026-05-15", "pvCumulative": 2533.33 }, ... ]
+  }
+]
 ```
-Excel (BD_*.xlsx)                          Google Sheets
-       │                                        │
-       ▼                                        │
-scripts/generate-pv-json.cjs                    │
-       │                                        │
-       ├──→ data/pv-curve.json                  │
-       ├──→ data/pv-edt-data.json               │
-       ├──→ data/pv-by-chapter.json             │
-       ├──→ data/resources.json                 │
-       ├──→ public/data/*.json (copia Pages)    │
-       │                                        │
-       ▼                                        ▼
-    server.ts (API)                    Apps Script Webhook
-       │                                        │
-       ▼                                        ▼
-    ┌────────────────────────────────────────────┐
-    │              App.tsx                       │
-    │  Carga: API → static JSON → fallback TS   │
-    │  Pasa datos a ProjectDashboard             │
-    └────────────────────────────────────────────┘
+> **Importante**: La clave `code` en `pv-by-chapter.json` usa el **código EDT** (`OBR-PRE`) para garantizar un lookup sin ambigüedad en `ProjectDashboard.tsx`.
+
+### `pv-curve.json`
+```json
+[ { "date": "2026-05-15", "pvDaily": 2533.33, "pvCumulative": 2533.33 } ]
 ```
 
-### JSONs de Datos Generados (`data/`):
-* `pv-curve.json`: Curva S completa (177 puntos de fecha, con PV diario y acumulado).
-* `pv-edt-data.json`: 40 items del EDT estructurado más 977 valores planificados diarios.
-* `pv-by-chapter.json`: PV acumulado de curva S clasificado por capítulos (7 capítulos principales).
-* `resources.json`: Catálogo unificado de recursos derivado de `BD_RRHH.xlsx` y `BD_Almacen.xlsx` con costos unitarios reales.
+### `resources.json`
+```json
+[ { "id": "LH-CAP", "name": "Capataz", "type": "mano_obra", "unit": "Hora Hombre", "unitCost": 28.0 } ]
+```
 
 ---
 
-## 📈 7. Cálculos de la Metodología EVM (Earned Value)
+## 5. Motor EVM — Fórmulas Implementadas (PMI-PMBOK 7ma Ed.)
 
-La aplicación calcula de forma automática y unificada los indicadores clave en `ProjectDashboard.tsx` y al registrar reportes:
+### Indicadores Globales del Proyecto
 
-| Indicador | Definición / Fórmula | Origen de Datos |
-|-----------|----------------------|-----------------|
-| **BAC** (Budget at Completion) | Presupuesto total al finalizar el proyecto. | Último `pvCumulative` de la curva S programada. |
-| **PV** (Planned Value) | Presupuesto planificado a la fecha de corte. | Valor acumulado de la curva S (`pv-curve.json`) en la fecha. |
-| **EV** (Earned Value) | Valor ganado (avance físico valorizado). | `Suma(Cantidad Ejecutada × Precio Unitario de la Actividad)` de todos los reportes hasta la fecha. |
-| **AC** (Actual Cost) | Costo real incurrido en la obra. | `Suma(Cantidad Recurso × Costo Unitario del Recurso)` de todos los recursos reportados (Mano de obra, materiales, equipos) hasta la fecha. |
-| **CV** (Cost Variance) | `EV - AC` | Valores acumulados. |
-| **SV** (Schedule Variance)| `EV - PV` | Valores acumulados contra curva S real. |
-| **CPI** (Cost Performance) | `EV / AC` | Índice de rendimiento de costo (>1.0 es ahorro). |
-| **SPI** (Schedule Performance)| `EV / PV` | Índice de rendimiento de plazo (>1.0 es adelanto). |
-| **% Avance Físico** | `(EV / BAC) × 100` | Porcentaje de avance real del proyecto. |
+| Indicador | Fórmula | Fuente de datos |
+|-----------|---------|-----------------|
+| **BAC** | Total PV al final del cronograma | `pv-edt-data.json` → campo `bac` |
+| **PV** | PV acumulado hasta fecha de corte | `pv-curve.json` → `pvCumulative` |
+| **EV** | Σ (metrado_ejecutado × unitPrice) | Reportes RDO × EDT |
+| **AC** | Σ (horas × tarifa) + Σ (mat × precio) + Σ (equipo × tarifa) | Recursos de reportes RDO |
+| **SV** | EV - PV | Calculado |
+| **CV** | EV - AC | Calculado |
+| **SPI** | EV / PV | Calculado |
+| **CPI** | EV / AC | Calculado |
+| **ETC** | (BAC - EV) / CPI | Proyección al ritmo actual |
+| **EAC** | AC + ETC | Estimado a la terminación |
+| **% Avance** | (EV / BAC) × 100 | Calculado |
 
-### Optimizaciones Clave Realizadas:
-1. **PV Real por Capítulo:** En lugar de derivar el PV por capítulo desde cantidades sintéticas del formulario, el sistema consulta `pv-by-chapter.json`, asegurando que `Suma(PV Capítulos) === PV Total del Proyecto === BAC`.
-2. **SPI Unificado:** Tanto el gráfico de curva S como el historial de reportes consumen la misma lógica de lookup sobre la curva real por fecha, eliminando discrepancias matemáticas.
-3. **Unidad Dinámica de Recursos:** Los selectores del formulario de recursos muestran dinámicamente indicadores visuales de unidad (ej. `Bolsa`, `Hora Máquina`, `Hora Hombre`) consultando el catálogo `BD_RRHH` precargado.
+### Indicadores por Capítulo EDT
 
----
+Aplican las mismas fórmulas. La **fuente de PV por capítulo** es siempre `pv-by-chapter.json` (lookup por `ch.code`). **Nunca** se calcula PV desde los metrados del reporte de campo.
 
-## 🔑 8. Integración Activa y API Web App de Google Sheets
+### Semáforo de Estado
 
-La aplicación está vinculada directamente mediante la API al backend en **Google Apps Script**.
-
-* **URL Activa de la Web App:**
-  `https://script.google.com/macros/s/AKfycby9McwaX9r1Kls2YwYcP1x-fW1aQe5_aWT1qkLLKUM6eiZ5SyLextKCjDk-l-YSMip1mw/exec`
-* **Manejo en Frontend:** Configurado en la pestaña **"Despliegue Sheets"** de la aplicación, guardado persistente en el `localStorage` mediante la clave `RDO_APPS_SCRIPT_WEBHOOK` para una resiliencia total.
-
----
-
-## 📡 9. Rutas de la API del Servidor Express (Local)
-
-El backend de simulación local en `server.ts` sirve los siguientes endpoints REST:
-
-* `GET /api/projects`: Devuelve el catálogo de proyectos activos.
-* `GET /api/master-data`: Devuelve la estructura EDT, metrados planificados y recursos combinados.
-* `GET /api/resources`: Devuelve el catálogo unificado de recursos.
-* `GET /api/pv-curve`: Devuelve los datos de la curva S de valor planificado.
-* `GET /api/pv-chapter`: Devuelve el desglose de PV planificado por capítulo EDT.
-* `GET /api/reports`: Devuelve el historial de reportes diarios registrados.
-* `POST /api/reports`: Registra un nuevo reporte diario de campo en local.
+| Umbral | Estado |
+|--------|--------|
+| SPI ≥ 0.95 **Y** CPI ≥ 0.95 | 🟢 Saludable |
+| SPI ≥ 0.85 **O** CPI ≥ 0.85 | 🟡 Alerta |
+| SPI < 0.85 **Y** CPI < 0.85 | 🔴 Desviado |
 
 ---
 
-## 💻 10. Comandos Útiles de Desarrollo
+## 6. Modos de Operación
 
-| Comando | Acción |
-|---------|--------|
-| `npm install` | Instala las dependencias del proyecto. |
-| `npm run dev` | Inicia el servidor de simulación local en Express + Vite (`http://localhost:3000`). |
-| `npm run build` | Compila el frontend React a estático y empaqueta el servidor con `esbuild`. |
-| `npm run start` | Inicia el backend compilado en producción (`dist/server.cjs`). |
-| `npm run lint` | Ejecuta el compilador de TypeScript en modo análisis (`tsc --noEmit`). |
-| `node scripts/generate-pv-json.cjs` | Regenera todos los archivos JSON a partir de los Excel maestros en `./data/`. |
-| `node scripts/generate-pv-fallback.cjs` | Regenera las constantes TypeScript embebidas de respaldo. |
+### Modo Producción (Express + Excel)
+```bash
+node scripts/generate-pv-json.cjs   # Sincronizar Excel → JSON
+node server.ts                      # Arrancar servidor Express
+```
+- Datos desde `/api/master-data`, `/api/pv-curve`, `/api/pv-chapter`
+- Reportes guardados en `data/reports.json`
+
+### Modo Estático / GitHub Pages
+- La app carga automáticamente desde `/data/pv-edt-data.json`, `/data/pv-curve.json`, `/data/pv-by-chapter.json`
+- Requiere que `public/data/` tenga los JSON generados (el script los copia automáticamente)
+- Reportes desde Google Sheets (via webhook configurado en la app)
+
+### Modo Offline / Emergencia
+- Si todo falla, `BACKUP_EDT` (7 capítulos aproximados) y `BACKUP_REPORTS` (20 días sintéticos)
+- Identificado con badge **"Local Resilient"** en el header
+
+---
+
+## 7. Script de Generación de Datos
+
+```bash
+node scripts/generate-pv-json.cjs
+```
+
+### Qué hace el script
+1. Lee `BD_EDT.xlsx` → estructura de capítulos y actividades
+2. Lee `BD_Metrados_Planificados.xlsx` → valores planificados diarios
+3. Lee `BD_RRHH.xlsx` → catálogo de recursos
+4. Calcula `unitPrice` = `presupuesto_total / metrado_total_planificado` por partida
+5. Genera curva S acumulada del proyecto (Σ `pv_diario` por fecha)
+6. Genera curvas S por capítulo (lookup por `código EDT`, no por nombre)
+7. Valida coherencia: `Σ BAC capítulos ≈ BAC total` (diferencia < S/ 1.00)
+8. Escribe **todos** los JSON en `data/` **Y** copia a `public/data/`
+
+### Añadir un nuevo proyecto
+Para usar la app con un proyecto diferente:
+1. Crear copias de los Excel con la misma estructura de columnas
+2. Actualizar `BD_EDT.xlsx` con los capítulos y partidas del nuevo proyecto
+3. Actualizar `BD_Metrados_Planificados.xlsx` con el cronograma planificado
+4. Ejecutar `node scripts/generate-pv-json.cjs`
+5. La app reconocerá automáticamente los nuevos capítulos
+
+---
+
+## 8. Sincronización con Google Sheets
+
+La app puede recibir reportes en tiempo real desde Google Sheets vía webhook (Apps Script):
+
+1. Configurar el webhook en la pestaña **"Despliegue Sheets"** de la app
+2. El Apps Script debe retornar un array de `DailyReport[]` en formato JSON
+3. La app prioriza los datos de Sheets sobre los reportes locales
+4. Los cambios en Sheets se reflejan en la app al presionar **"Sincronizar Sheets"**
+
+---
+
+## 9. Archivos del Proyecto
+
+```
+/
+├── BD_EDT.xlsx                      ← Estructura WBS/EDT (fuente de verdad)
+├── BD_Metrados_Planificados.xlsx    ← Baseline de PV diario (fuente de verdad)
+├── BD_RRHH.xlsx                     ← Catálogo de recursos
+├── PV.xlsx                          ← Planilla de referencia de validación
+├── scripts/
+│   └── generate-pv-json.cjs        ← Pipeline Excel → JSON (ejecutar al cambiar Excel)
+├── data/                            ← Generado por el script (NO editar manualmente)
+│   ├── pv-edt-data.json
+│   ├── pv-curve.json
+│   ├── pv-by-chapter.json
+│   ├── resources.json
+│   └── reports.json                ← Reportes RDO guardados
+├── public/data/                     ← Copia para GitHub Pages (NO editar manualmente)
+│   ├── pv-edt-data.json
+│   ├── pv-curve.json
+│   ├── pv-by-chapter.json
+│   └── resources.json
+├── src/
+│   ├── App.tsx                      ← Shell de la app + carga de datos
+│   ├── types.ts                     ← Tipos TypeScript
+│   └── components/
+│       ├── ProjectDashboard.tsx     ← Motor EVM + Dashboard visual
+│       ├── ReportForm.tsx           ← Formulario RDO de campo
+│       └── ...
+└── server.ts                        ← API Express (modo producción local)
+```
+
+---
+
+## 10. Reglas de Coherencia y Buenas Prácticas
+
+1. **El Excel es la fuente de verdad** — cualquier cambio en el presupuesto o cronograma se hace en el Excel, luego se ejecuta el script.
+2. **PV siempre del baseline** — el PV de un capítulo nunca se recalcula desde los reportes de campo; siempre viene de `pv-by-chapter.json`.
+3. **unitPrice en S/** — el precio unitario de cada partida representa el costo real en soles, permitiendo que EV, PV y AC sean comparables.
+4. **Lookup por código, nunca por nombre** — el código EDT (`OBR-PRE`, `CIM`, etc.) es la clave única; los nombres pueden tener variaciones tipográficas.
+5. **Coherencia validada** — el script verifica automáticamente que `Σ BAC capítulos ≈ BAC total` al ejecutarse.
+6. **Alerta de inconsistencia en el dashboard** — si `Σ PV capítulos ≠ PV integral` (> 0.5%), el dashboard muestra un badge de alerta.

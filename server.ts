@@ -297,9 +297,13 @@ app.get("/api/projects", (req, res) => {
   res.json(DEFAULT_PROJECTS);
 });
 
-// 2. Get master data (EDT, Planned Value, Resource Catalog)
+// 2. Get master data (EDT, Planned Value, Resource Catalog, BAC)
 app.get("/api/master-data", (req, res) => {
+  // BAC = suma de presupuestos de capítulos Nivel 1 (totalBudgetQty cuando unitPrice===0)
+  const chapters = DEFAULT_EDT.filter((e: any) => e.parentId === null);
+  const bac = chapters.reduce((sum: number, ch: any) => sum + (ch.totalBudgetQty || 0), 0);
   res.json({
+    bac,
     edt: DEFAULT_EDT,
     plannedValues: DEFAULT_PV,
     resources: REAL_RESOURCES.length > 0 ? REAL_RESOURCES : DEFAULT_RESOURCES

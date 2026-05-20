@@ -16,16 +16,17 @@ const BACKUP_PROJECTS: Project[] = [
   { id: "PRJ-002", name: "Condominio de Playa Las Brisas", code: "CPLB-02", location: "Asia, KM 98", manager: "Ing. Claudia Mendoza" }
 ];
 
+// BACKUP_EDT: usado SOLO si tanto el servidor Express como el archivo estático
+// /data/pv-edt-data.json fallan. Refleja la estructura real del proyecto.
 const BACKUP_EDT: EdtItem[] = [
-  { code: "EST", parentId: null, name: "Estructuras", unit: "Global", totalBudgetQty: 1, unitPrice: 0 },
-  { code: "ARQ", parentId: null, name: "Arquitectura", unit: "Global", totalBudgetQty: 1, unitPrice: 0 },
-  { code: "MEP", parentId: null, name: "Instalaciones MEP", unit: "Global", totalBudgetQty: 1, unitPrice: 0 },
-  { code: "EST-01", parentId: "EST", name: "Obras Provisionales y Trabajos Preliminares", unit: "m2", totalBudgetQty: 250, unitPrice: 25 },
-  { code: "EST-02", parentId: "EST", name: "Movimiento de Tierras - Excavación masiva", unit: "m3", totalBudgetQty: 1200, unitPrice: 18 },
-  { code: "EST-03", parentId: "EST", name: "Concreto de Columnas y Placas (f'c=280 kg/cm2)", unit: "m3", totalBudgetQty: 480, unitPrice: 135 },
-  { code: "EST-04", parentId: "EST", name: "Concreto de Vigas y Losas Aligeradas", unit: "m3", totalBudgetQty: 550, unitPrice: 120 },
-  { code: "ARQ-01", parentId: "ARQ", name: "Muros de Albañilería de Ladrillo KK", unit: "m2", totalBudgetQty: 1800, unitPrice: 16 },
-  { code: "ARQ-02", parentId: "ARQ", name: "Tarrajeo Frotachado en Interiores", unit: "m2", totalBudgetQty: 3200, unitPrice: 8.5 }
+  // Capítulos Nivel 1 (7 capítulos del proyecto real)
+  { code: "OBR-PRE", parentId: null, name: "Obras Preliminares",  unit: "Global", totalBudgetQty: 41500,   unitPrice: 0 },
+  { code: "CIM",     parentId: null, name: "Cimentación",          unit: "Global", totalBudgetQty: 249700,  unitPrice: 0 },
+  { code: "EST",     parentId: null, name: "Estructura",           unit: "Global", totalBudgetQty: 424200,  unitPrice: 0 },
+  { code: "ALB",     parentId: null, name: "Albañilería",           unit: "Global", totalBudgetQty: 125500,  unitPrice: 0 },
+  { code: "INS",     parentId: null, name: "Instalaciones",         unit: "Global", totalBudgetQty: 95700,   unitPrice: 0 },
+  { code: "ACA",     parentId: null, name: "Acabados",              unit: "Global", totalBudgetQty: 170100,  unitPrice: 0 },
+  { code: "OBR-EXT", parentId: null, name: "Obras Exteriores",      unit: "Global", totalBudgetQty: 66200,   unitPrice: 0 },
 ];
 
 const BACKUP_RESOURCES: ResourceItem[] = [
@@ -197,6 +198,8 @@ export default function App() {
   const [reports, setReports] = useState<DailyReport[]>([]);
   const [pvCurveData, setPvCurveData] = useState<PvCurvePoint[]>([]);
   const [pvByChapter, setPvByChapter] = useState<PvChapterPoint[]>([]);
+  /** BAC total del proyecto (Budget at Completion) desde pv-edt-data.json */
+  const [projectBac, setProjectBac] = useState<number>(0);
   
   // Custom Apps script link string saved in localstorage
   const [appsScriptUrl, setAppsScriptUrl] = useState<string>("");
@@ -240,6 +243,7 @@ export default function App() {
       setEdtList(mData.edt);
       setPlannedValues(mData.plannedValues);
       setResources(mData.resources);
+      if (mData.bac && mData.bac > 0) setProjectBac(mData.bac);
 
       // Si cargamos con éxito desde Sheets, usamos esos reportes. Si no, consultamos el servidor Express local.
       if (fetchedFromSheets) {
@@ -298,11 +302,38 @@ export default function App() {
 
       setIsOfflineMode(false);
     } catch (err) {
-      console.warn("Express API Server is booting or offline, loading resilient static fallback variables:", err);
-      // Fallback: seed planned values for backup timeline over the 20 days range
-      setPlannedValues(generateBackupPlannedValues());
-      
-      // Cargar Curva S desde static file o fallback
+      console.warn("[RDO] Express offline — intentando carga estática desde /data/ …", err);
+
+      // ── Intento 1: Cargar EDT + PV desde el JSON estático generado por el pipeline ──
+      try {
+        const edtRes = await fetch("/data/pv-edt-data.json");
+        if (edtRes.ok) {
+          const edtData = await edtRes.json();
+          setEdtList(edtData.edt || BACKUP_EDT);
+          setPlannedValues(edtData.plannedValues || []);
+          if (edtData.bac && edtData.bac > 0) setProjectBac(edtData.bac);
+          console.log("[RDO] EDT y PV cargados desde /data/pv-edt-data.json (modo estático)");
+        } else {
+          throw new Error("pv-edt-data.json no disponible");
+        }
+      } catch {
+        // ── Fallback final: usar BACKUP_EDT hardcodeado ──
+        console.warn("[RDO] Usando BACKUP_EDT de emergencia (7 capítulos aproximados)");
+        setEdtList(BACKUP_EDT);
+        setPlannedValues(generateBackupPlannedValues());
+      }
+
+      // ── Intento 2: Cargar recursos desde JSON estático ──
+      try {
+        const rRes = await fetch("/data/resources.json");
+        if (rRes.ok) {
+          setResources(await rRes.json());
+        }
+      } catch {
+        // queda BACKUP_RESOURCES del estado inicial
+      }
+
+      // ── Intento 3: Curva S acumulada del proyecto ──
       try {
         const pvRes = await fetch("/data/pv-curve.json");
         if (pvRes.ok) {
@@ -314,7 +345,7 @@ export default function App() {
         setPvCurveData(FALLBACK_PV_CURVE);
       }
 
-      // Cargar PV por capítulo desde static file o fallback
+      // ── Intento 4: PV por capítulo ──
       try {
         const chRes = await fetch("/data/pv-by-chapter.json");
         if (chRes.ok) {
@@ -325,11 +356,11 @@ export default function App() {
       } catch {
         setPvByChapter(PV_BY_CHAPTER);
       }
-      
-      // Si Sheets nos devolvió datos, los usamos aun con el backend local caído
+
+      // ── Reportes: Google Sheets > BACKUP ──
       if (fetchedFromSheets) {
         setReports(liveReports);
-        setIsOfflineMode(false); // Operamos online directo con Sheets!
+        setIsOfflineMode(false);
       } else {
         setReports(BACKUP_REPORTS);
         setIsOfflineMode(true);
@@ -474,6 +505,7 @@ export default function App() {
               isSheetsConnected={!!appsScriptUrl}
               pvCurveData={pvCurveData}
               pvByChapter={pvByChapter}
+              bac={projectBac}
             />
           </div>
         )}

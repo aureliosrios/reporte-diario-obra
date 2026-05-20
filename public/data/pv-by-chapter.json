@@ -1,7 +1,8 @@
 [
   {
-    "code": "Obras Preliminares",
-    "totalBudget": 0,
+    "code": "OBR-PRE",
+    "name": "Obras Preliminares",
+    "totalBudget": 41500,
     "points": [
       {
         "date": "2026-05-15",
@@ -714,8 +715,9 @@
     ]
   },
   {
-    "code": "Cimentación",
-    "totalBudget": 0,
+    "code": "CIM",
+    "name": "Cimentación",
+    "totalBudget": 249700,
     "points": [
       {
         "date": "2026-05-15",
@@ -1428,8 +1430,9 @@
     ]
   },
   {
-    "code": "Estructura",
-    "totalBudget": 0,
+    "code": "EST",
+    "name": "Estructura",
+    "totalBudget": 424200,
     "points": [
       {
         "date": "2026-05-15",
@@ -2142,8 +2145,9 @@
     ]
   },
   {
-    "code": "Albañilería",
-    "totalBudget": 0,
+    "code": "ALB",
+    "name": "Albañilería",
+    "totalBudget": 125500,
     "points": [
       {
         "date": "2026-05-15",
@@ -2856,8 +2860,9 @@
     ]
   },
   {
-    "code": "Instalaciones",
-    "totalBudget": 0,
+    "code": "INS",
+    "name": "Instalaciones",
+    "totalBudget": 95700,
     "points": [
       {
         "date": "2026-05-15",
@@ -3570,8 +3575,9 @@
     ]
   },
   {
-    "code": "Acabados",
-    "totalBudget": 0,
+    "code": "ACA",
+    "name": "Acabados",
+    "totalBudget": 170100,
     "points": [
       {
         "date": "2026-05-15",
@@ -4284,8 +4290,9 @@
     ]
   },
   {
-    "code": "Obras Exteriores",
-    "totalBudget": 0,
+    "code": "OBR-EXT",
+    "name": "Obras Exteriores",
+    "totalBudget": 66200,
     "points": [
       {
         "date": "2026-05-15",

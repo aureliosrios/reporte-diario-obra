@@ -41,6 +41,8 @@ interface ProjectDashboardProps {
   pvCurveData?: PvCurvePoint[];
   pvByChapter?: PvChapterPoint[];
   resources?: ResourceItem[];
+  /** BAC total proveniente de pv-edt-data.json */
+  bac?: number;
 }
 
 export function ProjectDashboard({ 
@@ -51,7 +53,8 @@ export function ProjectDashboard({
   isSheetsConnected = false,
   pvCurveData = [],
   pvByChapter = [],
-  resources = []
+  resources = [],
+  bac: bacFromProps
 }: ProjectDashboardProps) {
   
   // Build resource cost lookup from BD_RRHH data, fall back to hardcoded defaults
@@ -218,8 +221,13 @@ export function ProjectDashboard({
     }
   });
 
-  // BAC = Budget at Completion (total PV del proyecto desde la Curva S real)
-  const bac = pvCurveData.length > 0 ? pvCurveData[pvCurveData.length - 1].pvCumulative : latestPv;
+  // BAC = Budget at Completion (total PV del proyecto)
+  // Prioridad: 1) prop bac (de pv-edt-data.json), 2) último punto de pvCurveData, 3) latestPv
+  const bac = bacFromProps && bacFromProps > 0
+    ? bacFromProps
+    : pvCurveData.length > 0
+      ? pvCurveData[pvCurveData.length - 1].pvCumulative
+      : latestPv;
 
   const latestSv = latestEv - latestPv;
   const latestCv = latestEv - latestAc;
@@ -230,12 +238,22 @@ export function ProjectDashboard({
   const pctEv = bac > 0 ? (latestEv / bac) * 100 : 0;
   const pctAc = bac > 0 ? (latestAc / bac) * 100 : 0;
 
-  // 3. Generate EDT/WBS Chapter Breakdown (Estructuras vs Arquitectura)
+  // 3. Desglose EVM por capítulos EDT/WBS
+  // Reglas de buenas prácticas PMI-EVM:
+  //   PV capítulo = del baseline real (pv-by-chapter.json) — NUNCA de metrados de campo
+  //   EV capítulo = Σ (qty_ejecutado × unitPrice) acumulado hasta fecha de corte
+  //   AC capítulo = Σ (recursos consumidos × costo unitario) acumulado
+  //   SPI = EV / PV       CPI = EV / AC
+  //   ETC = (BAC - EV) / CPI          (proyección al ritmo actual)
+  //   EAC = AC + ETC                  (estimado a la terminación)
   const generateChaptersData = () => {
-    const statusDate = selectedReport ? selectedReport.date : (enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : '');
+    const statusDate = selectedReport
+      ? selectedReport.date
+      : (enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : '');
     const statusDateTime = new Date(statusDate).getTime();
 
-    // Build lookup: chapter name -> PV cumulative at cutoff date (from real curve)
+    // ── Lookup: código del capítulo → PV acumulado a la fecha de corte ──
+    // CLAVE: usamos ch.code (ej. "OBR-PRE") que es el mismo código en pv-by-chapter.json
     const chapterPvAtCutoff: Record<string, number> = {};
     pvByChapter.forEach(ch => {
       let closest = 0;
@@ -246,35 +264,44 @@ export function ProjectDashboard({
           break;
         }
       }
+      // Indexar por código EDT (única clave sin ambigüedad)
       chapterPvAtCutoff[ch.code] = closest;
+    });
+
+    // BAC por capítulo: total del periodo completo (desde pv-by-chapter.json)
+    const chapterBac: Record<string, number> = {};
+    pvByChapter.forEach(ch => {
+      const lastPoint = ch.points[ch.points.length - 1];
+      chapterBac[ch.code] = lastPoint ? lastPoint.pvCumulative : (ch.totalBudget || 0);
     });
 
     return edtList.filter(e => e.parentId === null).map(ch => {
       let chEv = 0;
       let chAc = 0;
 
+      // Solo considerar reportes hasta la fecha de corte
       enrichedReports.forEach(r => {
-        // Metas y avances de metrado
+        if (new Date(r.date).getTime() > statusDateTime) return;
+
+        // EV: avances físicos ejecutados en actividades de este capítulo
         r.activities?.forEach(act => {
           const edt = edtList.find(e => e.code === act.edtCode);
-          if (edt && (edt.code === ch.code || edt.parentId === ch.code)) {
+          if (edt && edt.parentId === ch.code) {
             chEv += (act.qtyExecuted || 0) * edt.unitPrice;
           }
         });
 
-        // Recursos cargados a este capítulo
+        // AC: recursos consumidos asignados a este capítulo
         r.manoObra?.forEach(mo => {
           if (mo.edtGroupCode === ch.code) {
             chAc += (mo.hoursWorked || 0) * (RESOURCE_COSTS[mo.resourceId] || 20.0);
           }
         });
-
         r.materials?.forEach(mat => {
           if (mat.edtGroupCode === ch.code) {
             chAc += (mat.qtyConsumed || 0) * (RESOURCE_COSTS[mat.resourceId] || 10.0);
           }
         });
-
         r.equipos?.forEach(eq => {
           if (eq.edtGroupCode === ch.code) {
             chAc += (eq.qtyUsed || 0) * (RESOURCE_COSTS[eq.resourceId] || 30.0);
@@ -282,33 +309,38 @@ export function ProjectDashboard({
         });
       });
 
-      // Use real PV curve for this chapter if available, otherwise fallback to report-derived PV
-      const chPv = chapterPvAtCutoff[ch.name] !== undefined ? chapterPvAtCutoff[ch.name] : enrichedReports.reduce((sum, r) => {
-        let p = 0;
-        r.activities?.forEach(act => {
-          const edt = edtList.find(e => e.code === act.edtCode);
-          if (edt && (edt.code === ch.code || edt.parentId === ch.code)) {
-            p += (act.plannedQty || 0) * edt.unitPrice;
-          }
-        });
-        return sum + p;
-      }, 0);
+      // PV: SIEMPRE desde la curva S real por capítulo (lookup por código)
+      const chPv  = chapterPvAtCutoff[ch.code] ?? 0;
+      const chBac = chapterBac[ch.code] ?? ch.totalBudgetQty ?? 0;
 
-      const chSv = chEv - chPv;
-      const chCv = chEv - chAc;
-      const chSpi = chPv > 0 ? chEv / chPv : 1.0;
-      const chCpi = chAc > 0 ? chEv / chAc : 1.0;
+      // Indicadores EVM estándar (PMI-PMBOK)
+      const chSv  = chEv - chPv;
+      const chCv  = chEv - chAc;
+      const chSpi = chPv  > 0 ? chEv / chPv  : (chEv > 0 ? 1.0 : 0);
+      const chCpi = chAc  > 0 ? chEv / chAc  : (chEv > 0 ? 1.0 : 0);
+      // ETC = (BAC - EV) / CPI   → proyección costo restante al ritmo actual
+      const chEtc = chCpi > 0 ? (chBac - chEv) / chCpi : (chBac - chEv);
+      // EAC = AC + ETC            → estimado total a la terminación
+      const chEac = chAc + chEtc;
+      // TCPI = (BAC - EV) / (BAC - AC)  → eficiencia requerida para terminar en presupuesto
+      const chTcpi = (chBac - chAc) > 0 ? (chBac - chEv) / (chBac - chAc) : 0;
 
       return {
-        code: ch.code,
-        name: ch.name,
-        pv: chPv,
-        ev: chEv,
-        ac: chAc,
-        sv: chSv,
-        cv: chCv,
-        spi: chSpi,
-        cpi: chCpi
+        code:        ch.code,
+        name:        ch.name,
+        bac:         chBac,
+        pv:          chPv,
+        ev:          chEv,
+        ac:          chAc,
+        sv:          chSv,
+        cv:          chCv,
+        spi:         chSpi,
+        cpi:         chCpi,
+        etc:         chEtc,
+        eac:         chEac,
+        tcpi:        chTcpi,
+        pctPv:       chBac > 0 ? (chPv / chBac) * 100 : 0,
+        pctEv:       chBac > 0 ? (chEv / chBac) * 100 : 0,
       };
     });
   };
@@ -847,53 +879,89 @@ export function ProjectDashboard({
 
       {/* 4. EDT CHAPTERS ANALYTICAL CONTROL BREAKDOWN TABLE */}
       <div className="bg-slate-950 border border-slate-800 p-6 rounded-2xl shadow-xl">
-        <h2 className="text-base font-bold text-white flex items-center gap-2 uppercase tracking-wider border-b border-slate-800 pb-4 mb-4">
-          <Table className="w-5 h-5 text-sky-400" />
-          Control Analítico de Valor Ganado por Capítulos EDT (WBS)
-        </h2>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-4 mb-4 gap-2">
+          <h2 className="text-base font-bold text-white flex items-center gap-2 uppercase tracking-wider">
+            <Table className="w-5 h-5 text-sky-400" />
+            Control Analítico de Valor Ganado por Capítulos EDT (WBS)
+          </h2>
+          {/* Alerta de coherencia: ΣPV capítulos vs PV integral */}
+          {(() => {
+            const sumPv = chaptersData.reduce((s, c) => s + c.pv, 0);
+            const diff  = Math.abs(sumPv - latestPv);
+            const pct   = latestPv > 0 ? (diff / latestPv) * 100 : 0;
+            if (pvByChapter.length > 0 && pct > 0.5) {
+              return (
+                <span className="bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px] font-black uppercase px-3 py-1 rounded-full flex items-center gap-1">
+                  <AlertTriangle className="w-3 h-3" />
+                  Σ PV capítulos difiere {pct.toFixed(1)}% del PV integral — revisa el Excel
+                </span>
+              );
+            }
+            return null;
+          })()}
+        </div>
         
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs text-slate-350 border-collapse">
             <thead>
               <tr className="bg-slate-900 border-b border-slate-800 text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">
-                <th className="p-3">Código EDT</th>
-                <th className="p-3">Nombre del Capítulo</th>
-                <th className="p-3 text-right">Valor Planificado (PV)</th>
-                <th className="p-3 text-right">Valor Ganado (EV)</th>
-                <th className="p-3 text-right">Costo Real (AC)</th>
-                <th className="p-3 text-right">Varianza Plazo (SV)</th>
-                <th className="p-3 text-right">Varianza Costo (CV)</th>
-                <th className="p-3 text-right">Índice SPI</th>
-                <th className="p-3 text-right">Índice CPI</th>
-                <th className="p-3 text-center">Estado del Capítulo</th>
+                <th className="p-3">Código</th>
+                <th className="p-3">Capítulo EDT</th>
+                <th className="p-3 text-right">BAC</th>
+                <th className="p-3 text-right">PV (Fecha Corte)</th>
+                <th className="p-3 text-right">EV (Ganado)</th>
+                <th className="p-3 text-right">AC (Real)</th>
+                <th className="p-3 text-right">SV</th>
+                <th className="p-3 text-right">CV</th>
+                <th className="p-3 text-right">SPI</th>
+                <th className="p-3 text-right">CPI</th>
+                <th className="p-3 text-right">EAC</th>
+                <th className="p-3 text-center">Estado</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-850">
               {chaptersData.map((ch, idx) => {
-                const chPercent = ch.pv > 0 ? (ch.ev / ch.pv) * 100 : 0;
-                
                 return (
                   <tr key={idx} className="hover:bg-slate-900/40 transition-colors">
                     <td className="p-3 font-mono font-bold text-sky-400">{ch.code}</td>
-                    <td className="p-3 font-bold text-slate-100">{ch.name}</td>
-                    <td className="p-3 text-right font-mono font-semibold">${ch.pv.toLocaleString()}</td>
-                    <td className="p-3 text-right font-mono font-semibold text-emerald-400">${ch.ev.toLocaleString()}</td>
-                    <td className="p-3 text-right font-mono font-semibold text-rose-400">${ch.ac.toLocaleString()}</td>
+                    <td className="p-3 font-bold text-slate-100">
+                      <div>{ch.name}</div>
+                      <div className="text-[9px] text-slate-500 font-mono mt-0.5">
+                        BAC: S/ {ch.bac.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                        {ch.pctPv > 0 && <span className="ml-2 text-indigo-400">PV: {ch.pctPv.toFixed(1)}%</span>}
+                      </div>
+                    </td>
+                    <td className="p-3 text-right font-mono text-slate-400">
+                      S/ {ch.pv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                    </td>
+                    <td className="p-3 text-right font-mono font-semibold text-emerald-400">
+                      S/ {ch.ev.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                    </td>
+                    <td className="p-3 text-right font-mono font-semibold text-rose-400">
+                      S/ {ch.ac.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                    </td>
                     
                     <td className={`p-3 text-right font-mono font-bold ${ch.sv >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
-                      {ch.sv >= 0 ? `+$${ch.sv.toLocaleString()}` : `-$${Math.abs(ch.sv).toLocaleString()}`}
+                      {ch.sv >= 0 ? `+S/ ${ch.sv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}` : `-S/ ${Math.abs(ch.sv).toLocaleString('es-PE', { maximumFractionDigits: 0 })}`}
                     </td>
                     
                     <td className={`p-3 text-right font-mono font-bold ${ch.cv >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
-                      {ch.cv >= 0 ? `+$${ch.cv.toLocaleString()}` : `-$${Math.abs(ch.cv).toLocaleString()}`}
+                      {ch.cv >= 0 ? `+S/ ${ch.cv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}` : `-S/ ${Math.abs(ch.cv).toLocaleString('es-PE', { maximumFractionDigits: 0 })}`}
                     </td>
                     
-                    <td className={`p-3 text-right font-mono font-extrabold ${ch.spi >= 1 ? "text-emerald-400" : "text-rose-400"}`}>
-                      {ch.spi.toFixed(2)}
+                    <td className={`p-3 text-right font-mono font-extrabold ${ch.spi >= 0.95 ? "text-emerald-400" : ch.spi >= 0.85 ? "text-amber-400" : "text-rose-400"}`}>
+                      {ch.spi.toFixed(3)}
                     </td>
                     
-                    <td className={`p-3 text-right font-mono font-extrabold ${ch.cpi >= 1 ? "text-emerald-400" : "text-rose-400"}`}>
-                      {ch.cpi.toFixed(2)}
+                    <td className={`p-3 text-right font-mono font-extrabold ${ch.cpi >= 0.95 ? "text-emerald-400" : ch.cpi >= 0.85 ? "text-amber-400" : "text-rose-400"}`}>
+                      {ch.cpi.toFixed(3)}
+                    </td>
+
+                    <td className="p-3 text-right font-mono text-slate-300">
+                      S/ {ch.eac.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                      {ch.eac > ch.bac && ch.bac > 0 && (
+                        <span className="text-rose-400 text-[8px] ml-1">▲ sobrecosto</span>
+                      )}
                     </td>
 
                     <td className="p-3 text-center">
@@ -901,9 +969,13 @@ export function ProjectDashboard({
                         <span className="bg-slate-800 text-slate-400 text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full">
                           Sin iniciar
                         </span>
-                      ) : ch.spi >= 1 && ch.cpi >= 1 ? (
+                      ) : ch.spi >= 0.95 && ch.cpi >= 0.95 ? (
                         <span className="bg-emerald-500/10 text-emerald-400 text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full border border-emerald-500/20">
                           Saludable
+                        </span>
+                      ) : ch.spi >= 0.85 || ch.cpi >= 0.85 ? (
+                        <span className="bg-amber-500/10 text-amber-400 text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full border border-amber-500/20">
+                          Alerta
                         </span>
                       ) : (
                         <span className="bg-rose-500/10 text-rose-400 text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full border border-rose-500/20 animate-pulse">
@@ -915,6 +987,45 @@ export function ProjectDashboard({
                 );
               })}
             </tbody>
+            {/* Fila de totales — debe coincidir con los indicadores integrales del header */}
+            <tfoot>
+              <tr className="bg-slate-900/80 border-t-2 border-slate-700 text-[10px] font-extrabold text-slate-200">
+                <td className="p-3 font-mono text-sky-300" colSpan={2}>TOTAL PROYECTO</td>
+                <td className="p-3 text-right font-mono text-slate-400">
+                  S/ {chaptersData.reduce((s, c) => s + c.pv, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                </td>
+                <td className="p-3 text-right font-mono text-emerald-400">
+                  S/ {chaptersData.reduce((s, c) => s + c.ev, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                </td>
+                <td className="p-3 text-right font-mono text-rose-400">
+                  S/ {chaptersData.reduce((s, c) => s + c.ac, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                </td>
+                <td className={`p-3 text-right font-mono ${latestSv >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  {latestSv >= 0 ? `+S/ ${latestSv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}` : `-S/ ${Math.abs(latestSv).toLocaleString('es-PE', { maximumFractionDigits: 0 })}`}
+                </td>
+                <td className={`p-3 text-right font-mono ${latestCv >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  {latestCv >= 0 ? `+S/ ${latestCv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}` : `-S/ ${Math.abs(latestCv).toLocaleString('es-PE', { maximumFractionDigits: 0 })}`}
+                </td>
+                <td className={`p-3 text-right font-mono ${latestSpi >= 0.95 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  {latestSpi.toFixed(3)}
+                </td>
+                <td className={`p-3 text-right font-mono ${latestCpi >= 0.95 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                  {latestCpi.toFixed(3)}
+                </td>
+                <td className="p-3 text-right font-mono text-slate-300">
+                  S/ {chaptersData.reduce((s, c) => s + c.eac, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                </td>
+                <td className="p-3 text-center">
+                  <span className={`text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full ${
+                    latestSpi >= 0.95 && latestCpi >= 0.95
+                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                      : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                  }`}>
+                    {latestSpi >= 0.95 && latestCpi >= 0.95 ? 'Proyecto Saludable' : 'Proyecto Desviado'}
+                  </span>
+                </td>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
