@@ -388,6 +388,12 @@ app.post("/api/reports", (req, res) => {
 app.use("/data/signatures", express.static(SIGS_DIR));
 app.use("/data/photos", express.static(PHOTOS_DIR));
 
+// Serve PV curve JSON as static file (for GitHub Pages compat in dev mode)
+const PUBLIC_DIR = path.join(process.cwd(), "public");
+if (fs.existsSync(PUBLIC_DIR)) {
+  app.use(express.static(PUBLIC_DIR));
+}
+
 // 6. Smart Project Control Specialist Gemini endpoint
 app.post("/api/gemini/analyze", async (req, res) => {
   const { currentReport, projectCode, targetDate } = req.body;

@@ -4,6 +4,7 @@ import { ReportForm } from "./components/ReportForm";
 import { ProjectDashboard } from "./components/ProjectDashboard";
 import { GoogleScriptDocs } from "./components/GoogleScriptDocs";
 import { Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics, PvCurvePoint } from "./types";
+import { FALLBACK_PV_CURVE } from "./data/pv-curve-fallback";
 import { 
   Building2, LineChart, FileText, ChevronRight, Loader2, Info, HardHat, Compass, ServerCrash, ExternalLink, Settings2
 } from "lucide-react";
@@ -247,14 +248,28 @@ export default function App() {
         setReports(rData);
       }
 
-      // Load PV Curve data
+      // Load PV Curve data (try API first, then static file, then fallback)
       try {
         const pvRes = await fetch("/api/pv-curve");
         if (pvRes.ok) {
           setPvCurveData(await pvRes.json());
+        } else {
+          throw new Error("API returned not OK");
         }
       } catch (e) {
-        console.warn("No se pudo cargar la Curva S real del servidor:", e);
+        try {
+          // Fallback: load from static JSON file (works on GitHub Pages)
+          const pvRes = await fetch("/data/pv-curve.json");
+          if (pvRes.ok) {
+            setPvCurveData(await pvRes.json());
+          } else {
+            throw new Error("Static file not found");
+          }
+        } catch (e2) {
+          // Final fallback: use embedded constant
+          console.warn("Usando curva S embebida (fallback final):", e2);
+          setPvCurveData(FALLBACK_PV_CURVE);
+        }
       }
 
       setIsOfflineMode(false);
@@ -262,6 +277,18 @@ export default function App() {
       console.warn("Express API Server is booting or offline, loading resilient static fallback variables:", err);
       // Fallback: seed planned values for backup timeline over the 20 days range
       setPlannedValues(generateBackupPlannedValues());
+      
+      // Cargar Curva S desde static file o fallback
+      try {
+        const pvRes = await fetch("/data/pv-curve.json");
+        if (pvRes.ok) {
+          setPvCurveData(await pvRes.json());
+        } else {
+          setPvCurveData(FALLBACK_PV_CURVE);
+        }
+      } catch {
+        setPvCurveData(FALLBACK_PV_CURVE);
+      }
       
       // Si Sheets nos devolvió datos, los usamos aun con el backend local caído
       if (fetchedFromSheets) {
