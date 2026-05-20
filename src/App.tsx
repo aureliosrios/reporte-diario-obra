@@ -3,7 +3,7 @@ import { SmartMockup } from "./components/SmartMockup";
 import { ReportForm } from "./components/ReportForm";
 import { ProjectDashboard } from "./components/ProjectDashboard";
 import { GoogleScriptDocs } from "./components/GoogleScriptDocs";
-import { Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics } from "./types";
+import { Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics, PvCurvePoint } from "./types";
 import { 
   Building2, LineChart, FileText, ChevronRight, Loader2, Info, HardHat, Compass, ServerCrash, ExternalLink, Settings2
 } from "lucide-react";
@@ -193,6 +193,7 @@ export default function App() {
   const [plannedValues, setPlannedValues] = useState<PlannedValue[]>([]);
   const [resources, setResources] = useState<ResourceItem[]>(BACKUP_RESOURCES);
   const [reports, setReports] = useState<DailyReport[]>([]);
+  const [pvCurveData, setPvCurveData] = useState<PvCurvePoint[]>([]);
   
   // Custom Apps script link string saved in localstorage
   const [appsScriptUrl, setAppsScriptUrl] = useState<string>("");
@@ -244,6 +245,16 @@ export default function App() {
         const rRes = await fetch("/api/reports");
         const rData = await rRes.json();
         setReports(rData);
+      }
+
+      // Load PV Curve data
+      try {
+        const pvRes = await fetch("/api/pv-curve");
+        if (pvRes.ok) {
+          setPvCurveData(await pvRes.json());
+        }
+      } catch (e) {
+        console.warn("No se pudo cargar la Curva S real del servidor:", e);
       }
 
       setIsOfflineMode(false);
@@ -397,6 +408,7 @@ export default function App() {
               projectName={projects.length > 0 ? projects[0].name : "Edificio Multifamiliar Girasoles"}
               onRefresh={() => fetchAllData(appsScriptUrl)}
               isSheetsConnected={!!appsScriptUrl}
+              pvCurveData={pvCurveData}
             />
           </div>
         )}

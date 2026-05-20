@@ -19,12 +19,19 @@ const RESOURCE_COSTS: { [id: string]: number } = {
   "EQ-RET": 48.0
 };
 
+interface PvCurvePoint {
+  date: string;
+  pvDaily: number;
+  pvCumulative: number;
+}
+
 interface ProjectDashboardProps {
   reports: DailyReport[];
   edtList: EdtItem[];
   projectName: string;
   onRefresh?: () => void;
   isSheetsConnected?: boolean;
+  pvCurveData?: PvCurvePoint[];
 }
 
 export function ProjectDashboard({ 
@@ -32,7 +39,8 @@ export function ProjectDashboard({
   edtList, 
   projectName, 
   onRefresh, 
-  isSheetsConnected = false 
+  isSheetsConnected = false,
+  pvCurveData = []
 }: ProjectDashboardProps) {
   
   const [selectedReportId, setSelectedReportId] = useState<string | null>(
@@ -110,9 +118,14 @@ export function ProjectDashboard({
   // Find the selected report to determine the "Status Date" (Fecha de Corte)
   const selectedReport = enrichedReports.find(r => r.id === selectedReportId) || enrichedReports[enrichedReports.length - 1];
 
+  // Build a lookup of real PV cumulative by date from the schedule baseline (BD_Metrados_Planificados)
+  const pvCurveByDate: Record<string, number> = {};
+  pvCurveData.forEach(p => { pvCurveByDate[p.date] = p.pvCumulative; });
+
   // 2. Generate cumulative series for the S-Curve SVG Plot
   const generateChartData = () => {
     let cumulativePv = 0;
+    let cumulativePvReal = 0;
     let cumulativeEv = 0;
     let cumulativeAc = 0;
     const statusDateTime = selectedReport ? new Date(selectedReport.date).getTime() : Infinity;
@@ -121,7 +134,16 @@ export function ProjectDashboard({
       const metrics = r.computedMetrics;
       const reportDateTime = new Date(r.date).getTime();
       
+      // PV from report (plannedQty * unitPrice)
       cumulativePv += metrics.plannedValue;
+      
+      // PV Real from schedule baseline (BD_Metrados_Planificados)
+      const realPvAtDate = pvCurveByDate[r.date];
+      if (realPvAtDate !== undefined) {
+        cumulativePvReal = realPvAtDate;
+      } else {
+        cumulativePvReal += metrics.plannedValue;
+      }
       
       // EV and AC accumulate only up to the Status Date (Fecha de Corte)
       const isBeforeOrAtStatusDate = reportDateTime <= statusDateTime;
@@ -134,6 +156,7 @@ export function ProjectDashboard({
         date: r.date,
         dayLabel: `Día ${index + 1}`,
         pv: cumulativePv,
+        pvReal: cumulativePvReal,
         ev: isBeforeOrAtStatusDate ? cumulativeEv : undefined,
         ac: isBeforeOrAtStatusDate ? cumulativeAc : undefined,
         raw: metrics
@@ -145,20 +168,22 @@ export function ProjectDashboard({
 
   // Get current active cumulative values (totals at the selected status date)
   let latestPv = 0;
+  let latestPvReal = 0;
   let latestEv = 0;
   let latestAc = 0;
 
   chartData.forEach(d => {
     if (d.ev !== undefined && d.ac !== undefined) {
       latestPv = d.pv;
+      latestPvReal = d.pvReal;
       latestEv = d.ev;
       latestAc = d.ac;
     }
   });
 
-  const latestSv = latestEv - latestPv;
+  const latestSv = latestEv - latestPvReal;
   const latestCv = latestEv - latestAc;
-  const latestSpi = latestPv > 0 ? latestEv / latestPv : 1;
+  const latestSpi = latestPvReal > 0 ? latestEv / latestPvReal : 1;
   const latestCpi = latestAc > 0 ? latestEv / latestAc : 1;
 
   // 3. Generate EDT/WBS Chapter Breakdown (Estructuras vs Arquitectura)
@@ -245,7 +270,7 @@ export function ProjectDashboard({
     const paddingTop = 40;
     const paddingBottom = 40;
 
-    const allValues = chartData.flatMap(d => [d.pv, d.ev !== undefined ? d.ev : 0, d.ac !== undefined ? d.ac : 0]);
+    const allValues = chartData.flatMap(d => [d.pv, d.pvReal, d.ev !== undefined ? d.ev : 0, d.ac !== undefined ? d.ac : 0]);
     const maxVal = Math.max(...allValues, 1000) * 1.15; // 15% margin
     const minVal = 0;
 
@@ -260,17 +285,21 @@ export function ProjectDashboard({
     };
 
     let pvPath = "";
+    let pvRealPath = "";
     let evPath = "";
     let acPath = "";
 
     chartData.forEach((d, i) => {
       const x = getX(i);
       const yPv = getY(d.pv);
+      const yPvReal = getY(d.pvReal);
 
       if (i === 0) {
         pvPath = `M ${x} ${yPv}`;
+        pvRealPath = `M ${x} ${yPvReal}`;
       } else {
         pvPath += ` L ${x} ${yPv}`;
+        pvRealPath += ` L ${x} ${yPvReal}`;
       }
 
       if (d.ev !== undefined) {
@@ -344,7 +373,8 @@ export function ProjectDashboard({
         })}
 
         {/* Curves paths */}
-        <path d={pvPath} fill="none" stroke="#0ea5e9" strokeWidth={3} strokeDasharray="5,5" /> 
+        <path d={pvPath} fill="none" stroke="#0ea5e9" strokeWidth={2.5} strokeDasharray="5,5" /> 
+        <path d={pvRealPath} fill="none" stroke="#6366f1" strokeWidth={3.5} /> 
         {evPath && <path d={evPath} fill="none" stroke="#10b981" strokeWidth={3.5} />} 
         {acPath && <path d={acPath} fill="none" stroke="#f43f5e" strokeWidth={3.5} />} 
 
@@ -353,7 +383,8 @@ export function ProjectDashboard({
           const x = getX(i);
           return (
             <g key={i} className="cursor-pointer group">
-              <circle cx={x} cy={getY(d.pv)} r={4} className="fill-sky-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
+              <circle cx={x} cy={getY(d.pv)} r={3} className="fill-sky-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
+              <circle cx={x} cy={getY(d.pvReal)} r={4} className="fill-indigo-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
               {d.ev !== undefined && (
                 <circle cx={x} cy={getY(d.ev)} r={4} className="fill-emerald-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
               )}
@@ -394,8 +425,6 @@ export function ProjectDashboard({
       setLoadingAi(null);
     }
   };
-
-  const selectedReport = enrichedReports.find(r => r.id === selectedReportId);
 
   return (
     <div className="space-y-6 select-none text-slate-200 bg-slate-900 p-1 sm:p-4 rounded-3xl min-h-screen">
@@ -484,8 +513,8 @@ export function ProjectDashboard({
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
         <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-xl">
           <span className="text-[10px] text-slate-450 block font-bold uppercase tracking-wider">Valor Planificado (PV)</span>
-          <span className="text-lg font-black font-mono text-sky-400 block mt-1">${latestPv.toLocaleString()}</span>
-          <span className="text-[9px] text-slate-500 block mt-0.5">Presupuesto programado</span>
+          <span className="text-lg font-black font-mono text-indigo-400 block mt-1">${latestPvReal.toLocaleString()}</span>
+          <span className="text-[9px] text-slate-500 block mt-0.5">Línea base programada (Curva S real)</span>
         </div>
 
         <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-xl">
@@ -531,7 +560,7 @@ export function ProjectDashboard({
         <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-xl flex flex-col justify-center">
           <span className="text-[10px] text-slate-450 block font-bold uppercase tracking-wider">Metrado Restante</span>
           <span className="text-sm font-bold font-mono text-slate-300 block mt-1">
-            {(latestPv > 0 ? (100 - (latestEv/latestPv)*100).toFixed(1) : 0)}% por ejecutar
+            {(latestPvReal > 0 ? (100 - (latestEv/latestPvReal)*100).toFixed(1) : 0)}% por ejecutar
           </span>
           <span className="text-[9px] text-slate-500 block mt-0.5">Avance estimado total</span>
         </div>
@@ -548,10 +577,11 @@ export function ProjectDashboard({
               Curva S de Rendimiento EVM Acumulado (Línea Base vs Real)
             </h2>
             
-            <div className="flex gap-4 text-xxs font-extrabold tracking-wider">
-              <span className="flex items-center gap-1.5"><span className="w-3 h-1 border-t-2 border-sky-400 border-dashed inline-block"></span> PROGRAMADO (PV)</span>
-              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-emerald-500 inline-block rounded-full"></span> FISICO REAL (EV)</span>
-              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-rose-500 inline-block rounded-full"></span> COSTO INCURRIDO (AC)</span>
+            <div className="flex flex-wrap gap-3 text-xxs font-extrabold tracking-wider">
+              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-indigo-500 inline-block rounded-full"></span> PV REAL (LÍNEA BASE)</span>
+              <span className="flex items-center gap-1.5"><span className="w-3 h-1 border-t-2 border-sky-400 border-dashed inline-block"></span> PV REPORTES</span>
+              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-emerald-500 inline-block rounded-full"></span> EV REAL</span>
+              <span className="flex items-center gap-1.5"><span className="w-3 h-1 bg-rose-500 inline-block rounded-full"></span> AC REAL</span>
             </div>
           </div>
 

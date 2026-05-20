@@ -20,6 +20,8 @@ const DATA_DIR = path.join(process.cwd(), "data");
 const REPORTS_FILE = path.join(DATA_DIR, "reports.json");
 const SIGS_DIR = path.join(DATA_DIR, "signatures");
 const PHOTOS_DIR = path.join(DATA_DIR, "photos");
+const PV_CURVE_FILE = path.join(DATA_DIR, "pv-curve.json");
+const PV_EDT_DATA_FILE = path.join(DATA_DIR, "pv-edt-data.json");
 
 // Ensure directories exist
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
@@ -33,8 +35,28 @@ const DEFAULT_PROJECTS = [
   { id: "PRJ-003", name: "Complejo Logístico Industrial Lurín", code: "CLIL-03", location: "Lurín, Lote 45", manager: "Ing. Marcos Torres" }
 ];
 
+// Load real EDT and PV data from the generated JSON (from BD_EDT.xlsx + BD_Metrados_Planificados.xlsx)
+let REAL_EDT: any[] = [];
+let REAL_PLANNED_VALUES: any[] = [];
+let REAL_PV_CURVE: any[] = [];
+
+try {
+  if (fs.existsSync(PV_EDT_DATA_FILE)) {
+    const raw = JSON.parse(fs.readFileSync(PV_EDT_DATA_FILE, "utf-8"));
+    REAL_EDT = raw.edt || [];
+    REAL_PLANNED_VALUES = raw.plannedValues || [];
+    console.log(`[RDO BACKEND] Cargados ${REAL_EDT.length} items EDT y ${REAL_PLANNED_VALUES.length} valores planificados desde BD_EDT/BD_Metrados`);
+  }
+  if (fs.existsSync(PV_CURVE_FILE)) {
+    REAL_PV_CURVE = JSON.parse(fs.readFileSync(PV_CURVE_FILE, "utf-8"));
+    console.log(`[RDO BACKEND] Curva S cargada: ${REAL_PV_CURVE.length} fechas, PV total: S/ ${REAL_PV_CURVE[REAL_PV_CURVE.length - 1]?.pvCumulative?.toFixed(2) || 0}`);
+  }
+} catch (e) {
+  console.warn("[RDO BACKEND] Error cargando datos reales de PV desde JSON, usando defaults sintéticos:", (e as Error).message);
+}
+
 // Define standard EDT (EDT_BD) Work Breakdown Structure
-const DEFAULT_EDT = [
+const DEFAULT_EDT = REAL_EDT.length > 0 ? REAL_EDT : [
   // Capítulos Nivel 1
   { code: "EST", parentId: null, name: "Estructuras", unit: "Global", totalBudgetQty: 1, unitPrice: 0 },
   { code: "ARQ", parentId: null, name: "Arquitectura", unit: "Global", totalBudgetQty: 1, unitPrice: 0 },
@@ -54,27 +76,28 @@ const DEFAULT_EDT = [
   { code: "MEP-02", parentId: "MEP", name: "Instalaciones Sanitarias - Tendido de Tubería de Desagüe", unit: "m", totalBudgetQty: 850, unitPrice: 9.8 }
 ];
 
-// Define Planned Value (PV) for each activity in a sliding timeline (15 days around current date 2026-05-19)
+// Define Planned Value (PV) for each activity in a sliding timeline
 const generatePlannedValues = () => {
+  if (REAL_PLANNED_VALUES.length > 0) {
+    return REAL_PLANNED_VALUES;
+  }
   const values = [];
   const baseDate = new Date("2026-05-15");
   
-  // Create planned values for a 15-day range
   for (let i = 0; i < 20; i++) {
     const d = new Date(baseDate);
     d.setDate(baseDate.getDate() + i);
     const dateStr = d.toISOString().split("T")[0];
 
-    // Subdividir metas programadas
-    values.push({ date: dateStr, edtCode: "EST-01", plannedQty: 15 }); // Obras provisionales
-    values.push({ date: dateStr, edtCode: "EST-02", plannedQty: 80 }); // Excavación masiva
-    values.push({ date: dateStr, edtCode: "EST-03", plannedQty: 25 }); // Columnas
-    values.push({ date: dateStr, edtCode: "EST-04", plannedQty: 30 }); // Losas
-    values.push({ date: dateStr, edtCode: "ARQ-01", plannedQty: 65 }); // Muros
-    values.push({ date: dateStr, edtCode: "ARQ-02", plannedQty: 110 }); // Tarrajeo
-    values.push({ date: dateStr, edtCode: "ARQ-03", plannedQty: 50 }); // Pisos
-    values.push({ date: dateStr, edtCode: "MEP-01", plannedQty: 80 }); // Eléctricas
-    values.push({ date: dateStr, edtCode: "MEP-02", plannedQty: 35 }); // Sanitarias
+    values.push({ date: dateStr, edtCode: "EST-01", plannedQty: 15 });
+    values.push({ date: dateStr, edtCode: "EST-02", plannedQty: 80 });
+    values.push({ date: dateStr, edtCode: "EST-03", plannedQty: 25 });
+    values.push({ date: dateStr, edtCode: "EST-04", plannedQty: 30 });
+    values.push({ date: dateStr, edtCode: "ARQ-01", plannedQty: 65 });
+    values.push({ date: dateStr, edtCode: "ARQ-02", plannedQty: 110 });
+    values.push({ date: dateStr, edtCode: "ARQ-03", plannedQty: 50 });
+    values.push({ date: dateStr, edtCode: "MEP-01", plannedQty: 80 });
+    values.push({ date: dateStr, edtCode: "MEP-02", plannedQty: 35 });
   }
   return values;
 };
@@ -271,12 +294,38 @@ app.get("/api/master-data", (req, res) => {
   });
 });
 
-// 3. Get all submitted reports
+// 3. Get PV Curve data (Curva S from BD_Metrados_Planificados)
+app.get("/api/pv-curve", (req, res) => {
+  if (REAL_PV_CURVE.length > 0) {
+    res.json(REAL_PV_CURVE);
+  } else {
+    // Generate fallback PV curve data from DEFAULT_PV
+    const pvByDate: Record<string, number> = {};
+    const edtLookup: Record<string, any> = {};
+    DEFAULT_EDT.forEach(e => { if (e.parentId !== null) edtLookup[e.code] = e; });
+    
+    DEFAULT_PV.forEach(pv => {
+      if (!pvByDate[pv.date]) pvByDate[pv.date] = 0;
+      const edt = edtLookup[pv.edtCode];
+      pvByDate[pv.date] += pv.plannedQty * (edt?.unitPrice || 1);
+    });
+    
+    const sortedDates = Object.keys(pvByDate).sort();
+    let acum = 0;
+    const curve = sortedDates.map(date => {
+      acum += pvByDate[date];
+      return { date, pvDaily: Math.round(pvByDate[date] * 100) / 100, pvCumulative: Math.round(acum * 100) / 100 };
+    });
+    res.json(curve);
+  }
+});
+
+// 4. Get all submitted reports
 app.get("/api/reports", (req, res) => {
   res.json(submittedReports);
 });
 
-// 4. Save a new report
+// 5. Save a new report
 app.post("/api/reports", (req, res) => {
   const data = req.body;
   if (!data.date || !data.projectCode || !data.supervisor) {
@@ -339,7 +388,7 @@ app.post("/api/reports", (req, res) => {
 app.use("/data/signatures", express.static(SIGS_DIR));
 app.use("/data/photos", express.static(PHOTOS_DIR));
 
-// 5. Smart Project Control Specialist Gemini endpoint
+// 6. Smart Project Control Specialist Gemini endpoint
 app.post("/api/gemini/analyze", async (req, res) => {
   const { currentReport, projectCode, targetDate } = req.body;
   

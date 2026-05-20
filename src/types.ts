@@ -25,6 +25,12 @@ export interface PlannedValue {
   plannedQty: number; // Cantidad planificada para ese día
 }
 
+export interface PvCurvePoint {
+  date: string;
+  pvDaily: number;
+  pvCumulative: number;
+}
+
 export interface ResourceItem {
   id: string;
   name: string;
