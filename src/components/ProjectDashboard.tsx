@@ -107,25 +107,35 @@ export function ProjectDashboard({
     };
   });
 
+  // Find the selected report to determine the "Status Date" (Fecha de Corte)
+  const selectedReport = enrichedReports.find(r => r.id === selectedReportId) || enrichedReports[enrichedReports.length - 1];
+
   // 2. Generate cumulative series for the S-Curve SVG Plot
   const generateChartData = () => {
     let cumulativePv = 0;
     let cumulativeEv = 0;
     let cumulativeAc = 0;
+    const statusDateTime = selectedReport ? new Date(selectedReport.date).getTime() : Infinity;
 
     return enrichedReports.map((r, index) => {
       const metrics = r.computedMetrics;
+      const reportDateTime = new Date(r.date).getTime();
       
       cumulativePv += metrics.plannedValue;
-      cumulativeEv += metrics.earnedValue;
-      cumulativeAc += metrics.actualCost;
+      
+      // EV and AC accumulate only up to the Status Date (Fecha de Corte)
+      const isBeforeOrAtStatusDate = reportDateTime <= statusDateTime;
+      if (isBeforeOrAtStatusDate) {
+        cumulativeEv += metrics.earnedValue;
+        cumulativeAc += metrics.actualCost;
+      }
 
       return {
         date: r.date,
         dayLabel: `Día ${index + 1}`,
         pv: cumulativePv,
-        ev: cumulativeEv,
-        ac: cumulativeAc,
+        ev: isBeforeOrAtStatusDate ? cumulativeEv : undefined,
+        ac: isBeforeOrAtStatusDate ? cumulativeAc : undefined,
         raw: metrics
       };
     });
@@ -133,15 +143,17 @@ export function ProjectDashboard({
 
   const chartData = generateChartData();
 
-  // Get current active cumulative values (totals at the last day)
+  // Get current active cumulative values (totals at the selected status date)
   let latestPv = 0;
   let latestEv = 0;
   let latestAc = 0;
 
   chartData.forEach(d => {
-    latestPv = d.pv;
-    latestEv = d.ev;
-    latestAc = d.ac;
+    if (d.ev !== undefined && d.ac !== undefined) {
+      latestPv = d.pv;
+      latestEv = d.ev;
+      latestAc = d.ac;
+    }
   });
 
   const latestSv = latestEv - latestPv;
@@ -233,7 +245,7 @@ export function ProjectDashboard({
     const paddingTop = 40;
     const paddingBottom = 40;
 
-    const allValues = chartData.flatMap(d => [d.pv, d.ev, d.ac]);
+    const allValues = chartData.flatMap(d => [d.pv, d.ev !== undefined ? d.ev : 0, d.ac !== undefined ? d.ac : 0]);
     const maxVal = Math.max(...allValues, 1000) * 1.15; // 15% margin
     const minVal = 0;
 
@@ -254,17 +266,23 @@ export function ProjectDashboard({
     chartData.forEach((d, i) => {
       const x = getX(i);
       const yPv = getY(d.pv);
-      const yEv = getY(d.ev);
-      const yAc = getY(d.ac);
 
       if (i === 0) {
         pvPath = `M ${x} ${yPv}`;
-        evPath = `M ${x} ${yEv}`;
-        acPath = `M ${x} ${yAc}`;
       } else {
         pvPath += ` L ${x} ${yPv}`;
-        evPath += ` L ${x} ${yEv}`;
-        acPath += ` L ${x} ${yAc}`;
+      }
+
+      if (d.ev !== undefined) {
+        const yEv = getY(d.ev);
+        if (evPath === "") evPath = `M ${x} ${yEv}`;
+        else evPath += ` L ${x} ${yEv}`;
+      }
+
+      if (d.ac !== undefined) {
+        const yAc = getY(d.ac);
+        if (acPath === "") acPath = `M ${x} ${yAc}`;
+        else acPath += ` L ${x} ${yAc}`;
       }
     });
 
@@ -327,8 +345,8 @@ export function ProjectDashboard({
 
         {/* Curves paths */}
         <path d={pvPath} fill="none" stroke="#0ea5e9" strokeWidth={3} strokeDasharray="5,5" /> 
-        <path d={evPath} fill="none" stroke="#10b981" strokeWidth={3.5} /> 
-        <path d={acPath} fill="none" stroke="#f43f5e" strokeWidth={3.5} /> 
+        {evPath && <path d={evPath} fill="none" stroke="#10b981" strokeWidth={3.5} />} 
+        {acPath && <path d={acPath} fill="none" stroke="#f43f5e" strokeWidth={3.5} />} 
 
         {/* Dot Markers for current points */}
         {chartData.map((d, i) => {
@@ -336,8 +354,12 @@ export function ProjectDashboard({
           return (
             <g key={i} className="cursor-pointer group">
               <circle cx={x} cy={getY(d.pv)} r={4} className="fill-sky-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
-              <circle cx={x} cy={getY(d.ev)} r={4} className="fill-emerald-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
-              <circle cx={x} cy={getY(d.ac)} r={4} className="fill-rose-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
+              {d.ev !== undefined && (
+                <circle cx={x} cy={getY(d.ev)} r={4} className="fill-emerald-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
+              )}
+              {d.ac !== undefined && (
+                <circle cx={x} cy={getY(d.ac)} r={4} className="fill-rose-500 stroke-slate-900 stroke-2 hover:r-5 transition-all" />
+              )}
             </g>
           );
         })}
