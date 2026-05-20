@@ -5,6 +5,7 @@ import { ProjectDashboard } from "./components/ProjectDashboard";
 import { GoogleScriptDocs } from "./components/GoogleScriptDocs";
 import { Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics, PvCurvePoint } from "./types";
 import { FALLBACK_PV_CURVE } from "./data/pv-curve-fallback";
+import { PV_BY_CHAPTER, type PvChapterPoint } from "./data/pv-chapter-fallback";
 import { 
   Building2, LineChart, FileText, ChevronRight, Loader2, Info, HardHat, Compass, ServerCrash, ExternalLink, Settings2
 } from "lucide-react";
@@ -195,6 +196,7 @@ export default function App() {
   const [resources, setResources] = useState<ResourceItem[]>(BACKUP_RESOURCES);
   const [reports, setReports] = useState<DailyReport[]>([]);
   const [pvCurveData, setPvCurveData] = useState<PvCurvePoint[]>([]);
+  const [pvByChapter, setPvByChapter] = useState<PvChapterPoint[]>([]);
   
   // Custom Apps script link string saved in localstorage
   const [appsScriptUrl, setAppsScriptUrl] = useState<string>("");
@@ -272,6 +274,28 @@ export default function App() {
         }
       }
 
+      // Load per-chapter PV data
+      try {
+        const chRes = await fetch("/api/pv-chapter");
+        if (chRes.ok) {
+          setPvByChapter(await chRes.json());
+        } else {
+          throw new Error("API returned not OK");
+        }
+      } catch {
+        try {
+          const chRes = await fetch("/data/pv-by-chapter.json");
+          if (chRes.ok) {
+            setPvByChapter(await chRes.json());
+          } else {
+            throw new Error("Static file not found");
+          }
+        } catch {
+          console.warn("Usando PV por capítulo embebido (fallback final)");
+          setPvByChapter(PV_BY_CHAPTER);
+        }
+      }
+
       setIsOfflineMode(false);
     } catch (err) {
       console.warn("Express API Server is booting or offline, loading resilient static fallback variables:", err);
@@ -288,6 +312,18 @@ export default function App() {
         }
       } catch {
         setPvCurveData(FALLBACK_PV_CURVE);
+      }
+
+      // Cargar PV por capítulo desde static file o fallback
+      try {
+        const chRes = await fetch("/data/pv-by-chapter.json");
+        if (chRes.ok) {
+          setPvByChapter(await chRes.json());
+        } else {
+          setPvByChapter(PV_BY_CHAPTER);
+        }
+      } catch {
+        setPvByChapter(PV_BY_CHAPTER);
       }
       
       // Si Sheets nos devolvió datos, los usamos aun con el backend local caído
@@ -432,10 +468,12 @@ export default function App() {
             <ProjectDashboard
               reports={reports}
               edtList={edtList}
+              resources={resources}
               projectName={projects.length > 0 ? projects[0].name : "Edificio Multifamiliar Girasoles"}
               onRefresh={() => fetchAllData(appsScriptUrl)}
               isSheetsConnected={!!appsScriptUrl}
               pvCurveData={pvCurveData}
+              pvByChapter={pvByChapter}
             />
           </div>
         )}

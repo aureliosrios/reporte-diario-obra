@@ -22,6 +22,8 @@ const SIGS_DIR = path.join(DATA_DIR, "signatures");
 const PHOTOS_DIR = path.join(DATA_DIR, "photos");
 const PV_CURVE_FILE = path.join(DATA_DIR, "pv-curve.json");
 const PV_EDT_DATA_FILE = path.join(DATA_DIR, "pv-edt-data.json");
+const PV_BY_CHAPTER_FILE = path.join(DATA_DIR, "pv-by-chapter.json");
+const RESOURCES_FILE = path.join(DATA_DIR, "resources.json");
 
 // Ensure directories exist
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
@@ -39,6 +41,8 @@ const DEFAULT_PROJECTS = [
 let REAL_EDT: any[] = [];
 let REAL_PLANNED_VALUES: any[] = [];
 let REAL_PV_CURVE: any[] = [];
+let REAL_PV_BY_CHAPTER: any[] = [];
+let REAL_RESOURCES: any[] = [];
 
 try {
   if (fs.existsSync(PV_EDT_DATA_FILE)) {
@@ -51,8 +55,16 @@ try {
     REAL_PV_CURVE = JSON.parse(fs.readFileSync(PV_CURVE_FILE, "utf-8"));
     console.log(`[RDO BACKEND] Curva S cargada: ${REAL_PV_CURVE.length} fechas, PV total: S/ ${REAL_PV_CURVE[REAL_PV_CURVE.length - 1]?.pvCumulative?.toFixed(2) || 0}`);
   }
+  if (fs.existsSync(PV_BY_CHAPTER_FILE)) {
+    REAL_PV_BY_CHAPTER = JSON.parse(fs.readFileSync(PV_BY_CHAPTER_FILE, "utf-8"));
+    console.log(`[RDO BACKEND] PV por capítulo cargado: ${REAL_PV_BY_CHAPTER.length} capítulos`);
+  }
+  if (fs.existsSync(RESOURCES_FILE)) {
+    REAL_RESOURCES = JSON.parse(fs.readFileSync(RESOURCES_FILE, "utf-8"));
+    console.log(`[RDO BACKEND] Catálogo de recursos cargado: ${REAL_RESOURCES.length} recursos`);
+  }
 } catch (e) {
-  console.warn("[RDO BACKEND] Error cargando datos reales de PV desde JSON, usando defaults sintéticos:", (e as Error).message);
+  console.warn("[RDO BACKEND] Error cargando datos reales desde JSON, usando defaults sintéticos:", (e as Error).message);
 }
 
 // Define standard EDT (EDT_BD) Work Breakdown Structure
@@ -290,8 +302,13 @@ app.get("/api/master-data", (req, res) => {
   res.json({
     edt: DEFAULT_EDT,
     plannedValues: DEFAULT_PV,
-    resources: DEFAULT_RESOURCES
+    resources: REAL_RESOURCES.length > 0 ? REAL_RESOURCES : DEFAULT_RESOURCES
   });
+});
+
+// 2b. Get resources catalog
+app.get("/api/resources", (req, res) => {
+  res.json(REAL_RESOURCES.length > 0 ? REAL_RESOURCES : DEFAULT_RESOURCES);
 });
 
 // 3. Get PV Curve data (Curva S from BD_Metrados_Planificados)
@@ -320,7 +337,16 @@ app.get("/api/pv-curve", (req, res) => {
   }
 });
 
-// 4. Get all submitted reports
+// 4. Get PV by chapter data
+app.get("/api/pv-chapter", (req, res) => {
+  if (REAL_PV_BY_CHAPTER.length > 0) {
+    res.json(REAL_PV_BY_CHAPTER);
+  } else {
+    res.json([]);
+  }
+});
+
+// 5. Get all submitted reports
 app.get("/api/reports", (req, res) => {
   res.json(submittedReports);
 });

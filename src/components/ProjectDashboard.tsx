@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DailyReport, EvmMetrics, EdtItem } from "../types";
+import { DailyReport, EvmMetrics, EdtItem, ResourceItem } from "../types";
 import { 
   TrendingUp, TrendingDown, Clock, Shield, CalendarDays, Image as ImageIcon, 
   UserCheck, AlertTriangle, ArrowRight, Table, FileText, CheckCircle2, 
@@ -7,7 +7,8 @@ import {
 } from "lucide-react";
 
 // Standard Resource Catalog rates for live AC calculations
-const RESOURCE_COSTS: { [id: string]: number } = {
+// Used as fallback when resource data from BD_RRHH is not loaded
+const FALLBACK_RESOURCE_COSTS: { [id: string]: number } = {
   "LH-CAP": 28.0,
   "LH-OPE": 22.5,
   "LH-OFI": 18.0,
@@ -25,6 +26,12 @@ interface PvCurvePoint {
   pvCumulative: number;
 }
 
+interface PvChapterPoint {
+  code: string;
+  totalBudget: number;
+  points: { date: string; pvCumulative: number }[];
+}
+
 interface ProjectDashboardProps {
   reports: DailyReport[];
   edtList: EdtItem[];
@@ -32,6 +39,8 @@ interface ProjectDashboardProps {
   onRefresh?: () => void;
   isSheetsConnected?: boolean;
   pvCurveData?: PvCurvePoint[];
+  pvByChapter?: PvChapterPoint[];
+  resources?: ResourceItem[];
 }
 
 export function ProjectDashboard({ 
@@ -40,8 +49,16 @@ export function ProjectDashboard({
   projectName, 
   onRefresh, 
   isSheetsConnected = false,
-  pvCurveData = []
+  pvCurveData = [],
+  pvByChapter = [],
+  resources = []
 }: ProjectDashboardProps) {
+  
+  // Build resource cost lookup from BD_RRHH data, fall back to hardcoded defaults
+  const RESOURCE_COSTS: { [id: string]: number } = { ...FALLBACK_RESOURCE_COSTS };
+  resources.forEach(r => {
+    if (r.unitCost) RESOURCE_COSTS[r.id] = r.unitCost;
+  });
   
   const [selectedReportId, setSelectedReportId] = useState<string | null>(
     reports.length > 0 ? reports[reports.length - 1].id : null
@@ -215,8 +232,24 @@ export function ProjectDashboard({
 
   // 3. Generate EDT/WBS Chapter Breakdown (Estructuras vs Arquitectura)
   const generateChaptersData = () => {
+    const statusDate = selectedReport ? selectedReport.date : (enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : '');
+    const statusDateTime = new Date(statusDate).getTime();
+
+    // Build lookup: chapter name -> PV cumulative at cutoff date (from real curve)
+    const chapterPvAtCutoff: Record<string, number> = {};
+    pvByChapter.forEach(ch => {
+      let closest = 0;
+      for (const pt of ch.points) {
+        if (new Date(pt.date).getTime() <= statusDateTime) {
+          closest = pt.pvCumulative;
+        } else {
+          break;
+        }
+      }
+      chapterPvAtCutoff[ch.code] = closest;
+    });
+
     return edtList.filter(e => e.parentId === null).map(ch => {
-      let chPv = 0;
       let chEv = 0;
       let chAc = 0;
 
@@ -225,7 +258,6 @@ export function ProjectDashboard({
         r.activities?.forEach(act => {
           const edt = edtList.find(e => e.code === act.edtCode);
           if (edt && (edt.code === ch.code || edt.parentId === ch.code)) {
-            chPv += (act.plannedQty || 0) * edt.unitPrice;
             chEv += (act.qtyExecuted || 0) * edt.unitPrice;
           }
         });
@@ -249,6 +281,18 @@ export function ProjectDashboard({
           }
         });
       });
+
+      // Use real PV curve for this chapter if available, otherwise fallback to report-derived PV
+      const chPv = chapterPvAtCutoff[ch.name] !== undefined ? chapterPvAtCutoff[ch.name] : enrichedReports.reduce((sum, r) => {
+        let p = 0;
+        r.activities?.forEach(act => {
+          const edt = edtList.find(e => e.code === act.edtCode);
+          if (edt && (edt.code === ch.code || edt.parentId === ch.code)) {
+            p += (act.plannedQty || 0) * edt.unitPrice;
+          }
+        });
+        return sum + p;
+      }, 0);
 
       const chSv = chEv - chPv;
       const chCv = chEv - chAc;

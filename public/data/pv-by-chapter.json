@@ -1,0 +1,5000 @@
+[
+  {
+    "code": "Obras Preliminares",
+    "totalBudget": 0,
+    "points": [
+      {
+        "date": "2026-05-15",
+        "pvCumulative": 2533.33
+      },
+      {
+        "date": "2026-05-16",
+        "pvCumulative": 5066.66
+      },
+      {
+        "date": "2026-05-17",
+        "pvCumulative": 7599.99
+      },
+      {
+        "date": "2026-05-18",
+        "pvCumulative": 10133.32
+      },
+      {
+        "date": "2026-05-19",
+        "pvCumulative": 12666.65
+      },
+      {
+        "date": "2026-05-20",
+        "pvCumulative": 15199.98
+      },
+      {
+        "date": "2026-05-21",
+        "pvCumulative": 17733.31
+      },
+      {
+        "date": "2026-05-22",
+        "pvCumulative": 20874.33
+      },
+      {
+        "date": "2026-05-23",
+        "pvCumulative": 22515.35
+      },
+      {
+        "date": "2026-05-24",
+        "pvCumulative": 24156.37
+      },
+      {
+        "date": "2026-05-25",
+        "pvCumulative": 25797.39
+      },
+      {
+        "date": "2026-05-26",
+        "pvCumulative": 27438.41
+      },
+      {
+        "date": "2026-05-27",
+        "pvCumulative": 28371.1
+      },
+      {
+        "date": "2026-05-28",
+        "pvCumulative": 29303.79
+      },
+      {
+        "date": "2026-05-29",
+        "pvCumulative": 30236.48
+      },
+      {
+        "date": "2026-05-30",
+        "pvCumulative": 31169.17
+      },
+      {
+        "date": "2026-05-31",
+        "pvCumulative": 31776.86
+      },
+      {
+        "date": "2026-06-01",
+        "pvCumulative": 32384.55
+      },
+      {
+        "date": "2026-06-02",
+        "pvCumulative": 32992.24
+      },
+      {
+        "date": "2026-06-03",
+        "pvCumulative": 33599.93
+      },
+      {
+        "date": "2026-06-04",
+        "pvCumulative": 34207.62
+      },
+      {
+        "date": "2026-06-05",
+        "pvCumulative": 34815.31
+      },
+      {
+        "date": "2026-06-06",
+        "pvCumulative": 35423
+      },
+      {
+        "date": "2026-06-07",
+        "pvCumulative": 36030.69
+      },
+      {
+        "date": "2026-06-08",
+        "pvCumulative": 36638.38
+      },
+      {
+        "date": "2026-06-09",
+        "pvCumulative": 37246.07
+      },
+      {
+        "date": "2026-06-10",
+        "pvCumulative": 37853.76
+      },
+      {
+        "date": "2026-06-11",
+        "pvCumulative": 38461.45
+      },
+      {
+        "date": "2026-06-12",
+        "pvCumulative": 39069.14
+      },
+      {
+        "date": "2026-06-13",
+        "pvCumulative": 39676.83
+      },
+      {
+        "date": "2026-06-14",
+        "pvCumulative": 40284.52
+      },
+      {
+        "date": "2026-06-15",
+        "pvCumulative": 40892.21
+      },
+      {
+        "date": "2026-06-16",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-17",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-18",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-19",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-20",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-21",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-22",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-23",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-24",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-25",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-26",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-27",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-28",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-29",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-06-30",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-01",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-02",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-03",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-04",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-05",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-06",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-07",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-08",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-09",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-10",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-11",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-12",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-13",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-14",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-15",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-16",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-17",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-18",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-19",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-20",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-21",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-22",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-23",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-24",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-25",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-26",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-27",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-28",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-29",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-30",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-07-31",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-01",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-02",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-03",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-04",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-05",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-06",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-07",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-08",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-09",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-10",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-11",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-12",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-13",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-14",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-15",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-16",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-17",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-18",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-19",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-20",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-21",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-22",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-23",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-24",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-25",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-26",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-27",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-28",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-29",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-30",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-08-31",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-01",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-02",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-03",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-04",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-05",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-06",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-07",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-08",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-09",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-10",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-11",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-12",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-13",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-14",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-15",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-16",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-17",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-18",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-19",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-20",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-21",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-22",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-23",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-24",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-25",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-26",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-27",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-28",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-29",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-09-30",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-01",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-02",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-03",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-04",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-05",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-06",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-07",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-08",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-09",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-10",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-11",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-12",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-13",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-14",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-15",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-16",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-17",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-18",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-19",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-20",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-21",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-22",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-23",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-24",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-25",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-26",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-27",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-28",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-29",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-30",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-10-31",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-11-01",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-11-02",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-11-03",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-11-04",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-11-05",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-11-06",
+        "pvCumulative": 41499.9
+      },
+      {
+        "date": "2026-11-07",
+        "pvCumulative": 41499.9
+      }
+    ]
+  },
+  {
+    "code": "Cimentación",
+    "totalBudget": 0,
+    "points": [
+      {
+        "date": "2026-05-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-29",
+        "pvCumulative": 1381.82
+      },
+      {
+        "date": "2026-05-30",
+        "pvCumulative": 2763.64
+      },
+      {
+        "date": "2026-05-31",
+        "pvCumulative": 4145.46
+      },
+      {
+        "date": "2026-06-01",
+        "pvCumulative": 5527.28
+      },
+      {
+        "date": "2026-06-02",
+        "pvCumulative": 6909.1
+      },
+      {
+        "date": "2026-06-03",
+        "pvCumulative": 8290.92
+      },
+      {
+        "date": "2026-06-04",
+        "pvCumulative": 9672.74
+      },
+      {
+        "date": "2026-06-05",
+        "pvCumulative": 11054.56
+      },
+      {
+        "date": "2026-06-06",
+        "pvCumulative": 12436.38
+      },
+      {
+        "date": "2026-06-07",
+        "pvCumulative": 13818.2
+      },
+      {
+        "date": "2026-06-08",
+        "pvCumulative": 15200.02
+      },
+      {
+        "date": "2026-06-09",
+        "pvCumulative": 16581.84
+      },
+      {
+        "date": "2026-06-10",
+        "pvCumulative": 17963.66
+      },
+      {
+        "date": "2026-06-11",
+        "pvCumulative": 19345.48
+      },
+      {
+        "date": "2026-06-12",
+        "pvCumulative": 22243.97
+      },
+      {
+        "date": "2026-06-13",
+        "pvCumulative": 25142.46
+      },
+      {
+        "date": "2026-06-14",
+        "pvCumulative": 28040.95
+      },
+      {
+        "date": "2026-06-15",
+        "pvCumulative": 30939.44
+      },
+      {
+        "date": "2026-06-16",
+        "pvCumulative": 33837.93
+      },
+      {
+        "date": "2026-06-17",
+        "pvCumulative": 36736.42
+      },
+      {
+        "date": "2026-06-18",
+        "pvCumulative": 39634.91
+      },
+      {
+        "date": "2026-06-19",
+        "pvCumulative": 46874.7
+      },
+      {
+        "date": "2026-06-20",
+        "pvCumulative": 54114.49
+      },
+      {
+        "date": "2026-06-21",
+        "pvCumulative": 61354.28
+      },
+      {
+        "date": "2026-06-22",
+        "pvCumulative": 68594.07
+      },
+      {
+        "date": "2026-06-23",
+        "pvCumulative": 75833.86
+      },
+      {
+        "date": "2026-06-24",
+        "pvCumulative": 81556.98
+      },
+      {
+        "date": "2026-06-25",
+        "pvCumulative": 87280.1
+      },
+      {
+        "date": "2026-06-26",
+        "pvCumulative": 93003.22
+      },
+      {
+        "date": "2026-06-27",
+        "pvCumulative": 98726.34
+      },
+      {
+        "date": "2026-06-28",
+        "pvCumulative": 104449.46
+      },
+      {
+        "date": "2026-06-29",
+        "pvCumulative": 110172.58
+      },
+      {
+        "date": "2026-06-30",
+        "pvCumulative": 115895.7
+      },
+      {
+        "date": "2026-07-01",
+        "pvCumulative": 120237
+      },
+      {
+        "date": "2026-07-02",
+        "pvCumulative": 124578.3
+      },
+      {
+        "date": "2026-07-03",
+        "pvCumulative": 133393.28
+      },
+      {
+        "date": "2026-07-04",
+        "pvCumulative": 142208.26
+      },
+      {
+        "date": "2026-07-05",
+        "pvCumulative": 151023.24
+      },
+      {
+        "date": "2026-07-06",
+        "pvCumulative": 159838.22
+      },
+      {
+        "date": "2026-07-07",
+        "pvCumulative": 168653.2
+      },
+      {
+        "date": "2026-07-08",
+        "pvCumulative": 175757.65
+      },
+      {
+        "date": "2026-07-09",
+        "pvCumulative": 182862.1
+      },
+      {
+        "date": "2026-07-10",
+        "pvCumulative": 189966.55
+      },
+      {
+        "date": "2026-07-11",
+        "pvCumulative": 197071
+      },
+      {
+        "date": "2026-07-12",
+        "pvCumulative": 204175.45
+      },
+      {
+        "date": "2026-07-13",
+        "pvCumulative": 211279.9
+      },
+      {
+        "date": "2026-07-14",
+        "pvCumulative": 218384.35
+      },
+      {
+        "date": "2026-07-15",
+        "pvCumulative": 222858.03
+      },
+      {
+        "date": "2026-07-16",
+        "pvCumulative": 227331.71
+      },
+      {
+        "date": "2026-07-17",
+        "pvCumulative": 231805.39
+      },
+      {
+        "date": "2026-07-18",
+        "pvCumulative": 236279.07
+      },
+      {
+        "date": "2026-07-19",
+        "pvCumulative": 240752.75
+      },
+      {
+        "date": "2026-07-20",
+        "pvCumulative": 245226.43
+      },
+      {
+        "date": "2026-07-21",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-22",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-23",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-24",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-25",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-26",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-27",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-28",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-29",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-30",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-07-31",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-01",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-02",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-03",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-04",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-05",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-06",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-07",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-08",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-09",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-10",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-11",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-12",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-13",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-14",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-15",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-16",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-17",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-18",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-19",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-20",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-21",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-22",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-23",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-24",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-25",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-26",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-27",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-28",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-29",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-30",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-08-31",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-01",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-02",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-03",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-04",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-05",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-06",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-07",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-08",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-09",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-10",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-11",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-12",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-13",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-14",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-15",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-16",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-17",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-18",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-19",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-20",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-21",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-22",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-23",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-24",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-25",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-26",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-27",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-28",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-29",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-09-30",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-01",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-02",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-03",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-04",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-05",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-06",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-07",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-08",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-09",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-10",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-11",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-12",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-13",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-14",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-15",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-16",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-17",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-18",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-19",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-20",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-21",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-22",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-23",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-24",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-25",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-26",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-27",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-28",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-29",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-30",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-10-31",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-11-01",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-11-02",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-11-03",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-11-04",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-11-05",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-11-06",
+        "pvCumulative": 249700.11
+      },
+      {
+        "date": "2026-11-07",
+        "pvCumulative": 249700.11
+      }
+    ]
+  },
+  {
+    "code": "Estructura",
+    "totalBudget": 0,
+    "points": [
+      {
+        "date": "2026-05-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-10",
+        "pvCumulative": 2452.5
+      },
+      {
+        "date": "2026-07-11",
+        "pvCumulative": 4905
+      },
+      {
+        "date": "2026-07-12",
+        "pvCumulative": 7357.5
+      },
+      {
+        "date": "2026-07-13",
+        "pvCumulative": 9810
+      },
+      {
+        "date": "2026-07-14",
+        "pvCumulative": 12262.5
+      },
+      {
+        "date": "2026-07-15",
+        "pvCumulative": 14715
+      },
+      {
+        "date": "2026-07-16",
+        "pvCumulative": 17167.5
+      },
+      {
+        "date": "2026-07-17",
+        "pvCumulative": 20835
+      },
+      {
+        "date": "2026-07-18",
+        "pvCumulative": 24502.5
+      },
+      {
+        "date": "2026-07-19",
+        "pvCumulative": 28170
+      },
+      {
+        "date": "2026-07-20",
+        "pvCumulative": 31837.5
+      },
+      {
+        "date": "2026-07-21",
+        "pvCumulative": 35505
+      },
+      {
+        "date": "2026-07-22",
+        "pvCumulative": 39172.5
+      },
+      {
+        "date": "2026-07-23",
+        "pvCumulative": 42840
+      },
+      {
+        "date": "2026-07-24",
+        "pvCumulative": 49348.43
+      },
+      {
+        "date": "2026-07-25",
+        "pvCumulative": 55856.86
+      },
+      {
+        "date": "2026-07-26",
+        "pvCumulative": 62365.29
+      },
+      {
+        "date": "2026-07-27",
+        "pvCumulative": 68873.72
+      },
+      {
+        "date": "2026-07-28",
+        "pvCumulative": 75382.15
+      },
+      {
+        "date": "2026-07-29",
+        "pvCumulative": 81890.58
+      },
+      {
+        "date": "2026-07-30",
+        "pvCumulative": 88399.01
+      },
+      {
+        "date": "2026-07-31",
+        "pvCumulative": 94907.44
+      },
+      {
+        "date": "2026-08-01",
+        "pvCumulative": 101415.87
+      },
+      {
+        "date": "2026-08-02",
+        "pvCumulative": 107924.3
+      },
+      {
+        "date": "2026-08-03",
+        "pvCumulative": 114432.73
+      },
+      {
+        "date": "2026-08-04",
+        "pvCumulative": 120941.16
+      },
+      {
+        "date": "2026-08-05",
+        "pvCumulative": 127449.59
+      },
+      {
+        "date": "2026-08-06",
+        "pvCumulative": 133958.02
+      },
+      {
+        "date": "2026-08-07",
+        "pvCumulative": 142432.41
+      },
+      {
+        "date": "2026-08-08",
+        "pvCumulative": 150906.8
+      },
+      {
+        "date": "2026-08-09",
+        "pvCumulative": 159381.19
+      },
+      {
+        "date": "2026-08-10",
+        "pvCumulative": 167855.58
+      },
+      {
+        "date": "2026-08-11",
+        "pvCumulative": 176329.97
+      },
+      {
+        "date": "2026-08-12",
+        "pvCumulative": 184804.36
+      },
+      {
+        "date": "2026-08-13",
+        "pvCumulative": 193278.75
+      },
+      {
+        "date": "2026-08-14",
+        "pvCumulative": 202480.06
+      },
+      {
+        "date": "2026-08-15",
+        "pvCumulative": 211681.37
+      },
+      {
+        "date": "2026-08-16",
+        "pvCumulative": 220882.68
+      },
+      {
+        "date": "2026-08-17",
+        "pvCumulative": 230083.99
+      },
+      {
+        "date": "2026-08-18",
+        "pvCumulative": 239285.3
+      },
+      {
+        "date": "2026-08-19",
+        "pvCumulative": 246034.11
+      },
+      {
+        "date": "2026-08-20",
+        "pvCumulative": 252782.92
+      },
+      {
+        "date": "2026-08-21",
+        "pvCumulative": 260397.11
+      },
+      {
+        "date": "2026-08-22",
+        "pvCumulative": 268011.3
+      },
+      {
+        "date": "2026-08-23",
+        "pvCumulative": 275625.49
+      },
+      {
+        "date": "2026-08-24",
+        "pvCumulative": 283239.68
+      },
+      {
+        "date": "2026-08-25",
+        "pvCumulative": 290853.87
+      },
+      {
+        "date": "2026-08-26",
+        "pvCumulative": 297253.06
+      },
+      {
+        "date": "2026-08-27",
+        "pvCumulative": 303652.25
+      },
+      {
+        "date": "2026-08-28",
+        "pvCumulative": 310051.44
+      },
+      {
+        "date": "2026-08-29",
+        "pvCumulative": 316450.63
+      },
+      {
+        "date": "2026-08-30",
+        "pvCumulative": 322849.82
+      },
+      {
+        "date": "2026-08-31",
+        "pvCumulative": 329249.01
+      },
+      {
+        "date": "2026-09-01",
+        "pvCumulative": 335648.2
+      },
+      {
+        "date": "2026-09-02",
+        "pvCumulative": 342047.39
+      },
+      {
+        "date": "2026-09-03",
+        "pvCumulative": 348446.58
+      },
+      {
+        "date": "2026-09-04",
+        "pvCumulative": 354845.77
+      },
+      {
+        "date": "2026-09-05",
+        "pvCumulative": 361244.96
+      },
+      {
+        "date": "2026-09-06",
+        "pvCumulative": 367644.15
+      },
+      {
+        "date": "2026-09-07",
+        "pvCumulative": 374043.34
+      },
+      {
+        "date": "2026-09-08",
+        "pvCumulative": 380442.53
+      },
+      {
+        "date": "2026-09-09",
+        "pvCumulative": 384727.57
+      },
+      {
+        "date": "2026-09-10",
+        "pvCumulative": 389012.61
+      },
+      {
+        "date": "2026-09-11",
+        "pvCumulative": 393297.65
+      },
+      {
+        "date": "2026-09-12",
+        "pvCumulative": 397582.69
+      },
+      {
+        "date": "2026-09-13",
+        "pvCumulative": 401867.73
+      },
+      {
+        "date": "2026-09-14",
+        "pvCumulative": 406152.77
+      },
+      {
+        "date": "2026-09-15",
+        "pvCumulative": 410437.81
+      },
+      {
+        "date": "2026-09-16",
+        "pvCumulative": 412403.77
+      },
+      {
+        "date": "2026-09-17",
+        "pvCumulative": 414369.73
+      },
+      {
+        "date": "2026-09-18",
+        "pvCumulative": 416335.69
+      },
+      {
+        "date": "2026-09-19",
+        "pvCumulative": 418301.65
+      },
+      {
+        "date": "2026-09-20",
+        "pvCumulative": 420267.61
+      },
+      {
+        "date": "2026-09-21",
+        "pvCumulative": 422233.57
+      },
+      {
+        "date": "2026-09-22",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-09-23",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-09-24",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-09-25",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-09-26",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-09-27",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-09-28",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-09-29",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-09-30",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-01",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-02",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-03",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-04",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-05",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-06",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-07",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-08",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-09",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-10",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-11",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-12",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-13",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-14",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-15",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-16",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-17",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-18",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-19",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-20",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-21",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-22",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-23",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-24",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-25",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-26",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-27",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-28",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-29",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-30",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-10-31",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-11-01",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-11-02",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-11-03",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-11-04",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-11-05",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-11-06",
+        "pvCumulative": 424199.53
+      },
+      {
+        "date": "2026-11-07",
+        "pvCumulative": 424199.53
+      }
+    ]
+  },
+  {
+    "code": "Albañilería",
+    "totalBudget": 0,
+    "points": [
+      {
+        "date": "2026-05-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-28",
+        "pvCumulative": 1488.46
+      },
+      {
+        "date": "2026-08-29",
+        "pvCumulative": 2976.92
+      },
+      {
+        "date": "2026-08-30",
+        "pvCumulative": 4465.38
+      },
+      {
+        "date": "2026-08-31",
+        "pvCumulative": 5953.84
+      },
+      {
+        "date": "2026-09-01",
+        "pvCumulative": 7442.3
+      },
+      {
+        "date": "2026-09-02",
+        "pvCumulative": 8930.76
+      },
+      {
+        "date": "2026-09-03",
+        "pvCumulative": 10419.22
+      },
+      {
+        "date": "2026-09-04",
+        "pvCumulative": 11907.68
+      },
+      {
+        "date": "2026-09-05",
+        "pvCumulative": 13396.14
+      },
+      {
+        "date": "2026-09-06",
+        "pvCumulative": 14884.6
+      },
+      {
+        "date": "2026-09-07",
+        "pvCumulative": 16373.06
+      },
+      {
+        "date": "2026-09-08",
+        "pvCumulative": 17861.52
+      },
+      {
+        "date": "2026-09-09",
+        "pvCumulative": 19349.98
+      },
+      {
+        "date": "2026-09-10",
+        "pvCumulative": 20838.44
+      },
+      {
+        "date": "2026-09-11",
+        "pvCumulative": 23688.44
+      },
+      {
+        "date": "2026-09-12",
+        "pvCumulative": 26538.44
+      },
+      {
+        "date": "2026-09-13",
+        "pvCumulative": 29388.44
+      },
+      {
+        "date": "2026-09-14",
+        "pvCumulative": 32238.44
+      },
+      {
+        "date": "2026-09-15",
+        "pvCumulative": 35088.44
+      },
+      {
+        "date": "2026-09-16",
+        "pvCumulative": 37938.44
+      },
+      {
+        "date": "2026-09-17",
+        "pvCumulative": 40788.44
+      },
+      {
+        "date": "2026-09-18",
+        "pvCumulative": 44505.11
+      },
+      {
+        "date": "2026-09-19",
+        "pvCumulative": 48221.78
+      },
+      {
+        "date": "2026-09-20",
+        "pvCumulative": 51938.45
+      },
+      {
+        "date": "2026-09-21",
+        "pvCumulative": 55655.12
+      },
+      {
+        "date": "2026-09-22",
+        "pvCumulative": 59371.79
+      },
+      {
+        "date": "2026-09-23",
+        "pvCumulative": 61600
+      },
+      {
+        "date": "2026-09-24",
+        "pvCumulative": 63828.21
+      },
+      {
+        "date": "2026-09-25",
+        "pvCumulative": 66933.34
+      },
+      {
+        "date": "2026-09-26",
+        "pvCumulative": 70038.47
+      },
+      {
+        "date": "2026-09-27",
+        "pvCumulative": 73143.6
+      },
+      {
+        "date": "2026-09-28",
+        "pvCumulative": 76248.73
+      },
+      {
+        "date": "2026-09-29",
+        "pvCumulative": 79353.86
+      },
+      {
+        "date": "2026-09-30",
+        "pvCumulative": 82458.99
+      },
+      {
+        "date": "2026-10-01",
+        "pvCumulative": 85564.12
+      },
+      {
+        "date": "2026-10-02",
+        "pvCumulative": 88669.25
+      },
+      {
+        "date": "2026-10-03",
+        "pvCumulative": 91774.38
+      },
+      {
+        "date": "2026-10-04",
+        "pvCumulative": 94879.51
+      },
+      {
+        "date": "2026-10-05",
+        "pvCumulative": 97984.64
+      },
+      {
+        "date": "2026-10-06",
+        "pvCumulative": 101089.77
+      },
+      {
+        "date": "2026-10-07",
+        "pvCumulative": 102833.36
+      },
+      {
+        "date": "2026-10-08",
+        "pvCumulative": 104576.95
+      },
+      {
+        "date": "2026-10-09",
+        "pvCumulative": 106320.54
+      },
+      {
+        "date": "2026-10-10",
+        "pvCumulative": 108064.13
+      },
+      {
+        "date": "2026-10-11",
+        "pvCumulative": 109807.72
+      },
+      {
+        "date": "2026-10-12",
+        "pvCumulative": 111551.31
+      },
+      {
+        "date": "2026-10-13",
+        "pvCumulative": 113294.9
+      },
+      {
+        "date": "2026-10-14",
+        "pvCumulative": 115038.49
+      },
+      {
+        "date": "2026-10-15",
+        "pvCumulative": 116782.08
+      },
+      {
+        "date": "2026-10-16",
+        "pvCumulative": 118525.67
+      },
+      {
+        "date": "2026-10-17",
+        "pvCumulative": 120269.26
+      },
+      {
+        "date": "2026-10-18",
+        "pvCumulative": 122012.85
+      },
+      {
+        "date": "2026-10-19",
+        "pvCumulative": 123756.44
+      },
+      {
+        "date": "2026-10-20",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-21",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-22",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-23",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-24",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-25",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-26",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-27",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-28",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-29",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-30",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-10-31",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-11-01",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-11-02",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-11-03",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-11-04",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-11-05",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-11-06",
+        "pvCumulative": 125500.03
+      },
+      {
+        "date": "2026-11-07",
+        "pvCumulative": 125500.03
+      }
+    ]
+  },
+  {
+    "code": "Instalaciones",
+    "totalBudget": 0,
+    "points": [
+      {
+        "date": "2026-05-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-14",
+        "pvCumulative": 677.42
+      },
+      {
+        "date": "2026-08-15",
+        "pvCumulative": 1354.84
+      },
+      {
+        "date": "2026-08-16",
+        "pvCumulative": 2032.26
+      },
+      {
+        "date": "2026-08-17",
+        "pvCumulative": 2709.68
+      },
+      {
+        "date": "2026-08-18",
+        "pvCumulative": 3387.1
+      },
+      {
+        "date": "2026-08-19",
+        "pvCumulative": 4064.52
+      },
+      {
+        "date": "2026-08-20",
+        "pvCumulative": 4741.94
+      },
+      {
+        "date": "2026-08-21",
+        "pvCumulative": 6040.33
+      },
+      {
+        "date": "2026-08-22",
+        "pvCumulative": 7338.72
+      },
+      {
+        "date": "2026-08-23",
+        "pvCumulative": 8637.11
+      },
+      {
+        "date": "2026-08-24",
+        "pvCumulative": 9935.5
+      },
+      {
+        "date": "2026-08-25",
+        "pvCumulative": 11233.89
+      },
+      {
+        "date": "2026-08-26",
+        "pvCumulative": 12532.28
+      },
+      {
+        "date": "2026-08-27",
+        "pvCumulative": 13830.67
+      },
+      {
+        "date": "2026-08-28",
+        "pvCumulative": 15129.06
+      },
+      {
+        "date": "2026-08-29",
+        "pvCumulative": 16427.45
+      },
+      {
+        "date": "2026-08-30",
+        "pvCumulative": 17725.84
+      },
+      {
+        "date": "2026-08-31",
+        "pvCumulative": 19024.23
+      },
+      {
+        "date": "2026-09-01",
+        "pvCumulative": 20322.62
+      },
+      {
+        "date": "2026-09-02",
+        "pvCumulative": 21621.01
+      },
+      {
+        "date": "2026-09-03",
+        "pvCumulative": 22919.4
+      },
+      {
+        "date": "2026-09-04",
+        "pvCumulative": 24217.79
+      },
+      {
+        "date": "2026-09-05",
+        "pvCumulative": 25516.18
+      },
+      {
+        "date": "2026-09-06",
+        "pvCumulative": 26814.57
+      },
+      {
+        "date": "2026-09-07",
+        "pvCumulative": 28112.96
+      },
+      {
+        "date": "2026-09-08",
+        "pvCumulative": 29411.35
+      },
+      {
+        "date": "2026-09-09",
+        "pvCumulative": 30709.74
+      },
+      {
+        "date": "2026-09-10",
+        "pvCumulative": 32008.13
+      },
+      {
+        "date": "2026-09-11",
+        "pvCumulative": 33753.58
+      },
+      {
+        "date": "2026-09-12",
+        "pvCumulative": 35499.03
+      },
+      {
+        "date": "2026-09-13",
+        "pvCumulative": 37244.48
+      },
+      {
+        "date": "2026-09-14",
+        "pvCumulative": 38989.93
+      },
+      {
+        "date": "2026-09-15",
+        "pvCumulative": 40735.38
+      },
+      {
+        "date": "2026-09-16",
+        "pvCumulative": 42480.83
+      },
+      {
+        "date": "2026-09-17",
+        "pvCumulative": 44226.28
+      },
+      {
+        "date": "2026-09-18",
+        "pvCumulative": 45971.73
+      },
+      {
+        "date": "2026-09-19",
+        "pvCumulative": 47717.18
+      },
+      {
+        "date": "2026-09-20",
+        "pvCumulative": 49462.63
+      },
+      {
+        "date": "2026-09-21",
+        "pvCumulative": 51208.08
+      },
+      {
+        "date": "2026-09-22",
+        "pvCumulative": 52953.53
+      },
+      {
+        "date": "2026-09-23",
+        "pvCumulative": 54698.98
+      },
+      {
+        "date": "2026-09-24",
+        "pvCumulative": 56444.43
+      },
+      {
+        "date": "2026-09-25",
+        "pvCumulative": 58189.88
+      },
+      {
+        "date": "2026-09-26",
+        "pvCumulative": 59935.33
+      },
+      {
+        "date": "2026-09-27",
+        "pvCumulative": 61680.78
+      },
+      {
+        "date": "2026-09-28",
+        "pvCumulative": 63426.23
+      },
+      {
+        "date": "2026-09-29",
+        "pvCumulative": 65171.68
+      },
+      {
+        "date": "2026-09-30",
+        "pvCumulative": 66917.13
+      },
+      {
+        "date": "2026-10-01",
+        "pvCumulative": 68662.58
+      },
+      {
+        "date": "2026-10-02",
+        "pvCumulative": 70408.03
+      },
+      {
+        "date": "2026-10-03",
+        "pvCumulative": 72153.48
+      },
+      {
+        "date": "2026-10-04",
+        "pvCumulative": 73898.93
+      },
+      {
+        "date": "2026-10-05",
+        "pvCumulative": 75644.38
+      },
+      {
+        "date": "2026-10-06",
+        "pvCumulative": 77389.83
+      },
+      {
+        "date": "2026-10-07",
+        "pvCumulative": 79135.28
+      },
+      {
+        "date": "2026-10-08",
+        "pvCumulative": 80880.73
+      },
+      {
+        "date": "2026-10-09",
+        "pvCumulative": 82626.18
+      },
+      {
+        "date": "2026-10-10",
+        "pvCumulative": 84371.63
+      },
+      {
+        "date": "2026-10-11",
+        "pvCumulative": 86117.08
+      },
+      {
+        "date": "2026-10-12",
+        "pvCumulative": 87862.53
+      },
+      {
+        "date": "2026-10-13",
+        "pvCumulative": 89607.98
+      },
+      {
+        "date": "2026-10-14",
+        "pvCumulative": 91353.43
+      },
+      {
+        "date": "2026-10-15",
+        "pvCumulative": 91974.4
+      },
+      {
+        "date": "2026-10-16",
+        "pvCumulative": 92595.37
+      },
+      {
+        "date": "2026-10-17",
+        "pvCumulative": 93216.34
+      },
+      {
+        "date": "2026-10-18",
+        "pvCumulative": 93837.31
+      },
+      {
+        "date": "2026-10-19",
+        "pvCumulative": 94458.28
+      },
+      {
+        "date": "2026-10-20",
+        "pvCumulative": 95079.25
+      },
+      {
+        "date": "2026-10-21",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-22",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-23",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-24",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-25",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-26",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-27",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-28",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-29",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-30",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-10-31",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-11-01",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-11-02",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-11-03",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-11-04",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-11-05",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-11-06",
+        "pvCumulative": 95700.22
+      },
+      {
+        "date": "2026-11-07",
+        "pvCumulative": 95700.22
+      }
+    ]
+  },
+  {
+    "code": "Acabados",
+    "totalBudget": 0,
+    "points": [
+      {
+        "date": "2026-05-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-10-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-10-02",
+        "pvCumulative": 2976.92
+      },
+      {
+        "date": "2026-10-03",
+        "pvCumulative": 5953.84
+      },
+      {
+        "date": "2026-10-04",
+        "pvCumulative": 8930.76
+      },
+      {
+        "date": "2026-10-05",
+        "pvCumulative": 11907.68
+      },
+      {
+        "date": "2026-10-06",
+        "pvCumulative": 14884.6
+      },
+      {
+        "date": "2026-10-07",
+        "pvCumulative": 17861.52
+      },
+      {
+        "date": "2026-10-08",
+        "pvCumulative": 20838.44
+      },
+      {
+        "date": "2026-10-09",
+        "pvCumulative": 25638.43
+      },
+      {
+        "date": "2026-10-10",
+        "pvCumulative": 30438.42
+      },
+      {
+        "date": "2026-10-11",
+        "pvCumulative": 35238.41
+      },
+      {
+        "date": "2026-10-12",
+        "pvCumulative": 40038.4
+      },
+      {
+        "date": "2026-10-13",
+        "pvCumulative": 44838.39
+      },
+      {
+        "date": "2026-10-14",
+        "pvCumulative": 49638.38
+      },
+      {
+        "date": "2026-10-15",
+        "pvCumulative": 54438.37
+      },
+      {
+        "date": "2026-10-16",
+        "pvCumulative": 61622.57
+      },
+      {
+        "date": "2026-10-17",
+        "pvCumulative": 68806.77
+      },
+      {
+        "date": "2026-10-18",
+        "pvCumulative": 75990.97
+      },
+      {
+        "date": "2026-10-19",
+        "pvCumulative": 83175.17
+      },
+      {
+        "date": "2026-10-20",
+        "pvCumulative": 90359.37
+      },
+      {
+        "date": "2026-10-21",
+        "pvCumulative": 97543.57
+      },
+      {
+        "date": "2026-10-22",
+        "pvCumulative": 104727.77
+      },
+      {
+        "date": "2026-10-23",
+        "pvCumulative": 111911.97
+      },
+      {
+        "date": "2026-10-24",
+        "pvCumulative": 119096.17
+      },
+      {
+        "date": "2026-10-25",
+        "pvCumulative": 126280.37
+      },
+      {
+        "date": "2026-10-26",
+        "pvCumulative": 133464.57
+      },
+      {
+        "date": "2026-10-27",
+        "pvCumulative": 140648.77
+      },
+      {
+        "date": "2026-10-28",
+        "pvCumulative": 144856.05
+      },
+      {
+        "date": "2026-10-29",
+        "pvCumulative": 149063.33
+      },
+      {
+        "date": "2026-10-30",
+        "pvCumulative": 153270.61
+      },
+      {
+        "date": "2026-10-31",
+        "pvCumulative": 157477.89
+      },
+      {
+        "date": "2026-11-01",
+        "pvCumulative": 161685.17
+      },
+      {
+        "date": "2026-11-02",
+        "pvCumulative": 165892.45
+      },
+      {
+        "date": "2026-11-03",
+        "pvCumulative": 170099.73
+      },
+      {
+        "date": "2026-11-04",
+        "pvCumulative": 170099.73
+      },
+      {
+        "date": "2026-11-05",
+        "pvCumulative": 170099.73
+      },
+      {
+        "date": "2026-11-06",
+        "pvCumulative": 170099.73
+      },
+      {
+        "date": "2026-11-07",
+        "pvCumulative": 170099.73
+      }
+    ]
+  },
+  {
+    "code": "Obras Exteriores",
+    "totalBudget": 0,
+    "points": [
+      {
+        "date": "2026-05-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-05-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-06-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-07-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-18",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-19",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-20",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-21",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-22",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-23",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-24",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-25",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-26",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-27",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-28",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-29",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-30",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-08-31",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-01",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-02",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-03",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-04",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-05",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-06",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-07",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-08",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-09",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-10",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-11",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-12",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-13",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-14",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-15",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-16",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-17",
+        "pvCumulative": 0
+      },
+      {
+        "date": "2026-09-18",
+        "pvCumulative": 880
+      },
+      {
+        "date": "2026-09-19",
+        "pvCumulative": 1760
+      },
+      {
+        "date": "2026-09-20",
+        "pvCumulative": 2640
+      },
+      {
+        "date": "2026-09-21",
+        "pvCumulative": 3520
+      },
+      {
+        "date": "2026-09-22",
+        "pvCumulative": 4400
+      },
+      {
+        "date": "2026-09-23",
+        "pvCumulative": 5280
+      },
+      {
+        "date": "2026-09-24",
+        "pvCumulative": 6160
+      },
+      {
+        "date": "2026-09-25",
+        "pvCumulative": 7040
+      },
+      {
+        "date": "2026-09-26",
+        "pvCumulative": 7920
+      },
+      {
+        "date": "2026-09-27",
+        "pvCumulative": 8800
+      },
+      {
+        "date": "2026-09-28",
+        "pvCumulative": 9680
+      },
+      {
+        "date": "2026-09-29",
+        "pvCumulative": 10560
+      },
+      {
+        "date": "2026-09-30",
+        "pvCumulative": 11440
+      },
+      {
+        "date": "2026-10-01",
+        "pvCumulative": 12320
+      },
+      {
+        "date": "2026-10-02",
+        "pvCumulative": 13200
+      },
+      {
+        "date": "2026-10-03",
+        "pvCumulative": 14080
+      },
+      {
+        "date": "2026-10-04",
+        "pvCumulative": 14960
+      },
+      {
+        "date": "2026-10-05",
+        "pvCumulative": 15840
+      },
+      {
+        "date": "2026-10-06",
+        "pvCumulative": 16720
+      },
+      {
+        "date": "2026-10-07",
+        "pvCumulative": 17600
+      },
+      {
+        "date": "2026-10-08",
+        "pvCumulative": 18480
+      },
+      {
+        "date": "2026-10-09",
+        "pvCumulative": 19360
+      },
+      {
+        "date": "2026-10-10",
+        "pvCumulative": 20240
+      },
+      {
+        "date": "2026-10-11",
+        "pvCumulative": 21120
+      },
+      {
+        "date": "2026-10-12",
+        "pvCumulative": 22000
+      },
+      {
+        "date": "2026-10-13",
+        "pvCumulative": 22880
+      },
+      {
+        "date": "2026-10-14",
+        "pvCumulative": 23760
+      },
+      {
+        "date": "2026-10-15",
+        "pvCumulative": 24640
+      },
+      {
+        "date": "2026-10-16",
+        "pvCumulative": 26498.95
+      },
+      {
+        "date": "2026-10-17",
+        "pvCumulative": 28357.9
+      },
+      {
+        "date": "2026-10-18",
+        "pvCumulative": 30216.85
+      },
+      {
+        "date": "2026-10-19",
+        "pvCumulative": 32075.8
+      },
+      {
+        "date": "2026-10-20",
+        "pvCumulative": 33934.75
+      },
+      {
+        "date": "2026-10-21",
+        "pvCumulative": 35793.7
+      },
+      {
+        "date": "2026-10-22",
+        "pvCumulative": 37652.65
+      },
+      {
+        "date": "2026-10-23",
+        "pvCumulative": 40286.6
+      },
+      {
+        "date": "2026-10-24",
+        "pvCumulative": 42920.55
+      },
+      {
+        "date": "2026-10-25",
+        "pvCumulative": 45554.5
+      },
+      {
+        "date": "2026-10-26",
+        "pvCumulative": 48188.45
+      },
+      {
+        "date": "2026-10-27",
+        "pvCumulative": 50822.4
+      },
+      {
+        "date": "2026-10-28",
+        "pvCumulative": 52576.35
+      },
+      {
+        "date": "2026-10-29",
+        "pvCumulative": 54330.3
+      },
+      {
+        "date": "2026-10-30",
+        "pvCumulative": 56084.25
+      },
+      {
+        "date": "2026-10-31",
+        "pvCumulative": 57838.2
+      },
+      {
+        "date": "2026-11-01",
+        "pvCumulative": 59592.15
+      },
+      {
+        "date": "2026-11-02",
+        "pvCumulative": 61346.1
+      },
+      {
+        "date": "2026-11-03",
+        "pvCumulative": 63100.05
+      },
+      {
+        "date": "2026-11-04",
+        "pvCumulative": 63875.05
+      },
+      {
+        "date": "2026-11-05",
+        "pvCumulative": 64650.05
+      },
+      {
+        "date": "2026-11-06",
+        "pvCumulative": 65425.05
+      },
+      {
+        "date": "2026-11-07",
+        "pvCumulative": 66200.05
+      }
+    ]
+  }
+]
