@@ -49,6 +49,9 @@ export interface DailyReport {
     edtCode: string;
     qtyExecuted: number;
     notes: string;
+    plannedQty?: number;
+    name?: string;
+    unit?: string;
   }[];
 
   // Recursos Utilizados (Actual Cost)
@@ -56,18 +59,23 @@ export interface DailyReport {
     resourceId: string; // de BD_RRHH o ResourceItem
     hoursWorked: number;
     edtGroupCode: string; // Capítulo Nivel 1 asociado (e.g. "EST")
+    name?: string;
   }[];
 
   materials: {
     resourceId: string;
     qtyConsumed: number;
     edtGroupCode: string; // Capítulo Nivel 1 asociado
+    name?: string;
+    unit?: string;
   }[];
 
   equipos: {
     resourceId: string;
     qtyUsed: number; // horas o días
     edtGroupCode: string; // Capítulo Nivel 1 asociado
+    name?: string;
+    unit?: string;
   }[];
 
   // Control, Seguridad e Incidentes

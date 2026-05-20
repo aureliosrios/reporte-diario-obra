@@ -6,171 +6,347 @@ export function GoogleScriptDocs() {
 
   const googleAppsScriptCode = `/**
  * =========================================================================
- * REPORTE DIARIO DE OBRA (RDO) - MICROSERVICIO BACKEND DE COOPERACIÓN
+ * REPORTE DIARIO DE OBRA (RDO) - MICROSERVICIO BIDIRECCIONAL EN GOOGLE SHEETS
  * =========================================================================
- * Desarrollado para registrar reportes en Google Sheets y guardar firmas/fotos
- * en Google Drive de forma gratuita e ilimitada.
- * Actuación: Recibe peticiones HTTP POST (JSON Payload).
+ * Desarrollado para registrar reportes en Google Sheets y leerlos en tiempo real
+ * para el Dashboard de PC.
+ * Soporta las 4 pestañas reales: R_Produccion, R_Seguridad, Detalle_Actividades y Detalle_Recursos.
  */
 
-function doPost(e) {
-  // Configuración de cabeceras CORS para permitir llamadas cross-origin
-  var headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Max-Age": "86400"
-  };
-
-  try {
-    // 1. Parsear datos recibidos del formulario móvil
-    var jsonString = e.postData.contents;
-    var payload = JSON.parse(jsonString);
-    
-    // 2. Inicializar Libro de Cálculo (Google Sheets) activo
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    
-    // Inicializar y formatear pestañas necesarias
-    var sheetReportes = inicializarHoja(ss, "Reportes", [
-      "ID Reporte", "Fecha Envío", "Proyecto Code", "Fecha Reporte", "Supervisor", "Turno", 
-      "Horas Efectivas", "Clima Mañana", "Clima Tarde", "Personal Total", "Seguridad OK", 
-      "Detalle Seguridad", "Incidentes", "Conflictos", "Plan Próximo Día", "Notas Generales", 
-      "Valor Planificado", "Valor Ganado", "Costo Real", "Varianza Plazo (SV)", "Varianza Costo (CV)", 
-      "SPI", "CPI", "Enlace Firma", "Foto Avance 1", "Foto Avance 2", "Foto Avance 3", "Foto Avance 4"
-    ]);
-    
-    var sheetActividades = inicializarHoja(ss, "Actividades", [
-      "ID Reporte", "Proyecto Code", "Fecha Reporte", "Supervisor", "Código Partida (EDT)", 
-      "Cantidad Ejecutada", "Notas / Avances"
-    ]);
-    
-    var sheetMateriales = inicializarHoja(ss, "Materiales", [
-      "ID Reporte", "Proyecto Code", "Fecha Reporte", "Supervisor", "Código Material", 
-      "Cantidad Consumida", "Capítulo EDT"
-    ]);
-
-    var sheetEquipos = inicializarHoja(ss, "Equipos", [
-      "ID Reporte", "Proyecto Code", "Fecha Reporte", "Supervisor", "Código Equipo", 
-      "Horas/Cantidad Utilizada", "Capítulo EDT"
-    ]);
-
-    // 3. Generar ID Único si no existe
-    var now = new Date();
-    var format = function(num) { return num < 10 ? '0' + num : num; };
-    var idReporte = payload.id || ("REP-" + now.getFullYear() + format(now.getMonth() + 1) + format(now.getDate()) + 
-                    "-" + format(now.getHours()) + format(now.getMinutes()) + format(now.getSeconds()));
-
-    // 4. Procesamiento de archivos de Firma y Fotos en Google Drive
-    var folderName = "Fotos Reportes Obra";
-    var parentFolder = obtenerOCrearCarpeta(folderName);
-    var reportFolder = parentFolder.createFolder(idReporte);
-    reportFolder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-
-    // Guardar Firma (Canvas interactivo)
-    var enlaceFirma = "";
-    if (payload.signatureBase64 && payload.signatureBase64.indexOf("base64,") !== -1) {
-      enlaceFirma = guardarImagenBase64(reportFolder, payload.signatureBase64, idReporte + "_firma.png");
+// 1. CONTROL DE CONSULTAS (HTTP GET): Obtiene los reportes para el Dashboard
+function doGet(e) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  var sheetProd = ss.getSheetByName("R_Produccion");
+  var sheetSeg = ss.getSheetByName("R_Seguridad");
+  var sheetAct = ss.getSheetByName("Detalle_Actividades");
+  var sheetRec = ss.getSheetByName("Detalle_Recursos");
+  
+  var reportsMap = {};
+  
+  // A. Leer cabeceras de R_Produccion (Producción de Obra)
+  if (sheetProd) {
+    var data = sheetProd.getDataRange().getValues();
+    for (var i = 1; i < data.length; i++) {
+      var row = data[i];
+      var id = row[0];
+      if (!id) continue;
+      
+      reportsMap[id] = {
+        id: id,
+        projectCode: "MFG-01", // Proyecto único
+        createdAt: row[1],
+        date: formatDateString(row[2]),
+        supervisor: row[3],
+        shift: row[4],
+        weatherMorning: row[5],
+        weatherAfternoon: row[6],
+        effectiveHours: Number(row[7]) || 8,
+        chapterWbsId: row[8] || "",
+        chapterWbsName: row[9] || "",
+        conflicts: row[10] || "",
+        plannedNextDay: row[11] || "",
+        generalNotes: row[12] || "",
+        activities: [],
+        manoObra: [],
+        materials: [],
+        equipos: [],
+        totalStaff: 0,
+        safetyInspected: false,
+        safetyDetails: "",
+        incidents: ""
+      };
     }
-
-    // Guardar Fotos de Avance (hasta 4)
-    var enlacesFotos = ["", "", "", ""];
-    if (payload.photoBase64s && payload.photoBase64s.length > 0) {
-      for (var i = 0; i < Math.min(payload.photoBase64s.length, 4); i++) {
-        if (payload.photoBase64s[i] && payload.photoBase64s[i].indexOf("base64,") !== -1) {
-          enlacesFotos[i] = guardarImagenBase64(reportFolder, payload.photoBase64s[i], idReporte + "_foto_" + (i + 1) + ".png");
+  }
+  
+  // B. Leer cabeceras de R_Seguridad (HSE y Personal)
+  if (sheetSeg) {
+    var data = sheetSeg.getDataRange().getValues();
+    for (var i = 1; i < data.length; i++) {
+      var row = data[i];
+      var id = row[0];
+      if (!id) continue;
+      
+      var r = reportsMap[id];
+      if (!r) {
+        r = {
+          id: id,
+          projectCode: "MFG-01",
+          createdAt: row[1],
+          date: formatDateString(row[2]),
+          supervisor: row[3],
+          shift: row[4],
+          weatherMorning: row[5],
+          weatherAfternoon: row[6],
+          effectiveHours: 0,
+          chapterWbsId: "",
+          chapterWbsName: "",
+          conflicts: "",
+          plannedNextDay: "",
+          generalNotes: row[11] || "",
+          activities: [],
+          manoObra: [],
+          materials: [],
+          equipos: []
+        };
+        reportsMap[id] = r;
+      }
+      
+      r.totalStaff = Number(row[7]) || 0;
+      r.safetyInspected = (row[8] === "SÍ");
+      r.safetyDetails = row[9] || "";
+      r.incidents = row[10] || "";
+    }
+  }
+  
+  // C. Leer detalle de actividades de Detalle_Actividades
+  if (sheetAct) {
+    var data = sheetAct.getDataRange().getValues();
+    for (var i = 1; i < data.length; i++) {
+      var row = data[i];
+      var id = row[0];
+      if (!id) continue;
+      
+      var r = reportsMap[id];
+      if (r) {
+        r.activities.push({
+          edtCode: row[4],
+          name: row[5] || "",
+          unit: row[6] || "",
+          plannedQty: Number(row[7]) || 0,
+          qtyExecuted: Number(row[8]) || 0,
+          notes: row[10] || ""
+        });
+      }
+    }
+  }
+  
+  // D. Leer recursos de Detalle_Recursos
+  if (sheetRec) {
+    var data = sheetRec.getDataRange().getValues();
+    for (var i = 1; i < data.length; i++) {
+      var row = data[i];
+      var id = row[0];
+      if (!id) continue;
+      
+      var r = reportsMap[id];
+      if (r) {
+        var tipo = row[3]; // mano_obra, material, equipo
+        var wbsId = row[4];
+        var resId = row[5];
+        var desc = row[6] || "";
+        var unit = row[8] || "";
+        var qty = Number(row[9]) || 0;
+        
+        if (tipo === "mano_obra") {
+          r.manoObra.push({
+            resourceId: resId,
+            name: desc,
+            hoursWorked: qty,
+            edtGroupCode: wbsId
+          });
+        } else if (tipo === "material") {
+          r.materials.push({
+            resourceId: resId,
+            name: desc,
+            qtyConsumed: qty,
+            unit: unit,
+            edtGroupCode: wbsId
+          });
+        } else if (tipo === "equipo") {
+          r.equipos.push({
+            resourceId: resId,
+            name: desc,
+            qtyUsed: qty,
+            unit: unit,
+            edtGroupCode: wbsId
+          });
         }
       }
     }
+  }
+  
+  var list = [];
+  for (var k in reportsMap) {
+    list.push(reportsMap[k]);
+  }
+  
+  // Ordenar de más antiguo a más nuevo
+  list.sort(function(a, b) {
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
+  });
+  
+  var response = ContentService.createTextOutput(JSON.stringify(list));
+  response.setMimeType(ContentService.MimeType.JSON);
+  response.appendHeader("Access-Control-Allow-Origin", "*");
+  return response;
+}
 
-    // 5. Registrar información relacional en la Hoja General de Reportes (Cabecera)
-    var mt = payload.metrics || { plannedValue: 0, earnedValue: 0, actualCost: 0, sv: 0, cv: 0, spi: 1, cpi: 1 };
-    sheetReportes.appendRow([
-      idReporte,
-      now.toISOString(),
-      payload.projectCode,
-      payload.date,
-      payload.supervisor,
-      payload.shift,
-      payload.effectiveHours,
-      payload.weatherMorning,
-      payload.weatherAfternoon,
-      payload.totalStaff,
-      payload.safetyInspected ? "SÍ" : "NO",
-      payload.safetyDetails || "",
-      payload.incidents || "",
-      payload.conflicts || "",
-      payload.plannedNextDay || "",
-      payload.generalNotes || "",
-      mt.plannedValue,
-      mt.earnedValue,
-      mt.actualCost,
-      mt.sv,
-      mt.cv,
-      mt.spi,
-      mt.cpi,
-      enlaceFirma,
-      enlacesFotos[0],
-      enlacesFotos[1],
-      enlacesFotos[2],
-      enlacesFotos[3]
+// Helper: Formatea celdas de fechas a string limpio YYYY-MM-DD
+function formatDateString(val) {
+  if (val instanceof Date) {
+    var y = val.getFullYear();
+    var m = val.getMonth() + 1;
+    var d = val.getDate();
+    return y + "-" + (m < 10 ? '0' + m : m) + "-" + (d < 10 ? '0' + d : d);
+  }
+  if (typeof val === "string" && val.indexOf("T") !== -1) {
+    return val.split("T")[0];
+  }
+  return String(val);
+}
+
+// 2. RECEPCIÓN DE ENVÍOS (HTTP POST): Guarda nuevos registros
+function doPost(e) {
+  var headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+  };
+
+  try {
+    var jsonString = e.postData.contents;
+    var payload = JSON.parse(jsonString);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    
+    var sheetProd = inicializarHoja(ss, "R_Produccion", [
+      "ID Reporte", "Fecha Envío", "Fecha Reporte", "Supervisor/Ingeniero", "Turno", 
+      "Clima Mañana", "Clima Tarde", "Horas Efectivas", "Capítulo WBS ID", "Capítulo WBS Nombre", 
+      "Conflictos/Restricciones", "Trabajos Mañana", "Observaciones Generales"
+    ]);
+    
+    var sheetSeg = inicializarHoja(ss, "R_Seguridad", [
+      "ID Reporte", "Fecha Envío", "Fecha Reporte", "Supervisor/Ingeniero", "Turno", 
+      "Clima Mañana", "Clima Tarde", "Personal Total en Obra", "Inspecciones Realizadas", 
+      "Detalle Inspecciones", "Accidentes/Incidentes", "Observaciones Generales"
+    ]);
+    
+    var sheetAct = inicializarHoja(ss, "Detalle_Actividades", [
+      "ID Reporte", "Fecha Reporte", "Supervisor/Ingeniero", "Capítulo WBS ID", "Actividad WBS ID", 
+      "Nombre Actividad", "Unidad", "Meta del Día", "Cantidad Ejecutada", "Avance Estimado", "Observación/Comentario"
+    ]);
+    
+    var sheetRec = inicializarHoja(ss, "Detalle_Recursos", [
+      "ID Reporte", "Fecha Reporte", "Supervisor/Ingeniero", "Tipo Recurso", "Capítulo WBS ID", 
+      "ID Recurso", "Descripción Recurso", "Categoría/Detalle", "Unidad", "Cantidad Registrada"
     ]);
 
-    // 6. Registrar detención de actividades (Partidas ejecutadas)
-    if (payload.activities && payload.activities.length > 0) {
-      payload.activities.forEach(function(act) {
-        sheetActividades.appendRow([
-          idReporte,
-          payload.projectCode,
-          payload.date,
-          payload.supervisor,
-          act.edtCode,
-          act.qtyExecuted,
-          act.notes || ""
-        ]);
-      });
+    var now = new Date();
+    var format = function(num) { return num < 10 ? '0' + num : num; };
+    var idReporte = payload.id || ("REP-MFG-" + now.getFullYear() + format(now.getMonth() + 1) + format(now.getDate()) + 
+                    "-" + format(now.getHours()) + format(now.getMinutes()) + format(now.getSeconds()));
+
+    if (payload.reportType === "safety") {
+      sheetSeg.appendRow([
+        idReporte,
+        now.toISOString(),
+        payload.date,
+        payload.supervisor,
+        payload.shift,
+        payload.weatherMorning,
+        payload.weatherAfternoon,
+        payload.totalStaff || 0,
+        payload.safetyInspected ? "SÍ" : "NO",
+        payload.safetyDetails || "",
+        payload.incidents || "",
+        payload.generalNotes || ""
+      ]);
+    } else {
+      sheetProd.appendRow([
+        idReporte,
+        now.toISOString(),
+        payload.date,
+        payload.supervisor,
+        payload.shift,
+        payload.weatherMorning,
+        payload.weatherAfternoon,
+        payload.effectiveHours || 8,
+        payload.chapterWbsId || "",
+        payload.chapterWbsName || "",
+        payload.conflicts || "",
+        payload.plannedNextDay || "",
+        payload.generalNotes || ""
+      ]);
+
+      if (payload.activities && payload.activities.length > 0) {
+        payload.activities.forEach(function(act) {
+          sheetAct.appendRow([
+            idReporte,
+            payload.date,
+            payload.supervisor,
+            payload.chapterWbsId || "",
+            act.edtCode,
+            act.name || "",
+            act.unit || "",
+            act.plannedQty || 0,
+            act.qtyExecuted,
+            "",
+            act.notes || ""
+          ]);
+        });
+      }
+
+      if (payload.manoObra && payload.manoObra.length > 0) {
+        payload.manoObra.forEach(function(mo) {
+          sheetRec.appendRow([
+            idReporte,
+            payload.date,
+            payload.supervisor,
+            "mano_obra",
+            mo.edtGroupCode,
+            mo.resourceId,
+            mo.name || "",
+            "Horas Trabajadas",
+            "H-H",
+            mo.hoursWorked
+          ]);
+        });
+      }
+
+      if (payload.materials && payload.materials.length > 0) {
+        payload.materials.forEach(function(mat) {
+          sheetRec.appendRow([
+            idReporte,
+            payload.date,
+            payload.supervisor,
+            "material",
+            mat.edtGroupCode,
+            mat.resourceId,
+            mat.name || "",
+            "Consumo Material",
+            mat.unit || "",
+            mat.qtyConsumed
+          ]);
+        });
+      }
+
+      if (payload.equipos && payload.equipos.length > 0) {
+        payload.equipos.forEach(function(eq) {
+          sheetRec.appendRow([
+            idReporte,
+            payload.date,
+            payload.supervisor,
+            "equipo",
+            eq.edtGroupCode,
+            eq.resourceId,
+            eq.name || "",
+            "Uso de Equipo",
+            eq.unit || "",
+            eq.qtyUsed
+          ]);
+        });
+      }
     }
 
-    // 7. Registrar Materiales Consumidos
-    if (payload.materials && payload.materials.length > 0) {
-      payload.materials.forEach(function(mat) {
-        sheetMateriales.appendRow([
-          idReporte,
-          payload.projectCode,
-          payload.date,
-          payload.supervisor,
-          mat.resourceId,
-          mat.qtyConsumed,
-          mat.edtGroupCode
-        ]);
-      });
-    }
-
-    // 8. Registrar Equipos Utilizados
-    if (payload.equipos && payload.equipos.length > 0) {
-      payload.equipos.forEach(function(eq) {
-        sheetEquipos.appendRow([
-          idReporte,
-          payload.projectCode,
-          payload.date,
-          payload.supervisor,
-          eq.resourceId,
-          eq.qtyUsed,
-          eq.edtGroupCode
-        ]);
-      });
-    }
-
-    // Enviar respuesta exitosa compatible con CORS
     var responseOutput = ContentService.createTextOutput(JSON.stringify({
       status: "success",
       reportId: idReporte,
-      message: "Reporte guardado correctamente en Google Sheets y Drive"
+      message: "Reporte guardado correctamente en Google Sheets"
     }));
     responseOutput.setMimeType(ContentService.MimeType.JSON);
     return responseOutput;
 
   } catch (error) {
-    // Respuesta de error controlada
     var responseOutput = ContentService.createTextOutput(JSON.stringify({
       status: "error",
       message: error.toString()
@@ -180,27 +356,178 @@ function doPost(e) {
   }
 }
 
-/**
- * Auxiliar: Asegura la existencia de la hoja y formatea sus encabezados
- */
+// 3. UTILITY GENERATOR: Crea 20 días de datos sintéticos continuos para pruebas
+function generarDatosSinteticos() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  var sheetProd = inicializarHoja(ss, "R_Produccion", [
+    "ID Reporte", "Fecha Envío", "Fecha Reporte", "Supervisor/Ingeniero", "Turno", 
+    "Clima Mañana", "Clima Tarde", "Horas Efectivas", "Capítulo WBS ID", "Capítulo WBS Nombre", 
+    "Conflictos/Restricciones", "Trabajos Mañana", "Observaciones Generales"
+  ]);
+  
+  var sheetSeg = inicializarHoja(ss, "R_Seguridad", [
+    "ID Reporte", "Fecha Envío", "Fecha Reporte", "Supervisor/Ingeniero", "Turno", 
+    "Clima Mañana", "Clima Tarde", "Personal Total en Obra", "Inspecciones Realizadas", 
+    "Detalle Inspecciones", "Accidentes/Incidentes", "Observaciones Generales"
+  ]);
+  
+  var sheetAct = inicializarHoja(ss, "Detalle_Actividades", [
+    "ID Reporte", "Fecha Reporte", "Supervisor/Ingeniero", "Capítulo WBS ID", "Actividad WBS ID", 
+    "Nombre Actividad", "Unidad", "Meta del Día", "Cantidad Ejecutada", "Avance Estimado", "Observación/Comentario"
+  ]);
+  
+  var sheetRec = inicializarHoja(ss, "Detalle_Recursos", [
+    "ID Reporte", "Fecha Reporte", "Supervisor/Ingeniero", "Tipo Recurso", "Capítulo WBS ID", 
+    "ID Recurso", "Descripción Recurso", "Categoría/Detalle", "Unidad", "Cantidad Registrada"
+  ]);
+  
+  // Limpiar datos anteriores (excepto cabeceras)
+  if (sheetProd.getLastRow() > 1) sheetProd.getRange(2, 1, sheetProd.getLastRow() - 1, sheetProd.getLastColumn()).clearContent();
+  if (sheetSeg.getLastRow() > 1) sheetSeg.getRange(2, 1, sheetSeg.getLastRow() - 1, sheetSeg.getLastColumn()).clearContent();
+  if (sheetAct.getLastRow() > 1) sheetAct.getRange(2, 1, sheetAct.getLastRow() - 1, sheetAct.getLastColumn()).clearContent();
+  if (sheetRec.getLastRow() > 1) sheetRec.getRange(2, 1, sheetRec.getLastRow() - 1, sheetRec.getLastColumn()).clearContent();
+  
+  var baseDate = new Date(2026, 4, 15); // 15 de Mayo de 2026
+  
+  for (var day = 0; day < 20; day++) {
+    var currentDate = new Date(baseDate.getTime() + day * 24 * 60 * 60 * 1000);
+    var dateString = currentDate.getFullYear() + "-" + 
+                     ((currentDate.getMonth() + 1) < 10 ? "0" + (currentDate.getMonth() + 1) : (currentDate.getMonth() + 1)) + "-" + 
+                     (currentDate.getDate() < 10 ? "0" + currentDate.getDate() : currentDate.getDate());
+    
+    var idReporte = "REP-MFG-" + dateString.replace(/-/g, "");
+    var supervisor = "Ing. Alejandro Rivas";
+    var shift = "Mañana";
+    
+    var weatherMorning = "Soleado";
+    var weatherAfternoon = "Nublado";
+    var effectiveHours = 8;
+    var conflicts = "Ninguno";
+    var observations = "Avances conformes al programa diario de obra.";
+    
+    // Simular retraso por lluvia extrema en el Día 6
+    if (day === 5) {
+      weatherMorning = "Nublado";
+      weatherAfternoon = "Lluvia";
+      effectiveHours = 4;
+      conflicts = "Lluvia torrencial en la tarde. Se paralizaron trabajos a las 14:00.";
+      observations = "Parada parcial por tormenta. Personal evacuado a refugios.";
+    } 
+    // Simular horas extras de recuperación en los Días 7 al 12
+    else if (day >= 6 && day <= 11) {
+      effectiveHours = 9.5;
+      conflicts = "Jornada extendida autorizada.";
+      observations = "Se trabajaron 1.5 horas extras para recuperar avance de estructuras.";
+    }
+    
+    var chapterWbsId = (day < 12) ? "EST" : "ARQ";
+    var chapterWbsName = (day < 12) ? "Estructuras" : "Arquitectura";
+    
+    // A. Registrar Producción
+    sheetProd.appendRow([
+      idReporte,
+      new Date().toISOString(),
+      dateString,
+      supervisor,
+      shift,
+      weatherMorning,
+      weatherAfternoon,
+      effectiveHours,
+      chapterWbsId,
+      chapterWbsName,
+      conflicts,
+      "Preparar encofrado y control de calidad de materiales.",
+      observations
+    ]);
+    
+    // B. Registrar Seguridad (HSE)
+    var totalStaff = Math.round(18 + Math.random() * 8);
+    if (day >= 6 && day <= 11) totalStaff += 4; // Más operarios para horas extras
+    
+    var hseInspected = true;
+    var hseDetails = "Inspección de EPPs y arneses conforme.";
+    var safetyIncident = "Ninguno";
+    
+    if (day === 10) { // Día 11: Incidente leve
+      hseDetails = "Revisión de cables de andamio con observaciones menores.";
+      safetyIncident = "Resbalón de peón en rampa de acceso, atendido por primeros auxilios. Sin baja laboral.";
+    }
+    
+    sheetSeg.appendRow([
+      idReporte,
+      new Date().toISOString(),
+      dateString,
+      supervisor,
+      shift,
+      weatherMorning,
+      weatherAfternoon,
+      totalStaff,
+      hseInspected ? "SÍ" : "NO",
+      hseDetails,
+      safetyIncident,
+      "Charlas de 5 minutos sobre orden y limpieza enfocadas en lodos."
+    ]);
+    
+    // C. Registrar Actividades Ejecutadas
+    if (day < 5) {
+      sheetAct.appendRow([idReporte, dateString, supervisor, "EST", "EST-01", "Obras Provisionales y Preliminares", "m2", 20, 15, "", "Habilitación de almacenes"]);
+      sheetAct.appendRow([idReporte, dateString, supervisor, "EST", "EST-02", "Movimiento de Tierras - Excavación", "m3", 100, 85, "", "Excavación masiva de zanjas"]);
+    } else if (day === 5) { // Día de lluvia: producción baja
+      sheetAct.appendRow([idReporte, dateString, supervisor, "EST", "EST-02", "Movimiento de Tierras - Excavación", "m3", 100, 15, "", "Parálisis por anegamiento"]);
+    } else if (day >= 6 && day < 12) {
+      var colQty = (day === 6 || day === 7) ? 25 : 18;
+      var beamQty = (day >= 8) ? 35 : 0;
+      sheetAct.appendRow([idReporte, dateString, supervisor, "EST", "EST-03", "Concreto de Columnas y Placas", "m3", 40, colQty, "", "Vaciado continuo de concreto f'c=280"]);
+      if (beamQty > 0) {
+        sheetAct.appendRow([idReporte, dateString, supervisor, "EST", "EST-04", "Concreto de Vigas y Losas", "m3", 45, beamQty, "", "Encofrado e instalación de acero"]);
+      }
+    } else { // Fase de Arquitectura
+      var wallQty = 120 - (day - 12) * 5;
+      var plasterQty = (day >= 15) ? 140 : 0;
+      sheetAct.appendRow([idReporte, dateString, supervisor, "ARQ", "ARQ-01", "Muros de Ladrillo KK", "m2", 150, wallQty, "", "Asentado de muros en primer nivel"]);
+      if (plasterQty > 0) {
+        sheetAct.appendRow([idReporte, dateString, supervisor, "ARQ", "ARQ-02", "Tarrajeo Frotachado Interiores", "m2", 180, plasterQty, "", "Tarrajeo liso en muros internos"]);
+      }
+    }
+    
+    // D. Registrar Recursos Consumidos
+    // Personal (Mano de Obra)
+    sheetRec.appendRow([idReporte, dateString, supervisor, "mano_obra", chapterWbsId, "LH-CAP", "Capataz de Edificación", "Horas Trabajadas", "H-H", effectiveHours]);
+    sheetRec.appendRow([idReporte, dateString, supervisor, "mano_obra", chapterWbsId, "LH-OPE", "Operario Civil", "Horas Trabajadas", "H-H", effectiveHours * 4]);
+    sheetRec.appendRow([idReporte, dateString, supervisor, "mano_obra", chapterWbsId, "LH-PEO", "Peón de Construcción", "Horas Trabajadas", "H-H", effectiveHours * 8]);
+    
+    // Materiales y Equipos
+    if (day < 5) {
+      sheetRec.appendRow([idReporte, dateString, supervisor, "equipo", "EST", "EQ-RET", "Retroexcavadora CAT 320", "Uso de Equipo", "H-M", effectiveHours]);
+    } else if (day === 5) {
+      sheetRec.appendRow([idReporte, dateString, supervisor, "equipo", "EST", "EQ-RET", "Retroexcavadora CAT 320", "Uso de Equipo", "H-M", 3]);
+    } else if (day >= 6 && day < 12) {
+      sheetRec.appendRow([idReporte, dateString, supervisor, "equipo", "EST", "EQ-MEZ", "Mezcladora de Trompo", "Uso de Equipo", "H-M", effectiveHours]);
+      var cementUsed = (day >= 8) ? 90 : 45;
+      sheetRec.appendRow([idReporte, dateString, supervisor, "material", "EST", "MAT-CEM", "Cemento Portland Tipo I", "Consumo Material", "Bolsa", cementUsed]);
+    } else { // Arquitectura
+      sheetRec.appendRow([idReporte, dateString, supervisor, "material", "ARQ", "MAT-CEM", "Cemento Portland Tipo I", "Consumo Material", "Bolsa", 22]);
+      sheetRec.appendRow([idReporte, dateString, supervisor, "material", "ARQ", "MAT-LAD", "Ladrillo KK Arcilla 18H", "Consumo Material", "Millar", 2.1]);
+    }
+  }
+}
+
+// Auxiliar: Asegura la existencia de la hoja y formatea sus encabezados
 function inicializarHoja(spreadsheet, nombreHoja, columnas) {
   var sheet = spreadsheet.getSheetByName(nombreHoja);
   if (!sheet) {
     sheet = spreadsheet.insertSheet(nombreHoja);
     sheet.appendRow(columnas);
     
-    // Aplicar formato premium a la cabecera
     var headerRange = sheet.getRange(1, 1, 1, columnas.length);
-    headerRange.setBackground("#0284c7") // Azul Corporativo RDO
+    headerRange.setBackground("#1e293b") // Slate 800 Premium
                .setFontColor("#FFFFFF")
                .setFontWeight("bold")
                .setFontFamily("Arial")
                .setHorizontalAlignment("center");
     
-    // Congelar fila de cabecera
     sheet.setFrozenRows(1);
-    
-    // Autoajustar columnas
     for (var i = 1; i <= columnas.length; i++) {
        sheet.autoResizeColumn(i);
     }
@@ -208,9 +535,7 @@ function inicializarHoja(spreadsheet, nombreHoja, columnas) {
   return sheet;
 }
 
-/**
- * Auxiliar: Busca o crea una carpeta en la raíz de Google Drive
- */
+// Auxiliar: Busca o crea una carpeta en la raíz de Google Drive
 function obtenerOCrearCarpeta(nombre) {
   var folders = DriveApp.getFoldersByName(nombre);
   if (folders.hasNext()) {
@@ -220,9 +545,7 @@ function obtenerOCrearCarpeta(nombre) {
   }
 }
 
-/**
- * Auxiliar: Convierte un String Base64 a archivo binario de imagen en Drive y devuelve la URL de vista directa
- */
+// Auxiliar: Convierte un String Base64 a archivo binario de imagen en Drive y devuelve la URL
 function guardarImagenBase64(folder, base64String, fileName) {
   try {
     var rawData = base64String.split("base64,")[1];
@@ -230,14 +553,13 @@ function guardarImagenBase64(folder, base64String, fileName) {
     var blob = Utilities.newBlob(decoded, "image/png", fileName);
     var file = folder.createFile(blob);
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    
-    // Retorna URL de descarga directa o visualización limpia
     return "https://docs.google.com/uc?export=view&id=" + file.getId();
   } catch(e) {
     Logger.log("Error guardando imagen " + fileName + ": " + e.toString());
     return "";
   }
-}`;
+}
+`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(googleAppsScriptCode);
@@ -251,7 +573,7 @@ function guardarImagenBase64(folder, base64String, fileName) {
         <div>
           <h2 className="text-xl font-bold font-sans tracking-tight text-white flex items-center gap-2">
             <Server className="w-5 h-5 text-sky-400" />
-            Integración de Base de Datos Base de Campo
+            Integración de Base de Datos de Campo
           </h2>
           <p className="text-xs text-slate-400 mt-1">
             Sincroniza tus reportes con tu propia hoja de cálculo de Google Sheets y Google Drive de manera directa.
@@ -259,7 +581,7 @@ function guardarImagenBase64(folder, base64String, fileName) {
         </div>
         <button
           onClick={copyToClipboard}
-          className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 transition text-slate-950 px-4 py-2 rounded-xl text-xs font-semibold shadow-lg"
+          className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 transition text-slate-950 px-4 py-2 rounded-xl text-xs font-semibold shadow-lg cursor-pointer"
         >
           {copied ? (
             <>

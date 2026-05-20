@@ -38,6 +38,154 @@ const BACKUP_RESOURCES: ResourceItem[] = [
   { id: "EQ-RET", name: "Retroexcavadora Oruga CAT 320", type: "equipo", unit: "Hora Máquina", unitCost: 48.0 }
 ];
 
+const generateBackupPlannedValues = (): PlannedValue[] => {
+  const values: PlannedValue[] = [];
+  const baseDate = new Date("2026-05-15");
+  
+  for (let i = 0; i < 20; i++) {
+    const d = new Date(baseDate.getTime() + i * 24 * 60 * 60 * 1000);
+    const dateStr = d.toISOString().split("T")[0];
+
+    values.push({ date: dateStr, edtCode: "EST-01", plannedQty: 15 });
+    values.push({ date: dateStr, edtCode: "EST-02", plannedQty: 80 });
+    values.push({ date: dateStr, edtCode: "EST-03", plannedQty: 25 });
+    values.push({ date: dateStr, edtCode: "EST-04", plannedQty: 30 });
+    values.push({ date: dateStr, edtCode: "ARQ-01", plannedQty: 65 });
+    values.push({ date: dateStr, edtCode: "ARQ-02", plannedQty: 110 });
+    values.push({ date: dateStr, edtCode: "ARQ-03", plannedQty: 50 });
+    values.push({ date: dateStr, edtCode: "MEP-01", plannedQty: 80 });
+    values.push({ date: dateStr, edtCode: "MEP-02", plannedQty: 35 });
+  }
+  return values;
+};
+
+const generate20DaysSyntheticReports = (): DailyReport[] => {
+  const reports: DailyReport[] = [];
+  const baseDate = new Date("2026-05-15");
+  
+  for (let day = 0; day < 20; day++) {
+    const currentDate = new Date(baseDate.getTime() + day * 24 * 60 * 60 * 1000);
+    const dateString = currentDate.toISOString().split("T")[0];
+    const dateStrShort = dateString.replace(/-/g, "");
+    const idReporte = `REP-MFG-${dateStrShort}`;
+    const supervisor = "Ing. Alejandro Rivas";
+    const shift = "Mañana";
+    
+    let weatherMorning: "Soleado" | "Nublado" | "Lluvia" | "Viento" = "Soleado";
+    let weatherAfternoon: "Soleado" | "Nublado" | "Lluvia" | "Viento" = "Nublado";
+    let effectiveHours = 8;
+    let conflicts = "Ninguno";
+    let observations = "Avances conformes al programa diario de obra.";
+    
+    // Simular retraso por lluvia extrema en el Día 6
+    if (day === 5) {
+      weatherMorning = "Nublado";
+      weatherAfternoon = "Lluvia";
+      effectiveHours = 4;
+      conflicts = "Lluvia torrencial en la tarde. Se paralizaron trabajos a las 14:00.";
+      observations = "Parada parcial por tormenta. Personal evacuado a refugios.";
+    } 
+    // Simular horas extras de recuperación en los Días 7 al 12
+    else if (day >= 6 && day <= 11) {
+      effectiveHours = 9.5;
+      conflicts = "Jornada extendida autorizada.";
+      observations = "Se trabajaron 1.5 horas extras para recuperar avance de estructuras.";
+    }
+    
+    const chapterWbsId = (day < 12) ? "EST" : "ARQ";
+    
+    // A. Registrar Seguridad (HSE)
+    let totalStaff = Math.round(18 + Math.random() * 8);
+    if (day >= 6 && day <= 11) totalStaff += 4; // Más operarios para horas extras
+    
+    let hseInspected = true;
+    let hseDetails = "Inspección de EPPs y arneses conforme.";
+    let safetyIncident = "Ninguno";
+    
+    if (day === 10) { // Día 11: Incidente leve
+      hseDetails = "Revisión de cables de andamio con observaciones menores.";
+      safetyIncident = "Resbalón de peón en rampa de acceso, atendido por primeros auxilios. Sin baja laboral.";
+    }
+    
+    // B. Registrar Actividades Ejecutadas
+    const dayActivities: any[] = [];
+    if (day < 5) {
+      dayActivities.push({ edtCode: "EST-01", name: "Obras Provisionales y Trabajos Preliminares", unit: "m2", plannedQty: 20, qtyExecuted: 15, notes: "Habilitación de almacenes" });
+      dayActivities.push({ edtCode: "EST-02", name: "Movimiento de Tierras - Excavación masiva", unit: "m3", plannedQty: 100, qtyExecuted: 85, notes: "Excavación masiva de zanjas" });
+    } else if (day === 5) { // Día de lluvia: producción baja
+      dayActivities.push({ edtCode: "EST-02", name: "Movimiento de Tierras - Excavación masiva", unit: "m3", plannedQty: 100, qtyExecuted: 15, notes: "Parálisis por anegamiento" });
+    } else if (day >= 6 && day < 12) {
+      const colQty = (day === 6 || day === 7) ? 25 : 18;
+      const beamQty = (day >= 8) ? 35 : 0;
+      dayActivities.push({ edtCode: "EST-03", name: "Concreto de Columnas y Placas (f'c=280 kg/cm2)", unit: "m3", plannedQty: 40, qtyExecuted: colQty, notes: "Vaciado continuo de concreto f'c=280" });
+      if (beamQty > 0) {
+        dayActivities.push({ edtCode: "EST-04", name: "Concreto de Vigas y Losas Aligeradas", unit: "m3", plannedQty: 45, qtyExecuted: beamQty, notes: "Encofrado e instalación de acero" });
+      }
+    } else { // Fase de Arquitectura
+      const wallQty = 120 - (day - 12) * 5;
+      const plasterQty = (day >= 15) ? 140 : 0;
+      dayActivities.push({ edtCode: "ARQ-01", name: "Muros de Albañilería de Ladrillo KK", unit: "m2", plannedQty: 150, qtyExecuted: wallQty, notes: "Asentado de muros en primer nivel" });
+      if (plasterQty > 0) {
+        dayActivities.push({ edtCode: "ARQ-02", name: "Tarrajeo Frotachado en Interiores", unit: "m2", plannedQty: 180, qtyExecuted: plasterQty, notes: "Tarrajeo liso en muros internos" });
+      }
+    }
+    
+    // C. Registrar Recursos Consumidos
+    const manoObra = [
+      { resourceId: "LH-CAP", name: "Capataz de Edificación", hoursWorked: effectiveHours, edtGroupCode: chapterWbsId },
+      { resourceId: "LH-OPE", name: "Operario Civil", hoursWorked: effectiveHours * 4, edtGroupCode: chapterWbsId },
+      { resourceId: "LH-PEO", name: "Peón de Construcción", hoursWorked: effectiveHours * 8, edtGroupCode: chapterWbsId }
+    ];
+    
+    const materials: any[] = [];
+    const equipos: any[] = [];
+    
+    if (day < 5) {
+      equipos.push({ resourceId: "EQ-RET", name: "Retroexcavadora Oruga CAT 320", qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "EST" });
+    } else if (day === 5) {
+      equipos.push({ resourceId: "EQ-RET", name: "Retroexcavadora Oruga CAT 320", qtyUsed: 3, unit: "Hora Máquina", edtGroupCode: "EST" });
+    } else if (day >= 6 && day < 12) {
+      equipos.push({ resourceId: "EQ-MEZ", name: "Mezcladora de Concreto Trompo 9p3", qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "EST" });
+      const cementUsed = (day >= 8) ? 90 : 45;
+      materials.push({ resourceId: "MAT-CEM", name: "Cemento Portland Tipo I (Bolsa 42.5kg)", qtyConsumed: cementUsed, unit: "Bolsa", edtGroupCode: "EST" });
+    } else { // Arquitectura
+      materials.push({ resourceId: "MAT-CEM", name: "Cemento Portland Tipo I (Bolsa 42.5kg)", qtyConsumed: 22, unit: "Bolsa", edtGroupCode: "ARQ" });
+      materials.push({ resourceId: "MAT-LAD", name: "Ladrillo King Kong Arcilla Cocida 18H", qtyConsumed: 2.1, unit: "Millar", edtGroupCode: "ARQ" });
+    }
+    
+    reports.push({
+      id: idReporte,
+      projectCode: "MFG-01",
+      date: dateString,
+      shift,
+      effectiveHours,
+      supervisor,
+      weatherMorning,
+      weatherAfternoon,
+      activities: dayActivities,
+      manoObra,
+      materials,
+      equipos,
+      totalStaff,
+      safetyInspected: hseInspected,
+      safetyDetails: hseDetails,
+      incidents: safetyIncident,
+      conflicts,
+      plannedNextDay: "Preparar encofrado y control de calidad de materiales.",
+      generalNotes: observations,
+      signatureUrlLocal: "",
+      photoUrlsLocal: [],
+      signatureBase64: "",
+      photoBase64s: [],
+      createdAt: new Date().toISOString()
+    });
+  }
+  
+  return reports;
+};
+
+const BACKUP_REPORTS = generate20DaysSyntheticReports();
+
 export default function App() {
   const [activeTab, setActiveTab] = useState<"campo" | "control" | "sheets">("control");
   const [projects, setProjects] = useState<Project[]>(BACKUP_PROJECTS);
@@ -53,8 +201,31 @@ export default function App() {
   const [isOfflineMode, setIsOfflineMode] = useState(false);
 
   // Sync / Load Initial database from Express Server API or Local fallback
-  const fetchAllData = async () => {
+  const fetchAllData = async (customUrl?: string) => {
     setLoading(true);
+    const webhookUrl = customUrl || localStorage.getItem("RDO_APPS_SCRIPT_WEBHOOK") || "";
+    
+    // Si tenemos una URL de webhook, intentemos cargar los reportes directamente de Google Sheets
+    let liveReports: DailyReport[] = [];
+    let fetchedFromSheets = false;
+    
+    if (webhookUrl) {
+      try {
+        console.log("Sincronizando reportes en vivo desde Google Sheets:", webhookUrl);
+        const response = await fetch(webhookUrl);
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            liveReports = data;
+            fetchedFromSheets = true;
+            console.log("¡Reportes sincronizados en vivo con éxito! Cantidad:", liveReports.length);
+          }
+        }
+      } catch (e) {
+        console.warn("No se pudo cargar desde Google Sheets. ¿Están configurados los permisos CORS?:", e);
+      }
+    }
+
     try {
       const pRes = await fetch("/api/projects");
       const pData = await pRes.json();
@@ -66,33 +237,40 @@ export default function App() {
       setPlannedValues(mData.plannedValues);
       setResources(mData.resources);
 
-      const rRes = await fetch("/api/reports");
-      const rData = await rRes.json();
-      setReports(rData);
+      // Si cargamos con éxito desde Sheets, usamos esos reportes. Si no, consultamos el servidor Express local.
+      if (fetchedFromSheets) {
+        setReports(liveReports);
+      } else {
+        const rRes = await fetch("/api/reports");
+        const rData = await rRes.json();
+        setReports(rData);
+      }
 
       setIsOfflineMode(false);
     } catch (err) {
       console.warn("Express API Server is booting or offline, loading resilient static fallback variables:", err);
-      // Fallback: seed planned values for backup timeline
-      const mockPv: PlannedValue[] = [];
-      const todayStr = new Date().toISOString().split("T")[0];
-      BACKUP_EDT.forEach(edt => {
-        mockPv.push({ date: todayStr, edtCode: edt.code, plannedQty: 25 });
-      });
-      setPlannedValues(mockPv);
-      setIsOfflineMode(true);
+      // Fallback: seed planned values for backup timeline over the 20 days range
+      setPlannedValues(generateBackupPlannedValues());
+      
+      // Si Sheets nos devolvió datos, los usamos aun con el backend local caído
+      if (fetchedFromSheets) {
+        setReports(liveReports);
+        setIsOfflineMode(false); // Operamos online directo con Sheets!
+      } else {
+        setReports(BACKUP_REPORTS);
+        setIsOfflineMode(true);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAllData();
-    // Load custom webhook URL from storage
-    const storedUrl = localStorage.getItem("RDO_APPS_SCRIPT_WEBHOOK");
+    const storedUrl = localStorage.getItem("RDO_APPS_SCRIPT_WEBHOOK") || "";
     if (storedUrl) {
       setAppsScriptUrl(storedUrl);
     }
+    fetchAllData(storedUrl);
   }, []);
 
   // Save Apps Script URL whenever changed
@@ -216,7 +394,9 @@ export default function App() {
             <ProjectDashboard
               reports={reports}
               edtList={edtList}
-              projectName={projects.length > 0 ? projects[0].name : "Edificio Girasoles"}
+              projectName={projects.length > 0 ? projects[0].name : "Edificio Multifamiliar Girasoles"}
+              onRefresh={() => fetchAllData(appsScriptUrl)}
+              isSheetsConnected={!!appsScriptUrl}
             />
           </div>
         )}

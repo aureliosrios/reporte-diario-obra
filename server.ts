@@ -107,161 +107,151 @@ const DEFAULT_RESOURCES = [
   { id: "EQ-AND", name: "Andamio Acústico Normado (Cuerpo)", type: "equipo", unit: "Día", unitCost: 5.0 }
 ];
 
+// Define a programmatic generator for the 20-day synthetic dataset
+const generate20DaysSyntheticReports = () => {
+  const reports: any[] = [];
+  const baseDate = new Date("2026-05-15");
+  
+  for (let day = 0; day < 20; day++) {
+    const currentDate = new Date(baseDate.getTime() + day * 24 * 60 * 60 * 1000);
+    const dateString = currentDate.toISOString().split("T")[0];
+    const dateStrShort = dateString.replace(/-/g, "");
+    const idReporte = `REP-MFG-${dateStrShort}`;
+    const supervisor = "Ing. Alejandro Rivas";
+    const shift = "Mañana";
+    
+    let weatherMorning = "Soleado";
+    let weatherAfternoon = "Nublado";
+    let effectiveHours = 8;
+    let conflicts = "Ninguno";
+    let observations = "Avances conformes al programa diario de obra.";
+    
+    // Simular retraso por lluvia extrema en el Día 6
+    if (day === 5) {
+      weatherMorning = "Nublado";
+      weatherAfternoon = "Lluvia";
+      effectiveHours = 4;
+      conflicts = "Lluvia torrencial en la tarde. Se paralizaron trabajos a las 14:00.";
+      observations = "Parada parcial por tormenta. Personal evacuado a refugios.";
+    } 
+    // Simular horas extras de recuperación en los Días 7 al 12
+    else if (day >= 6 && day <= 11) {
+      effectiveHours = 9.5;
+      conflicts = "Jornada extendida autorizada.";
+      observations = "Se trabajaron 1.5 horas extras para recuperar avance de estructuras.";
+    }
+    
+    const chapterWbsId = (day < 12) ? "EST" : "ARQ";
+    
+    // A. Registrar Seguridad (HSE)
+    let totalStaff = Math.round(18 + Math.random() * 8);
+    if (day >= 6 && day <= 11) totalStaff += 4; // Más operarios para horas extras
+    
+    let hseInspected = true;
+    let hseDetails = "Inspección de EPPs y arneses conforme.";
+    let safetyIncident = "Ninguno";
+    
+    if (day === 10) { // Día 11: Incidente leve
+      hseDetails = "Revisión de cables de andamio con observaciones menores.";
+      safetyIncident = "Resbalón de peón en rampa de acceso, atendido por primeros auxilios. Sin baja laboral.";
+    }
+    
+    // B. Registrar Actividades Ejecutadas
+    const dayActivities: any[] = [];
+    if (day < 5) {
+      dayActivities.push({ edtCode: "EST-01", name: "Obras Provisionales y Trabajos Preliminares", unit: "m2", plannedQty: 20, qtyExecuted: 15, notes: "Habilitación de almacenes" });
+      dayActivities.push({ edtCode: "EST-02", name: "Movimiento de Tierras - Excavación masiva", unit: "m3", plannedQty: 100, qtyExecuted: 85, notes: "Excavación masiva de zanjas" });
+    } else if (day === 5) { // Día de lluvia: producción baja
+      dayActivities.push({ edtCode: "EST-02", name: "Movimiento de Tierras - Excavación masiva", unit: "m3", plannedQty: 100, qtyExecuted: 15, notes: "Parálisis por anegamiento" });
+    } else if (day >= 6 && day < 12) {
+      const colQty = (day === 6 || day === 7) ? 25 : 18;
+      const beamQty = (day >= 8) ? 35 : 0;
+      dayActivities.push({ edtCode: "EST-03", name: "Concreto de Columnas y Placas (f'c=280 kg/cm2)", unit: "m3", plannedQty: 40, qtyExecuted: colQty, notes: "Vaciado continuo de concreto f'c=280" });
+      if (beamQty > 0) {
+        dayActivities.push({ edtCode: "EST-04", name: "Concreto de Vigas y Losas Aligeradas", unit: "m3", plannedQty: 45, qtyExecuted: beamQty, notes: "Encofrado e instalación de acero" });
+      }
+    } else { // Fase de Arquitectura
+      const wallQty = 120 - (day - 12) * 5;
+      const plasterQty = (day >= 15) ? 140 : 0;
+      dayActivities.push({ edtCode: "ARQ-01", name: "Muros de Albañilería de Ladrillo KK", unit: "m2", plannedQty: 150, qtyExecuted: wallQty, notes: "Asentado de muros en primer nivel" });
+      if (plasterQty > 0) {
+        dayActivities.push({ edtCode: "ARQ-02", name: "Tarrajeo Frotachado en Interiores", unit: "m2", plannedQty: 180, qtyExecuted: plasterQty, notes: "Tarrajeo liso en muros internos" });
+      }
+    }
+    
+    // C. Registrar Recursos Consumidos
+    const manoObra = [
+      { resourceId: "LH-CAP", name: "Capataz de Edificación", hoursWorked: effectiveHours, edtGroupCode: chapterWbsId },
+      { resourceId: "LH-OPE", name: "Operario Civil", hoursWorked: effectiveHours * 4, edtGroupCode: chapterWbsId },
+      { resourceId: "LH-PEO", name: "Peón de Construcción", hoursWorked: effectiveHours * 8, edtGroupCode: chapterWbsId }
+    ];
+    
+    const materials: any[] = [];
+    const equipos: any[] = [];
+    
+    if (day < 5) {
+      equipos.push({ resourceId: "EQ-RET", name: "Retroexcavadora Oruga CAT 320", qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "EST" });
+    } else if (day === 5) {
+      equipos.push({ resourceId: "EQ-RET", name: "Retroexcavadora Oruga CAT 320", qtyUsed: 3, unit: "Hora Máquina", edtGroupCode: "EST" });
+    } else if (day >= 6 && day < 12) {
+      equipos.push({ resourceId: "EQ-MEZ", name: "Mezcladora de Concreto Trompo 9p3", qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "EST" });
+      const cementUsed = (day >= 8) ? 90 : 45;
+      materials.push({ resourceId: "MAT-CEM", name: "Cemento Portland Tipo I (Bolsa 42.5kg)", qtyConsumed: cementUsed, unit: "Bolsa", edtGroupCode: "EST" });
+    } else { // Arquitectura
+      materials.push({ resourceId: "MAT-CEM", name: "Cemento Portland Tipo I (Bolsa 42.5kg)", qtyConsumed: 22, unit: "Bolsa", edtGroupCode: "ARQ" });
+      materials.push({ resourceId: "MAT-LAD", name: "Ladrillo King Kong Arcilla Cocida 18H", qtyConsumed: 2.1, unit: "Millar", edtGroupCode: "ARQ" });
+    }
+    
+    reports.push({
+      id: idReporte,
+      projectCode: "MFG-01",
+      date: dateString,
+      shift,
+      effectiveHours,
+      supervisor,
+      weatherMorning,
+      weatherAfternoon,
+      activities: dayActivities,
+      manoObra,
+      materials,
+      equipos,
+      totalStaff,
+      safetyInspected: hseInspected,
+      safetyDetails: hseDetails,
+      incidents: safetyIncident,
+      conflicts,
+      plannedNextDay: "Preparar encofrado y control de calidad de materiales.",
+      generalNotes: observations,
+      signatureUrlLocal: "",
+      photoUrlsLocal: [],
+      signatureBase64: "",
+      photoBase64s: [],
+      createdAt: new Date().toISOString()
+    });
+  }
+  
+  return reports;
+};
+
 // Load submitted reports from disk or start empty
 let submittedReports: any[] = [];
 if (fs.existsSync(REPORTS_FILE)) {
   try {
     const rawData = fs.readFileSync(REPORTS_FILE, "utf-8");
     submittedReports = JSON.parse(rawData);
+    // If it has fewer than 20 reports, let's regenerate it to have the full 20 days of data!
+    if (submittedReports.length < 20) {
+      console.log(`[RDO BACKEND] Sincronizando base de datos local a un set completo de 20 días.`);
+      submittedReports = generate20DaysSyntheticReports();
+      fs.writeFileSync(REPORTS_FILE, JSON.stringify(submittedReports, null, 2));
+    }
   } catch (err) {
     console.error("Error reading reports JSON, resetting database:", err);
-    submittedReports = [];
+    submittedReports = generate20DaysSyntheticReports();
+    fs.writeFileSync(REPORTS_FILE, JSON.stringify(submittedReports, null, 2));
   }
 } else {
-  // Pre-seed some historic reports (from May 15 to May 18, 2026) to make the EVM system look alive instantly!
-  submittedReports = [
-    {
-      id: "REP-20260515-081234",
-      projectCode: "MFG-01",
-      date: "2026-05-15",
-      shift: "Mañana",
-      effectiveHours: 8,
-      supervisor: "Alejandro Rivas",
-      weatherMorning: "Soleado",
-      weatherAfternoon: "Soleado",
-      activities: [
-        { edtCode: "EST-01", qtyExecuted: 30, notes: "Obras Provisionales en cerco perimétrico completadas." },
-        { edtCode: "EST-02", qtyExecuted: 100, notes: "Excavación masiva en sector norte." }
-      ],
-      manoObra: [
-        { resourceId: "LH-CAP", hoursWorked: 8, edtGroupCode: "EST" },
-        { resourceId: "LH-OPE", hoursWorked: 24, edtGroupCode: "EST" },
-        { resourceId: "LH-OFI", hoursWorked: 16, edtGroupCode: "EST" },
-        { resourceId: "LH-PEO", hoursWorked: 48, edtGroupCode: "EST" }
-      ],
-      materials: [
-        { resourceId: "MAT-CEM", qtyConsumed: 10, edtGroupCode: "EST" },
-        { resourceId: "MAT-ARE", qtyConsumed: 5, edtGroupCode: "EST" }
-      ],
-      equipos: [
-        { resourceId: "EQ-RET", qtyUsed: 8, edtGroupCode: "EST" }
-      ],
-      totalStaff: 12,
-      safetyInspected: true,
-      safetyDetails: "Charlas de 5 minutos realizadas y colocación de mallas de seguridad perimetral.",
-      incidents: "Ninguno",
-      conflicts: "Ninguno",
-      plannedNextDay: "Continuar movimiento de tierras en sector sur.",
-      generalNotes: "Jornada completada según lo planeado.",
-      signatureBase64: "",
-      photoBase64s: [],
-      createdAt: "2026-05-15T18:00:00Z"
-    },
-    {
-      id: "REP-20260516-174512",
-      projectCode: "MFG-01",
-      date: "2026-05-16",
-      shift: "Mañana",
-      effectiveHours: 8,
-      supervisor: "Alejandro Rivas",
-      weatherMorning: "Soleado",
-      weatherAfternoon: "Nublado",
-      activities: [
-        { edtCode: "EST-01", qtyExecuted: 20, notes: "Acopio de materiales preliminares finalizado." },
-        { edtCode: "EST-02", qtyExecuted: 90, notes: "Excavación con retroexcavadora y eliminación de material." }
-      ],
-      manoObra: [
-        { resourceId: "LH-CAP", hoursWorked: 8, edtGroupCode: "EST" },
-        { resourceId: "LH-OPE", hoursWorked: 24, edtGroupCode: "EST" },
-        { resourceId: "LH-PEO", hoursWorked: 40, edtGroupCode: "EST" }
-      ],
-      materials: [],
-      equipos: [
-        { resourceId: "EQ-RET", qtyUsed: 8, edtGroupCode: "EST" },
-        { resourceId: "EQ-VOL", qtyUsed: 8, edtGroupCode: "EST" }
-      ],
-      totalStaff: 10,
-      safetyInspected: true,
-      safetyDetails: "Todo conforme.",
-      incidents: "Ninguno",
-      conflicts: "Espera de planos de cimentación aprobados definitivos.",
-      plannedNextDay: "Iniciar habilitación de acero de zapata.",
-      generalNotes: "Excavación avanza sin problemas.",
-      signatureBase64: "",
-      photoBase64s: [],
-      createdAt: "2026-05-16T18:15:00Z"
-    },
-    {
-      id: "REP-20260517-172530",
-      projectCode: "MFG-01",
-      date: "2026-05-17",
-      shift: "Mañana",
-      effectiveHours: 8,
-      supervisor: "Alejandro Rivas",
-      weatherMorning: "Lluvia",
-      weatherAfternoon: "Lluvia",
-      activities: [
-        { edtCode: "EST-01", qtyExecuted: 5, notes: "Trabajos detenidos parcialmente por clima." },
-        { edtCode: "EST-02", qtyExecuted: 40, notes: "Retraso por lodo en zanjas." }
-      ],
-      manoObra: [
-        { resourceId: "LH-CAP", hoursWorked: 4, edtGroupCode: "EST" },
-        { resourceId: "LH-OPE", hoursWorked: 12, edtGroupCode: "EST" },
-        { resourceId: "LH-PEO", hoursWorked: 20, edtGroupCode: "EST" }
-      ],
-      materials: [],
-      equipos: [
-        { resourceId: "EQ-RET", qtyUsed: 4, edtGroupCode: "EST" }
-      ],
-      totalStaff: 6,
-      safetyInspected: true,
-      safetyDetails: "Evacuación preventiva de zanjas inundadas.",
-      incidents: "Lluvia torrencial que afectó transitabilidad interna.",
-      conflicts: "Exceso de agua en plataforma de excavación.",
-      plannedNextDay: "Bombeo de agua de lluvia y reanudación de excavaciones.",
-      generalNotes: "Día de baja producción. Se reprogramará.",
-      signatureBase64: "",
-      photoBase64s: [],
-      createdAt: "2026-05-17T18:00:00Z"
-    },
-    {
-      id: "REP-20260518-181140",
-      projectCode: "MFG-01",
-      date: "2026-05-18",
-      shift: "Mañana",
-      effectiveHours: 8,
-      supervisor: "Alejandro Rivas",
-      weatherMorning: "Soleado",
-      weatherAfternoon: "Soleado",
-      activities: [
-        { edtCode: "EST-02", qtyExecuted: 110, notes: "Recuperación de ritmo de excavación." },
-        { edtCode: "EST-03", qtyExecuted: 15, notes: "Habilitación de acero para primeras columnas de cimentación." }
-      ],
-      manoObra: [
-        { resourceId: "LH-CAP", hoursWorked: 8, edtGroupCode: "EST" },
-        { resourceId: "LH-OPE", hoursWorked: 32, edtGroupCode: "EST" },
-        { resourceId: "LH-OFI", hoursWorked: 24, edtGroupCode: "EST" },
-        { resourceId: "LH-PEO", hoursWorked: 64, edtGroupCode: "EST" }
-      ],
-      materials: [
-        { resourceId: "MAT-ACE", qtyConsumed: 80, edtGroupCode: "EST" }
-      ],
-      equipos: [
-        { resourceId: "EQ-RET", qtyUsed: 8, edtGroupCode: "EST" },
-        { resourceId: "EQ-VOL", qtyUsed: 8, edtGroupCode: "EST" }
-      ],
-      totalStaff: 17,
-      safetyInspected: true,
-      safetyDetails: "Charlas de seguridad e inspección de andamios y EPPs.",
-      incidents: "Ninguno",
-      conflicts: "Ninguno",
-      plannedNextDay: "Comenzar colocación de concreto en solados.",
-      generalNotes: "Buen rendimiento. Se recuperó parte del retraso.",
-      signatureBase64: "",
-      photoBase64s: [],
-      createdAt: "2026-05-18T18:30:00Z"
-    }
-  ];
+  submittedReports = generate20DaysSyntheticReports();
   fs.writeFileSync(REPORTS_FILE, JSON.stringify(submittedReports, null, 2));
 }
 

@@ -1,267 +1,1458 @@
 [
   {
-    "id": "REP-20260515-081234",
+    "id": "REP-MFG-20260515",
     "projectCode": "MFG-01",
     "date": "2026-05-15",
     "shift": "Mañana",
     "effectiveHours": 8,
-    "supervisor": "Alejandro Rivas",
+    "supervisor": "Ing. Alejandro Rivas",
     "weatherMorning": "Soleado",
-    "weatherAfternoon": "Soleado",
+    "weatherAfternoon": "Nublado",
     "activities": [
       {
         "edtCode": "EST-01",
-        "qtyExecuted": 30,
-        "notes": "Obras Provisionales en cerco perimétrico completadas."
+        "name": "Obras Provisionales y Trabajos Preliminares",
+        "unit": "m2",
+        "plannedQty": 20,
+        "qtyExecuted": 15,
+        "notes": "Habilitación de almacenes"
       },
       {
         "edtCode": "EST-02",
-        "qtyExecuted": 100,
-        "notes": "Excavación masiva en sector norte."
+        "name": "Movimiento de Tierras - Excavación masiva",
+        "unit": "m3",
+        "plannedQty": 100,
+        "qtyExecuted": 85,
+        "notes": "Excavación masiva de zanjas"
       }
     ],
     "manoObra": [
       {
         "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
         "hoursWorked": 8,
         "edtGroupCode": "EST"
       },
       {
         "resourceId": "LH-OPE",
-        "hoursWorked": 24,
+        "name": "Operario Civil",
+        "hoursWorked": 32,
         "edtGroupCode": "EST"
       },
       {
-        "resourceId": "LH-OFI",
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [],
+    "equipos": [
+      {
+        "resourceId": "EQ-RET",
+        "name": "Retroexcavadora Oruga CAT 320",
+        "qtyUsed": 8,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 26,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260516",
+    "projectCode": "MFG-01",
+    "date": "2026-05-16",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "EST-01",
+        "name": "Obras Provisionales y Trabajos Preliminares",
+        "unit": "m2",
+        "plannedQty": 20,
+        "qtyExecuted": 15,
+        "notes": "Habilitación de almacenes"
+      },
+      {
+        "edtCode": "EST-02",
+        "name": "Movimiento de Tierras - Excavación masiva",
+        "unit": "m3",
+        "plannedQty": 100,
+        "qtyExecuted": 85,
+        "notes": "Excavación masiva de zanjas"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [],
+    "equipos": [
+      {
+        "resourceId": "EQ-RET",
+        "name": "Retroexcavadora Oruga CAT 320",
+        "qtyUsed": 8,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 20,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260517",
+    "projectCode": "MFG-01",
+    "date": "2026-05-17",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "EST-01",
+        "name": "Obras Provisionales y Trabajos Preliminares",
+        "unit": "m2",
+        "plannedQty": 20,
+        "qtyExecuted": 15,
+        "notes": "Habilitación de almacenes"
+      },
+      {
+        "edtCode": "EST-02",
+        "name": "Movimiento de Tierras - Excavación masiva",
+        "unit": "m3",
+        "plannedQty": 100,
+        "qtyExecuted": 85,
+        "notes": "Excavación masiva de zanjas"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [],
+    "equipos": [
+      {
+        "resourceId": "EQ-RET",
+        "name": "Retroexcavadora Oruga CAT 320",
+        "qtyUsed": 8,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 26,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260518",
+    "projectCode": "MFG-01",
+    "date": "2026-05-18",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "EST-01",
+        "name": "Obras Provisionales y Trabajos Preliminares",
+        "unit": "m2",
+        "plannedQty": 20,
+        "qtyExecuted": 15,
+        "notes": "Habilitación de almacenes"
+      },
+      {
+        "edtCode": "EST-02",
+        "name": "Movimiento de Tierras - Excavación masiva",
+        "unit": "m3",
+        "plannedQty": 100,
+        "qtyExecuted": 85,
+        "notes": "Excavación masiva de zanjas"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [],
+    "equipos": [
+      {
+        "resourceId": "EQ-RET",
+        "name": "Retroexcavadora Oruga CAT 320",
+        "qtyUsed": 8,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 21,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260519",
+    "projectCode": "MFG-01",
+    "date": "2026-05-19",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "EST-01",
+        "name": "Obras Provisionales y Trabajos Preliminares",
+        "unit": "m2",
+        "plannedQty": 20,
+        "qtyExecuted": 15,
+        "notes": "Habilitación de almacenes"
+      },
+      {
+        "edtCode": "EST-02",
+        "name": "Movimiento de Tierras - Excavación masiva",
+        "unit": "m3",
+        "plannedQty": 100,
+        "qtyExecuted": 85,
+        "notes": "Excavación masiva de zanjas"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [],
+    "equipos": [
+      {
+        "resourceId": "EQ-RET",
+        "name": "Retroexcavadora Oruga CAT 320",
+        "qtyUsed": 8,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 19,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260520",
+    "projectCode": "MFG-01",
+    "date": "2026-05-20",
+    "shift": "Mañana",
+    "effectiveHours": 4,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Nublado",
+    "weatherAfternoon": "Lluvia",
+    "activities": [
+      {
+        "edtCode": "EST-02",
+        "name": "Movimiento de Tierras - Excavación masiva",
+        "unit": "m3",
+        "plannedQty": 100,
+        "qtyExecuted": 15,
+        "notes": "Parálisis por anegamiento"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 4,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
         "hoursWorked": 16,
         "edtGroupCode": "EST"
       },
       {
         "resourceId": "LH-PEO",
-        "hoursWorked": 48,
+        "name": "Peón de Construcción",
+        "hoursWorked": 32,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [],
+    "equipos": [
+      {
+        "resourceId": "EQ-RET",
+        "name": "Retroexcavadora Oruga CAT 320",
+        "qtyUsed": 3,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 19,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Lluvia torrencial en la tarde. Se paralizaron trabajos a las 14:00.",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Parada parcial por tormenta. Personal evacuado a refugios.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260521",
+    "projectCode": "MFG-01",
+    "date": "2026-05-21",
+    "shift": "Mañana",
+    "effectiveHours": 9.5,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "EST-03",
+        "name": "Concreto de Columnas y Placas (f'c=280 kg/cm2)",
+        "unit": "m3",
+        "plannedQty": 40,
+        "qtyExecuted": 25,
+        "notes": "Vaciado continuo de concreto f'c=280"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 9.5,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 38,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 76,
         "edtGroupCode": "EST"
       }
     ],
     "materials": [
       {
         "resourceId": "MAT-CEM",
-        "qtyConsumed": 10,
-        "edtGroupCode": "EST"
-      },
-      {
-        "resourceId": "MAT-ARE",
-        "qtyConsumed": 5,
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 45,
+        "unit": "Bolsa",
         "edtGroupCode": "EST"
       }
     ],
     "equipos": [
       {
-        "resourceId": "EQ-RET",
-        "qtyUsed": 8,
+        "resourceId": "EQ-MEZ",
+        "name": "Mezcladora de Concreto Trompo 9p3",
+        "qtyUsed": 9.5,
+        "unit": "Hora Máquina",
         "edtGroupCode": "EST"
       }
     ],
-    "totalStaff": 12,
+    "totalStaff": 27,
     "safetyInspected": true,
-    "safetyDetails": "Charlas de 5 minutos realizadas y colocación de mallas de seguridad perimetral.",
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
     "incidents": "Ninguno",
-    "conflicts": "Ninguno",
-    "plannedNextDay": "Continuar movimiento de tierras en sector sur.",
-    "generalNotes": "Jornada completada según lo planeado.",
+    "conflicts": "Jornada extendida autorizada.",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Se trabajaron 1.5 horas extras para recuperar avance de estructuras.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
     "signatureBase64": "",
     "photoBase64s": [],
-    "createdAt": "2026-05-15T18:00:00Z"
+    "createdAt": "2026-05-20T15:32:22.986Z"
   },
   {
-    "id": "REP-20260516-174512",
+    "id": "REP-MFG-20260522",
     "projectCode": "MFG-01",
-    "date": "2026-05-16",
+    "date": "2026-05-22",
     "shift": "Mañana",
-    "effectiveHours": 8,
-    "supervisor": "Alejandro Rivas",
+    "effectiveHours": 9.5,
+    "supervisor": "Ing. Alejandro Rivas",
     "weatherMorning": "Soleado",
     "weatherAfternoon": "Nublado",
     "activities": [
       {
-        "edtCode": "EST-01",
-        "qtyExecuted": 20,
-        "notes": "Acopio de materiales preliminares finalizado."
-      },
-      {
-        "edtCode": "EST-02",
-        "qtyExecuted": 90,
-        "notes": "Excavación con retroexcavadora y eliminación de material."
-      }
-    ],
-    "manoObra": [
-      {
-        "resourceId": "LH-CAP",
-        "hoursWorked": 8,
-        "edtGroupCode": "EST"
-      },
-      {
-        "resourceId": "LH-OPE",
-        "hoursWorked": 24,
-        "edtGroupCode": "EST"
-      },
-      {
-        "resourceId": "LH-PEO",
-        "hoursWorked": 40,
-        "edtGroupCode": "EST"
-      }
-    ],
-    "materials": [],
-    "equipos": [
-      {
-        "resourceId": "EQ-RET",
-        "qtyUsed": 8,
-        "edtGroupCode": "EST"
-      },
-      {
-        "resourceId": "EQ-VOL",
-        "qtyUsed": 8,
-        "edtGroupCode": "EST"
-      }
-    ],
-    "totalStaff": 10,
-    "safetyInspected": true,
-    "safetyDetails": "Todo conforme.",
-    "incidents": "Ninguno",
-    "conflicts": "Espera de planos de cimentación aprobados definitivos.",
-    "plannedNextDay": "Iniciar habilitación de acero de zapata.",
-    "generalNotes": "Excavación avanza sin problemas.",
-    "signatureBase64": "",
-    "photoBase64s": [],
-    "createdAt": "2026-05-16T18:15:00Z"
-  },
-  {
-    "id": "REP-20260517-172530",
-    "projectCode": "MFG-01",
-    "date": "2026-05-17",
-    "shift": "Mañana",
-    "effectiveHours": 8,
-    "supervisor": "Alejandro Rivas",
-    "weatherMorning": "Lluvia",
-    "weatherAfternoon": "Lluvia",
-    "activities": [
-      {
-        "edtCode": "EST-01",
-        "qtyExecuted": 5,
-        "notes": "Trabajos detenidos parcialmente por clima."
-      },
-      {
-        "edtCode": "EST-02",
-        "qtyExecuted": 40,
-        "notes": "Retraso por lodo en zanjas."
-      }
-    ],
-    "manoObra": [
-      {
-        "resourceId": "LH-CAP",
-        "hoursWorked": 4,
-        "edtGroupCode": "EST"
-      },
-      {
-        "resourceId": "LH-OPE",
-        "hoursWorked": 12,
-        "edtGroupCode": "EST"
-      },
-      {
-        "resourceId": "LH-PEO",
-        "hoursWorked": 20,
-        "edtGroupCode": "EST"
-      }
-    ],
-    "materials": [],
-    "equipos": [
-      {
-        "resourceId": "EQ-RET",
-        "qtyUsed": 4,
-        "edtGroupCode": "EST"
-      }
-    ],
-    "totalStaff": 6,
-    "safetyInspected": true,
-    "safetyDetails": "Evacuación preventiva de zanjas inundadas.",
-    "incidents": "Lluvia torrencial que afectó transitabilidad interna.",
-    "conflicts": "Exceso de agua en plataforma de excavación.",
-    "plannedNextDay": "Bombeo de agua de lluvia y reanudación de excavaciones.",
-    "generalNotes": "Día de baja producción. Se reprogramará.",
-    "signatureBase64": "",
-    "photoBase64s": [],
-    "createdAt": "2026-05-17T18:00:00Z"
-  },
-  {
-    "id": "REP-20260518-181140",
-    "projectCode": "MFG-01",
-    "date": "2026-05-18",
-    "shift": "Mañana",
-    "effectiveHours": 8,
-    "supervisor": "Alejandro Rivas",
-    "weatherMorning": "Soleado",
-    "weatherAfternoon": "Soleado",
-    "activities": [
-      {
-        "edtCode": "EST-02",
-        "qtyExecuted": 110,
-        "notes": "Recuperación de ritmo de excavación."
-      },
-      {
         "edtCode": "EST-03",
-        "qtyExecuted": 15,
-        "notes": "Habilitación de acero para primeras columnas de cimentación."
+        "name": "Concreto de Columnas y Placas (f'c=280 kg/cm2)",
+        "unit": "m3",
+        "plannedQty": 40,
+        "qtyExecuted": 25,
+        "notes": "Vaciado continuo de concreto f'c=280"
       }
     ],
     "manoObra": [
       {
         "resourceId": "LH-CAP",
-        "hoursWorked": 8,
+        "name": "Capataz de Edificación",
+        "hoursWorked": 9.5,
         "edtGroupCode": "EST"
       },
       {
         "resourceId": "LH-OPE",
-        "hoursWorked": 32,
-        "edtGroupCode": "EST"
-      },
-      {
-        "resourceId": "LH-OFI",
-        "hoursWorked": 24,
+        "name": "Operario Civil",
+        "hoursWorked": 38,
         "edtGroupCode": "EST"
       },
       {
         "resourceId": "LH-PEO",
-        "hoursWorked": 64,
+        "name": "Peón de Construcción",
+        "hoursWorked": 76,
         "edtGroupCode": "EST"
       }
     ],
     "materials": [
       {
-        "resourceId": "MAT-ACE",
-        "qtyConsumed": 80,
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 45,
+        "unit": "Bolsa",
         "edtGroupCode": "EST"
       }
     ],
     "equipos": [
       {
-        "resourceId": "EQ-RET",
-        "qtyUsed": 8,
-        "edtGroupCode": "EST"
-      },
-      {
-        "resourceId": "EQ-VOL",
-        "qtyUsed": 8,
+        "resourceId": "EQ-MEZ",
+        "name": "Mezcladora de Concreto Trompo 9p3",
+        "qtyUsed": 9.5,
+        "unit": "Hora Máquina",
         "edtGroupCode": "EST"
       }
     ],
-    "totalStaff": 17,
+    "totalStaff": 24,
     "safetyInspected": true,
-    "safetyDetails": "Charlas de seguridad e inspección de andamios y EPPs.",
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
     "incidents": "Ninguno",
-    "conflicts": "Ninguno",
-    "plannedNextDay": "Comenzar colocación de concreto en solados.",
-    "generalNotes": "Buen rendimiento. Se recuperó parte del retraso.",
+    "conflicts": "Jornada extendida autorizada.",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Se trabajaron 1.5 horas extras para recuperar avance de estructuras.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
     "signatureBase64": "",
     "photoBase64s": [],
-    "createdAt": "2026-05-18T18:30:00Z"
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260523",
+    "projectCode": "MFG-01",
+    "date": "2026-05-23",
+    "shift": "Mañana",
+    "effectiveHours": 9.5,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "EST-03",
+        "name": "Concreto de Columnas y Placas (f'c=280 kg/cm2)",
+        "unit": "m3",
+        "plannedQty": 40,
+        "qtyExecuted": 18,
+        "notes": "Vaciado continuo de concreto f'c=280"
+      },
+      {
+        "edtCode": "EST-04",
+        "name": "Concreto de Vigas y Losas Aligeradas",
+        "unit": "m3",
+        "plannedQty": 45,
+        "qtyExecuted": 35,
+        "notes": "Encofrado e instalación de acero"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 9.5,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 38,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 76,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 90,
+        "unit": "Bolsa",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "equipos": [
+      {
+        "resourceId": "EQ-MEZ",
+        "name": "Mezcladora de Concreto Trompo 9p3",
+        "qtyUsed": 9.5,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 24,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Jornada extendida autorizada.",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Se trabajaron 1.5 horas extras para recuperar avance de estructuras.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260524",
+    "projectCode": "MFG-01",
+    "date": "2026-05-24",
+    "shift": "Mañana",
+    "effectiveHours": 9.5,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "EST-03",
+        "name": "Concreto de Columnas y Placas (f'c=280 kg/cm2)",
+        "unit": "m3",
+        "plannedQty": 40,
+        "qtyExecuted": 18,
+        "notes": "Vaciado continuo de concreto f'c=280"
+      },
+      {
+        "edtCode": "EST-04",
+        "name": "Concreto de Vigas y Losas Aligeradas",
+        "unit": "m3",
+        "plannedQty": 45,
+        "qtyExecuted": 35,
+        "notes": "Encofrado e instalación de acero"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 9.5,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 38,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 76,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 90,
+        "unit": "Bolsa",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "equipos": [
+      {
+        "resourceId": "EQ-MEZ",
+        "name": "Mezcladora de Concreto Trompo 9p3",
+        "qtyUsed": 9.5,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 22,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Jornada extendida autorizada.",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Se trabajaron 1.5 horas extras para recuperar avance de estructuras.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260525",
+    "projectCode": "MFG-01",
+    "date": "2026-05-25",
+    "shift": "Mañana",
+    "effectiveHours": 9.5,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "EST-03",
+        "name": "Concreto de Columnas y Placas (f'c=280 kg/cm2)",
+        "unit": "m3",
+        "plannedQty": 40,
+        "qtyExecuted": 18,
+        "notes": "Vaciado continuo de concreto f'c=280"
+      },
+      {
+        "edtCode": "EST-04",
+        "name": "Concreto de Vigas y Losas Aligeradas",
+        "unit": "m3",
+        "plannedQty": 45,
+        "qtyExecuted": 35,
+        "notes": "Encofrado e instalación de acero"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 9.5,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 38,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 76,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 90,
+        "unit": "Bolsa",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "equipos": [
+      {
+        "resourceId": "EQ-MEZ",
+        "name": "Mezcladora de Concreto Trompo 9p3",
+        "qtyUsed": 9.5,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 25,
+    "safetyInspected": true,
+    "safetyDetails": "Revisión de cables de andamio con observaciones menores.",
+    "incidents": "Resbalón de peón en rampa de acceso, atendido por primeros auxilios. Sin baja laboral.",
+    "conflicts": "Jornada extendida autorizada.",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Se trabajaron 1.5 horas extras para recuperar avance de estructuras.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260526",
+    "projectCode": "MFG-01",
+    "date": "2026-05-26",
+    "shift": "Mañana",
+    "effectiveHours": 9.5,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "EST-03",
+        "name": "Concreto de Columnas y Placas (f'c=280 kg/cm2)",
+        "unit": "m3",
+        "plannedQty": 40,
+        "qtyExecuted": 18,
+        "notes": "Vaciado continuo de concreto f'c=280"
+      },
+      {
+        "edtCode": "EST-04",
+        "name": "Concreto de Vigas y Losas Aligeradas",
+        "unit": "m3",
+        "plannedQty": 45,
+        "qtyExecuted": 35,
+        "notes": "Encofrado e instalación de acero"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 9.5,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 38,
+        "edtGroupCode": "EST"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 76,
+        "edtGroupCode": "EST"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 90,
+        "unit": "Bolsa",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "equipos": [
+      {
+        "resourceId": "EQ-MEZ",
+        "name": "Mezcladora de Concreto Trompo 9p3",
+        "qtyUsed": 9.5,
+        "unit": "Hora Máquina",
+        "edtGroupCode": "EST"
+      }
+    ],
+    "totalStaff": 29,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Jornada extendida autorizada.",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Se trabajaron 1.5 horas extras para recuperar avance de estructuras.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260527",
+    "projectCode": "MFG-01",
+    "date": "2026-05-27",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "ARQ-01",
+        "name": "Muros de Albañilería de Ladrillo KK",
+        "unit": "m2",
+        "plannedQty": 150,
+        "qtyExecuted": 120,
+        "notes": "Asentado de muros en primer nivel"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 22,
+        "unit": "Bolsa",
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "MAT-LAD",
+        "name": "Ladrillo King Kong Arcilla Cocida 18H",
+        "qtyConsumed": 2.1,
+        "unit": "Millar",
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "equipos": [],
+    "totalStaff": 22,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260528",
+    "projectCode": "MFG-01",
+    "date": "2026-05-28",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "ARQ-01",
+        "name": "Muros de Albañilería de Ladrillo KK",
+        "unit": "m2",
+        "plannedQty": 150,
+        "qtyExecuted": 115,
+        "notes": "Asentado de muros en primer nivel"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 22,
+        "unit": "Bolsa",
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "MAT-LAD",
+        "name": "Ladrillo King Kong Arcilla Cocida 18H",
+        "qtyConsumed": 2.1,
+        "unit": "Millar",
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "equipos": [],
+    "totalStaff": 23,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260529",
+    "projectCode": "MFG-01",
+    "date": "2026-05-29",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "ARQ-01",
+        "name": "Muros de Albañilería de Ladrillo KK",
+        "unit": "m2",
+        "plannedQty": 150,
+        "qtyExecuted": 110,
+        "notes": "Asentado de muros en primer nivel"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 22,
+        "unit": "Bolsa",
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "MAT-LAD",
+        "name": "Ladrillo King Kong Arcilla Cocida 18H",
+        "qtyConsumed": 2.1,
+        "unit": "Millar",
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "equipos": [],
+    "totalStaff": 26,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260530",
+    "projectCode": "MFG-01",
+    "date": "2026-05-30",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "ARQ-01",
+        "name": "Muros de Albañilería de Ladrillo KK",
+        "unit": "m2",
+        "plannedQty": 150,
+        "qtyExecuted": 105,
+        "notes": "Asentado de muros en primer nivel"
+      },
+      {
+        "edtCode": "ARQ-02",
+        "name": "Tarrajeo Frotachado en Interiores",
+        "unit": "m2",
+        "plannedQty": 180,
+        "qtyExecuted": 140,
+        "notes": "Tarrajeo liso en muros internos"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 22,
+        "unit": "Bolsa",
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "MAT-LAD",
+        "name": "Ladrillo King Kong Arcilla Cocida 18H",
+        "qtyConsumed": 2.1,
+        "unit": "Millar",
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "equipos": [],
+    "totalStaff": 21,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260531",
+    "projectCode": "MFG-01",
+    "date": "2026-05-31",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "ARQ-01",
+        "name": "Muros de Albañilería de Ladrillo KK",
+        "unit": "m2",
+        "plannedQty": 150,
+        "qtyExecuted": 100,
+        "notes": "Asentado de muros en primer nivel"
+      },
+      {
+        "edtCode": "ARQ-02",
+        "name": "Tarrajeo Frotachado en Interiores",
+        "unit": "m2",
+        "plannedQty": 180,
+        "qtyExecuted": 140,
+        "notes": "Tarrajeo liso en muros internos"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 22,
+        "unit": "Bolsa",
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "MAT-LAD",
+        "name": "Ladrillo King Kong Arcilla Cocida 18H",
+        "qtyConsumed": 2.1,
+        "unit": "Millar",
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "equipos": [],
+    "totalStaff": 22,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260601",
+    "projectCode": "MFG-01",
+    "date": "2026-06-01",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "ARQ-01",
+        "name": "Muros de Albañilería de Ladrillo KK",
+        "unit": "m2",
+        "plannedQty": 150,
+        "qtyExecuted": 95,
+        "notes": "Asentado de muros en primer nivel"
+      },
+      {
+        "edtCode": "ARQ-02",
+        "name": "Tarrajeo Frotachado en Interiores",
+        "unit": "m2",
+        "plannedQty": 180,
+        "qtyExecuted": 140,
+        "notes": "Tarrajeo liso en muros internos"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 22,
+        "unit": "Bolsa",
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "MAT-LAD",
+        "name": "Ladrillo King Kong Arcilla Cocida 18H",
+        "qtyConsumed": 2.1,
+        "unit": "Millar",
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "equipos": [],
+    "totalStaff": 22,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260602",
+    "projectCode": "MFG-01",
+    "date": "2026-06-02",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "ARQ-01",
+        "name": "Muros de Albañilería de Ladrillo KK",
+        "unit": "m2",
+        "plannedQty": 150,
+        "qtyExecuted": 90,
+        "notes": "Asentado de muros en primer nivel"
+      },
+      {
+        "edtCode": "ARQ-02",
+        "name": "Tarrajeo Frotachado en Interiores",
+        "unit": "m2",
+        "plannedQty": 180,
+        "qtyExecuted": 140,
+        "notes": "Tarrajeo liso en muros internos"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 22,
+        "unit": "Bolsa",
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "MAT-LAD",
+        "name": "Ladrillo King Kong Arcilla Cocida 18H",
+        "qtyConsumed": 2.1,
+        "unit": "Millar",
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "equipos": [],
+    "totalStaff": 24,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "id": "REP-MFG-20260603",
+    "projectCode": "MFG-01",
+    "date": "2026-06-03",
+    "shift": "Mañana",
+    "effectiveHours": 8,
+    "supervisor": "Ing. Alejandro Rivas",
+    "weatherMorning": "Soleado",
+    "weatherAfternoon": "Nublado",
+    "activities": [
+      {
+        "edtCode": "ARQ-01",
+        "name": "Muros de Albañilería de Ladrillo KK",
+        "unit": "m2",
+        "plannedQty": 150,
+        "qtyExecuted": 85,
+        "notes": "Asentado de muros en primer nivel"
+      },
+      {
+        "edtCode": "ARQ-02",
+        "name": "Tarrajeo Frotachado en Interiores",
+        "unit": "m2",
+        "plannedQty": 180,
+        "qtyExecuted": 140,
+        "notes": "Tarrajeo liso en muros internos"
+      }
+    ],
+    "manoObra": [
+      {
+        "resourceId": "LH-CAP",
+        "name": "Capataz de Edificación",
+        "hoursWorked": 8,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-OPE",
+        "name": "Operario Civil",
+        "hoursWorked": 32,
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "LH-PEO",
+        "name": "Peón de Construcción",
+        "hoursWorked": 64,
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "materials": [
+      {
+        "resourceId": "MAT-CEM",
+        "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+        "qtyConsumed": 22,
+        "unit": "Bolsa",
+        "edtGroupCode": "ARQ"
+      },
+      {
+        "resourceId": "MAT-LAD",
+        "name": "Ladrillo King Kong Arcilla Cocida 18H",
+        "qtyConsumed": 2.1,
+        "unit": "Millar",
+        "edtGroupCode": "ARQ"
+      }
+    ],
+    "equipos": [],
+    "totalStaff": 21,
+    "safetyInspected": true,
+    "safetyDetails": "Inspección de EPPs y arneses conforme.",
+    "incidents": "Ninguno",
+    "conflicts": "Ninguno",
+    "plannedNextDay": "Preparar encofrado y control de calidad de materiales.",
+    "generalNotes": "Avances conformes al programa diario de obra.",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "signatureBase64": "",
+    "photoBase64s": [],
+    "createdAt": "2026-05-20T15:32:22.986Z"
   }
 ]
