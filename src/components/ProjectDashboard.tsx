@@ -205,13 +205,17 @@ export function ProjectDashboard({
     }
   });
 
+  // BAC = Budget at Completion (total PV del proyecto desde la Curva S real)
+  const bac = pvCurveData.length > 0 ? pvCurveData[pvCurveData.length - 1].pvCumulative : latestPv;
+
   const latestSv = latestEv - latestPv;
   const latestCv = latestEv - latestAc;
   const latestSpi = latestPv > 0 ? latestEv / latestPv : 1;
   const latestCpi = latestAc > 0 ? latestEv / latestAc : 1;
-  const pctAvance = latestPv > 0 ? (latestEv / latestPv) * 100 : 0;
-  const pctEv = latestPv > 0 ? (latestEv / latestPv) * 100 : 0;
-  const pctAc = latestPv > 0 ? (latestAc / latestPv) * 100 : 0;
+  const pctAvance = bac > 0 ? (latestEv / bac) * 100 : 0;
+  const pctPv = bac > 0 ? (latestPv / bac) * 100 : 0;
+  const pctEv = bac > 0 ? (latestEv / bac) * 100 : 0;
+  const pctAc = bac > 0 ? (latestAc / bac) * 100 : 0;
 
   // 3. Generate EDT/WBS Chapter Breakdown (Estructuras vs Arquitectura)
   const generateChaptersData = () => {
@@ -316,8 +320,8 @@ export function ProjectDashboard({
   const renderSvgChart = () => {
     if (chartData.length === 0) return null;
 
-    const width = 800;
-    const height = 300;
+    const width = 1000;
+    const height = 400;
     const paddingLeft = 70;
     const paddingRight = 30;
     const paddingTop = 40;
@@ -660,7 +664,7 @@ export function ProjectDashboard({
         <div className="bg-slate-950/40 border border-slate-800 p-3 rounded-xl">
           <span className="text-[9px] text-slate-450 block font-bold uppercase tracking-wider">% Avance</span>
           <span className="text-base font-black font-mono text-white block mt-1">{pctAvance.toFixed(1)}%</span>
-          <span className="text-[8px] text-slate-500 block mt-0.5">EV / PV × 100</span>
+          <span className="text-[8px] text-slate-500 block mt-0.5">EV / BAC × 100</span>
         </div>
 
         <div className={`p-3 rounded-xl border ${
@@ -711,7 +715,7 @@ export function ProjectDashboard({
             </div>
           </div>
 
-          <div className="flex-1 min-h-[280px] bg-slate-900/40 rounded-xl p-3 border border-slate-850 flex items-center justify-center relative">
+          <div className="flex-1 min-h-[380px] bg-slate-900/40 rounded-xl p-3 border border-slate-850 flex items-center justify-center relative">
             {chartData.length > 0 ? (
               renderSvgChart()
             ) : (
@@ -722,15 +726,15 @@ export function ProjectDashboard({
             )}
           </div>
 
-          {/* Progress bars: % Avance de PV, EV, AC */}
+          {/* Progress bars: % Avance de PV, EV, AC contra BAC */}
           <div className="grid grid-cols-3 gap-3 mt-3">
             <div className="bg-slate-900/60 rounded-lg p-2.5 border border-slate-800">
               <div className="flex justify-between text-[10px] font-bold mb-1">
                 <span className="text-indigo-400">PV</span>
-                <span className="text-slate-400">100%</span>
+                <span className="text-slate-400">{pctPv.toFixed(1)}%</span>
               </div>
               <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                <div className="h-full bg-indigo-500 rounded-full" style={{ width: '100%' }} />
+                <div className="h-full bg-indigo-500 rounded-full transition-all duration-500" style={{ width: `${Math.min(pctPv, 100)}%` }} />
               </div>
             </div>
             <div className="bg-slate-900/60 rounded-lg p-2.5 border border-slate-800">
@@ -760,11 +764,20 @@ export function ProjectDashboard({
             Historial Cronológico de RDOs
           </h2>
           
-          <div className="flex-1 overflow-y-auto max-h-[320px] pr-1 space-y-2.5 scrollbar-thin">
-            {enrichedReports.map((r, index) => {
+          <div className="flex-1 overflow-y-auto max-h-[500px] pr-1 space-y-2.5 scrollbar-thin">
+            {(() => {
+              // Pre-compute cumulative SPI per report for the history list
+              let cumPv = 0, cumEv = 0;
+              const reportCumulativeSpi = enrichedReports.map(r => {
+                cumPv += r.computedMetrics.plannedValue;
+                cumEv += r.computedMetrics.earnedValue;
+                return cumPv > 0 ? cumEv / cumPv : 1;
+              });
+              return enrichedReports.map((r, index) => {
               const isSelected = r.id === selectedReportId;
               const metrics = r.computedMetrics;
               const hasProduction = metrics.plannedValue > 0 || metrics.earnedValue > 0 || metrics.actualCost > 0;
+              const cumSpi = reportCumulativeSpi[index];
               
               return (
                 <button
@@ -791,11 +804,11 @@ export function ProjectDashboard({
                   <div className="text-right shrink-0">
                     {hasProduction ? (
                       <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-black ${
-                        metrics.spi >= 1 
+                        cumSpi >= 1 
                           ? (isSelected ? 'bg-emerald-250 text-emerald-800' : 'bg-emerald-950 text-emerald-400 border border-emerald-800/35') 
                           : (isSelected ? 'bg-rose-250 text-rose-800' : 'bg-rose-950 text-rose-400 border border-rose-800/35')
                       }`}>
-                        SPI: {metrics.spi.toFixed(2)}
+                        SPI: {cumSpi.toFixed(2)}
                       </span>
                     ) : (
                       <span className="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400 border border-slate-700/50">
@@ -805,7 +818,8 @@ export function ProjectDashboard({
                   </div>
                 </button>
               );
-            })}
+              });
+            })()}
 
             {reports.length === 0 && (
               <p className="text-xs italic text-slate-550 text-center py-20">No se encontraron reportes cargados en la base de datos.</p>
