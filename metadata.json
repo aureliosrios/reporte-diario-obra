@@ -1,0 +1,6 @@
+{
+  "name": "Reporte Diario de Obra",
+  "description": "Aplicación para el control de producción, mano de obra, materiales y equipos con análisis EVM y un asistente de IA asistente de obra.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
