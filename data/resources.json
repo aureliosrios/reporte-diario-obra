@@ -1,0 +1,65 @@
+[
+  {
+    "id": "LH-CAP",
+    "name": "Capataz de Edificación",
+    "type": "mano_obra",
+    "unit": "Hora Hombre",
+    "unitCost": 28
+  },
+  {
+    "id": "LH-OPE",
+    "name": "Operario Civil",
+    "type": "mano_obra",
+    "unit": "Hora Hombre",
+    "unitCost": 22.5
+  },
+  {
+    "id": "LH-OFI",
+    "name": "Oficial Carpintero/Fierrero",
+    "type": "mano_obra",
+    "unit": "Hora Hombre",
+    "unitCost": 18
+  },
+  {
+    "id": "LH-PEO",
+    "name": "Peón de Construcción",
+    "type": "mano_obra",
+    "unit": "Hora Hombre",
+    "unitCost": 14.5
+  },
+  {
+    "id": "MAT-CEM",
+    "name": "Cemento Portland Tipo I (Bolsa 42.5kg)",
+    "type": "material",
+    "unit": "Bolsa",
+    "unitCost": 8.9
+  },
+  {
+    "id": "MAT-ARE",
+    "name": "Arena Gruesa",
+    "type": "material",
+    "unit": "m3",
+    "unitCost": 24
+  },
+  {
+    "id": "MAT-LAD",
+    "name": "Ladrillo King Kong Arcilla Cocida 18H",
+    "type": "material",
+    "unit": "Millar",
+    "unitCost": 320
+  },
+  {
+    "id": "EQ-MEZ",
+    "name": "Mezcladora de Concreto Trompo 9p3",
+    "type": "equipo",
+    "unit": "Hora Máquina",
+    "unitCost": 12
+  },
+  {
+    "id": "EQ-RET",
+    "name": "Retroexcavadora Oruga CAT 320",
+    "type": "equipo",
+    "unit": "Hora Máquina",
+    "unitCost": 48
+  }
+]
