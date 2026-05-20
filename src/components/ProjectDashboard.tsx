@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DailyReport, EvmMetrics, EdtItem } from "../types";
 import { 
   TrendingUp, TrendingDown, Clock, Shield, CalendarDays, Image as ImageIcon, 
-  UserCheck, AlertTriangle, Cpu, ArrowRight, Table, FileText, CheckCircle2, 
+  UserCheck, AlertTriangle, ArrowRight, Table, FileText, CheckCircle2, 
   Cloud, RefreshCw, BarChart3, Info, HardHat, ChevronLeft, ChevronRight
 } from "lucide-react";
 
@@ -49,10 +49,6 @@ export function ProjectDashboard({
   
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
-
-  // AI analysis state
-  const [aiAnalysis, setAiAnalysis] = useState<{ [reportId: string]: string }>({});
-  const [loadingAi, setLoadingAi] = useState<string | null>(null);
 
   // Parse chronological reports
   const sortedReports = [...reports].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -275,6 +271,10 @@ export function ProjectDashboard({
 
   const chaptersData = generateChaptersData();
 
+  // Build PV curve lookup by date (for consistent SPI calculation vs BAC baseline)
+  const pvCurveByDate: Record<string, number> = {};
+  pvCurveData.forEach(p => { pvCurveByDate[p.date] = p.pvCumulative; });
+
   // Calendar date picker: find report closest to selected date
   const handleDateChange = (dateStr: string) => {
     // Find the last report on or before the selected date
@@ -468,34 +468,6 @@ export function ProjectDashboard({
         })}
       </svg>
     );
-  };
-
-  // Run server-side Gemini RDO Audit
-  const handleGenerateAiAudit = async (report: DailyReport) => {
-    setLoadingAi(report.id);
-    try {
-      const response = await fetch("/api/gemini/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          currentReport: report,
-          projectCode: "MFG-01"
-        })
-      });
-      const data = await response.json();
-      setAiAnalysis(prev => ({
-        ...prev,
-        [report.id]: data.analysis
-      }));
-    } catch (err: any) {
-      console.error(err);
-      setAiAnalysis(prev => ({
-        ...prev,
-        [report.id]: "Error consultando al servicio de IA. El servidor local Express está inactivo, pero tu base de datos de Sheets está al 100% sincronizada."
-      }));
-    } finally {
-      setLoadingAi(null);
-    }
   };
 
   return (
@@ -766,12 +738,12 @@ export function ProjectDashboard({
           
           <div className="flex-1 overflow-y-auto max-h-[500px] pr-1 space-y-2.5 scrollbar-thin">
             {(() => {
-              // Pre-compute cumulative SPI per report for the history list
-              let cumPv = 0, cumEv = 0;
+              // Pre-compute cumulative SPI per report using REAL PV curve (consistente con el header)
+              let cumEv = 0;
               const reportCumulativeSpi = enrichedReports.map(r => {
-                cumPv += r.computedMetrics.plannedValue;
                 cumEv += r.computedMetrics.earnedValue;
-                return cumPv > 0 ? cumEv / cumPv : 1;
+                const realPvAtDate = pvCurveByDate[r.date] || cumEv;
+                return realPvAtDate > 0 ? cumEv / realPvAtDate : 1;
               });
               return enrichedReports.map((r, index) => {
               const isSelected = r.id === selectedReportId;
@@ -907,8 +879,8 @@ export function ProjectDashboard({
       {selectedReport && (
         <div id="selected-report-workspace" className="bg-slate-950 rounded-2xl border border-slate-800 shadow-xl overflow-hidden grid grid-cols-1 xl:grid-cols-12">
           
-          {/* Work report summary columns & details (xl:col-span-8) */}
-          <div className="p-6 xl:col-span-8 border-r border-slate-850 space-y-6">
+          {/* Work report summary columns & details (full width) */}
+          <div className="p-6 xl:col-span-12 space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-850 pb-4 gap-3">
               <div>
                 <span className="text-xxs uppercase font-mono text-sky-400 font-black tracking-widest">{selectedReport.id}</span>
@@ -1106,56 +1078,6 @@ export function ProjectDashboard({
                   </div>
                 )}
               </div>
-            </div>
-          </div>
-
-          {/* AI SPECIALIST PMO ROBOT WORKSPACE (xl:col-span-4) */}
-          <div className="p-6 xl:col-span-4 bg-gradient-to-br from-slate-950 to-slate-900 text-slate-300 space-y-4 flex flex-col justify-between">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-850 pb-4">
-                <div className="flex items-center gap-2">
-                  <Cpu className="w-5 h-5 text-sky-400" />
-                  <h4 className="text-xs font-black text-white uppercase tracking-wider">Auditor de IA: PMO Gemini</h4>
-                </div>
-                <span className="bg-sky-500/10 text-sky-300 font-mono text-[9px] px-2 py-0.5 rounded-full font-bold border border-sky-500/20">
-                  gemini-3.5
-                </span>
-              </div>
-
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                Analiza en tiempo real variaciones de rendimiento físico (SV) y costos financieros (CV) para dictar planes de mitigación de obra inmediatos.
-              </p>
-
-              {aiAnalysis[selectedReport.id] ? (
-                <div className="bg-slate-950/80 p-3.5 rounded-xl border border-slate-850/80 text-[11px] text-slate-350 leading-relaxed font-mono overflow-y-auto max-h-[300px] scrollbar-thin whitespace-pre-line text-left">
-                  {aiAnalysis[selectedReport.id]}
-                </div>
-              ) : (
-                <div className="border-t border-slate-850/60 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => handleGenerateAiAudit(selectedReport)}
-                    disabled={loadingAi !== null}
-                    className="w-full bg-sky-500 hover:bg-sky-400 transition text-slate-950 font-bold py-2.5 rounded-xl text-xs shadow-lg shadow-sky-500/10 flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    {loadingAi === selectedReport.id ? (
-                      <>
-                        <div className="w-3.5 h-3.5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
-                        Auditando métricas RDO...
-                      </>
-                    ) : (
-                      <>
-                        <Cpu className="w-4 h-4 text-slate-950" />
-                        Auditar Reporte con IA
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="text-[10px] text-slate-500 text-center italic border-t border-slate-850/50 pt-4 select-none">
-              *Audita desvíos acumulados, incidentes climáticos y consumos reales (AC) contra metas planificadas.
             </div>
           </div>
 
