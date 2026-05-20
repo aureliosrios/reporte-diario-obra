@@ -12,64 +12,105 @@ import {
 
 // Backup fallback structures if server fetch fails or is slow
 const BACKUP_PROJECTS: Project[] = [
-  { id: "PRJ-001", name: "Edificio Multifamiliar Girasoles", code: "MFG-01", location: "Lima, San Isidro", manager: "Ing. Alejandro Rivas" },
-  { id: "PRJ-002", name: "Condominio de Playa Las Brisas", code: "CPLB-02", location: "Asia, KM 98", manager: "Ing. Claudia Mendoza" }
+  { id: "PRJ-001", name: "Edificio Multifamiliar Girasoles", code: "MFG-01", location: "San Isidro, Lima, Perú", manager: "Ing. Alejandro Rivas" },
 ];
 
 // BACKUP_EDT: usado SOLO si tanto el servidor Express como el archivo estático
 // /data/pv-edt-data.json fallan. Refleja la estructura real del proyecto.
 const BACKUP_EDT: EdtItem[] = [
-  // Capítulos Nivel 1 (7 capítulos del proyecto real)
-  { code: "OBR-PRE", parentId: null, name: "Obras Preliminares",  unit: "Global", totalBudgetQty: 41500,   unitPrice: 0 },
-  { code: "CIM",     parentId: null, name: "Cimentación",          unit: "Global", totalBudgetQty: 249700,  unitPrice: 0 },
-  { code: "EST",     parentId: null, name: "Estructura",           unit: "Global", totalBudgetQty: 424200,  unitPrice: 0 },
-  { code: "ALB",     parentId: null, name: "Albañilería",           unit: "Global", totalBudgetQty: 125500,  unitPrice: 0 },
-  { code: "INS",     parentId: null, name: "Instalaciones",         unit: "Global", totalBudgetQty: 95700,   unitPrice: 0 },
-  { code: "ACA",     parentId: null, name: "Acabados",              unit: "Global", totalBudgetQty: 170100,  unitPrice: 0 },
-  { code: "OBR-EXT", parentId: null, name: "Obras Exteriores",      unit: "Global", totalBudgetQty: 66200,   unitPrice: 0 },
+  // Capítulos Nivel 1 (5 capítulos del proyecto real)
+  { code: "OBR-PRE",  parentId: null, name: "Obras Preliminares y Provisionales",    unit: "Global", totalBudgetQty: 45000,  unitPrice: 0 },
+  { code: "MOV-TIE",  parentId: null, name: "Movimiento de Tierras",                  unit: "Global", totalBudgetQty: 92250,  unitPrice: 0 },
+  { code: "EST-CON",  parentId: null, name: "Estructuras de Concreto",               unit: "Global", totalBudgetQty: 321350, unitPrice: 0 },
+  { code: "ARQ-ACAB", parentId: null, name: "Arquitectura y Acabados",                unit: "Global", totalBudgetQty: 313200, unitPrice: 0 },
+  { code: "INS-SAN",  parentId: null, name: "Instalaciones Sanitarias y Eléctricas", unit: "Global", totalBudgetQty: 81590,  unitPrice: 0 },
+  // Actividades Nivel 2
+  { code: "OBR-PRE-01", parentId: "OBR-PRE", name: "Limpieza de terreno manual", unit: "m2", totalBudgetQty: 1500, unitPrice: 6 },
+  { code: "OBR-PRE-02", parentId: "OBR-PRE", name: "Trazo, nivelación y replanteo", unit: "m2", totalBudgetQty: 1500, unitPrice: 8 },
+  { code: "OBR-PRE-03", parentId: "OBR-PRE", name: "Cerco provisional de obra", unit: "m", totalBudgetQty: 240, unitPrice: 50 },
+  { code: "OBR-PRE-04", parentId: "OBR-PRE", name: "Almacén y oficina provisional", unit: "Global", totalBudgetQty: 1, unitPrice: 12000 },
+  { code: "MOV-TIE-01", parentId: "MOV-TIE", name: "Excavación masiva", unit: "m3", totalBudgetQty: 1200, unitPrice: 22 },
+  { code: "MOV-TIE-02", parentId: "MOV-TIE", name: "Excavación manual zanjas", unit: "m3", totalBudgetQty: 180, unitPrice: 45 },
+  { code: "MOV-TIE-03", parentId: "MOV-TIE", name: "Relleno y compactado", unit: "m3", totalBudgetQty: 450, unitPrice: 35 },
+  { code: "MOV-TIE-04", parentId: "MOV-TIE", name: "Eliminación de desmonte", unit: "m3", totalBudgetQty: 1500, unitPrice: 28 },
+  { code: "EST-CON-01", parentId: "EST-CON", name: "Solado de concreto e=3\"", unit: "m2", totalBudgetQty: 350, unitPrice: 32 },
+  { code: "EST-CON-02", parentId: "EST-CON", name: "Concreto f'c=210 zapatas", unit: "m3", totalBudgetQty: 160, unitPrice: 380 },
+  { code: "EST-CON-03", parentId: "EST-CON", name: "Acero refuerzo zapatas", unit: "kg", totalBudgetQty: 4500, unitPrice: 5.5 },
+  { code: "EST-CON-04", parentId: "EST-CON", name: "Concreto f'c=280 columnas", unit: "m3", totalBudgetQty: 85, unitPrice: 420 },
+  { code: "EST-CON-05", parentId: "EST-CON", name: "Encofrado metálico columnas", unit: "m2", totalBudgetQty: 320, unitPrice: 65 },
+  { code: "EST-CON-06", parentId: "EST-CON", name: "Acero refuerzo columnas", unit: "kg", totalBudgetQty: 6200, unitPrice: 5.8 },
+  { code: "EST-CON-07", parentId: "EST-CON", name: "Concreto f'c=210 losas y vigas", unit: "m3", totalBudgetQty: 120, unitPrice: 410 },
+  { code: "EST-CON-08", parentId: "EST-CON", name: "Encofrado vigas y losas", unit: "m2", totalBudgetQty: 580, unitPrice: 55 },
+  { code: "EST-CON-09", parentId: "EST-CON", name: "Acero refuerzo vigas y losas", unit: "kg", totalBudgetQty: 8800, unitPrice: 5.8 },
+  { code: "ARQ-ACAB-01", parentId: "ARQ-ACAB", name: "Muros de ladrillo King Kong", unit: "m2", totalBudgetQty: 1100, unitPrice: 75 },
+  { code: "ARQ-ACAB-02", parentId: "ARQ-ACAB", name: "Tarrajeo frotachado interior", unit: "m2", totalBudgetQty: 2400, unitPrice: 22 },
+  { code: "ARQ-ACAB-03", parentId: "ARQ-ACAB", name: "Tarrajeo cielorrasos", unit: "m2", totalBudgetQty: 850, unitPrice: 26 },
+  { code: "ARQ-ACAB-04", parentId: "ARQ-ACAB", name: "Contrapiso de concreto", unit: "m2", totalBudgetQty: 850, unitPrice: 24 },
+  { code: "ARQ-ACAB-05", parentId: "ARQ-ACAB", name: "Piso porcelanato 60x60", unit: "m2", totalBudgetQty: 800, unitPrice: 85 },
+  { code: "ARQ-ACAB-06", parentId: "ARQ-ACAB", name: "Pintura látex interior", unit: "m2", totalBudgetQty: 2400, unitPrice: 12 },
+  { code: "ARQ-ACAB-07", parentId: "ARQ-ACAB", name: "Puertas contraplacadas", unit: "und", totalBudgetQty: 32, unitPrice: 450 },
+  { code: "ARQ-ACAB-08", parentId: "ARQ-ACAB", name: "Ventanas vidrio templado", unit: "m2", totalBudgetQty: 110, unitPrice: 220 },
+  { code: "INS-SAN-01", parentId: "INS-SAN", name: "Redes de desagüe PVC 4\"", unit: "m", totalBudgetQty: 320, unitPrice: 42 },
+  { code: "INS-SAN-02", parentId: "INS-SAN", name: "Tubería agua fría/caliente", unit: "m", totalBudgetQty: 450, unitPrice: 35 },
+  { code: "INS-SAN-03", parentId: "INS-SAN", name: "Tuberías PVC luz empotradas", unit: "m", totalBudgetQty: 950, unitPrice: 18 },
+  { code: "INS-SAN-04", parentId: "INS-SAN", name: "Cableado cobre tipo NH-80", unit: "m", totalBudgetQty: 2800, unitPrice: 6.5 },
+  { code: "INS-SAN-05", parentId: "INS-SAN", name: "Montaje aparatos sanitarios", unit: "jgo", totalBudgetQty: 18, unitPrice: 950 },
 ];
 
 const BACKUP_RESOURCES: ResourceItem[] = [
   { id: "LH-CAP", name: "Capataz de Edificación", type: "mano_obra", unit: "Hora Hombre", unitCost: 28.0 },
-  { id: "LH-OPE", name: "Operario Civil", type: "mano_obra", unit: "Hora Hombre", unitCost: 22.5 },
-  { id: "LH-OFI", name: "Oficial Carpintero/Fierrero", type: "mano_obra", unit: "Hora Hombre", unitCost: 18.0 },
+  { id: "LH-OPE", name: "Operario de Obra Civil", type: "mano_obra", unit: "Hora Hombre", unitCost: 22.5 },
+  { id: "LH-OFI", name: "Oficial de Obra Civil", type: "mano_obra", unit: "Hora Hombre", unitCost: 18.0 },
   { id: "LH-PEO", name: "Peón de Construcción", type: "mano_obra", unit: "Hora Hombre", unitCost: 14.5 },
-  { id: "MAT-CEM", name: "Cemento Portland Tipo I (Bolsa 42.5kg)", type: "material", unit: "Bolsa", unitCost: 8.9 },
-  { id: "MAT-ARE", name: "Arena Gruesa", type: "material", unit: "m3", unitCost: 24.0 },
-  { id: "MAT-LAD", name: "Ladrillo King Kong Arcilla Cocida 18H", type: "material", unit: "Millar", unitCost: 320.0 },
-  { id: "EQ-MEZ", name: "Mezcladora de Concreto Trompo 9p3", type: "equipo", unit: "Hora Máquina", unitCost: 12.0 },
-  { id: "EQ-RET", name: "Retroexcavadora Oruga CAT 320", type: "equipo", unit: "Hora Máquina", unitCost: 48.0 }
+  { id: "LH-SUP", name: "Supervisor SST (Prevencionista)", type: "mano_obra", unit: "Hora Hombre", unitCost: 35.0 },
+  { id: "MAT-CEM", name: "Cemento Portland Tipo I (bolsa 42.5kg)", type: "material", unit: "Bolsa", unitCost: 24.5 },
+  { id: "MAT-ACE", name: "Acero refuerzo corrugado fy=4200", type: "material", unit: "kg", unitCost: 4.8 },
+  { id: "MAT-ARE", name: "Arena gruesa para mezclas", type: "material", unit: "m3", unitCost: 65.0 },
+  { id: "MAT-PIE", name: "Piedra chancada de 1/2\"", type: "material", unit: "m3", unitCost: 72.0 },
+  { id: "MAT-LAD", name: "Ladrillo King Kong arcilla 18 huecos", type: "material", unit: "Millar", unitCost: 850.0 },
+  { id: "MAT-POR", name: "Porcelanato pulido premium 60x60cm", type: "material", unit: "m2", unitCost: 45.0 },
+  { id: "MAT-PUE", name: "Puerta contraplacada de cedro", type: "material", unit: "und", unitCost: 350.0 },
+  { id: "MAT-VID", name: "Vidrio templado e=8mm c/perfilerías", type: "material", unit: "m2", unitCost: 150.0 },
+  { id: "MAT-DES", name: "Tubería PVC Sanitaria 4\"", type: "material", unit: "m", unitCost: 12.5 },
+  { id: "MAT-AGU", name: "Tubería PVC agua fría 1/2\"", type: "material", unit: "m", unitCost: 8.5 },
+  { id: "EQ-MEZ", name: "Mezcladora de concreto trompo 9p3", type: "equipo", unit: "Hora Máquina", unitCost: 15.0 },
+  { id: "EQ-VIB", name: "Vibradora de concreto naftera 2\"", type: "equipo", unit: "Hora Máquina", unitCost: 8.5 },
+  { id: "EQ-RET", name: "Retroexcavadora CAT 320 Orugas", type: "equipo", unit: "Hora Máquina", unitCost: 55.0 },
+  { id: "EQ-VOL", name: "Camión Volquete Volvo 15m3", type: "equipo", unit: "Hora Máquina", unitCost: 42.0 },
+  { id: "EQ-AND", name: "Andamio multidireccional normado", type: "equipo", unit: "Día", unitCost: 6.0 },
 ];
 
 const generateBackupPlannedValues = (): PlannedValue[] => {
   const values: PlannedValue[] = [];
-  const baseDate = new Date("2026-05-15");
-  
+  const baseDate = new Date("2026-06-01");
+
   for (let i = 0; i < 20; i++) {
     const d = new Date(baseDate.getTime() + i * 24 * 60 * 60 * 1000);
     const dateStr = d.toISOString().split("T")[0];
 
-    values.push({ date: dateStr, edtCode: "EST-01", plannedQty: 15 });
-    values.push({ date: dateStr, edtCode: "EST-02", plannedQty: 80 });
-    values.push({ date: dateStr, edtCode: "EST-03", plannedQty: 25 });
-    values.push({ date: dateStr, edtCode: "EST-04", plannedQty: 30 });
-    values.push({ date: dateStr, edtCode: "ARQ-01", plannedQty: 65 });
-    values.push({ date: dateStr, edtCode: "ARQ-02", plannedQty: 110 });
-    values.push({ date: dateStr, edtCode: "ARQ-03", plannedQty: 50 });
-    values.push({ date: dateStr, edtCode: "MEP-01", plannedQty: 80 });
-    values.push({ date: dateStr, edtCode: "MEP-02", plannedQty: 35 });
+    values.push({ date: dateStr, edtCode: "OBR-PRE-01", plannedQty: 75 });
+    values.push({ date: dateStr, edtCode: "MOV-TIE-01", plannedQty: 60 });
+    values.push({ date: dateStr, edtCode: "EST-CON-01", plannedQty: 18 });
+    values.push({ date: dateStr, edtCode: "EST-CON-02", plannedQty: 8 });
+    values.push({ date: dateStr, edtCode: "EST-CON-03", plannedQty: 225 });
+    values.push({ date: dateStr, edtCode: "ARQ-ACAB-01", plannedQty: 55 });
+    values.push({ date: dateStr, edtCode: "ARQ-ACAB-02", plannedQty: 120 });
+    values.push({ date: dateStr, edtCode: "INS-SAN-01", plannedQty: 16 });
+    values.push({ date: dateStr, edtCode: "INS-SAN-02", plannedQty: 23 });
   }
   return values;
 };
 
 const generate20DaysSyntheticReports = (): DailyReport[] => {
   const reports: DailyReport[] = [];
-  const baseDate = new Date("2026-05-15");
+  const baseDate = new Date("2026-06-01");
 
-  // Fases reales del cronograma EDT:
-  //  Días 01-04: OBR-PRE - Obras Preliminares (OBR-PRE-01, OBR-PRE-02)
-  //  Días 05-08: CIM     - Cimentación       (CIM-01 … CIM-04)
-  //  Días 09-20: EST     - Estructura        (EST-01 … EST-05)
+  // Fases reales del cronograma EDT (nuevo: 5 capítulos, 90 días):
+  //  Días 01-04: OBR-PRE  - Obras Preliminares (OBR-PRE-01 … OBR-PRE-04)
+  //  Días 05-08: MOV-TIE  - Movimiento de Tierras (MOV-TIE-01 … MOV-TIE-04)
+  //  Días 09-14: EST-CON  - Estructuras de Concreto (EST-CON-01 … EST-CON-09)
+  //  Días 15-18: ARQ-ACAB - Arquitectura y Acabados (ARQ-ACAB-01 … ARQ-ACAB-08)
+  //  Días 19-20: INS-SAN  - Instalaciones Sanitarias y Eléctricas (INS-SAN-01 … INS-SAN-05)
 
   for (let day = 0; day < 20; day++) {
     const currentDate  = new Date(baseDate.getTime() + day * 24 * 60 * 60 * 1000);
@@ -95,7 +136,7 @@ const generate20DaysSyntheticReports = (): DailyReport[] => {
     }
 
     // Capítulo EDT activo según fase real del cronograma
-    const chapterWbsId = day < 4 ? "OBR-PRE" : day < 8 ? "CIM" : "EST";
+    const chapterWbsId = day < 4 ? "OBR-PRE" : day < 8 ? "MOV-TIE" : day < 14 ? "EST-CON" : day < 18 ? "ARQ-ACAB" : "INS-SAN";
     const totalStaff   = Math.round(18 + Math.random() * 8) + (day >= 6 && day <= 11 ? 4 : 0);
 
     let hseDetails    = "Inspección de EPPs y arneses conforme. Charla de 5 min realizada.";
@@ -110,54 +151,74 @@ const generate20DaysSyntheticReports = (): DailyReport[] => {
 
     if (day < 4) {
       // OBR-PRE: Obras Preliminares
-      dayActivities.push({ edtCode: "OBR-PRE-01", name: "Trazos y niveles",    unit: "m2", plannedQty: 425, qtyExecuted: 390 - day * 5, notes: "Replanteo de ejes principales" });
-      dayActivities.push({ edtCode: "OBR-PRE-02", name: "Limpieza del terreno", unit: "m2", plannedQty: 325, qtyExecuted: 310 - day * 5, notes: "Limpieza y retiro de residuos" });
+      dayActivities.push({ edtCode: "OBR-PRE-01", name: "Limpieza de terreno manual", unit: "m2", plannedQty: 425, qtyExecuted: 390 - day * 5, notes: "Limpieza y retiro de residuos" });
+      dayActivities.push({ edtCode: "OBR-PRE-02", name: "Trazo, nivelación y replanteo", unit: "m2", plannedQty: 380, qtyExecuted: 340 - day * 5, notes: "Replanteo de ejes principales" });
     } else if (day < 8) {
-      // CIM: Cimentación
+      // MOV-TIE: Movimiento de Tierras
       const d = day - 4;
-      if (d === 0) dayActivities.push({ edtCode: "CIM-01", name: "Excavación masiva",            unit: "m3", plannedQty: 380,  qtyExecuted: 340,  notes: "Excavación de zanjas y zapatas" });
-      if (d === 1) dayActivities.push({ edtCode: "CIM-01", name: "Excavación masiva",            unit: "m3", plannedQty: 380,  qtyExecuted: day === 5 ? 80 : 360, notes: day === 5 ? "Parálisis por lluvia" : "Recuperación con jornada extendida" });
-      if (d === 2) dayActivities.push({ edtCode: "CIM-02", name: "Concreto de solado",           unit: "m3", plannedQty: 32,   qtyExecuted: 28,   notes: "Vaciado de solado de limpieza" });
+      if (d === 0) dayActivities.push({ edtCode: "MOV-TIE-01", name: "Excavación masiva con excavadora", unit: "m3", plannedQty: 380, qtyExecuted: 340, notes: "Excavación de zanjas y zapatas" });
+      if (d === 1) dayActivities.push({ edtCode: "MOV-TIE-01", name: "Excavación masiva con excavadora", unit: "m3", plannedQty: 380, qtyExecuted: day === 5 ? 80 : 360, notes: day === 5 ? "Parálisis por lluvia" : "Recuperación con jornada extendida" });
+      if (d === 2) dayActivities.push({ edtCode: "MOV-TIE-03", name: "Relleno y compactado con vibradora", unit: "m3", plannedQty: 120, qtyExecuted: 100, notes: "Relleno de zanjas" });
       if (d === 3) {
-        dayActivities.push({ edtCode: "CIM-03", name: "Encofrado de cimentación",     unit: "m2", plannedQty: 325,  qtyExecuted: 300,  notes: "Encofrado de zapatas" });
-        dayActivities.push({ edtCode: "CIM-04", name: "Acero de refuerzo cimentación", unit: "kg", plannedQty: 3800, qtyExecuted: 3400, notes: "Habilitación y colocación de fierro" });
+        dayActivities.push({ edtCode: "MOV-TIE-04", name: "Eliminación de desmonte c/volquete 15m3", unit: "m3", plannedQty: 450, qtyExecuted: 400, notes: "Desmonte acumulado" });
+        dayActivities.push({ edtCode: "MOV-TIE-02", name: "Excavación manual de zanjas y vigas", unit: "m3", plannedQty: 55, qtyExecuted: 48, notes: "Excavación complementaria" });
       }
-    } else {
-      // EST: Estructura
+    } else if (day < 14) {
+      // EST-CON: Estructuras de Concreto
       const dEst = day - 8;
       if (dEst < 3) {
-        dayActivities.push({ edtCode: "EST-01", name: "Encofrado de columnas",     unit: "m2", plannedQty: 235,  qtyExecuted: 200 + dEst * 10,  notes: "Encofrado de placas y columnas 1er piso" });
-        dayActivities.push({ edtCode: "EST-02", name: "Acero de refuerzo columnas", unit: "kg", plannedQty: 2066, qtyExecuted: 1800 + dEst * 100, notes: "Habilitación y colocación de acero" });
+        dayActivities.push({ edtCode: "EST-CON-01", name: "Solado de concreto e=3\"", unit: "m2", plannedQty: 105, qtyExecuted: 90 + dEst * 5, notes: "Solado de limpieza" });
+        dayActivities.push({ edtCode: "EST-CON-05", name: "Encofrado metálico columnas", unit: "m2", plannedQty: 100, qtyExecuted: 85 + dEst * 5, notes: "Encofrado de placas y columnas 1er piso" });
       } else if (dEst < 7) {
-        dayActivities.push({ edtCode: "EST-03", name: "Concreto de columnas", unit: "m3", plannedQty: 30, qtyExecuted: 25 + (dEst - 3) * 2, notes: "Vaciado concreto f\'c=280 kg/cm2" });
+        dayActivities.push({ edtCode: "EST-CON-04", name: "Concreto f'c=280 columnas", unit: "m3", plannedQty: 26, qtyExecuted: 22 + (dEst - 3) * 2, notes: "Vaciado concreto f'c=280 kg/cm2" });
+        dayActivities.push({ edtCode: "EST-CON-06", name: "Acero refuerzo columnas", unit: "kg", plannedQty: 1860, qtyExecuted: 1600 + (dEst - 3) * 80, notes: "Habilitación y colocación de acero" });
       } else {
-        dayActivities.push({ edtCode: "EST-04", name: "Encofrado de vigas y losas", unit: "m2", plannedQty: 339,  qtyExecuted: 300 + (dEst - 7) * 8,  notes: "Encofrado con tableros de fondo de losa" });
-        dayActivities.push({ edtCode: "EST-05", name: "Acero de vigas y losas",    unit: "kg", plannedQty: 2907, qtyExecuted: 2600 + (dEst - 7) * 50, notes: "Colocación de acero en vigas principales" });
+        dayActivities.push({ edtCode: "EST-CON-08", name: "Encofrado vigas y losas", unit: "m2", plannedQty: 175, qtyExecuted: 150 + (dEst - 7) * 5, notes: "Encofrado con tableros de fondo de losa" });
+        dayActivities.push({ edtCode: "EST-CON-09", name: "Acero refuerzo vigas y losas", unit: "kg", plannedQty: 2640, qtyExecuted: 2300 + (dEst - 7) * 50, notes: "Colocación de acero en vigas principales" });
       }
+    } else if (day < 18) {
+      // ARQ-ACAB: Arquitectura y Acabados
+      const dArq = day - 14;
+      if (dArq < 2) {
+        dayActivities.push({ edtCode: "ARQ-ACAB-01", name: "Muros de ladrillo King Kong", unit: "m2", plannedQty: 310, qtyExecuted: 280 + dArq * 15, notes: "Asentado de muros de ladrillo" });
+        dayActivities.push({ edtCode: "ARQ-ACAB-02", name: "Tarrajeo frotachado interior", unit: "m2", plannedQty: 690, qtyExecuted: 620 + dArq * 30, notes: "Tarrajeo de muros interiores" });
+      } else {
+        dayActivities.push({ edtCode: "ARQ-ACAB-05", name: "Piso porcelanato 60x60", unit: "m2", plannedQty: 225, qtyExecuted: 200 + (dArq - 2) * 10, notes: "Instalación de piso porcelanato" });
+        dayActivities.push({ edtCode: "ARQ-ACAB-06", name: "Pintura látex interior", unit: "m2", plannedQty: 690, qtyExecuted: 600 + (dArq - 2) * 30, notes: "Pintura de muros y columnas" });
+      }
+    } else {
+      // INS-SAN: Instalaciones Sanitarias y Eléctricas
+      const dIns = day - 18;
+      dayActivities.push({ edtCode: "INS-SAN-01", name: "Redes de desagüe PVC 4\"", unit: "m", plannedQty: 95, qtyExecuted: 80 + dIns * 10, notes: "Tendido de tubería de desagüe" });
+      dayActivities.push({ edtCode: "INS-SAN-04", name: "Cableado cobre tipo NH-80", unit: "m", plannedQty: 810, qtyExecuted: 720 + dIns * 40, notes: "Cableado de circuitos eléctricos" });
     }
 
-    // ── Recursos consumidos (IDs reales BD_RRHH) ─────────────────────────────
+    // ── Recursos consumidos (IDs reales BD_RRHH + BD_Almacen) ─────────────────
     const manoObra: DailyReport["manoObra"] = [
       { resourceId: "LH-CAP", name: "Capataz de Edificación", hoursWorked: effectiveHours,    edtGroupCode: chapterWbsId },
-      { resourceId: "LH-OPE", name: "Operario Civil",         hoursWorked: effectiveHours * 4, edtGroupCode: chapterWbsId },
+      { resourceId: "LH-OPE", name: "Operario de Obra Civil",  hoursWorked: effectiveHours * 4, edtGroupCode: chapterWbsId },
       { resourceId: "LH-PEO", name: "Peón de Construcción",   hoursWorked: effectiveHours * 8, edtGroupCode: chapterWbsId }
     ];
     const materials: DailyReport["materials"] = [];
     const equipos:   DailyReport["equipos"]   = [];
 
     if (chapterWbsId === "OBR-PRE") {
-      equipos.push({ resourceId: "EQ-MEZ", name: "Mezcladora Trompo 9p3", qtyUsed: effectiveHours / 2, unit: "Hora Máquina", edtGroupCode: "OBR-PRE" });
-    } else if (chapterWbsId === "CIM") {
-      equipos.push({ resourceId: "EQ-RET", name: "Retroexcavadora Oruga CAT 320", qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "CIM" });
-      if (day >= 6) {
-        materials.push({ resourceId: "MAT-CEM", name: "Cemento Portland Tipo I",          qtyConsumed: 35, unit: "Bolsa",   edtGroupCode: "CIM" });
-        materials.push({ resourceId: "MAT-ACE", name: "Fierro Corrugado Grade 60 1/2\"", qtyConsumed: 28, unit: "Varilla", edtGroupCode: "CIM" });
-      }
+      equipos.push({ resourceId: "EQ-MEZ", name: "Mezcladora de concreto trompo 9p3", qtyUsed: effectiveHours / 2, unit: "Hora Máquina", edtGroupCode: "OBR-PRE" });
+    } else if (chapterWbsId === "MOV-TIE") {
+      equipos.push({ resourceId: "EQ-RET", name: "Retroexcavadora CAT 320 Orugas", qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "MOV-TIE" });
+      equipos.push({ resourceId: "EQ-VOL", name: "Camión Volquete Volvo 15m3", qtyUsed: effectiveHours / 2, unit: "Hora Máquina", edtGroupCode: "MOV-TIE" });
+    } else if (chapterWbsId === "EST-CON") {
+      equipos.push({ resourceId: "EQ-MEZ", name: "Mezcladora de concreto trompo 9p3", qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "EST-CON" });
+      equipos.push({ resourceId: "EQ-VIB", name: "Vibradora de concreto naftera 2\"", qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "EST-CON" });
+      materials.push({ resourceId: "MAT-CEM", name: "Cemento Portland Tipo I (bolsa 42.5kg)", qtyConsumed: day >= 13 ? 90 : 45, unit: "Bolsa", edtGroupCode: "EST-CON" });
+      materials.push({ resourceId: "MAT-ACE", name: "Acero de refuerzo corrugado fy=4200", qtyConsumed: 18, unit: "kg", edtGroupCode: "EST-CON" });
+    } else if (chapterWbsId === "ARQ-ACAB") {
+      materials.push({ resourceId: "MAT-LAD", name: "Ladrillo King Kong arcilla 18 huecos", qtyConsumed: day >= 16 ? 40 : 80, unit: "Millar", edtGroupCode: "ARQ-ACAB" });
+      materials.push({ resourceId: "MAT-POR", name: "Porcelanato pulido premium 60x60cm", qtyConsumed: day >= 16 ? 20 : 0, unit: "m2", edtGroupCode: "ARQ-ACAB" });
     } else {
-      equipos.push({ resourceId: "EQ-MEZ", name: "Mezcladora de Concreto Trompo 9p3",   qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "EST" });
-      equipos.push({ resourceId: "EQ-VIB", name: "Vibradora de Concreto Naftera 2\"",   qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "EST" });
-      materials.push({ resourceId: "MAT-CEM", name: "Cemento Portland Tipo I",           qtyConsumed: day >= 13 ? 90 : 45, unit: "Bolsa",   edtGroupCode: "EST" });
-      materials.push({ resourceId: "MAT-ACE", name: "Fierro Corrugado Grade 60 1/2\"",  qtyConsumed: 18,                  unit: "Varilla", edtGroupCode: "EST" });
+      // INS-SAN
+      materials.push({ resourceId: "MAT-DES", name: "Tubería PVC Sanitaria pesada de 4\"", qtyConsumed: 15, unit: "m", edtGroupCode: "INS-SAN" });
+      materials.push({ resourceId: "MAT-AGU", name: "Tubería PVC agua fría de 1/2\"", qtyConsumed: 22, unit: "m", edtGroupCode: "INS-SAN" });
     }
 
     reports.push({
@@ -308,12 +369,27 @@ export default function App() {
         }
       } catch {
         // ── Fallback final: usar BACKUP_EDT hardcodeado ──
-        console.warn("[RDO] Usando BACKUP_EDT de emergencia (7 capítulos aproximados)");
+        console.warn("[RDO] Usando BACKUP_EDT de emergencia (5 capítulos aproximados)");
         setEdtList(BACKUP_EDT);
         setPlannedValues(generateBackupPlannedValues());
       }
 
-      // ── Intento 2: Cargar recursos desde JSON estático ──
+      // ── Intento 2: Cargar metadata del proyecto desde JSON estático ──
+      try {
+        const pRes = await fetch("/data/project.json");
+        if (pRes.ok) {
+          const pData = await pRes.json();
+          if (Array.isArray(pData)) {
+            setProjects(pData);
+          } else {
+            setProjects([{ id: "PRJ-001", name: pData.name || "Edificio Multifamiliar Girasoles", code: pData.code || "MFG-01", location: pData.location || "", manager: pData.manager || "" }]);
+          }
+        }
+      } catch {
+        // queda BACKUP_PROJECTS del estado inicial
+      }
+
+      // ── Intento 3: Cargar recursos desde JSON estático ──
       try {
         const rRes = await fetch("/data/resources.json");
         if (rRes.ok) {
@@ -323,7 +399,7 @@ export default function App() {
         // queda BACKUP_RESOURCES del estado inicial
       }
 
-      // ── Intento 3: Curva S acumulada del proyecto ──
+      // ── Intento 4: Curva S acumulada del proyecto ──
       try {
         const pvRes = await fetch("/data/pv-curve.json");
         if (pvRes.ok) {
@@ -335,7 +411,7 @@ export default function App() {
         setPvCurveData(FALLBACK_PV_CURVE);
       }
 
-      // ── Intento 4: PV por capítulo ──
+      // ── Intento 5: PV por capítulo ──
       try {
         const chRes = await fetch("/data/pv-by-chapter.json");
         if (chRes.ok) {
