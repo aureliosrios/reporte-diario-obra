@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { DailyReport, EvmMetrics, EdtItem } from "../types";
 import { 
-  TrendingUp, TrendingDown, Clock, Shield, Calendar, Image as ImageIcon, 
+  TrendingUp, TrendingDown, Clock, Shield, CalendarDays, Image as ImageIcon, 
   UserCheck, AlertTriangle, Cpu, ArrowRight, Table, FileText, CheckCircle2, 
-  Cloud, RefreshCw, BarChart3, Info, HardHat
+  Cloud, RefreshCw, BarChart3, Info, HardHat, ChevronLeft, ChevronRight
 } from "lucide-react";
 
 // Standard Resource Catalog rates for live AC calculations
@@ -209,6 +209,9 @@ export function ProjectDashboard({
   const latestCv = latestEv - latestAc;
   const latestSpi = latestPv > 0 ? latestEv / latestPv : 1;
   const latestCpi = latestAc > 0 ? latestEv / latestAc : 1;
+  const pctAvance = latestPv > 0 ? (latestEv / latestPv) * 100 : 0;
+  const pctEv = latestPv > 0 ? (latestEv / latestPv) * 100 : 0;
+  const pctAc = latestPv > 0 ? (latestAc / latestPv) * 100 : 0;
 
   // 3. Generate EDT/WBS Chapter Breakdown (Estructuras vs Arquitectura)
   const generateChaptersData = () => {
@@ -267,6 +270,32 @@ export function ProjectDashboard({
   };
 
   const chaptersData = generateChaptersData();
+
+  // Calendar date picker: find report closest to selected date
+  const handleDateChange = (dateStr: string) => {
+    // Find the last report on or before the selected date
+    let bestReport: typeof enrichedReports[0] | null = null;
+    for (const r of enrichedReports) {
+      if (r.date <= dateStr) {
+        bestReport = r;
+      } else {
+        break;
+      }
+    }
+    if (bestReport) {
+      setSelectedReportId(bestReport.id);
+    }
+  };
+
+  // Navigate days with arrow buttons
+  const handlePrevDay = () => {
+    const idx = enrichedReports.findIndex(r => r.id === selectedReportId);
+    if (idx > 0) setSelectedReportId(enrichedReports[idx - 1].id);
+  };
+  const handleNextDay = () => {
+    const idx = enrichedReports.findIndex(r => r.id === selectedReportId);
+    if (idx < enrichedReports.length - 1) setSelectedReportId(enrichedReports[idx + 1].id);
+  };
 
   // Handle live sheets refresh trigger
   const handleSync = async () => {
@@ -493,8 +522,40 @@ export function ProjectDashboard({
           </p>
         </div>
 
-        {/* Live sync actions */}
+        {/* Calendar + Live sync actions */}
         <div className="flex flex-wrap items-center gap-4">
+          
+          {/* Calendar date picker */}
+          {selectedReport && (
+            <div className="flex items-center gap-1 bg-slate-900 border border-slate-800 rounded-xl p-1.5">
+              <button
+                onClick={handlePrevDay}
+                className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer"
+                title="Día anterior"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <div className="flex items-center gap-1.5 px-2">
+                <CalendarDays className="w-4 h-4 text-sky-400 shrink-0" />
+                <input
+                  type="date"
+                  value={selectedReport.date}
+                  onChange={e => handleDateChange(e.target.value)}
+                  min={enrichedReports.length > 0 ? enrichedReports[0].date : undefined}
+                  max={enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : undefined}
+                  className="bg-transparent text-xs font-mono font-bold text-white border-none outline-none appearance-none cursor-pointer [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-50 w-[130px]"
+                />
+              </div>
+              <button
+                onClick={handleNextDay}
+                className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer"
+                title="Día siguiente"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
           {onRefresh && (
             <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-xl p-2">
               <button
@@ -549,59 +610,81 @@ export function ProjectDashboard({
       </div>
 
       {/* 2. CUMULATIVE NUMERICAL METRICS PANEL */}
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
-        <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-xl">
-          <span className="text-[10px] text-slate-450 block font-bold uppercase tracking-wider">Valor Planificado (PV)</span>
-          <span className="text-lg font-black font-mono text-indigo-400 block mt-1">${latestPv.toLocaleString()}</span>
-          <span className="text-[9px] text-slate-500 block mt-0.5">Línea base programada (Curva S real)</span>
+      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3">
+        <div className="bg-slate-950/40 border border-slate-800 p-3 rounded-xl">
+          <span className="text-[9px] text-slate-450 block font-bold uppercase tracking-wider">Valor Planificado</span>
+          <span className="text-base font-black font-mono text-indigo-400 block mt-1">${latestPv.toLocaleString()}</span>
+          <span className="text-[8px] text-slate-500 block mt-0.5">100% del presupuesto</span>
         </div>
 
-        <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-xl">
-          <span className="text-[10px] text-slate-450 block font-bold uppercase tracking-wider">Valor Ganado (EV)</span>
-          <span className="text-lg font-black font-mono text-emerald-400 block mt-1">${latestEv.toLocaleString()}</span>
-          <span className="text-[9px] text-slate-500 block mt-0.5">Trabajo físico valorizado</span>
+        <div className="bg-slate-950/40 border border-slate-800 p-3 rounded-xl">
+          <span className="text-[9px] text-slate-450 block font-bold uppercase tracking-wider">Valor Ganado</span>
+          <span className="text-base font-black font-mono text-emerald-400 block mt-1">${latestEv.toLocaleString()}</span>
+          <span className="text-[8px] text-slate-500 block mt-0.5">${pctEv.toFixed(1)}% ejecutado</span>
         </div>
 
-        <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-xl">
-          <span className="text-[10px] text-slate-450 block font-bold uppercase tracking-wider">Costo Real (AC)</span>
-          <span className="text-lg font-black font-mono text-rose-400 block mt-1">${latestAc.toLocaleString()}</span>
-          <span className="text-[9px] text-slate-500 block mt-0.5">Costo acumulado incurrido</span>
+        <div className="bg-slate-950/40 border border-slate-800 p-3 rounded-xl">
+          <span className="text-[9px] text-slate-450 block font-bold uppercase tracking-wider">Costo Real</span>
+          <span className="text-base font-black font-mono text-rose-400 block mt-1">${latestAc.toLocaleString()}</span>
+          <span className="text-[8px] text-slate-500 block mt-0.5">${pctAc.toFixed(1)}% del PV</span>
         </div>
 
-        <div className={`p-4 rounded-xl border ${
+        <div className={`p-3 rounded-xl border ${
           latestSv >= 0 
             ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400" 
             : "bg-rose-500/5 border-rose-500/20 text-rose-400"
         }`}>
-          <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">Varianza de Plazo (SV)</span>
-          <span className="text-lg font-black font-mono block mt-1">
+          <span className="text-[9px] text-slate-400 block font-bold uppercase tracking-wider">Varianza SV</span>
+          <span className="text-base font-black font-mono block mt-1">
             {latestSv >= 0 ? `+$${latestSv.toLocaleString()}` : `-$${Math.abs(latestSv).toLocaleString()}`}
           </span>
-          <span className="text-[9px] block mt-0.5 font-semibold">
-            {latestSv >= 0 ? "Adelanto en dinero" : "Atraso en dinero"}
+          <span className="text-[8px] block mt-0.5 font-semibold">
+            {latestSv >= 0 ? "Adelanto" : "Atraso"}
           </span>
         </div>
 
-        <div className={`p-4 rounded-xl border ${
+        <div className={`p-3 rounded-xl border ${
           latestCv >= 0 
             ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400" 
             : "bg-rose-500/5 border-rose-500/20 text-rose-400"
         }`}>
-          <span className="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">Varianza de Costo (CV)</span>
-          <span className="text-lg font-black font-mono block mt-1">
+          <span className="text-[9px] text-slate-400 block font-bold uppercase tracking-wider">Varianza CV</span>
+          <span className="text-base font-black font-mono block mt-1">
             {latestCv >= 0 ? `+$${latestCv.toLocaleString()}` : `-$${Math.abs(latestCv).toLocaleString()}`}
           </span>
-          <span className="text-[9px] block mt-0.5 font-semibold">
-            {latestCv >= 0 ? "Bajo presupuesto" : "Pérdida/Sobrecosto"}
+          <span className="text-[8px] block mt-0.5 font-semibold">
+            {latestCv >= 0 ? "Ahorro" : "Pérdida"}
           </span>
         </div>
 
-        <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-xl flex flex-col justify-center">
-          <span className="text-[10px] text-slate-450 block font-bold uppercase tracking-wider">Metrado Restante</span>
-          <span className="text-sm font-bold font-mono text-slate-300 block mt-1">
-            {(latestPv > 0 ? (100 - (latestEv/latestPv)*100).toFixed(1) : 0)}% por ejecutar
+        <div className="bg-slate-950/40 border border-slate-800 p-3 rounded-xl">
+          <span className="text-[9px] text-slate-450 block font-bold uppercase tracking-wider">% Avance</span>
+          <span className="text-base font-black font-mono text-white block mt-1">{pctAvance.toFixed(1)}%</span>
+          <span className="text-[8px] text-slate-500 block mt-0.5">EV / PV × 100</span>
+        </div>
+
+        <div className={`p-3 rounded-xl border ${
+          latestSpi >= 1 
+            ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400" 
+            : "bg-rose-500/5 border-rose-500/20 text-rose-400"
+        }`}>
+          <span className="text-[9px] text-slate-400 block font-bold uppercase tracking-wider">SPI</span>
+          <span className="text-base font-black font-mono block mt-1">{latestSpi.toFixed(2)}</span>
+          <span className="text-[8px] block mt-0.5 font-semibold">
+            {latestSpi >= 1 ? "Adelantado" : "Retrasado"}
           </span>
-          <span className="text-[9px] text-slate-500 block mt-0.5">Avance estimado total</span>
+        </div>
+
+        <div className={`p-3 rounded-xl border ${
+          latestCpi >= 1 
+            ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400" 
+            : "bg-rose-500/5 border-rose-500/20 text-rose-400"
+        }`}>
+          <span className="text-[9px] text-slate-400 block font-bold uppercase tracking-wider">CPI</span>
+          <span className="text-base font-black font-mono block mt-1">{latestCpi.toFixed(2)}</span>
+          <span className="text-[8px] block mt-0.5 font-semibold">
+            {latestCpi >= 1 ? "Ahorro" : "Sobrecosto"}
+          </span>
         </div>
       </div>
 
@@ -637,6 +720,37 @@ export function ProjectDashboard({
                 No hay datos suficientes para graficar la curva S de obra. Genera reportes o datos sintéticos.
               </div>
             )}
+          </div>
+
+          {/* Progress bars: % Avance de PV, EV, AC */}
+          <div className="grid grid-cols-3 gap-3 mt-3">
+            <div className="bg-slate-900/60 rounded-lg p-2.5 border border-slate-800">
+              <div className="flex justify-between text-[10px] font-bold mb-1">
+                <span className="text-indigo-400">PV</span>
+                <span className="text-slate-400">100%</span>
+              </div>
+              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div className="h-full bg-indigo-500 rounded-full" style={{ width: '100%' }} />
+              </div>
+            </div>
+            <div className="bg-slate-900/60 rounded-lg p-2.5 border border-slate-800">
+              <div className="flex justify-between text-[10px] font-bold mb-1">
+                <span className="text-emerald-400">EV</span>
+                <span className="text-slate-400">{pctEv.toFixed(1)}%</span>
+              </div>
+              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div className="h-full bg-emerald-500 rounded-full transition-all duration-500" style={{ width: `${Math.min(pctEv, 100)}%` }} />
+              </div>
+            </div>
+            <div className="bg-slate-900/60 rounded-lg p-2.5 border border-slate-800">
+              <div className="flex justify-between text-[10px] font-bold mb-1">
+                <span className="text-rose-400">AC</span>
+                <span className="text-slate-400">{pctAc.toFixed(1)}%</span>
+              </div>
+              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div className="h-full bg-rose-500 rounded-full transition-all duration-500" style={{ width: `${Math.min(pctAc, 100)}%` }} />
+              </div>
+            </div>
           </div>
         </div>
 
