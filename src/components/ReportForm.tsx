@@ -3,7 +3,7 @@ import {
   Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics 
 } from "../types";
 import { 
-  Calendar, User, Clock, CloudSun, Plus, FileSpreadsheet, Send, 
+  Calendar, User, Clock, CloudSun, Plus, Trash, FileSpreadsheet, Send, 
   Save, AlertTriangle, ShieldCheck, HelpCircle, HardHat, Sparkles, RefreshCw, Layers, Check
 } from "lucide-react";
 import * as XLSX from "xlsx";
@@ -80,9 +80,8 @@ export function ReportForm({
   const [plannedNextDay, setPlannedNextDay] = useState<string>("");
   const [generalNotes, setGeneralNotes] = useState<string>("");
 
-  // Section 8: Photos static base64 and Drawing Canvas signature
+  // Section 8: Drawing Canvas signature
   const [signatureData, setSignatureData] = useState<string>("");
-  const [photoFiles, setPhotoFiles] = useState<{ id: string; url: string; base64: string }[]>([]);
 
   // Status and logs
   const [submitting, setSubmitting] = useState(false);
@@ -148,23 +147,14 @@ export function ReportForm({
     }
   }, [projects]);
 
-  // When chapter or date changes, auto-populate activities with planned qtys
+  // When chapter changes, reset selected activities
   useEffect(() => {
-    if (!selectedEdtChapter || !reportDate) {
+    if (!selectedEdtChapter) {
       setActivities([]);
       return;
     }
-    const chapterActivities = edtList.filter(e => e.parentId === selectedEdtChapter);
-    const newActivities = chapterActivities.map(act => {
-      const planned = plannedValues.find(pv => pv.date === reportDate && pv.edtCode === act.code);
-      return {
-        edtCode: act.code,
-        qtyExecuted: 0,
-        notes: ""
-      };
-    });
-    setActivities(newActivities);
-  }, [selectedEdtChapter, reportDate, edtList, plannedValues]);
+    setActivities([]);
+  }, [selectedEdtChapter, edtList]);
 
   // Autosave periodically every 30 seconds
   useEffect(() => {
@@ -205,7 +195,7 @@ export function ReportForm({
   // Dynamic progress bar calculation based on core input completion
   useEffect(() => {
     let completedPoints = 0;
-    const maxPoints = 8;
+    const maxPoints = 7;
 
     if (selectedProjectCode) completedPoints++;
     if (reportDate) completedPoints++;
@@ -214,12 +204,10 @@ export function ReportForm({
     if (manoObra.length > 0) completedPoints++;
     if (totalStaff > 0) completedPoints++;
     if (signatureData) completedPoints++;
-    if (photoFiles.length > 0) completedPoints++;
-
     setProgressPercent(Math.round((completedPoints / maxPoints) * 100));
   }, [
     selectedProjectCode, reportDate, supervisorName, selectedEdtChapter,
-    manoObra, totalStaff, signatureData, photoFiles
+    manoObra, totalStaff, signatureData
   ]);
 
   // Handle tactile canvas drawing (Signature)
@@ -379,35 +367,6 @@ export function ReportForm({
     const updated = [...equipos];
     updated.splice(index, 1);
     setEquipos(updated);
-  };
-
-  // Process and file uploads
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-    
-    // Up to 4 photos support
-    const maxPhotos = 4;
-    const currentCount = photoFiles.length;
-    const remainingCount = maxPhotos - currentCount;
-
-    Array.from(files).slice(0, remainingCount).forEach((file: any, index: number) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        const newPhotoItem = {
-          id: Math.random().toString(36).substring(7),
-          url: URL.createObjectURL(file),
-          base64: base64String
-        };
-        setPhotoFiles(prev => [...prev.slice(0, maxPhotos - 1), newPhotoItem]);
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const removePhoto = (id: string) => {
-    setPhotoFiles(prev => prev.filter(p => p.id !== id));
   };
 
   // Manual save Draft Click
@@ -670,7 +629,6 @@ export function ReportForm({
       plannedNextDay,
       generalNotes,
       signatureBase64: signatureData,
-      photoBase64s: photoFiles.map(p => p.base64),
       createdAt: ""
     };
 
@@ -711,7 +669,6 @@ export function ReportForm({
         // Clear draft & canvas
         localStorage.removeItem("RDO_FORM_DRAFT");
         clearCanvas();
-        setPhotoFiles([]);
         setSelectedEdtChapter("");
         setActivities([]);
         setManoObra([]);
@@ -950,58 +907,63 @@ export function ReportForm({
           </div>
 
           {selectedEdtChapter && (
-            <div className="space-y-3">
-              {activities.length === 0 && (
-                <p className="text-xs text-slate-400 text-center py-4">No hay actividades para este capítulo en la fecha seleccionada.</p>
-              )}
-              {activities.map((act, index) => {
-                const edtInfo = getEdtItemNameAndUnit(act.edtCode);
+            <div className="space-y-2">
+              <p className="text-[10px] font-semibold text-slate-400">ACTIVIDADES DISPONIBLES — Seleccione las reportadas hoy:</p>
+              {edtList.filter(e => e.parentId === selectedEdtChapter).map(act => {
+                const isSelected = activities.some(a => a.edtCode === act.code);
                 const plannedQty = getPlannedProduction(act.edtCode);
-                const exceededBudget = act.qtyExecuted > edtInfo.maxAcum;
+                const index = activities.findIndex(a => a.edtCode === act.code);
+                const actData = isSelected ? activities[index] : null;
 
                 return (
-                  <div key={act.edtCode} className="p-3 bg-slate-50/50 rounded-xl border border-slate-100 space-y-2 text-xs">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-700 text-[11px]">[{act.edtCode}] {edtInfo.name}</span>
-                      <span className="text-[10px] text-slate-400 font-medium">{edtInfo.unit}</span>
-                    </div>
+                  <div key={act.code} className="bg-slate-50/50 rounded-xl border border-slate-100 p-2 text-xs">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setActivities([...activities, { edtCode: act.code, qtyExecuted: 0, notes: "" }]);
+                          } else {
+                            setActivities(activities.filter(a => a.edtCode !== act.code));
+                          }
+                        }}
+                        className="accent-sky-500 w-4 h-4"
+                      />
+                      <span className="font-bold text-slate-700">[{act.code}] {act.name}</span>
+                      <span className="text-[10px] text-slate-400 ml-auto">{act.unit}</span>
+                    </label>
 
-                    <div className="grid grid-cols-2 gap-3 bg-white p-2 rounded-lg border border-slate-100">
-                      <div>
-                        <span className="text-[10px] text-slate-400">Metrado programado (BD_PV_Diario):</span>
-                        <span className="block font-mono font-bold text-slate-700 text-sm">{plannedQty} {edtInfo.unit}</span>
-                      </div>
-                      <div>
-                        <label className="text-[10px] font-semibold text-sky-600">AVANCE REAL (EV) — Ingrese ejecutado</label>
-                        <input
-                          type="number"
-                          step="any"
-                          min={0}
-                          value={act.qtyExecuted}
-                          onChange={(e) => updateActivityField(index, "qtyExecuted", parseFloat(e.target.value) || 0)}
-                          className="w-full bg-white border border-sky-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
-                          placeholder="0"
-                        />
-                      </div>
-                    </div>
-
-                    {exceededBudget && (
-                      <div className="bg-amber-50 border border-amber-200 text-amber-800 p-2 rounded-lg flex items-start gap-1.5 text-[9px] font-semibold">
-                        <AlertTriangle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                        <span>Supera el metrado total presupuestado ({edtInfo.maxAcum} {edtInfo.unit})</span>
+                    {isSelected && (
+                      <div className="mt-2 ml-6 grid grid-cols-2 gap-2 bg-white p-2 rounded-lg border border-slate-100">
+                        <div>
+                          <span className="text-[10px] text-slate-400">Metrado programado:</span>
+                          <span className="block font-mono font-bold text-slate-700 text-sm">{plannedQty} {act.unit}</span>
+                        </div>
+                        <div>
+                          <label className="text-[10px] font-semibold text-sky-600">AVANCE REAL (EV)</label>
+                          <input
+                            type="number"
+                            step="any"
+                            min={0}
+                            value={actData?.qtyExecuted ?? 0}
+                            onChange={(e) => updateActivityField(index, "qtyExecuted", parseFloat(e.target.value) || 0)}
+                            className="w-full bg-white border border-sky-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
+                            placeholder="0"
+                          />
+                        </div>
+                        <div className="col-span-2">
+                          <label className="text-[10px] font-semibold text-sky-600">OBSERVACIONES</label>
+                          <input
+                            type="text"
+                            placeholder="Ubicación, ejes, observaciones…"
+                            value={actData?.notes ?? ""}
+                            onChange={(e) => updateActivityField(index, "notes", e.target.value)}
+                            className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-sans mt-0.5"
+                          />
+                        </div>
                       </div>
                     )}
-
-                    <div>
-                      <label className="block text-[10px] font-semibold text-sky-600 mb-0.5">OBSERVACIONES</label>
-                      <input
-                        type="text"
-                        placeholder="Ubicación, ejes, observaciones…"
-                        value={act.notes}
-                        onChange={(e) => updateActivityField(index, "notes", e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-sans"
-                      />
-                    </div>
                   </div>
                 );
               })}
@@ -1428,51 +1390,6 @@ export function ReportForm({
               />
             </div>
           </div>
-        </div>
-
-        {/* REGISTERED CAMERA PHOTO UPLOADS */}
-        <div id="sec-fotos" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <span className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">9. Fotos de Avance Obra</span>
-            <span className="text-[9px] text-slate-400 font-medium">Máximo 4 imágenes</span>
-          </div>
-
-          <div>
-            <label className="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 hover:bg-slate-50 p-4 rounded-xl cursor-pointer text-center text-slate-500 transition-all duration-200">
-              <span className="font-extrabold text-xs text-sky-600 block">Fotografiar / Adjuntar Imágenes</span>
-              <span className="text-[10px] text-slate-400 block mt-1">Soporta carga directa desde la cámara del celular</span>
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handlePhotoUpload}
-                className="hidden"
-                disabled={photoFiles.length >= 4}
-              />
-            </label>
-          </div>
-
-          {photoFiles.length > 0 && (
-            <div className="grid grid-cols-4 gap-2 pt-2">
-              {photoFiles.map((photo) => (
-                <div key={photo.id} className="relative aspect-square border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
-                  <img
-                    src={photo.url}
-                    alt="Avance Obra"
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removePhoto(photo.id)}
-                    className="absolute top-1 right-1 bg-slate-900/80 hover:bg-slate-950 text-white p-1 rounded-full text-xxs shadow"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* EXCEL / DISPATCH WEBHOOK CONFIGURATION */}
