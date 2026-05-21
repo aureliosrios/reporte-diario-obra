@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { 
   Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics 
 } from "../types";
@@ -32,7 +32,7 @@ export function ReportForm({
   const [selectedProjectCode, setSelectedProjectCode] = useState("");
   const [reportDate, setReportDate] = useState("");
   const [supervisorName, setSupervisorName] = useState("");
-  const [shift, setShift] = useState<'Mañana' | 'Tarde' | 'Noche' | 'Continuo'>("Mañana");
+  const [shift, setShift] = useState<'MaÃ±ana' | 'Tarde' | 'Noche' | 'Continuo'>("MaÃ±ana");
   const [effectiveHours, setEffectiveHours] = useState<number>(8);
   const [weatherMorning, setWeatherMorning] = useState<'Soleado' | 'Nublado' | 'Lluvia' | 'Viento'>("Soleado");
   const [weatherAfternoon, setWeatherAfternoon] = useState<'Soleado' | 'Nublado' | 'Lluvia' | 'Viento'>("Soleado");
@@ -40,10 +40,10 @@ export function ReportForm({
   // Historic auto-completions
   const [supervisorHistory, setSupervisorHistory] = useState<string[]>([]);
 
-  // Tipo de reporte: Producción (por EDT) o Seguridad (integral)
+  // Tipo de reporte: ProducciÃ³n (por EDT) o Seguridad (integral)
   const [reportType, setReportType] = useState<"produccion" | "seguridad">("produccion");
   
-  // Capítulo EDT seleccionado (1 capítulo por reporte, solo para producción)
+  // CapÃ­tulo EDT seleccionado (1 capÃ­tulo por reporte, solo para producciÃ³n)
   const [selectedEdtChapter, setSelectedEdtChapter] = useState<string>("");
 
   // Section 2: Actividades Ejecutadas (EV)
@@ -79,7 +79,7 @@ export function ReportForm({
   const [safetyDetails, setSafetyDetails] = useState<string>("");
   const [incidents, setIncidents] = useState<string>("");
 
-  // Section 7: Problemas y Planificación
+  // Section 7: Problemas y PlanificaciÃ³n
   const [conflicts, setConflicts] = useState<string>("");
   const [plannedNextDay, setPlannedNextDay] = useState<string>("");
   const [generalNotes, setGeneralNotes] = useState<string>("");
@@ -398,25 +398,25 @@ export function ReportForm({
       ["SUPERVISOR", supervisorName],
       ["TURNO", shift],
       ["HORAS EFECTIVAS", effectiveHours],
-      ["CLIMA MAÑANA", weatherMorning],
+      ["CLIMA MAÃ‘ANA", weatherMorning],
       ["CLIMA TARDE", weatherAfternoon],
       ["TOTAL PERSONAL EN OBRA", totalStaff],
-      ["SEGURIDAD REVISADA", safetyInspected ? "SÍ" : "NO"],
+      ["SEGURIDAD REVISADA", safetyInspected ? "SÃ" : "NO"],
       ["DETALLE SEGURIDAD", safetyDetails],
       ["INCIDENTES", incidents],
       ["CONFLICTOS/RESTRICCIONES", conflicts],
-      ["TRABAJOS PLANIFICADOS SIG. DÍA", plannedNextDay],
+      ["TRABAJOS PLANIFICADOS SIG. DÃA", plannedNextDay],
       ["OBSERVACIONES GENERALES", generalNotes],
       [""],
-      ["RESUMEN DE METODOLOGÍA VALOR GANADO (EVM)"],
-      ["INDICADOR", "VALOR ($ USD)", "DESCRIPCIÓN"],
+      ["RESUMEN DE METODOLOGÃA VALOR GANADO (EVM)"],
+      ["INDICADOR", "VALOR ($ USD)", "DESCRIPCIÃ“N"],
       ["Valor Planificado (PV)", metrics.plannedValue, "Presupuesto programado hoy"],
       ["Valor Ganado (EV)", metrics.earnedValue, "Presupuesto de lo realmente avanzado hoy"],
       ["Costo Real (AC)", metrics.actualCost, "Mano de Obra + Materiales + Equipos consumidos"],
       ["Variaza Cronograma (SV)", metrics.sv, "EV - PV (Negativo = Retraso)"],
-      ["Varianza Costos (CV)", metrics.cv, "EV - AC (Negativo = Pérdida)"],
-      ["Índice Plazo (SPI)", metrics.spi, "EV / PV (Menor que 1 = Retrasado)"],
-      ["Índice Costo (CPI)", metrics.cpi, "EV / AC (Menor que 1 = Sobrecosto)"],
+      ["Varianza Costos (CV)", metrics.cv, "EV - AC (Negativo = PÃ©rdida)"],
+      ["Ãndice Plazo (SPI)", metrics.spi, "EV / PV (Menor que 1 = Retrasado)"],
+      ["Ãndice Costo (CPI)", metrics.cpi, "EV / AC (Menor que 1 = Sobrecosto)"],
     ];
     const wsMeta = XLSX.utils.aoa_to_sheet(metaData);
     XLSX.utils.book_append_sheet(wb, wsMeta, "Resumen General");
@@ -425,7 +425,7 @@ export function ReportForm({
     const actRows = activities.map(act => {
       const edtInfo = getEdtItemNameAndUnit(act.edtCode);
       return {
-        "Código EDT": act.edtCode,
+        "CÃ³digo EDT": act.edtCode,
         "Actividad Especialidad": edtInfo.name,
         "Unidad": edtInfo.unit,
         "Costo Unitario ($)": edtInfo.price,
@@ -445,7 +445,7 @@ export function ReportForm({
       costRows.push({
         "Tipo Recurso": "Mano de Obra",
         "ID Recurso": mo.resourceId,
-        "Descripción": resMatch?.name || "",
+        "DescripciÃ³n": resMatch?.name || "",
         "Frente/EDT": mo.edtGroupCode,
         "Cantidad / Horas": mo.hoursWorked,
         "Costo Unitario ($)": resMatch?.unitCost || 0,
@@ -458,7 +458,7 @@ export function ReportForm({
       costRows.push({
         "Tipo Recurso": "Material Consumido",
         "ID Recurso": mat.resourceId,
-        "Descripción": resMatch?.name || "",
+        "DescripciÃ³n": resMatch?.name || "",
         "Frente/EDT": mat.edtGroupCode,
         "Cantidad / Horas": mat.qtyConsumed,
         "Costo Unitario ($)": resMatch?.unitCost || 0,
@@ -471,7 +471,7 @@ export function ReportForm({
       costRows.push({
         "Tipo Recurso": "Equipo / Maquinaria",
         "ID Recurso": eq.resourceId,
-        "Descripción": resMatch?.name || "",
+        "DescripciÃ³n": resMatch?.name || "",
         "Frente/EDT": eq.edtGroupCode,
         "Cantidad / Horas": eq.qtyUsed,
         "Costo Unitario ($)": resMatch?.unitCost || 0,
@@ -496,11 +496,11 @@ export function ReportForm({
       return;
     }
     if (reportType === "produccion" && !selectedEdtChapter) {
-      setSubmitMessage({ type: 'error', text: 'Seleccione un capítulo EDT antes de enviar el reporte.' });
+      setSubmitMessage({ type: 'error', text: 'Seleccione un capÃ­tulo EDT antes de enviar el reporte.' });
       return;
     }
     if (reportType === "produccion" && activities.length === 0) {
-      setSubmitMessage({ type: 'error', text: 'No hay actividades para el capítulo seleccionado en esta fecha.' });
+      setSubmitMessage({ type: 'error', text: 'No hay actividades para el capÃ­tulo seleccionado en esta fecha.' });
       return;
     }
 
@@ -577,7 +577,7 @@ export function ReportForm({
 
         setSubmitMessage({ 
           type: 'success', 
-          text: `¡Reporte registrado correctamente! ID asignado: ${resData.reportId}` 
+          text: `Â¡Reporte registrado correctamente! ID asignado: ${resData.reportId}` 
         });
 
         // Trigger callback to update dashboard metrics
@@ -603,13 +603,13 @@ export function ReportForm({
       if (hasWebhook) {
         setSubmitMessage({
           type: 'success',
-          text: '¡Reporte enviado directamente a Google Sheets! (Servidor local no disponible)'
+          text: 'Â¡Reporte enviado directamente a Google Sheets! (Servidor local no disponible)'
         });
         onReportSubmitted(finalPayload as DailyReport, calculatedMetrics);
       } else {
         setSubmitMessage({ 
           type: 'error', 
-          text: `Error de red o conexión: Se guardó un respaldo local offline. Detalles: ${err.message}` 
+          text: `Error de red o conexiÃ³n: Se guardÃ³ un respaldo local offline. Detalles: ${err.message}` 
         });
       }
     } finally {
@@ -617,73 +617,82 @@ export function ReportForm({
     }
   };
 
+
   return (
-    <form onSubmit={handleSubmit} className="flex-1 flex flex-col font-sans select-none pb-8 text-slate-800 bg-slate-50">
-      
-      {/* Mobile Top Header Banner */}
-      <div className="bg-slate-900 text-white px-5 py-4 shadow-md shrink-0 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="bg-sky-500 p-1.5 rounded-xl text-slate-950 font-bold shadow-sm">
-            <HardHat className="w-5 h-5" />
+    <form onSubmit={handleSubmit} className="flex-1 flex flex-col font-sans select-none text-slate-100 bg-slate-950 w-full">
+
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          HEADER BANNER â€” Oscuro premium con gradiente
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border-b border-slate-800 px-4 py-3 shrink-0 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="bg-gradient-to-br from-sky-500 to-sky-700 p-2 rounded-xl shadow-lg shadow-sky-500/20">
+            <HardHat className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-sm font-bold tracking-tight text-white uppercase">REPORTE DE CAMPO (RDO)</h1>
-            <p className="text-[10px] text-slate-300 font-medium">Control de Avances y Metodología EVM</p>
+            <p className="text-[9px] font-black tracking-[0.2em] text-sky-400 uppercase">Sistema RDO Â· EVM</p>
+            <h1 className="text-sm font-black text-white leading-none mt-0.5">REPORTE DIARIO DE CAMPO</h1>
           </div>
         </div>
-
-        {/* Dynamic score level */}
-        <div className="flex flex-col items-end">
-          <span className="text-[10px] font-mono text-slate-400">Progreso</span>
-          <span className="text-xs font-extrabold text-sky-400 font-mono">{progressPercent}%</span>
+        <div className="flex flex-col items-end gap-1">
+          <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">Completado</span>
+          <span className="text-lg font-black font-mono text-sky-400 leading-none">{progressPercent}%</span>
         </div>
       </div>
 
-      {/* Progress percentage slider */}
-      <div className="w-full bg-slate-800 h-1.5 shrink-0">
-        <div 
-          className="bg-sky-400 h-full transition-all duration-500 ease-out" 
+      {/* Barra de progreso */}
+      <div className="w-full bg-slate-800 h-1 shrink-0">
+        <div
+          className="h-full transition-all duration-700 ease-out bg-gradient-to-r from-sky-500 to-cyan-400"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
 
-      <div className="p-4 space-y-5 flex-1 select-none overflow-y-auto">
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          CONTENIDO PRINCIPAL SCROLLABLE
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <div className="flex-1 overflow-y-auto scrollbar-none space-y-0.5 bg-slate-950 pb-28">
 
-        {/* Floating Draft Loaded Notification */}
         {isDraftLoadedToast && (
-          <div id="draft-toast" className="bg-slate-900 border border-slate-800 text-slate-100 p-3 rounded-xl flex items-center gap-2 shadow-lg animate-bounce text-xs">
+          <div className="mx-3 mt-3 bg-amber-500/10 border border-amber-500/30 text-amber-300 p-3 rounded-xl flex items-center gap-2 text-xs">
             <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Se restauró un borrador previo guardado automáticamente en el dispositivo.</span>
+            <span>Borrador previo restaurado automÃ¡ticamente.</span>
           </div>
         )}
 
-        {/* Notification block */}
         {submitMessage && (
-          <div id="submit-alert" className={`p-4 rounded-2xl flex items-start gap-2.5 text-xs border ${
-            submitMessage.type === 'success' 
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
-              : 'bg-rose-50 border-rose-200 text-rose-800'
+          <div className={`mx-3 mt-3 p-3 rounded-xl flex items-start gap-2.5 text-xs border ${
+            submitMessage.type === 'success'
+              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+              : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
           }`}>
             <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5" />
             <div className="font-medium">{submitMessage.text}</div>
           </div>
         )}
 
-        {/* SECTION 1: CABECERA DEL REPORTE */}
-        <div id="sec-cabecera" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
-            <Layers className="w-4 h-4 text-sky-500" />
-            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">1. Cabecera del Reporte</h2>
+        {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+            â”‚  SECCIÃ“N 1 Â· DATOS GENERALES                â”‚
+            â”‚  Color: Sky Blue â€” IdentificaciÃ³n operativa â”‚
+            â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
+        <div id="sec-datos-generales" className="mx-3 mt-4 rounded-2xl overflow-hidden border border-sky-500/20 shadow-lg shadow-sky-500/5">
+          <div className="bg-gradient-to-r from-sky-950/80 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-sky-500/20">
+            <div className="w-1 h-6 bg-sky-400 rounded-full shrink-0" />
+            <Layers className="w-4 h-4 text-sky-400" />
+            <div>
+              <span className="text-[9px] font-black tracking-[0.15em] text-sky-500 uppercase">SecciÃ³n 01</span>
+              <h2 className="text-xs font-black text-sky-200 leading-none">DATOS GENERALES DEL REPORTE</h2>
+            </div>
           </div>
 
-          <div className="space-y-3 text-xs">
-            {/* Proyecto */}
+          <div className="bg-slate-900/70 p-4 space-y-3.5">
+
             <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">PROYECTO ACTIVO</label>
+              <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Proyecto Activo</label>
               <select
                 value={selectedProjectCode}
                 onChange={(e) => setSelectedProjectCode(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-medium"
+                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-sky-500 focus:border-sky-500 transition-all outline-none font-semibold"
               >
                 {projects.map(p => (
                   <option key={p.code} value={p.code}>{p.name} ({p.code})</option>
@@ -691,46 +700,38 @@ export function ReportForm({
               </select>
             </div>
 
-            {/* Tipo de reporte: Producción o Seguridad */}
             <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">TIPO DE REPORTE</label>
+              <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Tipo de Reporte</label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => { setReportType("produccion"); setSelectedEdtChapter(""); setActivities([]); setManoObra([]); setMaterials([]); setEquipos([]); }}
-                  className={`py-2 px-3 rounded-xl text-[11px] font-bold border transition ${
+                  className={`py-2.5 px-3 rounded-xl text-[11px] font-bold border transition-all ${
                     reportType === "produccion"
-                      ? "bg-sky-500 text-white border-sky-500 shadow"
-                      : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"
+                      ? "bg-sky-500 text-white border-sky-400 shadow-lg shadow-sky-500/20"
+                      : "bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700"
                   }`}
                 >
-                  🏗 Producción
+                  ðŸ— ProducciÃ³n
                 </button>
                 <button
                   type="button"
                   onClick={() => { setReportType("seguridad"); setSelectedEdtChapter(""); setActivities([]); setManoObra([]); setMaterials([]); setEquipos([]); }}
-                  className={`py-2 px-3 rounded-xl text-[11px] font-bold border transition ${
+                  className={`py-2.5 px-3 rounded-xl text-[11px] font-bold border transition-all ${
                     reportType === "seguridad"
-                      ? "bg-emerald-500 text-white border-emerald-500 shadow"
-                      : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"
+                      ? "bg-emerald-500 text-white border-emerald-400 shadow-lg shadow-emerald-500/20"
+                      : "bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700"
                   }`}
                 >
-                  🛡 Seguridad
+                  ðŸ›¡ Seguridad
                 </button>
               </div>
-              {reportType === "produccion" && (
-                <p className="text-[9px] text-sky-600 mt-1">Reporte por capítulo EDT: actividades + recursos + seguridad</p>
-              )}
-              {reportType === "seguridad" && (
-                <p className="text-[9px] text-emerald-600 mt-1">Reporte integral de seguridad del proyecto (no por EDT)</p>
-              )}
             </div>
 
-            {/* Fecha Reporte */}
             <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1 flex justify-between">
-                <span>FECHA DE OPERACIÓN</span>
-                <span className="text-[10px] text-amber-500 font-medium">No fechas futuras</span>
+              <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase flex justify-between">
+                <span>Fecha de OperaciÃ³n</span>
+                <span className="text-amber-500 normal-case font-medium">No fechas futuras</span>
               </label>
               <div className="relative">
                 <input
@@ -738,36 +739,30 @@ export function ReportForm({
                   max={maxDateStr}
                   value={reportDate}
                   onChange={(e) => setReportDate(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-medium"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-3 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-sky-500 focus:border-sky-500 transition-all outline-none font-mono"
                 />
-                <Calendar className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                <Calendar className="w-4 h-4 text-sky-500 absolute left-3 top-2.5" />
               </div>
             </div>
 
-            {/* Supervisor Autocomplete */}
             <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">SUPERVISOR RESPONSABLE</label>
+              <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Supervisor Responsable</label>
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Nombre completo"
+                  placeholder="Nombre completo del supervisor"
                   value={supervisorName}
                   onChange={(e) => setSupervisorName(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-medium font-sans"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-sky-500 focus:border-sky-500 transition-all outline-none"
                 />
-                <User className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                <User className="w-4 h-4 text-sky-500 absolute left-3 top-2.5" />
               </div>
-              {/* Autocomplete history bullets */}
               {supervisorHistory.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mt-1.5">
-                  <span className="text-[8px] text-slate-400 font-semibold uppercase mt-1">Historial del celular:</span>
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  <span className="text-[8px] text-slate-500 font-bold uppercase mt-1">Historial:</span>
                   {supervisorHistory.map((name, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setSupervisorName(name)}
-                      className="bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full text-[9px] border border-slate-200 tracking-tight transition"
-                    >
+                    <button key={i} type="button" onClick={() => setSupervisorName(name)}
+                      className="bg-slate-800 hover:bg-slate-700 text-sky-400 px-2 py-0.5 rounded-full text-[9px] border border-slate-700 transition">
                       {name}
                     </button>
                   ))}
@@ -775,657 +770,448 @@ export function ReportForm({
               )}
             </div>
 
-            {/* Turno y Horas */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-500 mb-1">TURNO JORNADA</label>
-                <select
-                  value={shift}
-                  onChange={(e) => setShift(e.target.value as any)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-medium"
-                >
-                  <option value="Mañana">Mañana</option>
+                <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Turno</label>
+                <select value={shift} onChange={(e) => setShift(e.target.value as any)}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-sky-500 outline-none font-semibold">
+                  <option value="MaÃ±ana">MaÃ±ana</option>
                   <option value="Tarde">Tarde</option>
                   <option value="Noche">Noche</option>
                   <option value="Continuo">Continuo</option>
                 </select>
               </div>
-
               <div>
-                <label className="block text-[11px] font-semibold text-slate-500 mb-1">HORAS JORNADA</label>
+                <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Horas Jornada</label>
                 <div className="relative">
-                  <input
-                    type="text"
-                    inputMode="decimal"
+                  <input type="text" inputMode="decimal"
                     value={effectiveHours === 0 ? "" : String(effectiveHours)}
-                    onChange={(e) => {
-                      const raw = e.target.value.replace(/[^0-9.]/g, "");
-                      setEffectiveHours(raw === "" || raw === "." ? 0 : parseFloat(raw));
-                    }}
+                    onChange={(e) => { const raw = e.target.value.replace(/[^0-9.]/g, ""); setEffectiveHours(raw === "" || raw === "." ? 0 : parseFloat(raw)); }}
                     placeholder="8"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-medium font-mono"
-                  />
-                  <Clock className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-100 font-mono font-bold focus:ring-1 focus:ring-sky-500 outline-none" />
+                  <Clock className="w-3.5 h-3.5 text-sky-500 absolute left-3 top-2.5" />
                 </div>
               </div>
             </div>
 
-            {/* Climas */}
-            <div className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-3">
+            <div className="grid grid-cols-2 gap-3 pt-1 border-t border-slate-800">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-400 mb-1">CLIMA MAÑANA</label>
-                <div className="relative">
-                  <select
-                    value={weatherMorning}
-                    onChange={(e) => setWeatherMorning(e.target.value as any)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-2 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-medium"
-                  >
-                    <option value="Soleado">☀️ Soleado</option>
-                    <option value="Nublado">☁️ Nublado</option>
-                    <option value="Lluvia">🌧️ Lluvia</option>
-                    <option value="Viento">💨 Viento</option>
-                  </select>
-                </div>
+                <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Clima MaÃ±ana</label>
+                <select value={weatherMorning} onChange={(e) => setWeatherMorning(e.target.value as any)}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-sky-500 outline-none">
+                  <option value="Soleado">â˜€ï¸ Soleado</option>
+                  <option value="Nublado">â˜ï¸ Nublado</option>
+                  <option value="Lluvia">ðŸŒ§ï¸ Lluvia</option>
+                  <option value="Viento">ðŸ’¨ Viento</option>
+                </select>
               </div>
-
               <div>
-                <label className="block text-[11px] font-semibold text-slate-400 mb-1">CLIMA TARDE</label>
-                <div className="relative">
-                  <select
-                    value={weatherAfternoon}
-                    onChange={(e) => setWeatherAfternoon(e.target.value as any)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-2 py-1.5 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-medium"
-                  >
-                    <option value="Soleado">☀️ Soleado</option>
-                    <option value="Nublado">☁️ Nublado</option>
-                    <option value="Lluvia">🌧️ Lluvia</option>
-                    <option value="Viento">💨 Viento</option>
-                  </select>
-                </div>
+                <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Clima Tarde</label>
+                <select value={weatherAfternoon} onChange={(e) => setWeatherAfternoon(e.target.value as any)}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-sky-500 outline-none">
+                  <option value="Soleado">â˜€ï¸ Soleado</option>
+                  <option value="Nublado">â˜ï¸ Nublado</option>
+                  <option value="Lluvia">ðŸŒ§ï¸ Lluvia</option>
+                  <option value="Viento">ðŸ’¨ Viento</option>
+                </select>
               </div>
             </div>
-
           </div>
         </div>
 
+        {/* â•â•â•â•â•â• SECCIONES DE PRODUCCIÃ“N â•â•â•â•â•â• */}
         {reportType === "produccion" && (
           <>
-        {/* SECTION 2: ACTIVIDADES EJECUTADAS (EV) */}
-        <div id="sec-actividades" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
-            <Plus className="w-4 h-4 text-sky-500" />
-            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">2. Actividades Ejecutadas (EV)</h2>
-          </div>
-
-          {/* Selector de capítulo EDT (1 capítulo por reporte) */}
-          <div>
-            <label className="block text-[11px] font-semibold text-slate-500 mb-1">SELECCIONAR CAPÍTULO EDT</label>
-            <select
-              value={selectedEdtChapter}
-              onChange={(e) => setSelectedEdtChapter(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-bold"
-            >
-              <option value="">-- Seleccionar capítulo --</option>
-              {edtList.filter(e => e.parentId === null).map(ch => (
-                <option key={ch.code} value={ch.code}>
-                  [{ch.code}] {ch.name}
-                </option>
-              ))}
-            </select>
-            {selectedEdtChapter && (
-              <p className="text-[10px] text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mt-2 font-medium">
-                ⚠ Este reporte corresponde solo al capítulo <strong>[{selectedEdtChapter}]</strong>. 
-                Si desea reportar actividades de otro capítulo EDT, debe iniciar un nuevo reporte.
-              </p>
-            )}
-          </div>
-
-          {selectedEdtChapter && (
-            <div className="space-y-2">
-              {/* Add activity button */}
-              <button
-                type="button"
-                onClick={addActivity}
-                className="w-full flex items-center justify-center gap-1.5 bg-sky-50 hover:bg-sky-100 text-sky-600 border border-sky-200 border-dashed font-bold py-2 rounded-xl text-[11px] transition"
-              >
-                + Agregar Actividad
-              </button>
-
-              {activities.map((act, index) => {
-                const edtInfo = getEdtItemNameAndUnit(act.edtCode);
-                const plannedQty = getPlannedProduction(act.edtCode);
-                const chapterActivities = edtList.filter(e => e.parentId === selectedEdtChapter);
-                // Cheat: convert 0 back to empty string so user can type freely
-                const displayQty = act.qtyExecuted === 0 ? "" : String(act.qtyExecuted);
-
-                return (
-                  <div key={index} className="p-3 bg-slate-50/50 rounded-xl border border-slate-100 space-y-2 text-xs relative">
-                    {/* Delete button */}
-                    {activities.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeActivity(index)}
-                        className="absolute right-2 top-2 text-rose-500 hover:text-rose-700 p-0.5"
-                      >
-                        <Trash className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-
-                    {/* Activity selector filtered by chapter */}
-                    <div>
-                      <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">SELECCIONAR ACTIVIDAD</label>
-                      <select
-                        value={act.edtCode}
-                        onChange={(e) => updateActivityField(index, "edtCode", e.target.value)}
-                        className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-bold"
-                      >
-                        <option value="">-- Elija actividad --</option>
-                        {chapterActivities.map(item => (
-                          <option key={item.code} value={item.code}>
-                            [{item.code}] {item.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {act.edtCode && (
-                      <>
-                        <div className="grid grid-cols-2 gap-3 bg-white p-2 rounded-lg border border-slate-100">
-                          <div>
-                            <span className="text-[10px] text-slate-400">Metrado programado (BD_PV_Diario):</span>
-                            <span className="block font-mono font-bold text-slate-700 text-sm">{plannedQty} {edtInfo.unit}</span>
-                          </div>
-                          <div>
-                            <label className="text-[10px] font-semibold text-sky-600">AVANCE REAL (EV)</label>
-                            <input
-                              type="text"
-                              inputMode="decimal"
-                              value={displayQty}
-                              onChange={(e) => {
-                                const raw = e.target.value.replace(/[^0-9.]/g, "");
-                                updateActivityField(index, "qtyExecuted", raw === "" || raw === "." ? 0 : parseFloat(raw));
-                              }}
-                              className="w-full bg-white border border-sky-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
-                              placeholder="0"
-                            />
-                          </div>
-                        </div>
-
-                        <div>
-                          <label className="text-[10px] font-semibold text-sky-600">OBSERVACIONES</label>
-                          <input
-                            type="text"
-                            placeholder="Ubicación, ejes, observaciones…"
-                            value={act.notes}
-                            onChange={(e) => updateActivityField(index, "notes", e.target.value)}
-                            className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-sans"
-                          />
-                        </div>
-                      </>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* SECTION 3: PERSONAL DE MANO DE OBRA (AC) */}
-        <div id="sec-mano-obra" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <div className="flex items-center gap-1.5">
-              <User className="w-4 h-4 text-sky-500" />
-              <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">3. Mano de Obra (AC)</h2>
-            </div>
-            <button
-              type="button"
-              onClick={addManoObra}
-              className="bg-sky-50 hover:bg-sky-100 text-sky-600 border border-sky-200 font-bold px-2 py-1 rounded-lg text-[10px] transition flex items-center gap-1"
-            >
-              Asociar Obrero
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {manoObra.map((mo, i) => (
-              <div key={i} className="relative bg-slate-50/50 p-3 rounded-xl border border-slate-100 space-y-2 text-xs">
-                <div className="flex items-start gap-2">
-                  <div className="flex-1 min-w-0">
-                    <span className="text-[9px] font-semibold text-slate-400 uppercase block mb-0.5">RECURSO DE MANO DE OBRA</span>
-                    <select
-                      value={mo.resourceId}
-                      onChange={(e) => {
-                        const updated = [...manoObra];
-                        updated[i].resourceId = e.target.value;
-                        setManoObra(updated);
-                      }}
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[10px] outline-none font-semibold truncate"
-                    >
-                      {resources.filter(r => r.type === "mano_obra").map(r => (
-                        <option key={r.id} value={r.id}>{r.name} — S/{r.unitCost}/hr</option>
-                      ))}
-                    </select>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => removeManoObra(i)}
-                    className="shrink-0 text-rose-500 hover:text-rose-700 p-1"
-                  >
-                    <Trash className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <span className="text-[9px] font-mono font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded">{selectedEdtChapter}</span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 bg-white p-2 rounded-lg border border-slate-100">
-                  <div>
-                    <span className="text-[9px] text-slate-400">Cantidad (trabajadores)</span>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      value={mo.quantity === 0 ? "" : String(mo.quantity)}
-                      onChange={(e) => {
-                        const raw = e.target.value.replace(/[^0-9]/g, "");
-                        const updated = [...manoObra];
-                        updated[i].quantity = raw === "" ? 0 : parseInt(raw);
-                        setManoObra(updated);
-                      }}
-                      placeholder="0"
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[9px] text-slate-400">Horas trabajadas c/u</span>
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      value={mo.hoursWorked === 0 ? "" : String(mo.hoursWorked)}
-                      onChange={(e) => {
-                        const raw = e.target.value.replace(/[^0-9.]/g, "");
-                        const updated = [...manoObra];
-                        updated[i].hoursWorked = raw === "" || raw === "." ? 0 : parseFloat(raw);
-                        setManoObra(updated);
-                      }}
-                      placeholder="0"
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
-                    />
-                  </div>
+            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                â”‚  SECCIÃ“N 2 Â· VALOR GANADO (EV)              â”‚
+                â”‚  Color: Violet/Purple â€” Avance fÃ­sico       â”‚
+                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
+            <div id="sec-valor-ganado" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-violet-500/20 shadow-lg shadow-violet-500/5">
+              <div className="bg-gradient-to-r from-violet-950/80 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-violet-500/20">
+                <div className="w-1 h-6 bg-violet-400 rounded-full shrink-0" />
+                <Plus className="w-4 h-4 text-violet-400" />
+                <div>
+                  <span className="text-[9px] font-black tracking-[0.15em] text-violet-500 uppercase">SecciÃ³n 02 Â· EV</span>
+                  <h2 className="text-xs font-black text-violet-200 leading-none">REPORTE DE VALOR GANADO (EV)</h2>
                 </div>
               </div>
-            ))}
-            {manoObra.length === 0 && (
-              <p className="text-[10px] text-slate-400 italic text-center py-2">
-                Ningún jornal de mano de obra asociado hoy. Haga clic en "Asociar Obrero".
-              </p>
-            )}
-          </div>
-        </div>
+              <div className="bg-slate-900/70 p-4 space-y-3.5">
+                <div>
+                  <label className="block text-[10px] font-bold text-violet-500/80 mb-1.5 tracking-wider uppercase">CapÃ­tulo EDT Activo</label>
+                  <select value={selectedEdtChapter} onChange={(e) => setSelectedEdtChapter(e.target.value)}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-violet-500 focus:border-violet-500 outline-none font-bold">
+                    <option value="">â€” Seleccionar capÃ­tulo EDT â€”</option>
+                    {edtList.filter(e => e.parentId === null).map(ch => (
+                      <option key={ch.code} value={ch.code}>[{ch.code}] {ch.name}</option>
+                    ))}
+                  </select>
+                  {selectedEdtChapter && (
+                    <p className="text-[9px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2 mt-2 font-medium">
+                      âš  Reporte vinculado a <strong>[{selectedEdtChapter}]</strong>. Para otro capÃ­tulo, genere un nuevo reporte.
+                    </p>
+                  )}
+                </div>
 
-        {/* SECTION 4: MATERIALES CONSUMIDOS (AC) */}
-        <div id="sec-materiales" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <div className="flex items-center gap-1.5">
-              <FileSpreadsheet className="w-4 h-4 text-sky-500" />
-              <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">4. Materiales Consumidos (AC)</h2>
-            </div>
-            <button
-              type="button"
-              onClick={addMaterial}
-              className="bg-sky-50 hover:bg-sky-100 text-sky-600 border border-sky-200 font-bold px-2 py-1 rounded-lg text-[10px] transition flex items-center gap-1"
-            >
-              Consumir Material
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {materials.map((mat, i) => {
-              const rInfo = resources.find(r => r.id === mat.resourceId);
-              return (
-                <div key={i} className="relative bg-slate-50/50 p-3 rounded-xl border border-slate-100 space-y-2 text-xs">
-                  <div className="flex items-start gap-2">
-                    <div className="flex-1 min-w-0">
-                      <span className="text-[9px] font-semibold text-slate-400 uppercase block mb-0.5">CATÁLOGO MATERIAL</span>
-                      <select
-                        value={mat.resourceId}
-                        onChange={(e) => {
-                          const updated = [...materials];
-                          updated[i].resourceId = e.target.value;
-                          setMaterials(updated);
-                        }}
-                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[10px] outline-none font-semibold truncate"
-                      >
-                        {resources.filter(r => r.type === "material").map(r => (
-                          <option key={r.id} value={r.id}>{r.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => removeMaterial(i)}
-                      className="shrink-0 text-rose-500 hover:text-rose-700 p-1"
-                    >
-                      <Trash className="w-3.5 h-3.5" />
+                {selectedEdtChapter && (
+                  <div className="space-y-2.5">
+                    <button type="button" onClick={addActivity}
+                      className="w-full flex items-center justify-center gap-1.5 bg-violet-500/10 hover:bg-violet-500/20 text-violet-300 border border-violet-500/30 border-dashed font-bold py-2.5 rounded-xl text-[11px] transition">
+                      + Agregar Actividad Ejecutada
                     </button>
+
+                    {activities.map((act, index) => {
+                      const edtInfo = getEdtItemNameAndUnit(act.edtCode);
+                      const plannedQty = getPlannedProduction(act.edtCode);
+                      const chapterActivities = edtList.filter(e => e.parentId === selectedEdtChapter);
+                      const displayQty = act.qtyExecuted === 0 ? "" : String(act.qtyExecuted);
+                      return (
+                        <div key={index} className="p-3 bg-slate-800/60 rounded-xl border border-violet-500/10 space-y-2.5 text-xs relative">
+                          {activities.length > 1 && (
+                            <button type="button" onClick={() => removeActivity(index)} className="absolute right-2 top-2 text-rose-500 hover:text-rose-400 p-0.5">
+                              <Trash className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                          <div>
+                            <label className="block text-[9px] font-bold text-violet-400 mb-1 uppercase tracking-wider">Actividad EspecÃ­fica</label>
+                            <select value={act.edtCode} onChange={(e) => updateActivityField(index, "edtCode", e.target.value)}
+                              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2.5 py-2 text-[11px] text-slate-100 focus:ring-1 focus:ring-violet-500 outline-none font-bold">
+                              <option value="">â€” Elegir actividad â€”</option>
+                              {chapterActivities.map(item => (
+                                <option key={item.code} value={item.code}>[{item.code}] {item.name}</option>
+                              ))}
+                            </select>
+                          </div>
+                          {act.edtCode && (
+                            <>
+                              <div className="grid grid-cols-2 gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-violet-500/10">
+                                <div>
+                                  <span className="text-[9px] text-slate-500">Meta PV Programada:</span>
+                                  <span className="block font-mono font-black text-slate-200 text-sm mt-0.5">{plannedQty} <span className="text-[10px] text-slate-400">{edtInfo.unit}</span></span>
+                                </div>
+                                <div>
+                                  <label className="text-[9px] font-bold text-violet-400 uppercase tracking-wider">Avance Real (EV)</label>
+                                  <input type="text" inputMode="decimal" value={displayQty}
+                                    onChange={(e) => { const raw = e.target.value.replace(/[^0-9.]/g, ""); updateActivityField(index, "qtyExecuted", raw === "" || raw === "." ? 0 : parseFloat(raw)); }}
+                                    className="w-full bg-violet-500/10 border border-violet-500/30 rounded-lg px-2 py-1.5 text-sm font-mono font-black text-violet-300 focus:ring-1 focus:ring-violet-500 outline-none mt-0.5" placeholder="0" />
+                                </div>
+                              </div>
+                              <div>
+                                <label className="text-[9px] font-bold text-violet-400 uppercase tracking-wider">Observaciones</label>
+                                <input type="text" placeholder="UbicaciÃ³n, ejes, notasâ€¦" value={act.notes}
+                                  onChange={(e) => updateActivityField(index, "notes", e.target.value)}
+                                  className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2.5 py-2 text-[11px] text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-violet-500 outline-none mt-1" />
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
+                )}
+              </div>
+            </div>
 
-                  <span className="inline-block text-[9px] font-mono font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded">{selectedEdtChapter}</span>
-
+            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                â”‚  SECCIÃ“N 3 Â· COSTO REAL AC â€” MANO DE OBRA  â”‚
+                â”‚  Color: Amber â€” Recursos humanos            â”‚
+                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
+            <div id="sec-mano-obra" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-amber-500/20">
+              <div className="bg-gradient-to-r from-amber-950/60 to-slate-900 px-4 py-3 flex items-center justify-between border-b border-amber-500/20">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-1 h-6 bg-amber-400 rounded-full shrink-0" />
+                  <User className="w-4 h-4 text-amber-400" />
                   <div>
-                    <span className="text-[9px] text-slate-400">Cant. Consumida Hoy:</span>
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      value={mat.qtyConsumed === 0 ? "" : String(mat.qtyConsumed)}
-                      onChange={(e) => {
-                        const raw = e.target.value.replace(/[^0-9.]/g, "");
-                        const updated = [...materials];
-                        updated[i].qtyConsumed = raw === "" || raw === "." ? 0 : parseFloat(raw);
-                        setMaterials(updated);
-                      }}
-                      placeholder="0"
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
-                    />
-                    <span className="text-[10px] text-slate-500 ml-1">{rInfo?.unit || "unidades"}</span>
+                    <span className="text-[9px] font-black tracking-[0.15em] text-amber-500 uppercase">SecciÃ³n 03 Â· AC</span>
+                    <h2 className="text-xs font-black text-amber-200 leading-none">MANO DE OBRA (AC)</h2>
                   </div>
                 </div>
-              );
-            })}
-            {materials.length === 0 && (
-              <p className="text-[10px] text-slate-400 italic text-center py-2">
-                Ningún material consumido reportado hoy.
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* SECTION 5: EQUIPOS UTILIZADOS (AC) */}
-        <div id="sec-equipos" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <div className="flex items-center gap-1.5">
-              <RefreshCw className="w-4 h-4 text-sky-500" />
-              <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">5. Equipos Utilizados (AC)</h2>
-            </div>
-            <button
-              type="button"
-              onClick={addEquipo}
-              className="bg-sky-50 hover:bg-sky-100 text-sky-600 border border-sky-200 font-bold px-2 py-1 rounded-lg text-[10px] transition flex items-center gap-1"
-            >
-              Registrar Maquinaria
-            </button>
-          </div>
-
-          <div className="space-y-3">
-            {equipos.map((eq, i) => {
-              const rInfo = resources.find(r => r.id === eq.resourceId);
-              return (
-                <div key={i} className="relative bg-slate-50/50 p-3 rounded-xl border border-slate-100 space-y-2 text-xs">
-                  <div className="flex items-start gap-2">
-                    <div className="flex-1 min-w-0">
-                      <span className="text-[9px] font-semibold text-slate-400 uppercase block mb-0.5">CATÁLOGO EQUIPO</span>
-                      <select
-                        value={eq.resourceId}
-                        onChange={(e) => {
-                          const updated = [...equipos];
-                          updated[i].resourceId = e.target.value;
-                          setEquipos(updated);
-                        }}
-                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[10px] outline-none font-semibold truncate"
-                      >
-                        {resources.filter(r => r.type === "equipo").map(r => (
-                          <option key={r.id} value={r.id}>{r.name}</option>
-                        ))}
-                      </select>
+                <button type="button" onClick={addManoObra}
+                  className="bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 font-bold px-3 py-1.5 rounded-lg text-[10px] transition">
+                  + Obrero
+                </button>
+              </div>
+              <div className="bg-slate-900/70 p-4 space-y-3">
+                {manoObra.map((mo, i) => (
+                  <div key={i} className="relative bg-slate-800/60 p-3 rounded-xl border border-amber-500/10 space-y-2 text-xs">
+                    <div className="flex items-start gap-2">
+                      <div className="flex-1 min-w-0">
+                        <span className="text-[9px] font-bold text-amber-400 uppercase tracking-wider block mb-1">Recurso Mano de Obra</span>
+                        <select value={mo.resourceId}
+                          onChange={(e) => { const u = [...manoObra]; u[i].resourceId = e.target.value; setManoObra(u); }}
+                          className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1.5 text-[10px] text-slate-100 outline-none font-semibold">
+                          {resources.filter(r => r.type === "mano_obra").map(r => (
+                            <option key={r.id} value={r.id}>{r.name} â€” S/{r.unitCost}/hr</option>
+                          ))}
+                        </select>
+                      </div>
+                      <button type="button" onClick={() => removeManoObra(i)} className="shrink-0 text-rose-500 hover:text-rose-400 p-1 mt-4">
+                        <Trash className="w-3.5 h-3.5" />
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => removeEquipo(i)}
-                      className="shrink-0 text-rose-500 hover:text-rose-700 p-1"
-                    >
-                      <Trash className="w-3.5 h-3.5" />
-                    </button>
+                    <div className="grid grid-cols-2 gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-amber-500/10">
+                      <div>
+                        <span className="text-[9px] text-slate-500">N.Â° trabajadores</span>
+                        <input type="text" inputMode="numeric" value={mo.quantity === 0 ? "" : String(mo.quantity)}
+                          onChange={(e) => { const raw = e.target.value.replace(/[^0-9]/g, ""); const u = [...manoObra]; u[i].quantity = raw === "" ? 0 : parseInt(raw); setManoObra(u); }}
+                          placeholder="0" className="w-full bg-amber-500/10 border border-amber-500/20 rounded-lg px-2 py-1.5 text-sm font-mono font-black text-amber-300 focus:ring-1 focus:ring-amber-500 outline-none mt-0.5" />
+                      </div>
+                      <div>
+                        <span className="text-[9px] text-slate-500">Horas c/u</span>
+                        <input type="text" inputMode="decimal" value={mo.hoursWorked === 0 ? "" : String(mo.hoursWorked)}
+                          onChange={(e) => { const raw = e.target.value.replace(/[^0-9.]/g, ""); const u = [...manoObra]; u[i].hoursWorked = raw === "" || raw === "." ? 0 : parseFloat(raw); setManoObra(u); }}
+                          placeholder="8" className="w-full bg-amber-500/10 border border-amber-500/20 rounded-lg px-2 py-1.5 text-sm font-mono font-black text-amber-300 focus:ring-1 focus:ring-amber-500 outline-none mt-0.5" />
+                      </div>
+                    </div>
                   </div>
+                ))}
+                {manoObra.length === 0 && <p className="text-[10px] text-slate-500 italic text-center py-3">Sin mano de obra registrada. Presione "+ Obrero".</p>}
+              </div>
+            </div>
 
-                  <span className="inline-block text-[9px] font-mono font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded">{selectedEdtChapter}</span>
-
+            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                â”‚  SECCIÃ“N 3B Â· MATERIALES CONSUMIDOS (AC)   â”‚
+                â”‚  Color: Orange â€” Materiales                 â”‚
+                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
+            <div id="sec-materiales" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-orange-500/20">
+              <div className="bg-gradient-to-r from-orange-950/60 to-slate-900 px-4 py-3 flex items-center justify-between border-b border-orange-500/20">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-1 h-6 bg-orange-400 rounded-full shrink-0" />
+                  <FileSpreadsheet className="w-4 h-4 text-orange-400" />
                   <div>
-                    <span className="text-[9px] text-slate-400">Uso reportado:</span>
-                    <input
-                      type="text"
-                      inputMode="decimal"
-                      value={eq.qtyUsed === 0 ? "" : String(eq.qtyUsed)}
-                      onChange={(e) => {
-                        const raw = e.target.value.replace(/[^0-9.]/g, "");
-                        const updated = [...equipos];
-                        updated[i].qtyUsed = raw === "" || raw === "." ? 0 : parseFloat(raw);
-                        setEquipos(updated);
-                      }}
-                      placeholder="0"
-                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
-                    />
-                    <span className="text-[10px] text-slate-500 ml-1">{rInfo?.unit || "horas"}</span>
+                    <span className="text-[9px] font-black tracking-[0.15em] text-orange-500 uppercase">SecciÃ³n 03b Â· AC</span>
+                    <h2 className="text-xs font-black text-orange-200 leading-none">MATERIALES CONSUMIDOS (AC)</h2>
                   </div>
                 </div>
-              );
-            })}
-            {equipos.length === 0 && (
-              <p className="text-[10px] text-slate-400 italic text-center py-2">
-                Ningún equipo o andamio reportado hoy.
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* SECCIÓN 6: RESTRICCIONES E INTERFERENCIAS */}
-        <div id="sec-planificacion" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
-            <AlertTriangle className="w-4 h-4 text-amber-500" />
-            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">6. Restricciones e Interferencias</h2>
-          </div>
-
-          <div className="space-y-3 text-xs">
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">CONFLICTOS, RESTRICCIONES Y RETRASOS</label>
-              <textarea
-                rows={2}
-                placeholder="Carencia de planos definitivos de MEP, llegada tardía de mixer de concreto, lluvias."
-                value={conflicts}
-                onChange={(e) => setConflicts(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none"
-              />
+                <button type="button" onClick={addMaterial}
+                  className="bg-orange-500/15 hover:bg-orange-500/25 text-orange-300 border border-orange-500/30 font-bold px-3 py-1.5 rounded-lg text-[10px] transition">
+                  + Material
+                </button>
+              </div>
+              <div className="bg-slate-900/70 p-4 space-y-3">
+                {materials.map((mat, i) => {
+                  const rInfo = resources.find(r => r.id === mat.resourceId);
+                  return (
+                    <div key={i} className="relative bg-slate-800/60 p-3 rounded-xl border border-orange-500/10 space-y-2 text-xs">
+                      <div className="flex items-start gap-2">
+                        <div className="flex-1 min-w-0">
+                          <span className="text-[9px] font-bold text-orange-400 uppercase tracking-wider block mb-1">CatÃ¡logo de Materiales</span>
+                          <select value={mat.resourceId}
+                            onChange={(e) => { const u = [...materials]; u[i].resourceId = e.target.value; setMaterials(u); }}
+                            className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1.5 text-[10px] text-slate-100 outline-none font-semibold">
+                            {resources.filter(r => r.type === "material").map(r => (
+                              <option key={r.id} value={r.id}>{r.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <button type="button" onClick={() => removeMaterial(i)} className="shrink-0 text-rose-500 hover:text-rose-400 p-1 mt-4">
+                          <Trash className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <div>
+                        <span className="text-[9px] text-slate-500">Cantidad Consumida Hoy:</span>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <input type="text" inputMode="decimal" value={mat.qtyConsumed === 0 ? "" : String(mat.qtyConsumed)}
+                            onChange={(e) => { const raw = e.target.value.replace(/[^0-9.]/g, ""); const u = [...materials]; u[i].qtyConsumed = raw === "" || raw === "." ? 0 : parseFloat(raw); setMaterials(u); }}
+                            placeholder="0" className="flex-1 bg-orange-500/10 border border-orange-500/20 rounded-lg px-2 py-1.5 text-sm font-mono font-black text-orange-300 focus:ring-1 focus:ring-orange-500 outline-none" />
+                          <span className="text-[10px] text-slate-400 font-mono shrink-0">{rInfo?.unit || "und"}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+                {materials.length === 0 && <p className="text-[10px] text-slate-500 italic text-center py-3">Sin materiales registrados hoy.</p>}
+              </div>
             </div>
 
-            <div>
-              <label className="block text-[11px] font-semibold text-sky-600 mb-1">TRABAJOS PLANIFICADOS PARA EL DÍA SIGUIENTE</label>
-              <textarea
-                rows={2}
-                placeholder="Vaciado de concreto en zapatas de eje C-3 a C-8, tarrajeo en fachada posterior."
-                value={plannedNextDay}
-                onChange={(e) => setPlannedNextDay(e.target.value)}
-                className="w-full bg-sky-50/20 border border-sky-100 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none"
-              />
+            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                â”‚  SECCIÃ“N 3C Â· EQUIPOS Y MAQUINARIA (AC)    â”‚
+                â”‚  Color: Teal â€” Maquinaria                   â”‚
+                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
+            <div id="sec-equipos" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-teal-500/20">
+              <div className="bg-gradient-to-r from-teal-950/60 to-slate-900 px-4 py-3 flex items-center justify-between border-b border-teal-500/20">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-1 h-6 bg-teal-400 rounded-full shrink-0" />
+                  <RefreshCw className="w-4 h-4 text-teal-400" />
+                  <div>
+                    <span className="text-[9px] font-black tracking-[0.15em] text-teal-500 uppercase">SecciÃ³n 03c Â· AC</span>
+                    <h2 className="text-xs font-black text-teal-200 leading-none">EQUIPOS Y MAQUINARIA (AC)</h2>
+                  </div>
+                </div>
+                <button type="button" onClick={addEquipo}
+                  className="bg-teal-500/15 hover:bg-teal-500/25 text-teal-300 border border-teal-500/30 font-bold px-3 py-1.5 rounded-lg text-[10px] transition">
+                  + Equipo
+                </button>
+              </div>
+              <div className="bg-slate-900/70 p-4 space-y-3">
+                {equipos.map((eq, i) => {
+                  const rInfo = resources.find(r => r.id === eq.resourceId);
+                  return (
+                    <div key={i} className="relative bg-slate-800/60 p-3 rounded-xl border border-teal-500/10 space-y-2 text-xs">
+                      <div className="flex items-start gap-2">
+                        <div className="flex-1 min-w-0">
+                          <span className="text-[9px] font-bold text-teal-400 uppercase tracking-wider block mb-1">CatÃ¡logo de Equipos</span>
+                          <select value={eq.resourceId}
+                            onChange={(e) => { const u = [...equipos]; u[i].resourceId = e.target.value; setEquipos(u); }}
+                            className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1.5 text-[10px] text-slate-100 outline-none font-semibold">
+                            {resources.filter(r => r.type === "equipo").map(r => (
+                              <option key={r.id} value={r.id}>{r.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <button type="button" onClick={() => removeEquipo(i)} className="shrink-0 text-rose-500 hover:text-rose-400 p-1 mt-4">
+                          <Trash className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <div>
+                        <span className="text-[9px] text-slate-500">Uso reportado hoy:</span>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <input type="text" inputMode="decimal" value={eq.qtyUsed === 0 ? "" : String(eq.qtyUsed)}
+                            onChange={(e) => { const raw = e.target.value.replace(/[^0-9.]/g, ""); const u = [...equipos]; u[i].qtyUsed = raw === "" || raw === "." ? 0 : parseFloat(raw); setEquipos(u); }}
+                            placeholder="0" className="flex-1 bg-teal-500/10 border border-teal-500/20 rounded-lg px-2 py-1.5 text-sm font-mono font-black text-teal-300 focus:ring-1 focus:ring-teal-500 outline-none" />
+                          <span className="text-[10px] text-slate-400 font-mono shrink-0">{rInfo?.unit || "hr"}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+                {equipos.length === 0 && <p className="text-[10px] text-slate-500 italic text-center py-3">Sin equipos registrados hoy.</p>}
+              </div>
             </div>
 
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">OBSERVACIONES GENERALES</label>
-              <textarea
-                rows={2}
-                placeholder="Visita de supervisión técnica sin anotaciones negativas en cuaderno de obra."
-                value={generalNotes}
-                onChange={(e) => setGeneralNotes(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none"
-              />
+            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                â”‚  SECCIÃ“N 4 Â· OTROS REPORTES                 â”‚
+                â”‚  Color: Emerald â€” PlanificaciÃ³n y gestiÃ³n   â”‚
+                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
+            <div id="sec-otros-reportes" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-emerald-500/20">
+              <div className="bg-gradient-to-r from-emerald-950/60 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-emerald-500/20">
+                <div className="w-1 h-6 bg-emerald-400 rounded-full shrink-0" />
+                <AlertTriangle className="w-4 h-4 text-emerald-400" />
+                <div>
+                  <span className="text-[9px] font-black tracking-[0.15em] text-emerald-500 uppercase">SecciÃ³n 04</span>
+                  <h2 className="text-xs font-black text-emerald-200 leading-none">OTROS REPORTES: RESTRICCIONES Y PLANIFICACIÃ“N</h2>
+                </div>
+              </div>
+              <div className="bg-slate-900/70 p-4 space-y-3.5">
+                <div>
+                  <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Conflictos, Restricciones y Retrasos</label>
+                  <textarea rows={2} placeholder="Carencia de planos MEP, llegada tardÃ­a de mixer, lluviasâ€¦" value={conflicts} onChange={(e) => setConflicts(e.target.value)}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Trabajos Planificados DÃ­a Siguiente</label>
+                  <textarea rows={2} placeholder="Vaciado zapatas eje C-3 a C-8, tarrajeo fachadaâ€¦" value={plannedNextDay} onChange={(e) => setPlannedNextDay(e.target.value)}
+                    className="w-full bg-slate-800 border border-emerald-500/30 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Observaciones Generales</label>
+                  <textarea rows={2} placeholder="Visita de supervisiÃ³n tÃ©cnica sin anotaciones negativasâ€¦" value={generalNotes} onChange={(e) => setGeneralNotes(e.target.value)}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none" />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
           </>
         )}
 
+        {/* â•â•â•â•â•â• SECCIONES DE SEGURIDAD â•â•â•â•â•â• */}
         {reportType === "seguridad" && (
           <>
-        {/* SEGURIDAD: CONTROL, SEGURIDAD E INCIDENTES */}
-        <div id="sec-seguridad" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">1. Seguridad e Incidentes</h2>
-          </div>
-
-          <div className="space-y-3 text-xs">
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">CENSO TOTAL DE OPERARIOS EN CAMPO</label>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={totalStaff === 0 ? "" : String(totalStaff)}
-                onChange={(e) => {
-                  const raw = e.target.value.replace(/[^0-9]/g, "");
-                  setTotalStaff(raw === "" ? 0 : parseInt(raw));
-                }}
-                placeholder="0"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold"
-              />
+            <div id="sec-seguridad" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-emerald-500/20">
+              <div className="bg-gradient-to-r from-emerald-950/60 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-emerald-500/20">
+                <div className="w-1 h-6 bg-emerald-400 rounded-full shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <div>
+                  <span className="text-[9px] font-black tracking-[0.15em] text-emerald-500 uppercase">SecciÃ³n 01 Â· HSE</span>
+                  <h2 className="text-xs font-black text-emerald-200 leading-none">SEGURIDAD E INCIDENTES</h2>
+                </div>
+              </div>
+              <div className="bg-slate-900/70 p-4 space-y-3.5">
+                <div>
+                  <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Censo Total en Campo</label>
+                  <input type="text" inputMode="numeric" value={totalStaff === 0 ? "" : String(totalStaff)}
+                    onChange={(e) => { const raw = e.target.value.replace(/[^0-9]/g, ""); setTotalStaff(raw === "" ? 0 : parseInt(raw)); }}
+                    placeholder="0" className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs font-mono font-bold text-emerald-300 focus:ring-1 focus:ring-emerald-500 outline-none" />
+                </div>
+                <div className="flex items-center gap-3 bg-slate-800/60 p-3 rounded-xl border border-emerald-500/10">
+                  <input type="checkbox" id="safe-check" checked={safetyInspected} onChange={(e) => setSafetyInspected(e.target.checked)}
+                    className="w-4 h-4 text-emerald-500 border-slate-600 rounded focus:ring-emerald-500 bg-slate-700" />
+                  <label htmlFor="safe-check" className="text-[11px] font-bold text-slate-200 cursor-pointer">Â¿Charla e InspecciÃ³n de Seguridad Realizada?</label>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Detalles PrevenciÃ³n / EPPs</label>
+                  <textarea rows={2} placeholder="InspecciÃ³n de andamios, charla de 5 minutosâ€¦" value={safetyDetails} onChange={(e) => setSafetyDetails(e.target.value)}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-rose-500/80 mb-1.5 tracking-wider uppercase">Registro de Accidentes / Incidentes</label>
+                  <textarea rows={2} placeholder="Escribe 'Ninguno' o detalla cualquier golpe, corteâ€¦" value={incidents} onChange={(e) => setIncidents(e.target.value)}
+                    className="w-full bg-slate-800 border border-rose-500/20 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-rose-500 outline-none resize-none" />
+                </div>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-              <input
-                type="checkbox"
-                id="safe-check"
-                checked={safetyInspected}
-                onChange={(e) => setSafetyInspected(e.target.checked)}
-                className="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500"
-              />
-              <label htmlFor="safe-check" className="text-[11px] font-bold text-slate-700 cursor-pointer">
-                ¿Charla e Inspección de Seguridad Realizada?
-              </label>
+            <div className="mx-3 mt-3 rounded-2xl overflow-hidden border border-amber-500/20">
+              <div className="bg-gradient-to-r from-amber-950/60 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-amber-500/20">
+                <div className="w-1 h-6 bg-amber-400 rounded-full shrink-0" />
+                <AlertTriangle className="w-4 h-4 text-amber-400" />
+                <div>
+                  <span className="text-[9px] font-black tracking-[0.15em] text-amber-500 uppercase">SecciÃ³n 02</span>
+                  <h2 className="text-xs font-black text-amber-200 leading-none">RESTRICCIONES E INTERFERENCIAS</h2>
+                </div>
+              </div>
+              <div className="bg-slate-900/70 p-4 space-y-3.5">
+                <div>
+                  <label className="block text-[10px] font-bold text-amber-500/80 mb-1.5 tracking-wider uppercase">Conflictos y Restricciones</label>
+                  <textarea rows={2} placeholder="Detalles de restriccionesâ€¦" value={conflicts} onChange={(e) => setConflicts(e.target.value)}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-amber-500 outline-none resize-none" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-amber-500/80 mb-1.5 tracking-wider uppercase">Trabajos Planificados DÃ­a Siguiente</label>
+                  <textarea rows={2} placeholder="Plan del siguiente turnoâ€¦" value={plannedNextDay} onChange={(e) => setPlannedNextDay(e.target.value)}
+                    className="w-full bg-slate-800 border border-amber-500/20 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-amber-500 outline-none resize-none" />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-amber-500/80 mb-1.5 tracking-wider uppercase">Observaciones Generales</label>
+                  <textarea rows={2} placeholder="Observaciones adicionalesâ€¦" value={generalNotes} onChange={(e) => setGeneralNotes(e.target.value)}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-amber-500 outline-none resize-none" />
+                </div>
+              </div>
             </div>
-
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">DETALLES DE PREVENCIÓN / EPPS</label>
-              <textarea
-                rows={2}
-                placeholder="Inspección de andamios, charla de 5 minutos dictada, arneses revisados."
-                value={safetyDetails}
-                onChange={(e) => setSafetyDetails(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none font-sans"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-semibold text-red-500 mb-1">REGISTRO DE ACCIDENTES O INCIDENTES</label>
-              <textarea
-                rows={2}
-                placeholder="Escribe 'Ninguno' o detalla cualquier golpe, corte o re-trabajo."
-                value={incidents}
-                onChange={(e) => setIncidents(e.target.value)}
-                className="w-full bg-slate-50 border border-red-100 rounded-xl px-3 py-2 text-[11px] focus:ring-1 focus:ring-red-500 outline-none font-sans"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* SECCIÓN 2: RESTRICCIONES E INTERFERENCIAS */}
-        <div id="sec-planificacion" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
-            <AlertTriangle className="w-4 h-4 text-amber-500" />
-            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">2. Restricciones e Interferencias</h2>
-          </div>
-
-          <div className="space-y-3 text-xs">
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">CONFLICTOS, RESTRICCIONES Y RETRASOS</label>
-              <textarea
-                rows={2}
-                placeholder="Carencia de planos definitivos de MEP, llegada tardía de mixer de concreto, lluvias."
-                value={conflicts}
-                onChange={(e) => setConflicts(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-semibold text-sky-600 mb-1">TRABAJOS PLANIFICADOS PARA EL DÍA SIGUIENTE</label>
-              <textarea
-                rows={2}
-                placeholder="Vaciado de concreto en zapatas de eje C-3 a C-8, tarrajeo en fachada posterior."
-                value={plannedNextDay}
-                onChange={(e) => setPlannedNextDay(e.target.value)}
-                className="w-full bg-sky-50/20 border border-sky-100 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">OBSERVACIONES GENERALES</label>
-              <textarea
-                rows={2}
-                placeholder="Visita de supervisión técnica sin anotaciones negativas en cuaderno de obra."
-                value={generalNotes}
-                onChange={(e) => setGeneralNotes(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none"
-              />
-            </div>
-          </div>
-        </div>
           </>
         )}
 
-        {/* EXCEL / DISPATCH WEBHOOK CONFIGURATION */}
-        <div className="bg-slate-900 text-slate-300 p-4 rounded-2xl border border-slate-800 shadow-inner space-y-3 text-xs">
-          <span className="font-extrabold text-white block uppercase tracking-wider text-[10px]">Ajustes de Sincronización</span>
-          
-          <div>
-            <label className="block text-[9px] text-slate-400 font-semibold mb-0.5 uppercase">API Webhook de Apps Script / Server URL</label>
-            <input
-              type="text"
-              placeholder="https://script.google.com/macros/s/..."
-              value={appsScriptUrl}
-              onChange={(e) => setAppsScriptUrl(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-[10px] font-mono text-sky-400 focus:ring-1 focus:ring-sky-500 outline-none"
-            />
-          </div>
+        {/* Config Webhook */}
+        <div className="mx-3 mt-3 mb-3 bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-2">
+          <span className="text-[9px] font-black text-slate-500 block uppercase tracking-[0.15em]">SincronizaciÃ³n Â· API Webhook</span>
+          <input type="text" placeholder="https://script.google.com/macros/s/..." value={appsScriptUrl} onChange={(e) => setAppsScriptUrl(e.target.value)}
+            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-[10px] font-mono text-sky-400 focus:ring-1 focus:ring-sky-500 outline-none" />
         </div>
 
       </div>
 
-      {/* FIXED BASE ACTION FOOTER BUTTONS FOR RESILIENCY & EXPORT */}
-      <div className="bg-white border-t border-slate-200/80 px-4 py-3 shrink-0 grid grid-cols-3 gap-2 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.05)] z-40 select-none">
-        <button
-          type="button"
-          onClick={saveDraftManually}
-          className="flex flex-col items-center justify-center bg-slate-100 hover:bg-slate-200 py-2.5 rounded-xl border border-slate-200 transition text-[10px] font-bold text-slate-700 select-all"
-        >
-          <Save className="w-4 h-4 text-slate-500 mb-0.5 shrink-0" />
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          FOOTER FIJO â€” Acciones principales
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <div className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-3 py-3 grid grid-cols-3 gap-2 z-50">
+        <button type="button" onClick={saveDraftManually}
+          className="flex flex-col items-center justify-center bg-slate-800 hover:bg-slate-700 py-3 rounded-xl border border-slate-700 transition text-[10px] font-bold text-slate-300 gap-1">
+          <Save className="w-4 h-4 text-slate-400 shrink-0" />
           Guardar Borrador
         </button>
-
-        <button
-          type="button"
-          onClick={downloadExcel}
-          className="flex flex-col items-center justify-center bg-amber-50 hover:bg-amber-100 py-2.5 rounded-xl border border-amber-200 transition text-[10px] font-bold text-amber-800"
-        >
-          <FileSpreadsheet className="w-4 h-4 text-amber-500 mb-0.5 shrink-0" />
+        <button type="button" onClick={downloadExcel}
+          className="flex flex-col items-center justify-center bg-amber-500/10 hover:bg-amber-500/20 py-3 rounded-xl border border-amber-500/30 transition text-[10px] font-bold text-amber-300 gap-1">
+          <FileSpreadsheet className="w-4 h-4 text-amber-400 shrink-0" />
           Descargar XLSX
         </button>
-
-        <button
-          type="submit"
-          disabled={submitting}
-          className={`flex flex-col items-center justify-center py-2.5 rounded-xl transition text-[10px] font-bold text-white shadow-md select-none ${
-            submitting 
-              ? 'bg-slate-400 border-slate-400 shadow-none cursor-not-allowed' 
-              : 'bg-sky-500 hover:bg-sky-600 border border-sky-600 hover:border-sky-700 shadow-sky-500/10'
-          }`}
-        >
+        <button type="submit" disabled={submitting}
+          className={`flex flex-col items-center justify-center py-3 rounded-xl transition text-[10px] font-bold text-white gap-1 shadow-lg ${
+            submitting
+              ? "bg-slate-700 border border-slate-600 cursor-not-allowed text-slate-400"
+              : "bg-gradient-to-br from-sky-500 to-sky-700 border border-sky-600 shadow-sky-500/20 hover:from-sky-400 hover:to-sky-600"
+          }`}>
           {submitting ? (
-            <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mb-0.5" />
-              Enviando...
-            </>
+            <><div className="w-4 h-4 border-2 border-slate-300 border-t-transparent rounded-full animate-spin" />Enviando...</>
           ) : (
-            <>
-              <Send className="w-4 h-4 text-white mb-0.5 shrink-0" />
-              Enviar Reporte
-            </>
+            <><Send className="w-4 h-4 text-white shrink-0" />Enviar Reporte</>
           )}
         </button>
       </div>
