@@ -334,12 +334,11 @@ export function ReportForm({
   };
 
   const addManoObra = () => {
-    // Pre-select first resource item of type mano_obra
     const firstMo = resources.find(r => r.type === "mano_obra");
     setManoObra([...manoObra, { 
       resourceId: firstMo ? firstMo.id : "", 
       hoursWorked: 8, 
-      edtGroupCode: "EST" 
+      edtGroupCode: selectedEdtChapter || "EST"
     }]);
   };
 
@@ -354,7 +353,7 @@ export function ReportForm({
     setMaterials([...materials, { 
       resourceId: firstMat ? firstMat.id : "", 
       qtyConsumed: 10, 
-      edtGroupCode: "EST" 
+      edtGroupCode: selectedEdtChapter || "EST"
     }]);
   };
 
@@ -369,7 +368,7 @@ export function ReportForm({
     setEquipos([...equipos, { 
       resourceId: firstEq ? firstEq.id : "", 
       qtyUsed: 8, 
-      edtGroupCode: "EST" 
+      edtGroupCode: selectedEdtChapter || "EST"
     }]);
   };
 
@@ -1046,20 +1045,8 @@ export function ReportForm({
                     </div>
 
                     <div>
-                      <span className="text-[9px] font-semibold text-slate-400 uppercase">FRENTE CIVIL (EDT 1)</span>
-                      <select
-                        value={mo.edtGroupCode}
-                        onChange={(e) => {
-                          const updated = [...manoObra];
-                          updated[i].edtGroupCode = e.target.value;
-                          setManoObra(updated);
-                        }}
-                        className="w-full bg-white border border-slate-200 rounded-lg p-1 text-[10.5px] outline-none font-semibold"
-                      >
-                        <option value="EST">Estructuras (EST)</option>
-                        <option value="ARQ">Arquitectura (ARQ)</option>
-                        <option value="MEP">Instalaciones (MEP)</option>
-                      </select>
+                      <span className="text-[9px] font-semibold text-slate-400 uppercase">CAPÍTULO EDT:</span>
+                      <span className="ml-1 text-[10px] font-mono font-bold text-sky-600 bg-sky-50 px-1.5 py-0.5 rounded">{selectedEdtChapter}</span>
                     </div>
                   </div>
 
@@ -1139,20 +1126,8 @@ export function ReportForm({
                       </div>
 
                       <div>
-                        <span className="text-[9px] font-semibold text-slate-400 uppercase">ASOCIAR CAPÍTULO</span>
-                        <select
-                          value={mat.edtGroupCode}
-                          onChange={(e) => {
-                            const updated = [...materials];
-                            updated[i].edtGroupCode = e.target.value;
-                            setMaterials(updated);
-                          }}
-                          className="w-full bg-white border border-slate-200 rounded-lg p-1 text-[10px] outline-none font-semibold"
-                        >
-                          <option value="EST">Estructuras (EST)</option>
-                          <option value="ARQ">Arquitectura (ARQ)</option>
-                          <option value="MEP">Instalaciones (MEP)</option>
-                        </select>
+                        <span className="text-[9px] font-semibold text-slate-400 uppercase">CAPÍTULO EDT:</span>
+                        <span className="ml-1 text-[10px] font-mono font-bold text-sky-600 bg-sky-50 px-1.5 py-0.5 rounded">{selectedEdtChapter}</span>
                       </div>
                     </div>
 
@@ -1234,20 +1209,8 @@ export function ReportForm({
                       </div>
 
                       <div>
-                        <span className="text-[9px] font-semibold text-slate-400 uppercase">ASOCIAR CAPÍTULO</span>
-                        <select
-                          value={eq.edtGroupCode}
-                          onChange={(e) => {
-                            const updated = [...equipos];
-                            updated[i].edtGroupCode = e.target.value;
-                            setEquipos(updated);
-                          }}
-                          className="w-full bg-white border border-slate-200 rounded-lg p-1 text-[10px] outline-none font-semibold"
-                        >
-                          <option value="EST">Estructuras (EST)</option>
-                          <option value="ARQ">Arquitectura (ARQ)</option>
-                          <option value="MEP">Instalaciones (MEP)</option>
-                        </select>
+                        <span className="text-[9px] font-semibold text-slate-400 uppercase">CAPÍTULO EDT:</span>
+                        <span className="ml-1 text-[10px] font-mono font-bold text-sky-600 bg-sky-50 px-1.5 py-0.5 rounded">{selectedEdtChapter}</span>
                       </div>
                     </div>
 
