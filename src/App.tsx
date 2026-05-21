@@ -254,7 +254,8 @@ export default function App() {
   const [projectBac, setProjectBac] = useState<number>(0);
   
   // Custom Apps script link string saved in localstorage
-  const [appsScriptUrl, setAppsScriptUrl] = useState<string>("");
+  const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwO73sIZFyexqLhq79sJuS9yjEtQXj_mdIy2cW3az4lZgkuWIJEhudYUYdsDnfUfHnlYw/exec";
+  const [appsScriptUrl, setAppsScriptUrl] = useState<string>(() => localStorage.getItem("RDO_APPS_SCRIPT_WEBHOOK") || DEFAULT_WEBHOOK_URL);
 
   const [loading, setLoading] = useState(true);
   const [isOfflineMode, setIsOfflineMode] = useState(false);
@@ -262,7 +263,7 @@ export default function App() {
   // Sync / Load Initial database from Express Server API or Local fallback
   const fetchAllData = async (customUrl?: string) => {
     setLoading(true);
-    const webhookUrl = customUrl || localStorage.getItem("RDO_APPS_SCRIPT_WEBHOOK") || "";
+    const webhookUrl = customUrl || localStorage.getItem("RDO_APPS_SCRIPT_WEBHOOK") || DEFAULT_WEBHOOK_URL;
     
     // Si tenemos una URL de webhook, intentemos cargar los reportes directamente de Google Sheets
     let liveReports: DailyReport[] = [];
