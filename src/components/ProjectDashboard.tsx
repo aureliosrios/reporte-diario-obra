@@ -882,6 +882,69 @@ export function ProjectDashboard({
 
       </div>
 
+      {/* ─── DIARIO: PV / EV / AC por día ─── */}
+      {(() => {
+        const pvByDate: Record<string, number> = {};
+        pvCurveData.forEach(p => { pvByDate[p.date] = p.pvDaily; });
+
+        const dailyRows = enrichedReports.map(r => {
+          const pv = pvByDate[r.date] ?? 0;
+          const ev = r.computedMetrics.earnedValue;
+          const ac = r.computedMetrics.actualCost;
+          return { date: r.date, pv, ev, ac, sv: ev - pv, cv: ev - ac };
+        });
+
+        if (dailyRows.length === 0) return null;
+
+        return (
+          <div className="bg-slate-950 border border-slate-800 p-6 rounded-2xl shadow-xl mt-6">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+              <h2 className="text-base font-bold text-white flex items-center gap-2 uppercase tracking-wider">
+                <CalendarDays className="w-5 h-5 text-sky-400" />
+                Cuaderno de Obra — PV / EV / AC por Día
+              </h2>
+              <span className="text-[10px] text-slate-500">Montos en S/</span>
+            </div>
+            <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
+              <table className="w-full text-left text-xs text-slate-350 border-collapse">
+                <thead className="sticky top-0 bg-slate-950 z-10">
+                  <tr className="bg-slate-900 border-b border-slate-800 text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">
+                    <th className="p-2">Fecha</th>
+                    <th className="p-2 text-right">PV (Plan)</th>
+                    <th className="p-2 text-right">EV (Ejecutado)</th>
+                    <th className="p-2 text-right">AC (Gastado)</th>
+                    <th className="p-2 text-right">SV</th>
+                    <th className="p-2 text-right">CV</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-850">
+                  {dailyRows.map((d, i) => (
+                    <tr key={i} className="hover:bg-slate-900/40 transition-colors">
+                      <td className="p-2 font-mono text-slate-400">{d.date}</td>
+                      <td className={`p-2 text-right font-mono ${d.pv > 0 ? 'text-indigo-400' : 'text-slate-600'}`}>
+                        S/ {d.pv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                      </td>
+                      <td className={`p-2 text-right font-mono ${d.ev > 0 ? 'text-emerald-400' : 'text-slate-600'}`}>
+                        S/ {d.ev.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                      </td>
+                      <td className={`p-2 text-right font-mono ${d.ac > 0 ? 'text-rose-400' : 'text-slate-600'}`}>
+                        S/ {d.ac.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                      </td>
+                      <td className={`p-2 text-right font-mono font-semibold ${d.sv >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {d.sv >= 0 ? '+S/ ' : '-S/ '}{Math.abs(d.sv).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                      </td>
+                      <td className={`p-2 text-right font-mono font-semibold ${d.cv >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {d.cv >= 0 ? '+S/ ' : '-S/ '}{Math.abs(d.cv).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* 4. EDT CHAPTERS ANALYTICAL CONTROL BREAKDOWN TABLE */}
       <div className="bg-slate-950 border border-slate-800 p-6 rounded-2xl shadow-xl">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-4 mb-4 gap-2">
