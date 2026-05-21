@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics 
 } from "../types";
@@ -84,20 +84,12 @@ export function ReportForm({
   const [plannedNextDay, setPlannedNextDay] = useState<string>("");
   const [generalNotes, setGeneralNotes] = useState<string>("");
 
-  // Section 8: Drawing Canvas signature
-  const [signatureData, setSignatureData] = useState<string>("");
-
   // Status and logs
   const [submitting, setSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [progressPercent, setProgressPercent] = useState(0);
   const [isDraftLoadedToast, setIsDraftLoadedToast] = useState(false);
 
-  // References
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const isDrawing = useRef(false);
-
-  // Today date validation (reject future dates)
   const maxDateStr = new Date().toISOString().split("T")[0];
 
   // Load Initial Setup Settings
@@ -141,7 +133,6 @@ export function ReportForm({
         if (draft.conflicts) setConflicts(draft.conflicts);
         if (draft.plannedNextDay) setPlannedNextDay(draft.plannedNextDay);
         if (draft.generalNotes) setGeneralNotes(draft.generalNotes);
-        if (draft.signatureBase64) setSignatureData(draft.signatureBase64);
         
         setIsDraftLoadedToast(true);
         setTimeout(() => setIsDraftLoadedToast(false), 3000);
@@ -180,26 +171,25 @@ export function ReportForm({
       incidents,
       conflicts,
       plannedNextDay,
-      generalNotes,
-      signatureBase64: signatureData
+      generalNotes
     };
 
     const interval = setInterval(() => {
       localStorage.setItem("RDO_FORM_DRAFT", JSON.stringify(draftPayload));
-    }, 15000); // 15 seconds for aggressive offline backup in construction sites!
+    }, 15000);
 
     return () => clearInterval(interval);
   }, [
     selectedProjectCode, reportDate, supervisorName, shift, effectiveHours,
     weatherMorning, weatherAfternoon, activities, manoObra, materials,
     equipos, totalStaff, safetyInspected, safetyDetails, incidents,
-    conflicts, plannedNextDay, generalNotes, signatureData
+    conflicts, plannedNextDay, generalNotes
   ]);
 
   // Dynamic progress bar calculation based on core input completion
   useEffect(() => {
     let completedPoints = 0;
-    const maxPoints = 7;
+    const maxPoints = 6;
 
     if (selectedProjectCode) completedPoints++;
     if (reportDate) completedPoints++;
@@ -207,104 +197,11 @@ export function ReportForm({
     if (selectedEdtChapter) completedPoints++;
     if (manoObra.length > 0) completedPoints++;
     if (totalStaff > 0) completedPoints++;
-    if (signatureData) completedPoints++;
     setProgressPercent(Math.round((completedPoints / maxPoints) * 100));
   }, [
     selectedProjectCode, reportDate, supervisorName, selectedEdtChapter,
-    manoObra, totalStaff, signatureData
+    manoObra, totalStaff
   ]);
-
-  // Handle tactile canvas drawing (Signature)
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    // Line styles for physical look
-    ctx.lineWidth = 2.5;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = "#0f172a"; // Deep Charcoal-blue Ink
-
-    // Set background once if empty
-    if (!signatureData) {
-      ctx.fillStyle = "#fafafa";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    } else {
-      // Re-draw loaded base64 on render
-      const img = new Image();
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0);
-      };
-      img.src = signatureData;
-    }
-  }, [canvasRef, signatureData]);
-
-  // Pen commands
-  const getCoordinates = (e: React.MouseEvent | React.TouchEvent) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return { x: 0, y: 0 };
-    const rect = canvas.getBoundingClientRect();
-    
-    // Check if TouchEvent vs MouseEvent
-    if ("touches" in e) {
-      if (e.touches.length === 0) return { x: 0, y: 0 };
-      return {
-        x: e.touches[0].clientX - rect.left,
-        y: e.touches[0].clientY - rect.top
-      };
-    } else {
-      return {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      };
-    }
-  };
-
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    isDrawing.current = true;
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (ctx) {
-      const { x, y } = getCoordinates(e);
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-    }
-  };
-
-  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    if (!isDrawing.current) return;
-    e.preventDefault();
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (ctx) {
-      const { x, y } = getCoordinates(e);
-      ctx.lineTo(x, y);
-      ctx.stroke();
-    }
-  };
-
-  const endDrawing = () => {
-    if (!isDrawing.current) return;
-    isDrawing.current = false;
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const base64 = canvas.toDataURL("image/png");
-      setSignatureData(base64);
-    }
-  };
-
-  const clearCanvas = () => {
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (canvas && ctx) {
-      ctx.fillStyle = "#fafafa";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      setSignatureData("");
-    }
-  };
 
   // Helper functions for dynamic lookups
   const getPlannedProduction = (edtCode: string): number => {
@@ -403,8 +300,7 @@ export function ReportForm({
       incidents,
       conflicts,
       plannedNextDay,
-      generalNotes,
-      signatureBase64: signatureData
+      generalNotes
     };
     localStorage.setItem("RDO_FORM_DRAFT", JSON.stringify(draftPayload));
     
@@ -643,7 +539,6 @@ export function ReportForm({
       conflicts,
       plannedNextDay,
       generalNotes,
-      signatureBase64: signatureData,
       createdAt: ""
     };
 
@@ -681,9 +576,8 @@ export function ReportForm({
         // Trigger callback to update dashboard metrics
         onReportSubmitted(resData.report, calculatedMetrics);
 
-        // Clear draft & canvas
+        // Clear draft
         localStorage.removeItem("RDO_FORM_DRAFT");
-        clearCanvas();
         setSelectedEdtChapter("");
         setActivities([]);
         setManoObra([]);
@@ -1455,43 +1349,6 @@ export function ReportForm({
         </div>
           </>
         )}
-
-        {/* SECTION 8: FIRMA DIGITAL CANVAS */}
-        <div id="sec-firma" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <div className="flex items-center gap-1.5">
-              <User className="w-4 h-4 text-sky-500" />
-              <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">Firma de Conformidad</h2>
-            </div>
-            <button
-              type="button"
-              onClick={clearCanvas}
-              className="text-slate-500 hover:text-slate-800 font-bold text-[10px] uppercase tracking-tight"
-            >
-              Limpiar Firma
-            </button>
-          </div>
-
-          <div className="space-y-2">
-            <span className="block text-[10px] text-slate-400 font-medium">Firma directamente en el recuadro grisáceo:</span>
-            
-            <div className="border border-slate-200 rounded-2xl overflow-hidden bg-slate-50 shadow-inner h-[130px]">
-              <canvas
-                ref={canvasRef}
-                width={360}
-                height={130}
-                onMouseDown={startDrawing}
-                onMouseMove={draw}
-                onMouseUp={endDrawing}
-                onMouseLeave={endDrawing}
-                onTouchStart={startDrawing}
-                onTouchMove={draw}
-                onTouchEnd={endDrawing}
-                className="w-full h-full cursor-crosshair touch-none block"
-              />
-            </div>
-          </div>
-        </div>
 
         {/* EXCEL / DISPATCH WEBHOOK CONFIGURATION */}
         <div className="bg-slate-900 text-slate-300 p-4 rounded-2xl border border-slate-800 shadow-inner space-y-3 text-xs">
