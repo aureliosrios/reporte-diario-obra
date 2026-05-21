@@ -843,11 +843,14 @@ export function ReportForm({
                 <label className="block text-[11px] font-semibold text-slate-500 mb-1">HORAS JORNADA</label>
                 <div className="relative">
                   <input
-                    type="number"
-                    min={1}
-                    max={24}
-                    value={effectiveHours}
-                    onChange={(e) => setEffectiveHours(parseInt(e.target.value) || 8)}
+                    type="text"
+                    inputMode="decimal"
+                    value={effectiveHours === 0 ? "" : String(effectiveHours)}
+                    onChange={(e) => {
+                      const raw = e.target.value.replace(/[^0-9.]/g, "");
+                      setEffectiveHours(raw === "" || raw === "." ? 0 : parseFloat(raw));
+                    }}
+                    placeholder="8"
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 transition-all outline-none font-medium font-mono"
                   />
                   <Clock className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
@@ -1066,29 +1069,32 @@ export function ReportForm({
                   <div>
                     <span className="text-[9px] text-slate-400">Cantidad (trabajadores)</span>
                     <input
-                      type="number"
-                      min={1}
-                      value={mo.quantity}
+                      type="text"
+                      inputMode="numeric"
+                      value={mo.quantity === 0 ? "" : String(mo.quantity)}
                       onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9]/g, "");
                         const updated = [...manoObra];
-                        updated[i].quantity = parseInt(e.target.value) || 1;
+                        updated[i].quantity = raw === "" ? 0 : parseInt(raw);
                         setManoObra(updated);
                       }}
+                      placeholder="0"
                       className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
                     />
                   </div>
                   <div>
                     <span className="text-[9px] text-slate-400">Horas trabajadas c/u</span>
                     <input
-                      type="number"
-                      step="any"
-                      min={0}
-                      value={mo.hoursWorked}
+                      type="text"
+                      inputMode="decimal"
+                      value={mo.hoursWorked === 0 ? "" : String(mo.hoursWorked)}
                       onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9.]/g, "");
                         const updated = [...manoObra];
-                        updated[i].hoursWorked = parseFloat(e.target.value) || 0;
+                        updated[i].hoursWorked = raw === "" || raw === "." ? 0 : parseFloat(raw);
                         setManoObra(updated);
                       }}
+                      placeholder="0"
                       className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
                     />
                   </div>
@@ -1155,15 +1161,16 @@ export function ReportForm({
                   <div>
                     <span className="text-[9px] text-slate-400">Cant. Consumida Hoy:</span>
                     <input
-                      type="number"
-                      step="any"
-                      min={0}
-                      value={mat.qtyConsumed}
+                      type="text"
+                      inputMode="decimal"
+                      value={mat.qtyConsumed === 0 ? "" : String(mat.qtyConsumed)}
                       onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9.]/g, "");
                         const updated = [...materials];
-                        updated[i].qtyConsumed = parseFloat(e.target.value) || 0;
+                        updated[i].qtyConsumed = raw === "" || raw === "." ? 0 : parseFloat(raw);
                         setMaterials(updated);
                       }}
+                      placeholder="0"
                       className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
                     />
                     <span className="text-[10px] text-slate-500 ml-1">{rInfo?.unit || "unidades"}</span>
@@ -1231,15 +1238,16 @@ export function ReportForm({
                   <div>
                     <span className="text-[9px] text-slate-400">Uso reportado:</span>
                     <input
-                      type="number"
-                      step="any"
-                      min={0}
-                      value={eq.qtyUsed}
+                      type="text"
+                      inputMode="decimal"
+                      value={eq.qtyUsed === 0 ? "" : String(eq.qtyUsed)}
                       onChange={(e) => {
+                        const raw = e.target.value.replace(/[^0-9.]/g, "");
                         const updated = [...equipos];
-                        updated[i].qtyUsed = parseFloat(e.target.value) || 0;
+                        updated[i].qtyUsed = raw === "" || raw === "." ? 0 : parseFloat(raw);
                         setEquipos(updated);
                       }}
+                      placeholder="0"
                       className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
                     />
                     <span className="text-[10px] text-slate-500 ml-1">{rInfo?.unit || "horas"}</span>
@@ -1267,9 +1275,14 @@ export function ReportForm({
             <div>
               <label className="block text-[11px] font-semibold text-slate-500 mb-1">CENSO TOTAL DE OPERARIOS EN CAMPO</label>
               <input
-                type="number"
-                value={totalStaff}
-                onChange={(e) => setTotalStaff(parseInt(e.target.value) || 0)}
+                type="text"
+                inputMode="numeric"
+                value={totalStaff === 0 ? "" : String(totalStaff)}
+                onChange={(e) => {
+                  const raw = e.target.value.replace(/[^0-9]/g, "");
+                  setTotalStaff(raw === "" ? 0 : parseInt(raw));
+                }}
+                placeholder="0"
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold"
               />
             </div>
