@@ -53,6 +53,7 @@ export function ReportForm({
   // Section 3-5: Mano de Obra, Materiales, Equipos
   const [manoObra, setManoObra] = useState<{
     resourceId: string;
+    quantity: number;
     hoursWorked: number;
     edtGroupCode: string;
   }[]>([]);
@@ -337,6 +338,7 @@ export function ReportForm({
     const firstMo = resources.find(r => r.type === "mano_obra");
     setManoObra([...manoObra, { 
       resourceId: firstMo ? firstMo.id : "", 
+      quantity: 1,
       hoursWorked: 8, 
       edtGroupCode: selectedEdtChapter || "EST"
     }]);
@@ -441,7 +443,7 @@ export function ReportForm({
     manoObra.forEach(mo => {
       const matchRes = resources.find(r => r.id === mo.resourceId);
       if (matchRes) {
-        ac += mo.hoursWorked * matchRes.unitCost;
+        ac += (mo.quantity || 1) * mo.hoursWorked * matchRes.unitCost;
       }
     });
     // Materiales
@@ -913,6 +915,12 @@ export function ReportForm({
                 </option>
               ))}
             </select>
+            {selectedEdtChapter && (
+              <p className="text-[10px] text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 mt-2 font-medium">
+                ⚠ Este reporte corresponde solo al capítulo <strong>[{selectedEdtChapter}]</strong>. 
+                Si desea reportar actividades de otro capítulo EDT, debe iniciar un nuevo reporte.
+              </p>
+            )}
           </div>
 
           {selectedEdtChapter && (
@@ -1023,57 +1031,67 @@ export function ReportForm({
 
           <div className="space-y-3">
             {manoObra.map((mo, i) => (
-              <div key={i} className="grid grid-cols-12 gap-2 items-end bg-slate-50/50 p-2 rounded-xl border border-slate-100">
-                {/* Resource item */}
-                <div className="col-span-11 space-y-1 text-xs">
-                  <div className="grid grid-cols-2 gap-1.5">
-                    <div>
-                      <span className="text-[9px] font-semibold text-slate-400 uppercase">RECURSO DE MANO DE OBRA</span>
-                      <select
-                        value={mo.resourceId}
-                        onChange={(e) => {
-                          const updated = [...manoObra];
-                          updated[i].resourceId = e.target.value;
-                          setManoObra(updated);
-                        }}
-                        className="w-full bg-white border border-slate-200 rounded-lg p-1 text-[10.5px] outline-none font-semibold"
-                      >
-                        {resources.filter(r => r.type === "mano_obra").map(r => (
-                          <option key={r.id} value={r.id}>{r.name} (${r.unitCost}/hr)</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <span className="text-[9px] font-semibold text-slate-400 uppercase">CAPÍTULO EDT:</span>
-                      <span className="ml-1 text-[10px] font-mono font-bold text-sky-600 bg-sky-50 px-1.5 py-0.5 rounded">{selectedEdtChapter}</span>
-                    </div>
+              <div key={i} className="relative bg-slate-50/50 p-3 rounded-xl border border-slate-100 space-y-2 text-xs">
+                <div className="flex items-start gap-2">
+                  <div className="flex-1 min-w-0">
+                    <span className="text-[9px] font-semibold text-slate-400 uppercase block mb-0.5">RECURSO DE MANO DE OBRA</span>
+                    <select
+                      value={mo.resourceId}
+                      onChange={(e) => {
+                        const updated = [...manoObra];
+                        updated[i].resourceId = e.target.value;
+                        setManoObra(updated);
+                      }}
+                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[10px] outline-none font-semibold truncate"
+                    >
+                      {resources.filter(r => r.type === "mano_obra").map(r => (
+                        <option key={r.id} value={r.id}>{r.name} — S/{r.unitCost}/hr</option>
+                      ))}
+                    </select>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => removeManoObra(i)}
+                    className="shrink-0 text-rose-500 hover:text-rose-700 p-1"
+                  >
+                    <Trash className="w-3.5 h-3.5" />
+                  </button>
+                </div>
 
+                <div className="flex items-center gap-3">
+                  <span className="text-[9px] font-mono font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded">{selectedEdtChapter}</span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 bg-white p-2 rounded-lg border border-slate-100">
                   <div>
-                    <span className="text-[9px] font-semibold text-slate-400 uppercase mr-1">Horas Trabajadas Hoy:</span>
+                    <span className="text-[9px] text-slate-400">Cantidad (trabajadores)</span>
                     <input
                       type="number"
+                      min={1}
+                      value={mo.quantity}
+                      onChange={(e) => {
+                        const updated = [...manoObra];
+                        updated[i].quantity = parseInt(e.target.value) || 1;
+                        setManoObra(updated);
+                      }}
+                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-slate-400">Horas trabajadas c/u</span>
+                    <input
+                      type="number"
+                      step="any"
+                      min={0}
                       value={mo.hoursWorked}
                       onChange={(e) => {
                         const updated = [...manoObra];
                         updated[i].hoursWorked = parseFloat(e.target.value) || 0;
                         setManoObra(updated);
                       }}
-                      className="inline-block w-16 bg-white border border-slate-200 rounded-lg p-0.5 text-center font-mono font-bold"
+                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
                     />
-                    <span className="text-[10px] text-slate-500 ml-1.5">hrs</span>
                   </div>
-                </div>
-
-                <div className="col-span-1 text-right">
-                  <button
-                    type="button"
-                    onClick={() => removeManoObra(i)}
-                    className="text-rose-500 hover:text-rose-700"
-                  >
-                    <Trash className="w-3.5 h-3.5" />
-                  </button>
                 </div>
               </div>
             ))}
@@ -1105,57 +1123,50 @@ export function ReportForm({
             {materials.map((mat, i) => {
               const rInfo = resources.find(r => r.id === mat.resourceId);
               return (
-                <div key={i} className="grid grid-cols-12 gap-2 items-end bg-slate-50/50 p-2 rounded-xl border border-slate-100">
-                  <div className="col-span-11 space-y-1 text-xs">
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <div>
-                        <span className="text-[9px] font-semibold text-slate-400 uppercase">CATÁLOGO MATERIAL</span>
-                        <select
-                          value={mat.resourceId}
-                          onChange={(e) => {
-                            const updated = [...materials];
-                            updated[i].resourceId = e.target.value;
-                            setMaterials(updated);
-                          }}
-                          className="w-full bg-white border border-slate-200 rounded-lg p-1 text-[10px] outline-none font-semibold"
-                        >
-                          {resources.filter(r => r.type === "material").map(r => (
-                            <option key={r.id} value={r.id}>{r.name}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div>
-                        <span className="text-[9px] font-semibold text-slate-400 uppercase">CAPÍTULO EDT:</span>
-                        <span className="ml-1 text-[10px] font-mono font-bold text-sky-600 bg-sky-50 px-1.5 py-0.5 rounded">{selectedEdtChapter}</span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <span className="text-[9px] font-semibold text-slate-400 uppercase mr-1">Cant. Consumida Hoy:</span>
-                      <input
-                        type="number"
-                        step="any"
-                        value={mat.qtyConsumed}
+                <div key={i} className="relative bg-slate-50/50 p-3 rounded-xl border border-slate-100 space-y-2 text-xs">
+                  <div className="flex items-start gap-2">
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[9px] font-semibold text-slate-400 uppercase block mb-0.5">CATÁLOGO MATERIAL</span>
+                      <select
+                        value={mat.resourceId}
                         onChange={(e) => {
                           const updated = [...materials];
-                          updated[i].qtyConsumed = parseFloat(e.target.value) || 0;
+                          updated[i].resourceId = e.target.value;
                           setMaterials(updated);
                         }}
-                        className="inline-block w-16 bg-white border border-slate-200 rounded-lg p-0.5 text-center font-mono font-bold"
-                      />
-                      <span className="text-[10px] text-slate-500 ml-1.5">{rInfo?.unit || "unidades"}</span>
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[10px] outline-none font-semibold truncate"
+                      >
+                        {resources.filter(r => r.type === "material").map(r => (
+                          <option key={r.id} value={r.id}>{r.name}</option>
+                        ))}
+                      </select>
                     </div>
-                  </div>
-
-                  <div className="col-span-1 text-right">
                     <button
                       type="button"
                       onClick={() => removeMaterial(i)}
-                      className="text-rose-500 hover:text-rose-700"
+                      className="shrink-0 text-rose-500 hover:text-rose-700 p-1"
                     >
                       <Trash className="w-3.5 h-3.5" />
                     </button>
+                  </div>
+
+                  <span className="inline-block text-[9px] font-mono font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded">{selectedEdtChapter}</span>
+
+                  <div>
+                    <span className="text-[9px] text-slate-400">Cant. Consumida Hoy:</span>
+                    <input
+                      type="number"
+                      step="any"
+                      min={0}
+                      value={mat.qtyConsumed}
+                      onChange={(e) => {
+                        const updated = [...materials];
+                        updated[i].qtyConsumed = parseFloat(e.target.value) || 0;
+                        setMaterials(updated);
+                      }}
+                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
+                    />
+                    <span className="text-[10px] text-slate-500 ml-1">{rInfo?.unit || "unidades"}</span>
                   </div>
                 </div>
               );
@@ -1188,57 +1199,50 @@ export function ReportForm({
             {equipos.map((eq, i) => {
               const rInfo = resources.find(r => r.id === eq.resourceId);
               return (
-                <div key={i} className="grid grid-cols-12 gap-2 items-end bg-slate-50/50 p-2 rounded-xl border border-slate-100">
-                  <div className="col-span-11 space-y-1 text-xs">
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <div>
-                        <span className="text-[9px] font-semibold text-slate-400 uppercase">CATÁLOGO EQUIPO</span>
-                        <select
-                          value={eq.resourceId}
-                          onChange={(e) => {
-                            const updated = [...equipos];
-                            updated[i].resourceId = e.target.value;
-                            setEquipos(updated);
-                          }}
-                          className="w-full bg-white border border-slate-200 rounded-lg p-1 text-[10px] outline-none font-semibold"
-                        >
-                          {resources.filter(r => r.type === "equipo").map(r => (
-                            <option key={r.id} value={r.id}>{r.name}</option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div>
-                        <span className="text-[9px] font-semibold text-slate-400 uppercase">CAPÍTULO EDT:</span>
-                        <span className="ml-1 text-[10px] font-mono font-bold text-sky-600 bg-sky-50 px-1.5 py-0.5 rounded">{selectedEdtChapter}</span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <span className="text-[9px] font-semibold text-slate-400 uppercase mr-1">Uso reportado:</span>
-                      <input
-                        type="number"
-                        step="any"
-                        value={eq.qtyUsed}
+                <div key={i} className="relative bg-slate-50/50 p-3 rounded-xl border border-slate-100 space-y-2 text-xs">
+                  <div className="flex items-start gap-2">
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[9px] font-semibold text-slate-400 uppercase block mb-0.5">CATÁLOGO EQUIPO</span>
+                      <select
+                        value={eq.resourceId}
                         onChange={(e) => {
                           const updated = [...equipos];
-                          updated[i].qtyUsed = parseFloat(e.target.value) || 0;
+                          updated[i].resourceId = e.target.value;
                           setEquipos(updated);
                         }}
-                        className="inline-block w-16 bg-white border border-slate-200 rounded-lg p-0.5 text-center font-mono font-bold"
-                      />
-                      <span className="text-[10px] text-slate-500 ml-1.5">{rInfo?.unit || "horas"}</span>
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[10px] outline-none font-semibold truncate"
+                      >
+                        {resources.filter(r => r.type === "equipo").map(r => (
+                          <option key={r.id} value={r.id}>{r.name}</option>
+                        ))}
+                      </select>
                     </div>
-                  </div>
-
-                  <div className="col-span-1 text-right">
                     <button
                       type="button"
                       onClick={() => removeEquipo(i)}
-                      className="text-rose-500 hover:text-rose-700"
+                      className="shrink-0 text-rose-500 hover:text-rose-700 p-1"
                     >
                       <Trash className="w-3.5 h-3.5" />
                     </button>
+                  </div>
+
+                  <span className="inline-block text-[9px] font-mono font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded">{selectedEdtChapter}</span>
+
+                  <div>
+                    <span className="text-[9px] text-slate-400">Uso reportado:</span>
+                    <input
+                      type="number"
+                      step="any"
+                      min={0}
+                      value={eq.qtyUsed}
+                      onChange={(e) => {
+                        const updated = [...equipos];
+                        updated[i].qtyUsed = parseFloat(e.target.value) || 0;
+                        setEquipos(updated);
+                      }}
+                      className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
+                    />
+                    <span className="text-[10px] text-slate-500 ml-1">{rInfo?.unit || "horas"}</span>
                   </div>
                 </div>
               );
