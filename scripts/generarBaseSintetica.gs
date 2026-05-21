@@ -350,11 +350,20 @@ function generarBaseSintetica() {
   // ─── 7. ESCRIBIR EN GOOGLE SHEETS ──────────────────────────────────────────
   const ss = SpreadsheetApp.getActiveSpreadsheet();
 
-  // Eliminar pestañas existentes
+  // Crear pestañas NUEVAS primero (para tener hojas de respaldo)
+  const tabProduccion = ss.insertSheet("Producción");
+  const tabSeguridad = ss.insertSheet("Seguridad");
+  const tabActividades = ss.insertSheet("Actividades");
+  const tabRecursos = ss.insertSheet("Recursos");
+
+  // Luego eliminar pestañas antiguas duplicadas (sobran las recién creadas)
   const existingTabs = ["Producción","Seguridad","Actividades","Recursos"];
   for (const tab of existingTabs) {
-    const sheet = ss.getSheetByName(tab);
-    if (sheet) ss.deleteSheet(sheet);
+    const sheets = ss.getSheets().filter(s => s.getName() === tab);
+    // Dejar solo la primera (la recién creada), eliminar las demás
+    for (let i = 1; i < sheets.length; i++) {
+      ss.deleteSheet(sheets[i]);
+    }
   }
 
   // Crear pestañas
