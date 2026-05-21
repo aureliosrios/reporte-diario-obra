@@ -99,8 +99,8 @@ export interface DailyReport {
   generalNotes: string;
 
   // Entregables
-  signatureBase64: string; // Canvas firma
-  photoBase64s: string[]; // Fotos de avance (hasta 4)
+  signatureBase64?: string;
+  photoBase64s?: string[];
   createdAt: string;
   metrics?: EvmMetrics;
   photoUrlsLocal?: string[];

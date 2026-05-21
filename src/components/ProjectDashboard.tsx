@@ -662,11 +662,16 @@ export function ProjectDashboard({
       </div>
 
       {/* 2. CUMULATIVE NUMERICAL METRICS PANEL */}
-      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-[repeat(9,1fr)] gap-3">
+        <div className="bg-sky-950/30 border border-sky-800 p-3 rounded-xl">
+          <span className="text-[9px] text-sky-400 block font-bold uppercase tracking-wider">Presupuesto BAC</span>
+          <span className="text-base font-black font-mono text-sky-300 block mt-1">${bac.toLocaleString()}</span>
+          <span className="text-[8px] text-slate-500 block mt-0.5">Suma capítulos (col. I)</span>
+        </div>
         <div className="bg-slate-950/40 border border-slate-800 p-3 rounded-xl">
           <span className="text-[9px] text-slate-450 block font-bold uppercase tracking-wider">Valor Planificado</span>
           <span className="text-base font-black font-mono text-indigo-400 block mt-1">${latestPv.toLocaleString()}</span>
-          <span className="text-[8px] text-slate-500 block mt-0.5">100% del presupuesto</span>
+          <span className="text-[8px] text-slate-500 block mt-0.5">Avance programado</span>
         </div>
 
         <div className="bg-slate-950/40 border border-slate-800 p-3 rounded-xl">
@@ -907,7 +912,6 @@ export function ProjectDashboard({
               <tr className="bg-slate-900 border-b border-slate-800 text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">
                 <th className="p-3">Código</th>
                 <th className="p-3">Capítulo EDT</th>
-                <th className="p-3 text-right">BAC</th>
                 <th className="p-3 text-right">PV (Fecha Corte)</th>
                 <th className="p-3 text-right">EV (Ganado)</th>
                 <th className="p-3 text-right">AC (Real)</th>
@@ -926,7 +930,7 @@ export function ProjectDashboard({
                     <td className="p-3 font-mono font-bold text-sky-400">{ch.code}</td>
                     <td className="p-3 font-bold text-slate-100">
                       <div>{ch.name}</div>
-                      <div className="text-[9px] text-slate-500 font-mono mt-0.5">
+                      <div className="text-[10px] text-sky-500 font-mono mt-1 font-semibold">
                         BAC: S/ {ch.bac.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
                         {ch.pctPv > 0 && <span className="ml-2 text-indigo-400">PV: {ch.pctPv.toFixed(1)}%</span>}
                       </div>
@@ -990,7 +994,12 @@ export function ProjectDashboard({
             {/* Fila de totales — debe coincidir con los indicadores integrales del header */}
             <tfoot>
               <tr className="bg-slate-900/80 border-t-2 border-slate-700 text-[10px] font-extrabold text-slate-200">
-                <td className="p-3 font-mono text-sky-300" colSpan={2}>TOTAL PROYECTO</td>
+                <td className="p-3 font-mono text-sky-300" colSpan={2}>
+                  <div>TOTAL PROYECTO</div>
+                  <div className="text-[9px] text-sky-500 font-semibold mt-0.5">
+                    BAC: S/ {chaptersData.reduce((s, c) => s + c.bac, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                  </div>
+                </td>
                 <td className="p-3 text-right font-mono text-slate-400">
                   S/ {chaptersData.reduce((s, c) => s + c.pv, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
                 </td>
