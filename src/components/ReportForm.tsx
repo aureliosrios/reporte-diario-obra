@@ -1303,78 +1303,12 @@ export function ReportForm({
             )}
           </div>
         </div>
-          </>
-        )}
 
-        {/* SECTION 6: CONTROL, SEGURIDAD E INCIDENTES */}
-        <div id="sec-seguridad" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">6. Seguridad e Incidentes</h2>
-          </div>
-
-          <div className="space-y-3 text-xs">
-            {/* Personal Total */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">CENSO TOTAL DE OPERARIOS EN CAMPO</label>
-              <input
-                type="text"
-                inputMode="numeric"
-                value={totalStaff === 0 ? "" : String(totalStaff)}
-                onChange={(e) => {
-                  const raw = e.target.value.replace(/[^0-9]/g, "");
-                  setTotalStaff(raw === "" ? 0 : parseInt(raw));
-                }}
-                placeholder="0"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold"
-              />
-            </div>
-
-            {/* InspecciónCheckbox */}
-            <div className="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-              <input
-                type="checkbox"
-                id="safe-check"
-                checked={safetyInspected}
-                onChange={(e) => setSafetyInspected(e.target.checked)}
-                className="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500"
-              />
-              <label htmlFor="safe-check" className="text-[11px] font-bold text-slate-700 cursor-pointer">
-                ¿Charla e Inspección de Seguridad Realizada?
-              </label>
-            </div>
-
-            {/* Detalles Seguridad */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-500 mb-1">DETALLES DE PREVENCIÓN / EPPS</label>
-              <textarea
-                rows={2}
-                placeholder="Inspección de andamios, charla de 5 minutos dictada, arneses revisados."
-                value={safetyDetails}
-                onChange={(e) => setSafetyDetails(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none font-sans"
-              />
-            </div>
-
-            {/* Incidentes */}
-            <div>
-              <label className="block text-[11px] font-semibold text-red-500 mb-1">REGISTRO DE ACCIDENTES O INCIDENTES</label>
-              <textarea
-                rows={2}
-                placeholder="Escribe 'Ninguno' o detalla cualquier golpe, corte o re-trabajo."
-                value={incidents}
-                onChange={(e) => setIncidents(e.target.value)}
-                className="w-full bg-slate-50 border border-red-100 rounded-xl px-3 py-2 text-[11px] focus:ring-1 focus:ring-red-500 outline-none font-sans"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* SECTION 7: PROBLEMAS Y PLANIFICACIÓN */}
+        {/* SECCIÓN 6: RESTRICCIONES E INTERFERENCIAS */}
         <div id="sec-planificacion" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
-            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">7. Restricciones e Interferencias</h2>
+            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">6. Restricciones e Interferencias</h2>
           </div>
 
           <div className="space-y-3 text-xs">
@@ -1412,13 +1346,122 @@ export function ReportForm({
             </div>
           </div>
         </div>
+          </>
+        )}
+
+        {reportType === "seguridad" && (
+          <>
+        {/* SEGURIDAD: CONTROL, SEGURIDAD E INCIDENTES */}
+        <div id="sec-seguridad" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">1. Seguridad e Incidentes</h2>
+          </div>
+
+          <div className="space-y-3 text-xs">
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1">CENSO TOTAL DE OPERARIOS EN CAMPO</label>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={totalStaff === 0 ? "" : String(totalStaff)}
+                onChange={(e) => {
+                  const raw = e.target.value.replace(/[^0-9]/g, "");
+                  setTotalStaff(raw === "" ? 0 : parseInt(raw));
+                }}
+                placeholder="0"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold"
+              />
+            </div>
+
+            <div className="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+              <input
+                type="checkbox"
+                id="safe-check"
+                checked={safetyInspected}
+                onChange={(e) => setSafetyInspected(e.target.checked)}
+                className="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500"
+              />
+              <label htmlFor="safe-check" className="text-[11px] font-bold text-slate-700 cursor-pointer">
+                ¿Charla e Inspección de Seguridad Realizada?
+              </label>
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1">DETALLES DE PREVENCIÓN / EPPS</label>
+              <textarea
+                rows={2}
+                placeholder="Inspección de andamios, charla de 5 minutos dictada, arneses revisados."
+                value={safetyDetails}
+                onChange={(e) => setSafetyDetails(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none font-sans"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-semibold text-red-500 mb-1">REGISTRO DE ACCIDENTES O INCIDENTES</label>
+              <textarea
+                rows={2}
+                placeholder="Escribe 'Ninguno' o detalla cualquier golpe, corte o re-trabajo."
+                value={incidents}
+                onChange={(e) => setIncidents(e.target.value)}
+                className="w-full bg-slate-50 border border-red-100 rounded-xl px-3 py-2 text-[11px] focus:ring-1 focus:ring-red-500 outline-none font-sans"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* SECCIÓN 2: RESTRICCIONES E INTERFERENCIAS */}
+        <div id="sec-planificacion" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
+            <AlertTriangle className="w-4 h-4 text-amber-500" />
+            <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">2. Restricciones e Interferencias</h2>
+          </div>
+
+          <div className="space-y-3 text-xs">
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1">CONFLICTOS, RESTRICCIONES Y RETRASOS</label>
+              <textarea
+                rows={2}
+                placeholder="Carencia de planos definitivos de MEP, llegada tardía de mixer de concreto, lluvias."
+                value={conflicts}
+                onChange={(e) => setConflicts(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-semibold text-sky-600 mb-1">TRABAJOS PLANIFICADOS PARA EL DÍA SIGUIENTE</label>
+              <textarea
+                rows={2}
+                placeholder="Vaciado de concreto en zapatas de eje C-3 a C-8, tarrajeo en fachada posterior."
+                value={plannedNextDay}
+                onChange={(e) => setPlannedNextDay(e.target.value)}
+                className="w-full bg-sky-50/20 border border-sky-100 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1">OBSERVACIONES GENERALES</label>
+              <textarea
+                rows={2}
+                placeholder="Visita de supervisión técnica sin anotaciones negativas en cuaderno de obra."
+                value={generalNotes}
+                onChange={(e) => setGeneralNotes(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-sky-500 outline-none"
+              />
+            </div>
+          </div>
+        </div>
+          </>
+        )}
 
         {/* SECTION 8: FIRMA DIGITAL CANVAS */}
         <div id="sec-firma" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-2">
             <div className="flex items-center gap-1.5">
               <User className="w-4 h-4 text-sky-500" />
-              <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">8. Firma de Conformidad</h2>
+              <h2 className="text-xs font-extrabold text-slate-700 tracking-wider uppercase">Firma de Conformidad</h2>
             </div>
             <button
               type="button"
