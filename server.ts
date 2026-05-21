@@ -11,6 +11,9 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
+// Default Google Apps Script Webhook URL
+const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwO73sIZFyexqLhq79sJuS9yjEtQXj_mdIy2cW3az4lZgkuWIJEhudYUYdsDnfUfHnlYw/exec";
+
 // Middleware for parsing large JSON files (we are uploading base64 signatures/photos)
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -430,6 +433,23 @@ app.post("/api/reports", (req, res) => {
 
   // Write database updates
   fs.writeFileSync(REPORTS_FILE, JSON.stringify(submittedReports, null, 2));
+
+  // Forward to Google Sheets (server-to-server, no CORS issues)
+  const webhookUrl = data.appsScriptUrl || DEFAULT_WEBHOOK_URL;
+  if (webhookUrl && webhookUrl.startsWith("http")) {
+    // Fire-and-forget: don't block the response
+    fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newReport)
+    }).then(gsRes => {
+      if (!gsRes.ok) {
+        console.warn("Google Sheets webhook responded with status:", gsRes.status);
+      }
+    }).catch(err => {
+      console.error("Error forwarding to Google Sheets:", err.message);
+    });
+  }
 
   res.json({
     status: "success",

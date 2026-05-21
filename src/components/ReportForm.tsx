@@ -545,11 +545,12 @@ export function ReportForm({
 
     const finalPayload = {
       ...payload,
-      metrics: calculatedMetrics
+      metrics: calculatedMetrics,
+      appsScriptUrl
     };
 
     try {
-      // Send to local Express full-stack endpoint
+      // Send to local Express full-stack endpoint (server will forward to Google Sheets)
       const response = await fetch("/api/reports", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -559,15 +560,7 @@ export function ReportForm({
       const resData = await response.json();
 
       if (resData.status === "success") {
-        // Also send to Google Apps Script Web App in background if user has it configured!
-        if (appsScriptUrl && appsScriptUrl.startsWith("http")) {
-          fetch(appsScriptUrl, {
-            method: "POST",
-            mode: "no-cors", // Apps Script Web App redirection CORS fallback
-            headers: { "Content-Type": "text/plain" }, // prevent CORS pre-flights
-            body: JSON.stringify(finalPayload)
-          }).catch(err => console.warn("Google Apps Script sync warning (often harmless CORS redirect):", err));
-        }
+        // Google Sheets sync is handled server-side now
 
         setSubmitMessage({ 
           type: 'success', 
