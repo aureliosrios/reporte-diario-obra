@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { SmartMockup } from "./components/SmartMockup";
 import { ReportForm } from "./components/ReportForm";
 import { ProjectDashboard } from "./components/ProjectDashboard";
-import { GoogleScriptDocs } from "./components/GoogleScriptDocs";
 import { Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics, PvCurvePoint } from "./types";
 import { FALLBACK_PV_CURVE } from "./data/pv-curve-fallback";
 import { PV_BY_CHAPTER, type PvChapterPoint } from "./data/pv-chapter-fallback";
 import { 
-  Building2, LineChart, FileText, ChevronRight, Loader2, Info, HardHat, Compass, ServerCrash, ExternalLink, Settings2
+  Building2, LineChart, FileText, ChevronRight, Loader2, Info, HardHat, Compass, ServerCrash, ExternalLink, ClipboardList, BarChart3
 } from "lucide-react";
 
 // Backup fallback structures if server fetch fails or is slow
@@ -241,7 +240,9 @@ const generate20DaysSyntheticReports = (): DailyReport[] => {
 const BACKUP_REPORTS = generate20DaysSyntheticReports();
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<"campo" | "control" | "sheets">("control");
+  const hash = typeof window !== "undefined" ? window.location.hash.replace("#", "") : "";
+  const initialTab = hash === "campo" || hash === "gerencia" || hash === "control" ? hash : "control";
+  const [activeTab, setActiveTab] = useState<"campo" | "control" | "gerencia">(initialTab as any);
   const [projects, setProjects] = useState<Project[]>(BACKUP_PROJECTS);
   const [edtList, setEdtList] = useState<EdtItem[]>(BACKUP_EDT);
   const [plannedValues, setPlannedValues] = useState<PlannedValue[]>([]);
@@ -464,15 +465,20 @@ export default function App() {
 
   // Handle a newly registered report submission to refresh internal list
   const handleReportSubmitted = (newReport: DailyReport, metrics: EvmMetrics) => {
-    // Append metrics inside report body
-    const enrichedReport = {
-      ...newReport,
-      metrics
-    };
+    const enrichedReport = { ...newReport, metrics };
     setReports(prev => [...prev, enrichedReport]);
-    // Redirect to Control Dashboard automatically!
-    setActiveTab("control");
+    // Redirect to dashboard only if NOT in standalone campo mode
+    if (window.location.hash !== "#campo") {
+      setActiveTab("control");
+    }
   };
+
+  // Cambiar hash al cambiar de tab
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.location.hash = activeTab;
+    }
+  }, [activeTab]);
 
   if (loading) {
     return (
@@ -484,10 +490,79 @@ export default function App() {
     );
   }
 
+  // ── Standalone: Reporte a Campo (solo formulario) ──
+  if (hash === "campo") {
+    return (
+      <div className="flex flex-col min-h-screen bg-slate-900">
+        <header className="bg-slate-950 text-white border-b border-slate-800 shrink-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-3">
+            <div className="bg-gradient-to-tr from-sky-600 to-sky-450 p-2 rounded-xl text-slate-950 font-black shadow-lg shadow-sky-500/10">
+              <HardHat className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <span className="text-[10px] font-black tracking-widest text-sky-400 uppercase">Reporte a Campo</span>
+              <h1 className="text-sm font-bold text-white leading-tight">REPORTE DIARIO DE OBRA (RDO)</h1>
+            </div>
+          </div>
+        </header>
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-4xl mx-auto w-full">
+          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl">
+            <h2 className="text-base font-bold text-white flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+              <FileText className="w-5 h-5 text-sky-400" />
+              Registro de Reporte Diario — Campo
+            </h2>
+            <ReportForm
+              projects={projects}
+              edtList={edtList}
+              plannedValues={plannedValues}
+              resources={resources}
+              onReportSubmitted={handleReportSubmitted}
+              appsScriptUrl={appsScriptUrl}
+              setAppsScriptUrl={setAppsScriptUrl}
+            />
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // ── Standalone: Reporte a Gerencia (solo dashboard) ──
+  if (hash === "gerencia") {
+    return (
+      <div className="flex flex-col min-h-screen bg-slate-900">
+        <header className="bg-slate-950 text-white border-b border-slate-800 shrink-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-3">
+            <div className="bg-gradient-to-tr from-sky-600 to-sky-450 p-2 rounded-xl text-slate-950 font-black shadow-lg shadow-sky-500/10">
+              <LineChart className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <span className="text-[10px] font-black tracking-widest text-sky-400 uppercase">Reporte a Gerencia</span>
+              <h1 className="text-sm font-bold text-white leading-tight">PANEL DE CONTROL EVM — PROYECTO</h1>
+            </div>
+          </div>
+        </header>
+        <main className="flex-1 max-w-7xl mx-auto w-full px-2 sm:px-6 lg:px-8 py-6">
+          <ProjectDashboard
+            reports={reports}
+            edtList={edtList}
+            resources={resources}
+            projectName={projects.length > 0 ? projects[0].name : "Edificio Multifamiliar Girasoles"}
+            onRefresh={() => fetchAllData(appsScriptUrl)}
+            isSheetsConnected={!!appsScriptUrl}
+            pvCurveData={pvCurveData}
+            pvByChapter={pvByChapter}
+            bac={projectBac}
+          />
+        </main>
+      </div>
+    );
+  }
+
+  // ── Vista completa con tabs ──
   return (
     <div className="flex flex-col min-h-screen bg-slate-900 border-t-2 border-sky-500">
       
-      {/* Top Main Navigation Bar (Responsiva, Premium layout) */}
+      {/* Top Main Navigation Bar */}
       <header className="bg-slate-950 text-white border-b border-slate-800 shrink-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
@@ -513,8 +588,8 @@ export default function App() {
 
           {/* Core Desktop Tabs */}
           <nav className="flex items-center gap-2">
-            <button
-              onClick={() => setActiveTab("campo")}
+            <a
+              href="#campo"
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold tracking-tight transition-all duration-150 ${
                 activeTab === "campo"
                   ? "bg-sky-500 text-slate-950 shadow-md shadow-sky-500/10"
@@ -522,32 +597,30 @@ export default function App() {
               }`}
             >
               <HardHat className="w-4 h-4" />
-              RDO Campo (Celular)
-            </button>
-
-            <button
-              onClick={() => setActiveTab("control")}
+              Reporte a Campo
+            </a>
+            <a
+              href="#control"
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold tracking-tight transition-all duration-150 ${
                 activeTab === "control"
                   ? "bg-sky-500 text-slate-950 shadow-md shadow-sky-500/10"
                   : "text-slate-300 hover:bg-slate-800 hover:text-white"
               }`}
             >
-              <LineChart className="w-4 h-4" />
+              <BarChart3 className="w-4 h-4" />
               Tablero EVM
-            </button>
-
-            <button
-              onClick={() => setActiveTab("sheets")}
+            </a>
+            <a
+              href="#gerencia"
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold tracking-tight transition-all duration-150 ${
-                activeTab === "sheets"
+                activeTab === "gerencia"
                   ? "bg-sky-500 text-slate-950 shadow-md shadow-sky-500/10"
                   : "text-slate-300 hover:bg-slate-800 hover:text-white"
               }`}
             >
-              <Settings2 className="w-4 h-4" />
-              Despliegue Sheets
-            </button>
+              <LineChart className="w-4 h-4" />
+              Reporte a Gerencia
+            </a>
           </nav>
 
         </div>
@@ -587,9 +660,19 @@ export default function App() {
           </div>
         )}
 
-        {activeTab === "sheets" && (
-          <div className="max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1">
-            <GoogleScriptDocs />
+        {activeTab === "gerencia" && (
+          <div className="max-w-7xl mx-auto w-full px-2 sm:px-6 lg:px-8 py-6 flex-1">
+            <ProjectDashboard
+              reports={reports}
+              edtList={edtList}
+              resources={resources}
+              projectName={projects.length > 0 ? projects[0].name : "Edificio Multifamiliar Girasoles"}
+              onRefresh={() => fetchAllData(appsScriptUrl)}
+              isSheetsConnected={!!appsScriptUrl}
+              pvCurveData={pvCurveData}
+              pvByChapter={pvByChapter}
+              bac={projectBac}
+            />
           </div>
         )}
       </main>
