@@ -317,9 +317,19 @@ export function ReportForm({
   };
 
   // Handlers for Add/Remove Items
+  const addActivity = () => {
+    setActivities([...activities, { edtCode: "", qtyExecuted: 0, notes: "" }]);
+  };
+
   const updateActivityField = (index: number, key: string, val: any) => {
     const updated = [...activities];
     updated[index] = { ...updated[index], [key]: val };
+    setActivities(updated);
+  };
+
+  const removeActivity = (index: number) => {
+    const updated = [...activities];
+    updated.splice(index, 1);
     setActivities(updated);
   };
 
@@ -908,61 +918,86 @@ export function ReportForm({
 
           {selectedEdtChapter && (
             <div className="space-y-2">
-              <p className="text-[10px] font-semibold text-slate-400">ACTIVIDADES DISPONIBLES — Seleccione las reportadas hoy:</p>
-              {edtList.filter(e => e.parentId === selectedEdtChapter).map(act => {
-                const isSelected = activities.some(a => a.edtCode === act.code);
+              {/* Add activity button */}
+              <button
+                type="button"
+                onClick={addActivity}
+                className="w-full flex items-center justify-center gap-1.5 bg-sky-50 hover:bg-sky-100 text-sky-600 border border-sky-200 border-dashed font-bold py-2 rounded-xl text-[11px] transition"
+              >
+                + Agregar Actividad
+              </button>
+
+              {activities.map((act, index) => {
+                const edtInfo = getEdtItemNameAndUnit(act.edtCode);
                 const plannedQty = getPlannedProduction(act.edtCode);
-                const index = activities.findIndex(a => a.edtCode === act.code);
-                const actData = isSelected ? activities[index] : null;
+                const chapterActivities = edtList.filter(e => e.parentId === selectedEdtChapter);
+                // Cheat: convert 0 back to empty string so user can type freely
+                const displayQty = act.qtyExecuted === 0 ? "" : String(act.qtyExecuted);
 
                 return (
-                  <div key={act.code} className="bg-slate-50/50 rounded-xl border border-slate-100 p-2 text-xs">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setActivities([...activities, { edtCode: act.code, qtyExecuted: 0, notes: "" }]);
-                          } else {
-                            setActivities(activities.filter(a => a.edtCode !== act.code));
-                          }
-                        }}
-                        className="accent-sky-500 w-4 h-4"
-                      />
-                      <span className="font-bold text-slate-700">[{act.code}] {act.name}</span>
-                      <span className="text-[10px] text-slate-400 ml-auto">{act.unit}</span>
-                    </label>
+                  <div key={index} className="p-3 bg-slate-50/50 rounded-xl border border-slate-100 space-y-2 text-xs relative">
+                    {/* Delete button */}
+                    {activities.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeActivity(index)}
+                        className="absolute right-2 top-2 text-rose-500 hover:text-rose-700 p-0.5"
+                      >
+                        <Trash className="w-3.5 h-3.5" />
+                      </button>
+                    )}
 
-                    {isSelected && (
-                      <div className="mt-2 ml-6 grid grid-cols-2 gap-2 bg-white p-2 rounded-lg border border-slate-100">
-                        <div>
-                          <span className="text-[10px] text-slate-400">Metrado programado:</span>
-                          <span className="block font-mono font-bold text-slate-700 text-sm">{plannedQty} {act.unit}</span>
+                    {/* Activity selector filtered by chapter */}
+                    <div>
+                      <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">SELECCIONAR ACTIVIDAD</label>
+                      <select
+                        value={act.edtCode}
+                        onChange={(e) => updateActivityField(index, "edtCode", e.target.value)}
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-bold"
+                      >
+                        <option value="">-- Elija actividad --</option>
+                        {chapterActivities.map(item => (
+                          <option key={item.code} value={item.code}>
+                            [{item.code}] {item.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {act.edtCode && (
+                      <>
+                        <div className="grid grid-cols-2 gap-3 bg-white p-2 rounded-lg border border-slate-100">
+                          <div>
+                            <span className="text-[10px] text-slate-400">Metrado programado (BD_PV_Diario):</span>
+                            <span className="block font-mono font-bold text-slate-700 text-sm">{plannedQty} {edtInfo.unit}</span>
+                          </div>
+                          <div>
+                            <label className="text-[10px] font-semibold text-sky-600">AVANCE REAL (EV)</label>
+                            <input
+                              type="text"
+                              inputMode="decimal"
+                              value={displayQty}
+                              onChange={(e) => {
+                                const raw = e.target.value.replace(/[^0-9.]/g, "");
+                                updateActivityField(index, "qtyExecuted", raw === "" || raw === "." ? 0 : parseFloat(raw));
+                              }}
+                              className="w-full bg-white border border-sky-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
+                              placeholder="0"
+                            />
+                          </div>
                         </div>
+
                         <div>
-                          <label className="text-[10px] font-semibold text-sky-600">AVANCE REAL (EV)</label>
-                          <input
-                            type="number"
-                            step="any"
-                            min={0}
-                            value={actData?.qtyExecuted ?? 0}
-                            onChange={(e) => updateActivityField(index, "qtyExecuted", parseFloat(e.target.value) || 0)}
-                            className="w-full bg-white border border-sky-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-mono font-bold mt-0.5"
-                            placeholder="0"
-                          />
-                        </div>
-                        <div className="col-span-2">
                           <label className="text-[10px] font-semibold text-sky-600">OBSERVACIONES</label>
                           <input
                             type="text"
                             placeholder="Ubicación, ejes, observaciones…"
-                            value={actData?.notes ?? ""}
+                            value={act.notes}
                             onChange={(e) => updateActivityField(index, "notes", e.target.value)}
-                            className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-sans mt-0.5"
+                            className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[11px] focus:ring-1 focus:ring-sky-500 outline-none font-sans"
                           />
                         </div>
-                      </div>
+                      </>
                     )}
                   </div>
                 );
