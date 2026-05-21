@@ -3,8 +3,7 @@ import { DailyReport, EvmMetrics, EdtItem, ResourceItem } from "../types";
 import { 
   TrendingUp, TrendingDown, Clock, Shield, CalendarDays, Image as ImageIcon, 
   UserCheck, AlertTriangle, ArrowRight, Table, FileText, CheckCircle2, 
-  Cloud, RefreshCw, BarChart3, Info, HardHat, ChevronLeft, ChevronRight,
-  ChevronDown, ClipboardList, CheckSquare, DollarSign
+  Cloud, RefreshCw, BarChart3, Info, HardHat, ChevronLeft, ChevronRight
 } from "lucide-react";
 
 // Standard Resource Catalog rates for live AC calculations
@@ -883,308 +882,6 @@ export function ProjectDashboard({
 
       </div>
 
-      {/* ─── DIARIO: PV / EV / AC por día ─── */}
-      {(() => {
-        if (enrichedReports.length === 0) return null;
-
-        return (
-          <div className="bg-slate-950 border border-slate-800 p-6 rounded-2xl shadow-xl mt-6">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
-              <h2 className="text-base font-bold text-white flex items-center gap-2 uppercase tracking-wider">
-                <CalendarDays className="w-5 h-5 text-sky-400" />
-                Cuaderno de Obra — PV / EV / AC por Día
-              </h2>
-              <span className="text-[10px] text-slate-500">Montos en S/</span>
-            </div>
-
-            <div className="space-y-2 pr-1">
-              {enrichedReports.map((r, idx) => {
-                const m = r.computedMetrics;
-                const pvData = pvCurveData.find(p => p.date === r.date);
-                const pvDaily = pvData ? pvData.pvDaily : 0;
-
-                /* ── PV breakdown: actividades planeadas ── */
-                const pvItems = r.activities?.map(act => {
-                  const edt = edtList.find(e => e.code === act.edtCode);
-                  const pu = edt?.unitPrice || 0;
-                  const subtotal = (act.plannedQty || 0) * pu;
-                  return { code: act.edtCode, name: act.name, unit: act.unit, qty: act.plannedQty || 0, pu, subtotal };
-                }) || [];
-                const totalPv = pvItems.reduce((s, i) => s + i.subtotal, 0);
-
-                /* ── EV breakdown: actividades ejecutadas ── */
-                const evItems = r.activities?.map(act => {
-                  const edt = edtList.find(e => e.code === act.edtCode);
-                  const pu = edt?.unitPrice || 0;
-                  const subtotal = (act.qtyExecuted || 0) * pu;
-                  return { code: act.edtCode, name: act.name, unit: act.unit, qty: act.qtyExecuted || 0, pu, subtotal };
-                }) || [];
-                const totalEv = evItems.reduce((s, i) => s + i.subtotal, 0);
-
-                /* ── AC breakdown: MO + Materiales + Equipos ── */
-                const moItems = r.manoObra?.map(mo => {
-                  const costH = RESOURCE_COSTS[mo.resourceId] || 20;
-                  const subtotal = (mo.hoursWorked || 0) * costH;
-                  return { id: mo.resourceId, name: mo.name, qty: mo.hoursWorked || 0, unit: "H-H", costU: costH, subtotal };
-                }) || [];
-                const totalMo = moItems.reduce((s, i) => s + i.subtotal, 0);
-
-                const matItems = r.materials?.map(mat => {
-                  const costU = RESOURCE_COSTS[mat.resourceId] || 10;
-                  const subtotal = (mat.qtyConsumed || 0) * costU;
-                  return { id: mat.resourceId, name: mat.name, qty: mat.qtyConsumed || 0, unit: mat.unit, costU, subtotal };
-                }) || [];
-                const totalMat = matItems.reduce((s, i) => s + i.subtotal, 0);
-
-                const eqItems = r.equipos?.map(eq => {
-                  const costU = RESOURCE_COSTS[eq.resourceId] || 30;
-                  const subtotal = (eq.qtyUsed || 0) * costU;
-                  return { id: eq.resourceId, name: eq.name, qty: eq.qtyUsed || 0, unit: eq.unit, costU, subtotal };
-                }) || [];
-                const totalEq = eqItems.reduce((s, i) => s + i.subtotal, 0);
-
-                const totalAc = totalMo + totalMat + totalEq;
-
-                return (
-                  <details key={idx} className="group bg-slate-900/40 border border-slate-800 rounded-lg overflow-hidden">
-                    <summary className="flex items-center justify-between p-3 cursor-pointer hover:bg-slate-800/40 transition-colors list-none [&::-webkit-details-marker]:hidden">
-                      <div className="flex items-center gap-4">
-                        <span className="text-xs text-slate-500 font-mono">{r.date}</span>
-                        <span className="text-[10px] uppercase tracking-wider text-indigo-400 font-bold border border-indigo-500/30 px-2 py-0.5 rounded">
-                          PV S/ {pvDaily.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                        </span>
-                        <span className="text-[10px] uppercase tracking-wider text-emerald-400 font-bold border border-emerald-500/30 px-2 py-0.5 rounded">
-                          EV S/ {totalEv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                        </span>
-                        <span className="text-[10px] uppercase tracking-wider text-rose-400 font-bold border border-rose-500/30 px-2 py-0.5 rounded">
-                          AC S/ {totalAc.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                        </span>
-                      </div>
-                      <ChevronDown className="w-4 h-4 text-slate-500 transition-transform duration-200 group-open:rotate-180" />
-                    </summary>
-
-                    <div className="p-3 pt-0 space-y-4">
-                      {/* ── PV ── */}
-                      <div>
-                        <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-400 mb-1.5 flex items-center gap-1.5">
-                          <ClipboardList className="w-3 h-3" /> PV — Actividades Planeadas del Día
-                        </h4>
-                        {pvItems.length > 0 ? (
-                          <table className="w-full text-left text-[10px] border-collapse">
-                            <thead>
-                              <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
-                                <th className="p-1">Código</th>
-                                <th className="p-1">Actividad</th>
-                                <th className="p-1 text-right">Und</th>
-                                <th className="p-1 text-right">Meta</th>
-                                <th className="p-1 text-right">P.U.</th>
-                                <th className="p-1 text-right">Total</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {pvItems.map((it, j) => (
-                                <tr key={j} className="border-b border-slate-850 text-slate-300">
-                                  <td className="p-1 font-mono">{it.code}</td>
-                                  <td className="p-1">{it.name}</td>
-                                  <td className="p-1 text-right">{it.unit}</td>
-                                  <td className="p-1 text-right font-mono">{it.qty}</td>
-                                  <td className="p-1 text-right font-mono">{it.pu}</td>
-                                  <td className="p-1 text-right font-mono text-indigo-400">
-                                    S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                            <tfoot>
-                              <tr className="text-indigo-300 font-extrabold">
-                                <td colSpan={5} className="p-1 text-right">TOTAL PV</td>
-                                <td className="p-1 text-right">
-                                  S/ {totalPv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                </td>
-                              </tr>
-                            </tfoot>
-                          </table>
-                        ) : (
-                          <p className="text-[10px] text-slate-600 italic">Sin actividades planificadas</p>
-                        )}
-                      </div>
-
-                      {/* ── EV ── */}
-                      <div>
-                        <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 mb-1.5 flex items-center gap-1.5">
-                          <CheckSquare className="w-3 h-3" /> EV — Actividades Ejecutadas
-                        </h4>
-                        {evItems.length > 0 ? (
-                          <table className="w-full text-left text-[10px] border-collapse">
-                            <thead>
-                              <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
-                                <th className="p-1">Código</th>
-                                <th className="p-1">Actividad</th>
-                                <th className="p-1 text-right">Und</th>
-                                <th className="p-1 text-right">Ejec.</th>
-                                <th className="p-1 text-right">P.U.</th>
-                                <th className="p-1 text-right">Total</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {evItems.map((it, j) => (
-                                <tr key={j} className="border-b border-slate-850 text-slate-300">
-                                  <td className="p-1 font-mono">{it.code}</td>
-                                  <td className="p-1">{it.name}</td>
-                                  <td className="p-1 text-right">{it.unit}</td>
-                                  <td className="p-1 text-right font-mono">{it.qty}</td>
-                                  <td className="p-1 text-right font-mono">{it.pu}</td>
-                                  <td className="p-1 text-right font-mono text-emerald-400">
-                                    S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                            <tfoot>
-                              <tr className="text-emerald-300 font-extrabold">
-                                <td colSpan={5} className="p-1 text-right">TOTAL EV</td>
-                                <td className="p-1 text-right">
-                                  S/ {totalEv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                </td>
-                              </tr>
-                            </tfoot>
-                          </table>
-                        ) : (
-                          <p className="text-[10px] text-slate-600 italic">Sin actividades ejecutadas</p>
-                        )}
-                      </div>
-
-                      {/* ── AC ── */}
-                      <div>
-                        <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-rose-400 mb-1.5 flex items-center gap-1.5">
-                          <DollarSign className="w-3 h-3" /> AC — Recursos Consumidos
-                        </h4>
-
-                        {/* MO */}
-                        {moItems.length > 0 && (
-                          <div className="mb-2">
-                            <h5 className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Mano de Obra</h5>
-                            <table className="w-full text-left text-[10px] border-collapse">
-                              <thead>
-                                <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
-                                  <th className="p-1">Recurso</th>
-                                  <th className="p-1 text-right">Horas</th>
-                                  <th className="p-1 text-right">$/Hora</th>
-                                  <th className="p-1 text-right">Total</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {moItems.map((it, j) => (
-                                  <tr key={j} className="border-b border-slate-850 text-slate-300">
-                                    <td className="p-1 font-mono">{it.id} - {it.name}</td>
-                                    <td className="p-1 text-right font-mono">{it.qty}</td>
-                                    <td className="p-1 text-right font-mono">S/ {it.costU}</td>
-                                    <td className="p-1 text-right font-mono text-rose-400">
-                                      S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                              <tfoot>
-                                <tr className="text-rose-300 font-extrabold">
-                                  <td colSpan={3} className="p-1 text-right">Subtotal MO</td>
-                                  <td className="p-1 text-right">
-                                    S/ {totalMo.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                  </td>
-                                </tr>
-                              </tfoot>
-                            </table>
-                          </div>
-                        )}
-
-                        {/* Materiales */}
-                        {matItems.length > 0 && (
-                          <div className="mb-2">
-                            <h5 className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Materiales</h5>
-                            <table className="w-full text-left text-[10px] border-collapse">
-                              <thead>
-                                <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
-                                  <th className="p-1">Recurso</th>
-                                  <th className="p-1 text-right">Cant</th>
-                                  <th className="p-1 text-right">$/Und</th>
-                                  <th className="p-1 text-right">Total</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {matItems.map((it, j) => (
-                                  <tr key={j} className="border-b border-slate-850 text-slate-300">
-                                    <td className="p-1 font-mono">{it.id} - {it.name}</td>
-                                    <td className="p-1 text-right font-mono">{it.qty} {it.unit}</td>
-                                    <td className="p-1 text-right font-mono">S/ {it.costU}</td>
-                                    <td className="p-1 text-right font-mono text-rose-400">
-                                      S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                              <tfoot>
-                                <tr className="text-rose-300 font-extrabold">
-                                  <td colSpan={3} className="p-1 text-right">Subtotal Materiales</td>
-                                  <td className="p-1 text-right">
-                                    S/ {totalMat.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                  </td>
-                                </tr>
-                              </tfoot>
-                            </table>
-                          </div>
-                        )}
-
-                        {/* Equipos */}
-                        {eqItems.length > 0 && (
-                          <div className="mb-2">
-                            <h5 className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Equipos</h5>
-                            <table className="w-full text-left text-[10px] border-collapse">
-                              <thead>
-                                <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
-                                  <th className="p-1">Recurso</th>
-                                  <th className="p-1 text-right">Cant</th>
-                                  <th className="p-1 text-right">$/Und</th>
-                                  <th className="p-1 text-right">Total</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {eqItems.map((it, j) => (
-                                  <tr key={j} className="border-b border-slate-850 text-slate-300">
-                                    <td className="p-1 font-mono">{it.id} - {it.name}</td>
-                                    <td className="p-1 text-right font-mono">{it.qty} {it.unit}</td>
-                                    <td className="p-1 text-right font-mono">S/ {it.costU}</td>
-                                    <td className="p-1 text-right font-mono text-rose-400">
-                                      S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                              <tfoot>
-                                <tr className="text-rose-300 font-extrabold">
-                                  <td colSpan={3} className="p-1 text-right">Subtotal Equipos</td>
-                                  <td className="p-1 text-right">
-                                    S/ {totalEq.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                                  </td>
-                                </tr>
-                              </tfoot>
-                            </table>
-                          </div>
-                        )}
-
-                        {/* Total AC */}
-                        <div className="border-t border-slate-700 pt-1 mt-1 text-right text-[10px] font-extrabold text-rose-300">
-                          TOTAL AC: S/ {totalAc.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                        </div>
-                      </div>
-                    </div>
-                  </details>
-                );
-              })}
-            </div>
-          </div>
-        );
-      })()}
-
       {/* 4. EDT CHAPTERS ANALYTICAL CONTROL BREAKDOWN TABLE */}
       <div className="bg-slate-950 border border-slate-800 p-6 rounded-2xl shadow-xl">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-4 mb-4 gap-2">
@@ -1378,6 +1075,38 @@ export function ProjectDashboard({
               </div>
             </div>
 
+            {/* PV / EV / AC summary bar */}
+            {(() => {
+              const m = selectedReport.computedMetrics;
+              const pvData = pvCurveData.find(p => p.date === selectedReport.date);
+              const pvDaily = pvData ? pvData.pvDaily : 0;
+              return (
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-indigo-950/30 border border-indigo-800/40 p-3 rounded-xl text-center">
+                    <span className="text-[9px] text-indigo-400 font-bold uppercase tracking-wider block">PV (Plan)</span>
+                    <span className="text-base font-black font-mono text-indigo-300 block mt-1">
+                      S/ {pvDaily.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                    </span>
+                    <span className="text-[8px] text-slate-500 block mt-0.5">Actividades planeadas</span>
+                  </div>
+                  <div className="bg-emerald-950/30 border border-emerald-800/40 p-3 rounded-xl text-center">
+                    <span className="text-[9px] text-emerald-400 font-bold uppercase tracking-wider block">EV (Ganado)</span>
+                    <span className="text-base font-black font-mono text-emerald-300 block mt-1">
+                      S/ {(m?.earnedValue || 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                    </span>
+                    <span className="text-[8px] text-slate-500 block mt-0.5">Actividades ejecutadas</span>
+                  </div>
+                  <div className="bg-rose-950/30 border border-rose-800/40 p-3 rounded-xl text-center">
+                    <span className="text-[9px] text-rose-400 font-bold uppercase tracking-wider block">AC (Real)</span>
+                    <span className="text-base font-black font-mono text-rose-300 block mt-1">
+                      S/ {(m?.actualCost || 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                    </span>
+                    <span className="text-[8px] text-slate-500 block mt-0.5">Recursos consumidos</span>
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Activities Table */}
             {selectedReport.activities && selectedReport.activities.length > 0 ? (
               <div className="space-y-3">
@@ -1388,24 +1117,65 @@ export function ProjectDashboard({
                       <tr className="bg-slate-900 text-[10px] text-slate-450 font-bold uppercase tracking-wider">
                         <th className="p-3">Código EDT</th>
                         <th className="p-3">Actividad de Partida</th>
-                        <th className="p-3 text-right">Meta Planificada</th>
-                        <th className="p-3 text-right">Metrado Ejecutado</th>
+                        <th className="p-3 text-right">Und</th>
+                        <th className="p-3 text-right">Meta</th>
+                        <th className="p-3 text-right">Ejec.</th>
+                        <th className="p-3 text-right">P.U. (S/)</th>
+                        <th className="p-3 text-right">PV (S/)</th>
+                        <th className="p-3 text-right">EV (S/)</th>
                         <th className="p-3">Detalle / Notas de Campo</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-850">
                       {selectedReport.activities.map((act, index) => {
+                        const edt = edtList.find(e => e.code === act.edtCode);
+                        const pu = edt?.unitPrice || 0;
+                        const pv = (act.plannedQty || 0) * pu;
+                        const ev = (act.qtyExecuted || 0) * pu;
                         return (
                           <tr key={index} className="hover:bg-slate-900/20">
                             <td className="p-3 font-mono font-bold text-sky-400">{act.edtCode}</td>
                             <td className="p-3 font-bold text-slate-200">{act.name || "Actividad del RDO"}</td>
-                            <td className="p-3 text-right font-mono text-slate-400">{act.plannedQty || 0} {act.unit}</td>
-                            <td className="p-3 text-right font-mono font-extrabold text-emerald-400">{act.qtyExecuted} {act.unit}</td>
+                            <td className="p-3 text-right font-mono text-slate-500">{act.unit || "-"}</td>
+                            <td className="p-3 text-right font-mono text-slate-400">{act.plannedQty || 0}</td>
+                            <td className="p-3 text-right font-mono font-extrabold text-emerald-400">{act.qtyExecuted}</td>
+                            <td className="p-3 text-right font-mono text-slate-400">S/ {pu}</td>
+                            <td className="p-3 text-right font-mono text-indigo-400">
+                              S/ {pv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                            </td>
+                            <td className="p-3 text-right font-mono text-emerald-400">
+                              S/ {ev.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                            </td>
                             <td className="p-3 italic text-slate-450 text-[11px]">{act.notes || "-"}</td>
                           </tr>
                         );
                       })}
                     </tbody>
+                    <tfoot>
+                      <tr className="bg-slate-900/60 text-[10px] font-extrabold">
+                        <td colSpan={3} className="p-3 text-right text-slate-300">TOTALES</td>
+                        <td className="p-3 text-right font-mono text-slate-400">
+                          {selectedReport.activities.reduce((s, a) => s + (a.plannedQty || 0), 0)}
+                        </td>
+                        <td className="p-3 text-right font-mono text-emerald-400">
+                          {selectedReport.activities.reduce((s, a) => s + (a.qtyExecuted || 0), 0)}
+                        </td>
+                        <td></td>
+                        <td className="p-3 text-right font-mono text-indigo-300">
+                          S/ {selectedReport.activities.reduce((s, a) => {
+                            const e = edtList.find(e => e.code === a.edtCode);
+                            return s + ((a.plannedQty || 0) * (e?.unitPrice || 0));
+                          }, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                        </td>
+                        <td className="p-3 text-right font-mono text-emerald-300">
+                          S/ {selectedReport.activities.reduce((s, a) => {
+                            const e = edtList.find(e => e.code === a.edtCode);
+                            return s + ((a.qtyExecuted || 0) * (e?.unitPrice || 0));
+                          }, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                        </td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
               </div>
@@ -1423,28 +1193,86 @@ export function ProjectDashboard({
                   {/* Labor logs */}
                   <div className="bg-slate-900/40 border border-slate-850 p-4 rounded-xl space-y-2">
                     <span className="text-[10px] text-sky-400 block font-black uppercase tracking-wider">Mano de Obra</span>
-                    <ul className="space-y-1.5 text-slate-350 text-[11px]">
-                      {selectedReport.manoObra.map((mo, i) => (
-                        <li key={i} className="flex justify-between border-b border-slate-850 pb-1">
-                          <span>{mo.name || mo.resourceId}</span>
-                          <span className="font-mono font-bold text-slate-100">{mo.hoursWorked} hrs</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <table className="w-full text-[11px] text-slate-350 border-collapse">
+                      <thead>
+                        <tr className="text-[9px] text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
+                          <th className="p-1 text-left">Recurso</th>
+                          <th className="p-1 text-right">Horas</th>
+                          <th className="p-1 text-right">S/ /h</th>
+                          <th className="p-1 text-right">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedReport.manoObra.map((mo, i) => {
+                          const costH = RESOURCE_COSTS[mo.resourceId] || 20;
+                          const total = (mo.hoursWorked || 0) * costH;
+                          return (
+                            <tr key={i} className="border-b border-slate-850">
+                              <td className="p-1">{mo.name || mo.resourceId}</td>
+                              <td className="p-1 text-right font-mono">{mo.hoursWorked}</td>
+                              <td className="p-1 text-right font-mono">{costH}</td>
+                              <td className="p-1 text-right font-mono text-rose-400">
+                                S/ {total.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                      <tfoot>
+                        <tr className="text-[10px] font-extrabold text-rose-300">
+                          <td colSpan={3} className="p-1 text-right">Subtotal MO</td>
+                          <td className="p-1 text-right">
+                            S/ {selectedReport.manoObra.reduce((s, mo) => {
+                              const costH = RESOURCE_COSTS[mo.resourceId] || 20;
+                              return s + ((mo.hoursWorked || 0) * costH);
+                            }, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
                   </div>
 
                   {/* Materials logs */}
                   <div className="bg-slate-900/40 border border-slate-850 p-4 rounded-xl space-y-2">
                     <span className="text-[10px] text-emerald-400 block font-black uppercase tracking-wider">Materiales</span>
                     {selectedReport.materials && selectedReport.materials.length > 0 ? (
-                      <ul className="space-y-1.5 text-slate-350 text-[11px]">
-                        {selectedReport.materials.map((mat, i) => (
-                          <li key={i} className="flex justify-between border-b border-slate-850 pb-1">
-                            <span>{mat.name || mat.resourceId}</span>
-                            <span className="font-mono font-bold text-slate-100">{mat.qtyConsumed} {mat.unit}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      <table className="w-full text-[11px] text-slate-350 border-collapse">
+                        <thead>
+                          <tr className="text-[9px] text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
+                            <th className="p-1 text-left">Recurso</th>
+                            <th className="p-1 text-right">Cant</th>
+                            <th className="p-1 text-right">S/ /und</th>
+                            <th className="p-1 text-right">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {selectedReport.materials.map((mat, i) => {
+                            const costU = RESOURCE_COSTS[mat.resourceId] || 10;
+                            const total = (mat.qtyConsumed || 0) * costU;
+                            return (
+                              <tr key={i} className="border-b border-slate-850">
+                                <td className="p-1">{mat.name || mat.resourceId}</td>
+                                <td className="p-1 text-right font-mono">{mat.qtyConsumed} {mat.unit}</td>
+                                <td className="p-1 text-right font-mono">S/ {costU}</td>
+                                <td className="p-1 text-right font-mono text-rose-400">
+                                  S/ {total.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                        <tfoot>
+                          <tr className="text-[10px] font-extrabold text-rose-300">
+                            <td colSpan={3} className="p-1 text-right">Subtotal Mat.</td>
+                            <td className="p-1 text-right">
+                              S/ {selectedReport.materials.reduce((s, mat) => {
+                                const costU = RESOURCE_COSTS[mat.resourceId] || 10;
+                                return s + ((mat.qtyConsumed || 0) * costU);
+                              }, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
                     ) : (
                       <span className="text-[10px] italic text-slate-550 block">Sin consumos de materiales.</span>
                     )}
@@ -1454,19 +1282,67 @@ export function ProjectDashboard({
                   <div className="bg-slate-900/40 border border-slate-850 p-4 rounded-xl space-y-2">
                     <span className="text-[10px] text-rose-400 block font-black uppercase tracking-wider">Equipos & Maquinaria</span>
                     {selectedReport.equipos && selectedReport.equipos.length > 0 ? (
-                      <ul className="space-y-1.5 text-slate-350 text-[11px]">
-                        {selectedReport.equipos.map((eq, i) => (
-                          <li key={i} className="flex justify-between border-b border-slate-850 pb-1">
-                            <span>{eq.name || eq.resourceId}</span>
-                            <span className="font-mono font-bold text-slate-100">{eq.qtyUsed} {eq.unit || "H-M"}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      <table className="w-full text-[11px] text-slate-350 border-collapse">
+                        <thead>
+                          <tr className="text-[9px] text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
+                            <th className="p-1 text-left">Recurso</th>
+                            <th className="p-1 text-right">Cant</th>
+                            <th className="p-1 text-right">S/ /und</th>
+                            <th className="p-1 text-right">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {selectedReport.equipos.map((eq, i) => {
+                            const costU = RESOURCE_COSTS[eq.resourceId] || 30;
+                            const total = (eq.qtyUsed || 0) * costU;
+                            return (
+                              <tr key={i} className="border-b border-slate-850">
+                                <td className="p-1">{eq.name || eq.resourceId}</td>
+                                <td className="p-1 text-right font-mono">{eq.qtyUsed} {eq.unit || "H-M"}</td>
+                                <td className="p-1 text-right font-mono">S/ {costU}</td>
+                                <td className="p-1 text-right font-mono text-rose-400">
+                                  S/ {total.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                        <tfoot>
+                          <tr className="text-[10px] font-extrabold text-rose-300">
+                            <td colSpan={3} className="p-1 text-right">Subtotal Eq.</td>
+                            <td className="p-1 text-right">
+                              S/ {selectedReport.equipos.reduce((s, eq) => {
+                                const costU = RESOURCE_COSTS[eq.resourceId] || 30;
+                                return s + ((eq.qtyUsed || 0) * costU);
+                              }, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
                     ) : (
                       <span className="text-[10px] italic text-slate-550 block">Sin equipos registrados.</span>
                     )}
                   </div>
                 </div>
+
+                {/* Total AC summary */}
+                {(() => {
+                  const totalMo = selectedReport.manoObra.reduce((s, mo) => {
+                    return s + ((mo.hoursWorked || 0) * (RESOURCE_COSTS[mo.resourceId] || 20));
+                  }, 0);
+                  const totalMat = (selectedReport.materials || []).reduce((s, mat) => {
+                    return s + ((mat.qtyConsumed || 0) * (RESOURCE_COSTS[mat.resourceId] || 10));
+                  }, 0);
+                  const totalEq = (selectedReport.equipos || []).reduce((s, eq) => {
+                    return s + ((eq.qtyUsed || 0) * (RESOURCE_COSTS[eq.resourceId] || 30));
+                  }, 0);
+                  const totalAc = totalMo + totalMat + totalEq;
+                  return (
+                    <div className="text-right text-xs font-extrabold text-rose-300 border-t border-slate-700 pt-2 mt-2">
+                      TOTAL AC: S/ {totalAc.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                    </div>
+                  );
+                })()}
               </div>
             ) : null}
 
