@@ -347,7 +347,7 @@ dateList.forEach((dateStr, dayIndex) => {
         resourceType: "Mano de Obra",
         resourceId: mo.resourceId,
         resourceName: mo.name,
-        quantity: mo.hoursWorked,
+        quantity: (mo.quantity || 1) * mo.hoursWorked,
         unit: "Hora Hombre",
         unitCost: resourceMap[mo.resourceId]?.unitCost || 0
       });

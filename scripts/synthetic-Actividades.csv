@@ -1,121 +1,121 @@
 ﻿ReportID,Fecha,Capitulo,CodigoEDT,Actividad,Unidad,CantidadPlanificada,CantidadEjecutada,Notas
-REP-SYN-0001,2026-06-01,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,262,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0001,2026-06-01,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,24,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0001,2026-06-01,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0002,2026-06-02,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,320,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0002,2026-06-02,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,228,Avance normal sin observaciones.
-REP-SYN-0002,2026-06-02,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,27,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0002,2026-06-02,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0003,2026-06-03,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,232,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0003,2026-06-03,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,210,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0003,2026-06-03,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,26,Avance normal sin observaciones.
-REP-SYN-0003,2026-06-03,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0004,2026-06-04,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,325,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0004,2026-06-04,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,247,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0004,2026-06-04,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,33,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0001,2026-06-01,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,287,Avance normal sin observaciones.
+REP-SYN-0001,2026-06-01,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,31,Avance normal sin observaciones.
+REP-SYN-0001,2026-06-01,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0002,2026-06-02,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,256,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0002,2026-06-02,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,247,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0002,2026-06-02,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,32,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0002,2026-06-02,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Avance normal sin observaciones.
+REP-SYN-0003,2026-06-03,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,295,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0003,2026-06-03,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,260,Avance normal sin observaciones.
+REP-SYN-0003,2026-06-03,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,25,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0003,2026-06-03,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0004,2026-06-04,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,235,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0004,2026-06-04,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,205,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0004,2026-06-04,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,23,Cuadrilla completa rindiendo según lo programado.
 REP-SYN-0004,2026-06-04,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Avance normal sin observaciones.
-REP-SYN-0005,2026-06-05,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,147,Avance normal sin observaciones.
-REP-SYN-0006,2026-06-05,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,224,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0006,2026-06-05,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,218,Avance normal sin observaciones.
-REP-SYN-0006,2026-06-05,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,30,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0006,2026-06-05,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Avance normal sin observaciones.
-REP-SYN-0007,2026-06-06,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,127,Avance normal sin observaciones.
-REP-SYN-0007,2026-06-06,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,81,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0008,2026-06-06,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,204,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0008,2026-06-06,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,30,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0008,2026-06-06,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0009,2026-06-07,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,159,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0009,2026-06-07,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,17,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0009,2026-06-07,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,107,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0010,2026-06-07,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,244,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0010,2026-06-07,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,25,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0010,2026-06-07,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0011,2026-06-08,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,145,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0011,2026-06-08,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,18,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0011,2026-06-08,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,111,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0012,2026-06-08,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,32,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0012,2026-06-08,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0013,2026-06-09,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,147,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0013,2026-06-09,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,19,Avance normal sin observaciones.
-REP-SYN-0013,2026-06-09,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,95,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0014,2026-06-09,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0015,2026-06-10,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,162,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0015,2026-06-10,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,24,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0015,2026-06-10,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,50,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0015,2026-06-10,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,113,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0016,2026-06-10,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0017,2026-06-11,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,126,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0017,2026-06-11,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,20,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0017,2026-06-11,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,46,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0017,2026-06-11,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,97,Avance normal sin observaciones.
-REP-SYN-0018,2026-06-12,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,159,Avance normal sin observaciones.
-REP-SYN-0018,2026-06-12,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,17,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0018,2026-06-12,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,42,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0018,2026-06-12,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,97,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0019,2026-06-13,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,19,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0019,2026-06-13,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,56,Avance normal sin observaciones.
-REP-SYN-0019,2026-06-13,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,85,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0020,2026-06-14,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,23,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0020,2026-06-14,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,52,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0020,2026-06-14,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,102,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0021,2026-06-15,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,48,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0022,2026-06-15,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,19,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0022,2026-06-15,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,52,Avance normal sin observaciones.
-REP-SYN-0022,2026-06-15,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,94,Avance normal sin observaciones.
-REP-SYN-0023,2026-06-16,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,49,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0023,2026-06-16,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,456,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0024,2026-06-16,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,46,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0024,2026-06-16,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,97,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0025,2026-06-17,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,60,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0025,2026-06-17,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,451,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0005,2026-06-05,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,162,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0006,2026-06-05,OBR-PRE,OBR-PRE-01,Limpieza de terreno manual,m2,300,307,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0006,2026-06-05,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,232,Avance normal sin observaciones.
+REP-SYN-0006,2026-06-05,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,26,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0006,2026-06-05,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0007,2026-06-06,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,129,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0007,2026-06-06,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,88,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0008,2026-06-06,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,230,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0008,2026-06-06,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,29,Avance normal sin observaciones.
+REP-SYN-0008,2026-06-06,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Avance normal sin observaciones.
+REP-SYN-0009,2026-06-07,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,143,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0009,2026-06-07,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,17,Avance normal sin observaciones.
+REP-SYN-0009,2026-06-07,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,87,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0010,2026-06-07,OBR-PRE,OBR-PRE-02,"Trazo, nivelación y replanteo de zapatas",m2,250,209,Avance normal sin observaciones.
+REP-SYN-0010,2026-06-07,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,32,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0010,2026-06-07,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0011,2026-06-08,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,140,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0011,2026-06-08,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,21,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0011,2026-06-08,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,103,Avance normal sin observaciones.
+REP-SYN-0012,2026-06-08,OBR-PRE,OBR-PRE-03,Cerco provisional de obra con madera,m,30,31,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0012,2026-06-08,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Avance normal sin observaciones.
+REP-SYN-0013,2026-06-09,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,165,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0013,2026-06-09,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,25,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0013,2026-06-09,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,105,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0014,2026-06-09,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Avance normal sin observaciones.
+REP-SYN-0015,2026-06-10,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,149,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0015,2026-06-10,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,17,Avance normal sin observaciones.
+REP-SYN-0015,2026-06-10,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,46,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0015,2026-06-10,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,86,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0016,2026-06-10,OBR-PRE,OBR-PRE-04,Construcción de almacén y oficina provisional,Global,0.1,0,Avance normal sin observaciones.
+REP-SYN-0017,2026-06-11,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,127,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0017,2026-06-11,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,20,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0017,2026-06-11,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,44,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0017,2026-06-11,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,106,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0018,2026-06-12,MOV-TIE,MOV-TIE-01,Excavación masiva con excavadora,m3,150,138,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0018,2026-06-12,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,19,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0018,2026-06-12,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,46,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0018,2026-06-12,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,96,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0019,2026-06-13,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,16,Avance normal sin observaciones.
+REP-SYN-0019,2026-06-13,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,46,Avance normal sin observaciones.
+REP-SYN-0019,2026-06-13,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,91,Avance normal sin observaciones.
+REP-SYN-0020,2026-06-14,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,18,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0020,2026-06-14,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,51,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0020,2026-06-14,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,112,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0021,2026-06-15,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,64,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0022,2026-06-15,MOV-TIE,MOV-TIE-02,Excavación manual de zanjas y vigas cimentación,m3,20,18,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0022,2026-06-15,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,46,Avance normal sin observaciones.
+REP-SYN-0022,2026-06-15,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,90,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0023,2026-06-16,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,65,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0023,2026-06-16,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,525,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0024,2026-06-16,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,55,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0024,2026-06-16,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,93,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0025,2026-06-17,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,57,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0025,2026-06-17,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,581,Cuadrilla completa rindiendo según lo programado.
 REP-SYN-0026,2026-06-17,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,45,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0026,2026-06-17,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,111,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0027,2026-06-18,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,52,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0027,2026-06-18,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,17,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0027,2026-06-18,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,441,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0028,2026-06-18,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,42,Avance normal sin observaciones.
-REP-SYN-0028,2026-06-18,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,83,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0029,2026-06-19,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,61,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0029,2026-06-19,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,21,Avance normal sin observaciones.
-REP-SYN-0029,2026-06-19,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,511,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0030,2026-06-19,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,113,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0031,2026-06-20,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.35,53,Avance normal sin observaciones.
-REP-SYN-0031,2026-06-20,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,16,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0031,2026-06-20,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,464,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0031,2026-06-20,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,400,Avance normal sin observaciones.
-REP-SYN-0032,2026-06-20,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,117,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0033,2026-06-21,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,19,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0033,2026-06-21,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,448,Avance normal sin observaciones.
-REP-SYN-0033,2026-06-21,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,375,Avance normal sin observaciones.
-REP-SYN-0034,2026-06-22,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,15,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0034,2026-06-22,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,445,Avance normal sin observaciones.
-REP-SYN-0034,2026-06-22,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,18,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0034,2026-06-22,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,385,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0035,2026-06-23,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,16,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0035,2026-06-23,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,481,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0035,2026-06-23,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,21,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0035,2026-06-23,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,388,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0036,2026-06-24,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,19,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0036,2026-06-24,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,478,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0036,2026-06-24,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,19,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0036,2026-06-24,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,346,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0037,2026-06-25,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,16,Avance normal sin observaciones.
-REP-SYN-0037,2026-06-25,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,6,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0037,2026-06-25,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,20,Avance normal sin observaciones.
-REP-SYN-0037,2026-06-25,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,368,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0038,2026-06-26,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.76,19,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0038,2026-06-26,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,5,Avance normal sin observaciones.
-REP-SYN-0038,2026-06-26,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,18,Avance normal sin observaciones.
-REP-SYN-0038,2026-06-26,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,340,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0039,2026-06-27,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,5,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0039,2026-06-27,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,18,Avance normal sin observaciones.
-REP-SYN-0039,2026-06-27,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,355,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0040,2026-06-28,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,6,Trabajo conforme a especificaciones técnicas.
-REP-SYN-0040,2026-06-28,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,21,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0040,2026-06-28,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,342,Avance normal sin observaciones.
-REP-SYN-0041,2026-06-29,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,5,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0041,2026-06-29,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,17,Cuadrilla completa rindiendo según lo programado.
-REP-SYN-0041,2026-06-29,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,347,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0026,2026-06-17,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,97,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0027,2026-06-18,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,59,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0027,2026-06-18,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,16,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0027,2026-06-18,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,465,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0028,2026-06-18,MOV-TIE,MOV-TIE-03,Relleno y compactado con vibradora,m3,50,45,Avance normal sin observaciones.
+REP-SYN-0028,2026-06-18,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,101,Avance normal sin observaciones.
+REP-SYN-0029,2026-06-19,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.33,55,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0029,2026-06-19,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,18,Avance normal sin observaciones.
+REP-SYN-0029,2026-06-19,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,558,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0030,2026-06-19,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,87,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0031,2026-06-20,EST-CON,EST-CON-01,"Solado de concreto e=3"" f'c=100 kg/cm2",m2,58.35,53,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0031,2026-06-20,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,18,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0031,2026-06-20,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,412,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0031,2026-06-20,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,323,Avance normal sin observaciones.
+REP-SYN-0032,2026-06-20,MOV-TIE,MOV-TIE-04,Eliminación de desmonte c/volquete 15m3,m3,100,103,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0033,2026-06-21,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,16,Avance normal sin observaciones.
+REP-SYN-0033,2026-06-21,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,450,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0033,2026-06-21,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,358,Avance normal sin observaciones.
+REP-SYN-0034,2026-06-22,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,17,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0034,2026-06-22,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,580,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0034,2026-06-22,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,22,Avance normal sin observaciones.
+REP-SYN-0034,2026-06-22,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,381,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0035,2026-06-23,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,19,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0035,2026-06-23,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,485,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0035,2026-06-23,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,16,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0035,2026-06-23,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,370,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0036,2026-06-24,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,18,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0036,2026-06-24,EST-CON,EST-CON-03,Acero de refuerzo corrugado fy=4200 en zapatas,kg,500,483,Avance normal sin observaciones.
+REP-SYN-0036,2026-06-24,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,16,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0036,2026-06-24,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,315,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0037,2026-06-25,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.78,17,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0037,2026-06-25,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,5,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0037,2026-06-25,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,16,Avance normal sin observaciones.
+REP-SYN-0037,2026-06-25,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,318,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0038,2026-06-26,EST-CON,EST-CON-02,Concreto f'c=210 kg/cm2 premezclado zapatas,m3,17.76,15,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0038,2026-06-26,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,5,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0038,2026-06-26,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,21,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0038,2026-06-26,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,369,Avance normal sin observaciones.
+REP-SYN-0039,2026-06-27,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,5,Avance normal sin observaciones.
+REP-SYN-0039,2026-06-27,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,18,Cuadrilla completa rindiendo según lo programado.
+REP-SYN-0039,2026-06-27,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,400,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0040,2026-06-28,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,5,Avance normal sin observaciones.
+REP-SYN-0040,2026-06-28,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,17,Trabajo conforme a especificaciones técnicas.
+REP-SYN-0040,2026-06-28,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,350,Avance normal sin observaciones.
+REP-SYN-0041,2026-06-29,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,5,Avance normal sin observaciones.
+REP-SYN-0041,2026-06-29,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,16,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0041,2026-06-29,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,350,Trabajo conforme a especificaciones técnicas.
 REP-SYN-0042,2026-06-30,EST-CON,EST-CON-04,Concreto f'c=280 kg/cm2 en columnas,m3,5.31,5,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0042,2026-06-30,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,18,Supervisión aprobó los trabajos ejecutados.
-REP-SYN-0042,2026-06-30,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,305,Supervisión aprobó los trabajos ejecutados.
+REP-SYN-0042,2026-06-30,EST-CON,EST-CON-05,Encofrado y desencofrado metálico columnas,m2,18.82,18,Avance normal sin observaciones.
+REP-SYN-0042,2026-06-30,EST-CON,EST-CON-06,Acero de refuerzo corrugado en columnas,kg,364.71,327,Cuadrilla completa rindiendo según lo programado.
