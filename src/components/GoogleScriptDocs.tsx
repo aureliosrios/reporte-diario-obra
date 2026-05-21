@@ -236,7 +236,18 @@ function doPost(e) {
     var idReporte = payload.id || ("REP-MFG-" + now.getFullYear() + format(now.getMonth() + 1) + format(now.getDate()) + 
                     "-" + format(now.getHours()) + format(now.getMinutes()) + format(now.getSeconds()));
 
-    if (payload.reportType === "safety") {
+    // Obtener capítulo desde el payload (edtChapter) o derivar de actividades
+    var chapterId = payload.edtChapter || "";
+    var chapterName = "";
+    var chapterMap = {
+      "OBR-PRE":"Obras Preliminares y Provisionales","MOV-TIE":"Movimiento de Tierras",
+      "EST-CON":"Estructuras de Concreto","ARQ-ACAB":"Arquitectura y Acabados",
+      "INS-SAN":"Instalaciones Sanitarias y Eléctricas",
+      "EST":"Estructuras","ARQ":"Arquitectura","MEP":"Instalaciones MEP"
+    };
+    if (chapterId) chapterName = chapterMap[chapterId] || chapterId;
+
+    if (payload.reportType === "seguridad" || payload.reportType === "safety") {
       sheetSeg.appendRow([
         idReporte,
         now.toISOString(),
@@ -261,8 +272,8 @@ function doPost(e) {
         payload.weatherMorning,
         payload.weatherAfternoon,
         payload.effectiveHours || 8,
-        payload.chapterWbsId || "",
-        payload.chapterWbsName || "",
+        chapterId,
+        chapterName,
         payload.conflicts || "",
         payload.plannedNextDay || "",
         payload.generalNotes || ""
@@ -274,7 +285,7 @@ function doPost(e) {
             idReporte,
             payload.date,
             payload.supervisor,
-            payload.chapterWbsId || "",
+            chapterId,
             act.edtCode,
             act.name || "",
             act.unit || "",

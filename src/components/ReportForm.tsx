@@ -522,6 +522,7 @@ export function ReportForm({
       id: "", // generated server-side
       projectCode: selectedProjectCode,
       reportType,
+      edtChapter: selectedEdtChapter,
       date: reportDate,
       shift,
       effectiveHours,

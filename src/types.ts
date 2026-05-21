@@ -44,6 +44,7 @@ export interface DailyReport {
   id: string;
   projectCode: string;
   reportType?: 'produccion' | 'seguridad';
+  edtChapter?: string;
   date: string;
   shift: 'Mañana' | 'Tarde' | 'Noche' | 'Continuo';
   effectiveHours: number;
