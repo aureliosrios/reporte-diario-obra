@@ -549,8 +549,20 @@ export function ReportForm({
       appsScriptUrl
     };
 
+    // Always try direct Google Sheets webhook (works on GitHub Pages without Express)
+    const tryDirectSheets = () => {
+      const url = appsScriptUrl || localStorage.getItem("RDO_APPS_SCRIPT_WEBHOOK") || "";
+      if (url && url.startsWith("http")) {
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(finalPayload)
+        }).catch((err) => console.warn("Direct Google Sheets sync:", err));
+      }
+    };
+
     try {
-      // Send to local Express full-stack endpoint (server will forward to Google Sheets)
+      // Send to local Express full-stack endpoint
       const response = await fetch("/api/reports", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -560,7 +572,8 @@ export function ReportForm({
       const resData = await response.json();
 
       if (resData.status === "success") {
-        // Google Sheets sync is handled server-side now
+        // Also sync directly to Google Sheets
+        tryDirectSheets();
 
         setSubmitMessage({ 
           type: 'success', 
@@ -583,10 +596,22 @@ export function ReportForm({
       }
     } catch (err: any) {
       console.error(err);
-      setSubmitMessage({ 
-        type: 'error', 
-        text: `Error de red o conexión: Se guardó un respaldo local offline. Detalles: ${err.message}` 
-      });
+      // If Express is unavailable (e.g. GitHub Pages), try direct Google Sheets
+      tryDirectSheets();
+      // If appsScriptUrl is configured, user still gets data in Sheets
+      const hasWebhook = appsScriptUrl || localStorage.getItem("RDO_APPS_SCRIPT_WEBHOOK");
+      if (hasWebhook) {
+        setSubmitMessage({
+          type: 'success',
+          text: '¡Reporte enviado directamente a Google Sheets! (Servidor local no disponible)'
+        });
+        onReportSubmitted(finalPayload as DailyReport, calculatedMetrics);
+      } else {
+        setSubmitMessage({ 
+          type: 'error', 
+          text: `Error de red o conexión: Se guardó un respaldo local offline. Detalles: ${err.message}` 
+        });
+      }
     } finally {
       setSubmitting(false);
     }
