@@ -275,21 +275,26 @@ export default function App() {
         const response = await fetch(webhookUrl);
         if (response.ok) {
           const text = await response.text();
-          let data;
-          try {
-            data = JSON.parse(text);
-          } catch {
-            const match = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-            if (match) {
-              data = JSON.parse(match[1].trim());
-            } else {
-              throw new Error("No se pudo extraer JSON de la respuesta HTML");
+          // If response is HTML (not JSON), skip cleanly so fallback to Express works
+          if (!text.trim().startsWith('{') && !text.trim().startsWith('[')) {
+            console.warn("Webhook devolvió HTML en lugar de JSON. Usando fallback local.");
+          } else {
+            let data;
+            try {
+              data = JSON.parse(text);
+            } catch {
+              const match = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+              if (match) {
+                data = JSON.parse(match[1].trim());
+              } else {
+                throw new Error("No se pudo extraer JSON de la respuesta HTML");
+              }
             }
-          }
-          if (Array.isArray(data)) {
-            liveReports = data;
-            fetchedFromSheets = true;
-            console.log("¡Reportes sincronizados en vivo con éxito! Cantidad:", liveReports.length);
+            if (Array.isArray(data)) {
+              liveReports = data;
+              fetchedFromSheets = true;
+              console.log("¡Reportes sincronizados en vivo con éxito! Cantidad:", liveReports.length);
+            }
           }
         }
       } catch (e) {
