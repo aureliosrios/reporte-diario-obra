@@ -3,7 +3,8 @@ import { DailyReport, EvmMetrics, EdtItem, ResourceItem } from "../types";
 import { 
   TrendingUp, TrendingDown, Clock, Shield, CalendarDays, Image as ImageIcon, 
   UserCheck, AlertTriangle, ArrowRight, Table, FileText, CheckCircle2, 
-  Cloud, RefreshCw, BarChart3, Info, HardHat, ChevronLeft, ChevronRight
+  Cloud, RefreshCw, BarChart3, Info, HardHat, ChevronLeft, ChevronRight,
+  ChevronDown, ClipboardList, CheckSquare, DollarSign
 } from "lucide-react";
 
 // Standard Resource Catalog rates for live AC calculations
@@ -884,17 +885,7 @@ export function ProjectDashboard({
 
       {/* ─── DIARIO: PV / EV / AC por día ─── */}
       {(() => {
-        const pvByDate: Record<string, number> = {};
-        pvCurveData.forEach(p => { pvByDate[p.date] = p.pvDaily; });
-
-        const dailyRows = enrichedReports.map(r => {
-          const pv = pvByDate[r.date] ?? 0;
-          const ev = r.computedMetrics.earnedValue;
-          const ac = r.computedMetrics.actualCost;
-          return { date: r.date, pv, ev, ac, sv: ev - pv, cv: ev - ac };
-        });
-
-        if (dailyRows.length === 0) return null;
+        if (enrichedReports.length === 0) return null;
 
         return (
           <div className="bg-slate-950 border border-slate-800 p-6 rounded-2xl shadow-xl mt-6">
@@ -905,41 +896,290 @@ export function ProjectDashboard({
               </h2>
               <span className="text-[10px] text-slate-500">Montos en S/</span>
             </div>
-            <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
-              <table className="w-full text-left text-xs text-slate-350 border-collapse">
-                <thead className="sticky top-0 bg-slate-950 z-10">
-                  <tr className="bg-slate-900 border-b border-slate-800 text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">
-                    <th className="p-2">Fecha</th>
-                    <th className="p-2 text-right">PV (Plan)</th>
-                    <th className="p-2 text-right">EV (Ejecutado)</th>
-                    <th className="p-2 text-right">AC (Gastado)</th>
-                    <th className="p-2 text-right">SV</th>
-                    <th className="p-2 text-right">CV</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-850">
-                  {dailyRows.map((d, i) => (
-                    <tr key={i} className="hover:bg-slate-900/40 transition-colors">
-                      <td className="p-2 font-mono text-slate-400">{d.date}</td>
-                      <td className={`p-2 text-right font-mono ${d.pv > 0 ? 'text-indigo-400' : 'text-slate-600'}`}>
-                        S/ {d.pv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                      </td>
-                      <td className={`p-2 text-right font-mono ${d.ev > 0 ? 'text-emerald-400' : 'text-slate-600'}`}>
-                        S/ {d.ev.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                      </td>
-                      <td className={`p-2 text-right font-mono ${d.ac > 0 ? 'text-rose-400' : 'text-slate-600'}`}>
-                        S/ {d.ac.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                      </td>
-                      <td className={`p-2 text-right font-mono font-semibold ${d.sv >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {d.sv >= 0 ? '+S/ ' : '-S/ '}{Math.abs(d.sv).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                      </td>
-                      <td className={`p-2 text-right font-mono font-semibold ${d.cv >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {d.cv >= 0 ? '+S/ ' : '-S/ '}{Math.abs(d.cv).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+
+            <div className="space-y-2 pr-1">
+              {enrichedReports.map((r, idx) => {
+                const m = r.computedMetrics;
+                const pvData = pvCurveData.find(p => p.date === r.date);
+                const pvDaily = pvData ? pvData.pvDaily : 0;
+
+                /* ── PV breakdown: actividades planeadas ── */
+                const pvItems = r.activities?.map(act => {
+                  const edt = edtList.find(e => e.code === act.edtCode);
+                  const pu = edt?.unitPrice || 0;
+                  const subtotal = (act.plannedQty || 0) * pu;
+                  return { code: act.edtCode, name: act.name, unit: act.unit, qty: act.plannedQty || 0, pu, subtotal };
+                }) || [];
+                const totalPv = pvItems.reduce((s, i) => s + i.subtotal, 0);
+
+                /* ── EV breakdown: actividades ejecutadas ── */
+                const evItems = r.activities?.map(act => {
+                  const edt = edtList.find(e => e.code === act.edtCode);
+                  const pu = edt?.unitPrice || 0;
+                  const subtotal = (act.qtyExecuted || 0) * pu;
+                  return { code: act.edtCode, name: act.name, unit: act.unit, qty: act.qtyExecuted || 0, pu, subtotal };
+                }) || [];
+                const totalEv = evItems.reduce((s, i) => s + i.subtotal, 0);
+
+                /* ── AC breakdown: MO + Materiales + Equipos ── */
+                const moItems = r.manoObra?.map(mo => {
+                  const costH = RESOURCE_COSTS[mo.resourceId] || 20;
+                  const subtotal = (mo.hoursWorked || 0) * costH;
+                  return { id: mo.resourceId, name: mo.name, qty: mo.hoursWorked || 0, unit: "H-H", costU: costH, subtotal };
+                }) || [];
+                const totalMo = moItems.reduce((s, i) => s + i.subtotal, 0);
+
+                const matItems = r.materials?.map(mat => {
+                  const costU = RESOURCE_COSTS[mat.resourceId] || 10;
+                  const subtotal = (mat.qtyConsumed || 0) * costU;
+                  return { id: mat.resourceId, name: mat.name, qty: mat.qtyConsumed || 0, unit: mat.unit, costU, subtotal };
+                }) || [];
+                const totalMat = matItems.reduce((s, i) => s + i.subtotal, 0);
+
+                const eqItems = r.equipos?.map(eq => {
+                  const costU = RESOURCE_COSTS[eq.resourceId] || 30;
+                  const subtotal = (eq.qtyUsed || 0) * costU;
+                  return { id: eq.resourceId, name: eq.name, qty: eq.qtyUsed || 0, unit: eq.unit, costU, subtotal };
+                }) || [];
+                const totalEq = eqItems.reduce((s, i) => s + i.subtotal, 0);
+
+                const totalAc = totalMo + totalMat + totalEq;
+
+                return (
+                  <details key={idx} className="group bg-slate-900/40 border border-slate-800 rounded-lg overflow-hidden">
+                    <summary className="flex items-center justify-between p-3 cursor-pointer hover:bg-slate-800/40 transition-colors list-none [&::-webkit-details-marker]:hidden">
+                      <div className="flex items-center gap-4">
+                        <span className="text-xs text-slate-500 font-mono">{r.date}</span>
+                        <span className="text-[10px] uppercase tracking-wider text-indigo-400 font-bold border border-indigo-500/30 px-2 py-0.5 rounded">
+                          PV S/ {pvDaily.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                        </span>
+                        <span className="text-[10px] uppercase tracking-wider text-emerald-400 font-bold border border-emerald-500/30 px-2 py-0.5 rounded">
+                          EV S/ {totalEv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                        </span>
+                        <span className="text-[10px] uppercase tracking-wider text-rose-400 font-bold border border-rose-500/30 px-2 py-0.5 rounded">
+                          AC S/ {totalAc.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                        </span>
+                      </div>
+                      <ChevronDown className="w-4 h-4 text-slate-500 transition-transform duration-200 group-open:rotate-180" />
+                    </summary>
+
+                    <div className="p-3 pt-0 space-y-4">
+                      {/* ── PV ── */}
+                      <div>
+                        <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-indigo-400 mb-1.5 flex items-center gap-1.5">
+                          <ClipboardList className="w-3 h-3" /> PV — Actividades Planeadas del Día
+                        </h4>
+                        {pvItems.length > 0 ? (
+                          <table className="w-full text-left text-[10px] border-collapse">
+                            <thead>
+                              <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
+                                <th className="p-1">Código</th>
+                                <th className="p-1">Actividad</th>
+                                <th className="p-1 text-right">Und</th>
+                                <th className="p-1 text-right">Meta</th>
+                                <th className="p-1 text-right">P.U.</th>
+                                <th className="p-1 text-right">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {pvItems.map((it, j) => (
+                                <tr key={j} className="border-b border-slate-850 text-slate-300">
+                                  <td className="p-1 font-mono">{it.code}</td>
+                                  <td className="p-1">{it.name}</td>
+                                  <td className="p-1 text-right">{it.unit}</td>
+                                  <td className="p-1 text-right font-mono">{it.qty}</td>
+                                  <td className="p-1 text-right font-mono">{it.pu}</td>
+                                  <td className="p-1 text-right font-mono text-indigo-400">
+                                    S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                            <tfoot>
+                              <tr className="text-indigo-300 font-extrabold">
+                                <td colSpan={5} className="p-1 text-right">TOTAL PV</td>
+                                <td className="p-1 text-right">
+                                  S/ {totalPv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                </td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        ) : (
+                          <p className="text-[10px] text-slate-600 italic">Sin actividades planificadas</p>
+                        )}
+                      </div>
+
+                      {/* ── EV ── */}
+                      <div>
+                        <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 mb-1.5 flex items-center gap-1.5">
+                          <CheckSquare className="w-3 h-3" /> EV — Actividades Ejecutadas
+                        </h4>
+                        {evItems.length > 0 ? (
+                          <table className="w-full text-left text-[10px] border-collapse">
+                            <thead>
+                              <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
+                                <th className="p-1">Código</th>
+                                <th className="p-1">Actividad</th>
+                                <th className="p-1 text-right">Und</th>
+                                <th className="p-1 text-right">Ejec.</th>
+                                <th className="p-1 text-right">P.U.</th>
+                                <th className="p-1 text-right">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {evItems.map((it, j) => (
+                                <tr key={j} className="border-b border-slate-850 text-slate-300">
+                                  <td className="p-1 font-mono">{it.code}</td>
+                                  <td className="p-1">{it.name}</td>
+                                  <td className="p-1 text-right">{it.unit}</td>
+                                  <td className="p-1 text-right font-mono">{it.qty}</td>
+                                  <td className="p-1 text-right font-mono">{it.pu}</td>
+                                  <td className="p-1 text-right font-mono text-emerald-400">
+                                    S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                            <tfoot>
+                              <tr className="text-emerald-300 font-extrabold">
+                                <td colSpan={5} className="p-1 text-right">TOTAL EV</td>
+                                <td className="p-1 text-right">
+                                  S/ {totalEv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                </td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        ) : (
+                          <p className="text-[10px] text-slate-600 italic">Sin actividades ejecutadas</p>
+                        )}
+                      </div>
+
+                      {/* ── AC ── */}
+                      <div>
+                        <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-rose-400 mb-1.5 flex items-center gap-1.5">
+                          <DollarSign className="w-3 h-3" /> AC — Recursos Consumidos
+                        </h4>
+
+                        {/* MO */}
+                        {moItems.length > 0 && (
+                          <div className="mb-2">
+                            <h5 className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Mano de Obra</h5>
+                            <table className="w-full text-left text-[10px] border-collapse">
+                              <thead>
+                                <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
+                                  <th className="p-1">Recurso</th>
+                                  <th className="p-1 text-right">Horas</th>
+                                  <th className="p-1 text-right">$/Hora</th>
+                                  <th className="p-1 text-right">Total</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {moItems.map((it, j) => (
+                                  <tr key={j} className="border-b border-slate-850 text-slate-300">
+                                    <td className="p-1 font-mono">{it.id} - {it.name}</td>
+                                    <td className="p-1 text-right font-mono">{it.qty}</td>
+                                    <td className="p-1 text-right font-mono">S/ {it.costU}</td>
+                                    <td className="p-1 text-right font-mono text-rose-400">
+                                      S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                              <tfoot>
+                                <tr className="text-rose-300 font-extrabold">
+                                  <td colSpan={3} className="p-1 text-right">Subtotal MO</td>
+                                  <td className="p-1 text-right">
+                                    S/ {totalMo.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                  </td>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        )}
+
+                        {/* Materiales */}
+                        {matItems.length > 0 && (
+                          <div className="mb-2">
+                            <h5 className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Materiales</h5>
+                            <table className="w-full text-left text-[10px] border-collapse">
+                              <thead>
+                                <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
+                                  <th className="p-1">Recurso</th>
+                                  <th className="p-1 text-right">Cant</th>
+                                  <th className="p-1 text-right">$/Und</th>
+                                  <th className="p-1 text-right">Total</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {matItems.map((it, j) => (
+                                  <tr key={j} className="border-b border-slate-850 text-slate-300">
+                                    <td className="p-1 font-mono">{it.id} - {it.name}</td>
+                                    <td className="p-1 text-right font-mono">{it.qty} {it.unit}</td>
+                                    <td className="p-1 text-right font-mono">S/ {it.costU}</td>
+                                    <td className="p-1 text-right font-mono text-rose-400">
+                                      S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                              <tfoot>
+                                <tr className="text-rose-300 font-extrabold">
+                                  <td colSpan={3} className="p-1 text-right">Subtotal Materiales</td>
+                                  <td className="p-1 text-right">
+                                    S/ {totalMat.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                  </td>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        )}
+
+                        {/* Equipos */}
+                        {eqItems.length > 0 && (
+                          <div className="mb-2">
+                            <h5 className="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Equipos</h5>
+                            <table className="w-full text-left text-[10px] border-collapse">
+                              <thead>
+                                <tr className="text-slate-500 font-extrabold uppercase tracking-wider border-b border-slate-800">
+                                  <th className="p-1">Recurso</th>
+                                  <th className="p-1 text-right">Cant</th>
+                                  <th className="p-1 text-right">$/Und</th>
+                                  <th className="p-1 text-right">Total</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {eqItems.map((it, j) => (
+                                  <tr key={j} className="border-b border-slate-850 text-slate-300">
+                                    <td className="p-1 font-mono">{it.id} - {it.name}</td>
+                                    <td className="p-1 text-right font-mono">{it.qty} {it.unit}</td>
+                                    <td className="p-1 text-right font-mono">S/ {it.costU}</td>
+                                    <td className="p-1 text-right font-mono text-rose-400">
+                                      S/ {it.subtotal.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                              <tfoot>
+                                <tr className="text-rose-300 font-extrabold">
+                                  <td colSpan={3} className="p-1 text-right">Subtotal Equipos</td>
+                                  <td className="p-1 text-right">
+                                    S/ {totalEq.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                                  </td>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        )}
+
+                        {/* Total AC */}
+                        <div className="border-t border-slate-700 pt-1 mt-1 text-right text-[10px] font-extrabold text-rose-300">
+                          TOTAL AC: S/ {totalAc.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
+                        </div>
+                      </div>
+                    </div>
+                  </details>
+                );
+              })}
             </div>
           </div>
         );
