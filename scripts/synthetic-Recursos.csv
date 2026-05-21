@@ -1,0 +1,291 @@
+﻿ReportID,Fecha,Capitulo,TipoRecurso,CodigoRecurso,Recurso,Cantidad,Unidad,CostoUnitario
+REP-SYN-0001,2026-06-01,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,6,Hora Hombre,28
+REP-SYN-0001,2026-06-01,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,6,Hora Hombre,22.5
+REP-SYN-0001,2026-06-01,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,6,Hora Hombre,14.5
+REP-SYN-0001,2026-06-01,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),5.67,Bolsa,24.5
+REP-SYN-0001,2026-06-01,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,2.7,Hora Máquina,55
+REP-SYN-0002,2026-06-02,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,6,Hora Hombre,28
+REP-SYN-0002,2026-06-02,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,6,Hora Hombre,22.5
+REP-SYN-0002,2026-06-02,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,6,Hora Hombre,14.5
+REP-SYN-0002,2026-06-02,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),4.74,Bolsa,24.5
+REP-SYN-0002,2026-06-02,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,3.36,Hora Máquina,55
+REP-SYN-0003,2026-06-03,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0003,2026-06-03,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0003,2026-06-03,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0003,2026-06-03,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),3.01,Bolsa,24.5
+REP-SYN-0003,2026-06-03,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,3.44,Hora Máquina,55
+REP-SYN-0004,2026-06-04,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,6,Hora Hombre,28
+REP-SYN-0004,2026-06-04,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,6,Hora Hombre,22.5
+REP-SYN-0004,2026-06-04,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,7,Hora Hombre,14.5
+REP-SYN-0004,2026-06-04,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),7.48,Bolsa,24.5
+REP-SYN-0004,2026-06-04,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,3.3,Hora Máquina,55
+REP-SYN-0005,2026-06-05,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0005,2026-06-05,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0005,2026-06-05,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0005,2026-06-05,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,7.52,Hora Máquina,55
+REP-SYN-0005,2026-06-05,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,4.16,Hora Máquina,42
+REP-SYN-0006,2026-06-05,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0006,2026-06-05,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0006,2026-06-05,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,7,Hora Hombre,14.5
+REP-SYN-0006,2026-06-05,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),3.6,Bolsa,24.5
+REP-SYN-0006,2026-06-05,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,2.88,Hora Máquina,55
+REP-SYN-0007,2026-06-06,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0007,2026-06-06,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0007,2026-06-06,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0007,2026-06-06,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,6.8,Hora Máquina,55
+REP-SYN-0007,2026-06-06,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,5.68,Hora Máquina,42
+REP-SYN-0008,2026-06-06,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0008,2026-06-06,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0008,2026-06-06,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0008,2026-06-06,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),5.28,Bolsa,24.5
+REP-SYN-0008,2026-06-06,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,4,Hora Máquina,55
+REP-SYN-0009,2026-06-07,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,4,Hora Hombre,28
+REP-SYN-0009,2026-06-07,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,4,Hora Hombre,22.5
+REP-SYN-0009,2026-06-07,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,4,Hora Hombre,14.5
+REP-SYN-0009,2026-06-07,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,3.96,Hora Máquina,55
+REP-SYN-0009,2026-06-07,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,2.88,Hora Máquina,42
+REP-SYN-0010,2026-06-07,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,4,Hora Hombre,28
+REP-SYN-0010,2026-06-07,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,4,Hora Hombre,22.5
+REP-SYN-0010,2026-06-07,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,4,Hora Hombre,14.5
+REP-SYN-0010,2026-06-07,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),4.49,Bolsa,24.5
+REP-SYN-0010,2026-06-07,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,1.28,Hora Máquina,55
+REP-SYN-0011,2026-06-08,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0011,2026-06-08,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,9,Hora Hombre,22.5
+REP-SYN-0011,2026-06-08,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0011,2026-06-08,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,7.6,Hora Máquina,55
+REP-SYN-0011,2026-06-08,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,5.92,Hora Máquina,42
+REP-SYN-0012,2026-06-08,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,7,Hora Hombre,28
+REP-SYN-0012,2026-06-08,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0012,2026-06-08,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,9,Hora Hombre,14.5
+REP-SYN-0012,2026-06-08,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),3.84,Bolsa,24.5
+REP-SYN-0012,2026-06-08,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,3.2,Hora Máquina,55
+REP-SYN-0013,2026-06-09,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0013,2026-06-09,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,7,Hora Hombre,22.5
+REP-SYN-0013,2026-06-09,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0013,2026-06-09,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,7.28,Hora Máquina,55
+REP-SYN-0013,2026-06-09,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,4.88,Hora Máquina,42
+REP-SYN-0014,2026-06-09,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0014,2026-06-09,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0014,2026-06-09,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0014,2026-06-09,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),5.11,Bolsa,24.5
+REP-SYN-0014,2026-06-09,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,3.6,Hora Máquina,55
+REP-SYN-0015,2026-06-10,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0015,2026-06-10,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,7,Hora Hombre,22.5
+REP-SYN-0015,2026-06-10,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,9,Hora Hombre,14.5
+REP-SYN-0015,2026-06-10,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,7.28,Hora Máquina,55
+REP-SYN-0015,2026-06-10,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,4.88,Hora Máquina,42
+REP-SYN-0016,2026-06-10,OBR-PRE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0016,2026-06-10,OBR-PRE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0016,2026-06-10,OBR-PRE,Mano de Obra,LH-PEO,Peón de Construcción,9,Hora Hombre,14.5
+REP-SYN-0016,2026-06-10,OBR-PRE,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),3.61,Bolsa,24.5
+REP-SYN-0016,2026-06-10,OBR-PRE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,4.4,Hora Máquina,55
+REP-SYN-0017,2026-06-11,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,6,Hora Hombre,28
+REP-SYN-0017,2026-06-11,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,6,Hora Hombre,22.5
+REP-SYN-0017,2026-06-11,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,6,Hora Hombre,14.5
+REP-SYN-0017,2026-06-11,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,5.76,Hora Máquina,55
+REP-SYN-0017,2026-06-11,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,4.44,Hora Máquina,42
+REP-SYN-0018,2026-06-12,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,7,Hora Hombre,28
+REP-SYN-0018,2026-06-12,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,7,Hora Hombre,22.5
+REP-SYN-0018,2026-06-12,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,6,Hora Hombre,14.5
+REP-SYN-0018,2026-06-12,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,6.02,Hora Máquina,55
+REP-SYN-0018,2026-06-12,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,5.32,Hora Máquina,42
+REP-SYN-0019,2026-06-13,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,7,Hora Hombre,28
+REP-SYN-0019,2026-06-13,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0019,2026-06-13,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0019,2026-06-13,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,6.96,Hora Máquina,55
+REP-SYN-0019,2026-06-13,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,5.84,Hora Máquina,42
+REP-SYN-0020,2026-06-14,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,9,Hora Hombre,28
+REP-SYN-0020,2026-06-14,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,7,Hora Hombre,22.5
+REP-SYN-0020,2026-06-14,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0020,2026-06-14,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,7.2,Hora Máquina,55
+REP-SYN-0020,2026-06-14,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,5.84,Hora Máquina,42
+REP-SYN-0021,2026-06-15,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0021,2026-06-15,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0021,2026-06-15,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0021,2026-06-15,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,9,Hora Hombre,14.5
+REP-SYN-0021,2026-06-15,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),50.03,Bolsa,24.5
+REP-SYN-0021,2026-06-15,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,269.59,kg,4.8
+REP-SYN-0021,2026-06-15,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,2.62,m3,65
+REP-SYN-0021,2026-06-15,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",3.55,m3,72
+REP-SYN-0021,2026-06-15,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,7.6,Hora Máquina,15
+REP-SYN-0021,2026-06-15,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",5.52,Hora Máquina,8.5
+REP-SYN-0022,2026-06-15,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0022,2026-06-15,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,9,Hora Hombre,22.5
+REP-SYN-0022,2026-06-15,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0022,2026-06-15,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,7.12,Hora Máquina,55
+REP-SYN-0022,2026-06-15,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,5.84,Hora Máquina,42
+REP-SYN-0023,2026-06-16,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,9,Hora Hombre,28
+REP-SYN-0023,2026-06-16,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0023,2026-06-16,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0023,2026-06-16,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0023,2026-06-16,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),54.83,Bolsa,24.5
+REP-SYN-0023,2026-06-16,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,223.05,kg,4.8
+REP-SYN-0023,2026-06-16,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,2.47,m3,65
+REP-SYN-0023,2026-06-16,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",2.76,m3,72
+REP-SYN-0023,2026-06-16,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,5.92,Hora Máquina,15
+REP-SYN-0023,2026-06-16,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",5.52,Hora Máquina,8.5
+REP-SYN-0024,2026-06-16,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0024,2026-06-16,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0024,2026-06-16,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0024,2026-06-16,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,6.56,Hora Máquina,55
+REP-SYN-0024,2026-06-16,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,4.48,Hora Máquina,42
+REP-SYN-0025,2026-06-17,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0025,2026-06-17,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0025,2026-06-17,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0025,2026-06-17,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0025,2026-06-17,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),24.28,Bolsa,24.5
+REP-SYN-0025,2026-06-17,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,353.93,kg,4.8
+REP-SYN-0025,2026-06-17,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,3.79,m3,65
+REP-SYN-0025,2026-06-17,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",1.09,m3,72
+REP-SYN-0025,2026-06-17,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,6.24,Hora Máquina,15
+REP-SYN-0025,2026-06-17,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",6.96,Hora Máquina,8.5
+REP-SYN-0026,2026-06-17,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0026,2026-06-17,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0026,2026-06-17,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0026,2026-06-17,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,7.84,Hora Máquina,55
+REP-SYN-0026,2026-06-17,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,6.08,Hora Máquina,42
+REP-SYN-0027,2026-06-18,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,5,Hora Hombre,28
+REP-SYN-0027,2026-06-18,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,5,Hora Hombre,22.5
+REP-SYN-0027,2026-06-18,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,5,Hora Hombre,18
+REP-SYN-0027,2026-06-18,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,5,Hora Hombre,14.5
+REP-SYN-0027,2026-06-18,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),17.56,Bolsa,24.5
+REP-SYN-0027,2026-06-18,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,269.7,kg,4.8
+REP-SYN-0027,2026-06-18,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,3.08,m3,65
+REP-SYN-0027,2026-06-18,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",1.39,m3,72
+REP-SYN-0027,2026-06-18,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,4.75,Hora Máquina,15
+REP-SYN-0027,2026-06-18,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",4.2,Hora Máquina,8.5
+REP-SYN-0028,2026-06-18,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,5,Hora Hombre,28
+REP-SYN-0028,2026-06-18,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,5,Hora Hombre,22.5
+REP-SYN-0028,2026-06-18,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,5,Hora Hombre,14.5
+REP-SYN-0028,2026-06-18,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,4.95,Hora Máquina,55
+REP-SYN-0028,2026-06-18,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,2.75,Hora Máquina,42
+REP-SYN-0029,2026-06-19,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,9,Hora Hombre,28
+REP-SYN-0029,2026-06-19,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,7,Hora Hombre,22.5
+REP-SYN-0029,2026-06-19,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0029,2026-06-19,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0029,2026-06-19,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),59.12,Bolsa,24.5
+REP-SYN-0029,2026-06-19,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,281.75,kg,4.8
+REP-SYN-0029,2026-06-19,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,3.14,m3,65
+REP-SYN-0029,2026-06-19,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",1.17,m3,72
+REP-SYN-0029,2026-06-19,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,6.24,Hora Máquina,15
+REP-SYN-0029,2026-06-19,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",6.72,Hora Máquina,8.5
+REP-SYN-0030,2026-06-19,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0030,2026-06-19,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,9,Hora Hombre,22.5
+REP-SYN-0030,2026-06-19,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0030,2026-06-19,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,6.48,Hora Máquina,55
+REP-SYN-0030,2026-06-19,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,5.52,Hora Máquina,42
+REP-SYN-0031,2026-06-20,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,9,Hora Hombre,28
+REP-SYN-0031,2026-06-20,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0031,2026-06-20,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0031,2026-06-20,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0031,2026-06-20,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),43.91,Bolsa,24.5
+REP-SYN-0031,2026-06-20,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,336.82,kg,4.8
+REP-SYN-0031,2026-06-20,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,1.82,m3,65
+REP-SYN-0031,2026-06-20,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",1.66,m3,72
+REP-SYN-0031,2026-06-20,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,7.68,Hora Máquina,15
+REP-SYN-0031,2026-06-20,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",5.28,Hora Máquina,8.5
+REP-SYN-0032,2026-06-20,MOV-TIE,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0032,2026-06-20,MOV-TIE,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0032,2026-06-20,MOV-TIE,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0032,2026-06-20,MOV-TIE,Equipo,EQ-RET,Retroexcavadora CAT 320 Orugas,7.44,Hora Máquina,55
+REP-SYN-0032,2026-06-20,MOV-TIE,Equipo,EQ-VOL,Camión Volquete Volvo 15m3,4.16,Hora Máquina,42
+REP-SYN-0033,2026-06-21,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,5,Hora Hombre,28
+REP-SYN-0033,2026-06-21,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,6,Hora Hombre,22.5
+REP-SYN-0033,2026-06-21,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,6,Hora Hombre,18
+REP-SYN-0033,2026-06-21,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,6,Hora Hombre,14.5
+REP-SYN-0033,2026-06-21,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),51.56,Bolsa,24.5
+REP-SYN-0033,2026-06-21,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,134.75,kg,4.8
+REP-SYN-0033,2026-06-21,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,2.64,m3,65
+REP-SYN-0033,2026-06-21,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",1.7,m3,72
+REP-SYN-0033,2026-06-21,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,4.5,Hora Máquina,15
+REP-SYN-0033,2026-06-21,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",4.38,Hora Máquina,8.5
+REP-SYN-0034,2026-06-22,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,10,Hora Hombre,28
+REP-SYN-0034,2026-06-22,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,11,Hora Hombre,22.5
+REP-SYN-0034,2026-06-22,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,11,Hora Hombre,18
+REP-SYN-0034,2026-06-22,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,11,Hora Hombre,14.5
+REP-SYN-0034,2026-06-22,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),22.28,Bolsa,24.5
+REP-SYN-0034,2026-06-22,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,166.96,kg,4.8
+REP-SYN-0034,2026-06-22,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,2.17,m3,65
+REP-SYN-0034,2026-06-22,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",3.11,m3,72
+REP-SYN-0034,2026-06-22,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,7.6,Hora Máquina,15
+REP-SYN-0034,2026-06-22,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",6.2,Hora Máquina,8.5
+REP-SYN-0035,2026-06-23,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0035,2026-06-23,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,7,Hora Hombre,22.5
+REP-SYN-0035,2026-06-23,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0035,2026-06-23,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0035,2026-06-23,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),27.18,Bolsa,24.5
+REP-SYN-0035,2026-06-23,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,263.76,kg,4.8
+REP-SYN-0035,2026-06-23,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,1.48,m3,65
+REP-SYN-0035,2026-06-23,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",1.32,m3,72
+REP-SYN-0035,2026-06-23,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,7.52,Hora Máquina,15
+REP-SYN-0035,2026-06-23,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",6.96,Hora Máquina,8.5
+REP-SYN-0036,2026-06-24,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,6,Hora Hombre,28
+REP-SYN-0036,2026-06-24,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,6,Hora Hombre,22.5
+REP-SYN-0036,2026-06-24,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,6,Hora Hombre,18
+REP-SYN-0036,2026-06-24,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,6,Hora Hombre,14.5
+REP-SYN-0036,2026-06-24,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),33.2,Bolsa,24.5
+REP-SYN-0036,2026-06-24,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,203.25,kg,4.8
+REP-SYN-0036,2026-06-24,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,2.25,m3,65
+REP-SYN-0036,2026-06-24,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",3.79,m3,72
+REP-SYN-0036,2026-06-24,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,4.8,Hora Máquina,15
+REP-SYN-0036,2026-06-24,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",4.92,Hora Máquina,8.5
+REP-SYN-0037,2026-06-25,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,7,Hora Hombre,28
+REP-SYN-0037,2026-06-25,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0037,2026-06-25,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0037,2026-06-25,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0037,2026-06-25,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),25.1,Bolsa,24.5
+REP-SYN-0037,2026-06-25,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,233.39,kg,4.8
+REP-SYN-0037,2026-06-25,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,1.32,m3,65
+REP-SYN-0037,2026-06-25,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",1.52,m3,72
+REP-SYN-0037,2026-06-25,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,5.84,Hora Máquina,15
+REP-SYN-0037,2026-06-25,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",6.88,Hora Máquina,8.5
+REP-SYN-0038,2026-06-26,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,7,Hora Hombre,28
+REP-SYN-0038,2026-06-26,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0038,2026-06-26,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0038,2026-06-26,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0038,2026-06-26,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),19.81,Bolsa,24.5
+REP-SYN-0038,2026-06-26,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,277.7,kg,4.8
+REP-SYN-0038,2026-06-26,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,1.81,m3,65
+REP-SYN-0038,2026-06-26,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",2.59,m3,72
+REP-SYN-0038,2026-06-26,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,6,Hora Máquina,15
+REP-SYN-0038,2026-06-26,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",6.48,Hora Máquina,8.5
+REP-SYN-0039,2026-06-27,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,7,Hora Hombre,28
+REP-SYN-0039,2026-06-27,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,9,Hora Hombre,22.5
+REP-SYN-0039,2026-06-27,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0039,2026-06-27,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0039,2026-06-27,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),31.23,Bolsa,24.5
+REP-SYN-0039,2026-06-27,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,307.53,kg,4.8
+REP-SYN-0039,2026-06-27,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,3.23,m3,65
+REP-SYN-0039,2026-06-27,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",2.2,m3,72
+REP-SYN-0039,2026-06-27,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,6.08,Hora Máquina,15
+REP-SYN-0039,2026-06-27,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",6.64,Hora Máquina,8.5
+REP-SYN-0040,2026-06-28,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,9,Hora Hombre,28
+REP-SYN-0040,2026-06-28,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,7,Hora Hombre,22.5
+REP-SYN-0040,2026-06-28,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,7,Hora Hombre,18
+REP-SYN-0040,2026-06-28,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0040,2026-06-28,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),52.58,Bolsa,24.5
+REP-SYN-0040,2026-06-28,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,230.64,kg,4.8
+REP-SYN-0040,2026-06-28,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,3.84,m3,65
+REP-SYN-0040,2026-06-28,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",3.72,m3,72
+REP-SYN-0040,2026-06-28,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,5.76,Hora Máquina,15
+REP-SYN-0040,2026-06-28,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",5.68,Hora Máquina,8.5
+REP-SYN-0041,2026-06-29,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,8,Hora Hombre,28
+REP-SYN-0041,2026-06-29,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,7,Hora Hombre,22.5
+REP-SYN-0041,2026-06-29,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,8,Hora Hombre,18
+REP-SYN-0041,2026-06-29,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,9,Hora Hombre,14.5
+REP-SYN-0041,2026-06-29,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),50.57,Bolsa,24.5
+REP-SYN-0041,2026-06-29,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,221.35,kg,4.8
+REP-SYN-0041,2026-06-29,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,1.58,m3,65
+REP-SYN-0041,2026-06-29,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",2.61,m3,72
+REP-SYN-0041,2026-06-29,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,6.88,Hora Máquina,15
+REP-SYN-0041,2026-06-29,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",6.72,Hora Máquina,8.5
+REP-SYN-0042,2026-06-30,EST-CON,Mano de Obra,LH-CAP,Capataz de Edificación,9,Hora Hombre,28
+REP-SYN-0042,2026-06-30,EST-CON,Mano de Obra,LH-OPE,Operario de Obra Civil,8,Hora Hombre,22.5
+REP-SYN-0042,2026-06-30,EST-CON,Mano de Obra,LH-OFI,Oficial de Obra Civil,9,Hora Hombre,18
+REP-SYN-0042,2026-06-30,EST-CON,Mano de Obra,LH-PEO,Peón de Construcción,8,Hora Hombre,14.5
+REP-SYN-0042,2026-06-30,EST-CON,Material,MAT-CEM,Cemento Portland Tipo I (bolsa 42.5kg),25.58,Bolsa,24.5
+REP-SYN-0042,2026-06-30,EST-CON,Material,MAT-ACE,Acero de refuerzo corrugado fy=4200 kg/cm2,390.17,kg,4.8
+REP-SYN-0042,2026-06-30,EST-CON,Material,MAT-ARE,Arena gruesa para mezclas,1.9,m3,65
+REP-SYN-0042,2026-06-30,EST-CON,Material,MAT-PIE,"Piedra chancada de 1/2""",3,m3,72
+REP-SYN-0042,2026-06-30,EST-CON,Equipo,EQ-MEZ,Mezcladora de concreto trompo 9p3,7.36,Hora Máquina,15
+REP-SYN-0042,2026-06-30,EST-CON,Equipo,EQ-VIB,"Vibradora de concreto naftera 2""",5.76,Hora Máquina,8.5
