@@ -10,6 +10,9 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
+// Default Google Apps Script Webhook URL
+const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyDGQ25kKcHDr5qHM0uf3jEcfkbiyFKdM9OlQRVuG-1wvvBCYomwsTf1WdMNlhAUD0mHA/exec";
+
 // Middleware for parsing large JSON files (we are uploading base64 signatures/photos)
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));

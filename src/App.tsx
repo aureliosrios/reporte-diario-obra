@@ -254,7 +254,7 @@ export default function App() {
   const [projectBac, setProjectBac] = useState<number>(0);
   
   // Custom Apps script link string saved in localstorage
-  const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwO73sIZFyexqLhq79sJuS9yjEtQXj_mdIy2cW3az4lZgkuWIJEhudYUYdsDnfUfHnlYw/exec";
+  const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyDGQ25kKcHDr5qHM0uf3jEcfkbiyFKdM9OlQRVuG-1wvvBCYomwsTf1WdMNlhAUD0mHA/exec";
   const [appsScriptUrl, setAppsScriptUrl] = useState<string>(() => localStorage.getItem("RDO_APPS_SCRIPT_WEBHOOK") || DEFAULT_WEBHOOK_URL);
 
   const [loading, setLoading] = useState(true);
