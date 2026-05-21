@@ -43,6 +43,7 @@ export interface ResourceItem {
 export interface DailyReport {
   id: string;
   projectCode: string;
+  reportType?: 'produccion' | 'seguridad';
   date: string;
   shift: 'Mañana' | 'Tarde' | 'Noche' | 'Continuo';
   effectiveHours: number;
@@ -63,6 +64,7 @@ export interface DailyReport {
   // Recursos Utilizados (Actual Cost)
   manoObra: {
     resourceId: string; // de BD_RRHH o ResourceItem
+    quantity?: number;
     hoursWorked: number;
     edtGroupCode: string; // Capítulo Nivel 1 asociado (e.g. "EST")
     name?: string;

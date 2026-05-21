@@ -39,8 +39,11 @@ export function ReportForm({
 
   // Historic auto-completions
   const [supervisorHistory, setSupervisorHistory] = useState<string[]>([]);
+
+  // Tipo de reporte: Producción (por EDT) o Seguridad (integral)
+  const [reportType, setReportType] = useState<"produccion" | "seguridad">("produccion");
   
-  // Capítulo EDT seleccionado (1 capítulo por reporte)
+  // Capítulo EDT seleccionado (1 capítulo por reporte, solo para producción)
   const [selectedEdtChapter, setSelectedEdtChapter] = useState<string>("");
 
   // Section 2: Actividades Ejecutadas (EV)
@@ -596,11 +599,11 @@ export function ReportForm({
       setSubmitMessage({ type: 'error', text: 'Por favor, ingrese el nombre del supervisor responsable.' });
       return;
     }
-    if (!selectedEdtChapter) {
+    if (reportType === "produccion" && !selectedEdtChapter) {
       setSubmitMessage({ type: 'error', text: 'Seleccione un capítulo EDT antes de enviar el reporte.' });
       return;
     }
-    if (activities.length === 0) {
+    if (reportType === "produccion" && activities.length === 0) {
       setSubmitMessage({ type: 'error', text: 'No hay actividades para el capítulo seleccionado en esta fecha.' });
       return;
     }
@@ -622,6 +625,7 @@ export function ReportForm({
     const payload: DailyReport = {
       id: "", // generated server-side
       projectCode: selectedProjectCode,
+      reportType,
       date: reportDate,
       shift,
       effectiveHours,
@@ -774,6 +778,41 @@ export function ReportForm({
               </select>
             </div>
 
+            {/* Tipo de reporte: Producción o Seguridad */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-500 mb-1">TIPO DE REPORTE</label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => { setReportType("produccion"); setSelectedEdtChapter(""); setActivities([]); setManoObra([]); setMaterials([]); setEquipos([]); }}
+                  className={`py-2 px-3 rounded-xl text-[11px] font-bold border transition ${
+                    reportType === "produccion"
+                      ? "bg-sky-500 text-white border-sky-500 shadow"
+                      : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  🏗 Producción
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setReportType("seguridad"); setSelectedEdtChapter(""); setActivities([]); setManoObra([]); setMaterials([]); setEquipos([]); }}
+                  className={`py-2 px-3 rounded-xl text-[11px] font-bold border transition ${
+                    reportType === "seguridad"
+                      ? "bg-emerald-500 text-white border-emerald-500 shadow"
+                      : "bg-white text-slate-500 border-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  🛡 Seguridad
+                </button>
+              </div>
+              {reportType === "produccion" && (
+                <p className="text-[9px] text-sky-600 mt-1">Reporte por capítulo EDT: actividades + recursos + seguridad</p>
+              )}
+              {reportType === "seguridad" && (
+                <p className="text-[9px] text-emerald-600 mt-1">Reporte integral de seguridad del proyecto (no por EDT)</p>
+              )}
+            </div>
+
             {/* Fecha Reporte */}
             <div>
               <label className="block text-[11px] font-semibold text-slate-500 mb-1 flex justify-between">
@@ -896,6 +935,8 @@ export function ReportForm({
           </div>
         </div>
 
+        {reportType === "produccion" && (
+          <>
         {/* SECTION 2: ACTIVIDADES EJECUTADAS (EV) */}
         <div id="sec-actividades" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
@@ -1262,6 +1303,8 @@ export function ReportForm({
             )}
           </div>
         </div>
+          </>
+        )}
 
         {/* SECTION 6: CONTROL, SEGURIDAD E INCIDENTES */}
         <div id="sec-seguridad" className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-4">
