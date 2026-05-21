@@ -366,12 +366,6 @@ function generarBaseSintetica() {
     }
   }
 
-  // Crear pestañas
-  const tabProduccion = ss.insertSheet("Producción");
-  const tabSeguridad = ss.insertSheet("Seguridad");
-  const tabActividades = ss.insertSheet("Actividades");
-  const tabRecursos = ss.insertSheet("Recursos");
-
   // Encabezados
   const HEADERS = {
     Produccion: ["ReportID","Fecha","Capítulo","Supervisor","Turno","HorasEfectivas","ClimaAM","ClimaPM","PersonalTotal","Conflictos","PlanPróximoDía","Observaciones","NumActividades","NumMO","NumMateriales","NumEquipos"],
