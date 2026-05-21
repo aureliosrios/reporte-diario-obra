@@ -304,16 +304,23 @@ function generarBaseSintetica() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const SHEET_NAMES = ["R_Produccion","R_Seguridad","Detalle_Actividades","Detalle_Recursos"];
 
-  // Crear nuevas primero
+  // Crear hoja temporal para no quedarnos sin hojas al eliminar
+  const temp = ss.insertSheet("__temp_gs__");
+
+  // Eliminar existentes con esos nombres
+  for (const name of SHEET_NAMES) {
+    const existing = ss.getSheetByName(name);
+    if (existing) ss.deleteSheet(existing);
+  }
+
+  // Crear nuevas
   const sheets = {};
   for (const name of SHEET_NAMES) {
     sheets[name] = ss.insertSheet(name);
   }
-  // Eliminar duplicados viejos (dejar las recién creadas)
-  for (const name of SHEET_NAMES) {
-    const all = ss.getSheets().filter(s => s.getName() === name);
-    for (let i = 1; i < all.length; i++) ss.deleteSheet(all[i]);
-  }
+
+  // Eliminar temp
+  ss.deleteSheet(temp);
 
   const HEADERS = {
     R_Produccion:      ["ID Reporte","Fecha Envío","Fecha Reporte","Supervisor/Ingeniero","Turno","Clima Mañana","Clima Tarde","Horas Efectivas","Capítulo WBS ID","Capítulo WBS Nombre","Conflictos/Restricciones","Trabajos Mañana","Observaciones Generales"],

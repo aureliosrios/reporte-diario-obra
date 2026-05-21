@@ -176,9 +176,9 @@ function doGet(e) {
     return new Date(a.date).getTime() - new Date(b.date).getTime();
   });
   
-  var response = ContentService.createTextOutput(JSON.stringify(list));
-  response.setMimeType(ContentService.MimeType.JSON);
-  response.appendHeader("Access-Control-Allow-Origin", "*");
+  var jsonStr = JSON.stringify(list);
+  var response = HtmlService.createHtmlOutput(jsonStr);
+  response.setHeader("Access-Control-Allow-Origin", "*");
   return response;
 }
 
