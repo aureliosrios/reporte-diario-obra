@@ -511,8 +511,8 @@ export default function App() {
             </div>
           </div>
         </header>
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 max-w-4xl mx-auto w-full">
-          <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 shadow-xl">
+        <main className="flex-1 px-0 sm:px-6 lg:px-8 py-2 sm:py-6 max-w-4xl mx-auto w-full">
+          <div className="bg-slate-950 border-0 sm:border border-slate-800 rounded-none sm:rounded-2xl p-2 sm:p-6 shadow-xl">
             <h2 className="text-base font-bold text-white flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
               <FileText className="w-5 h-5 text-sky-400" />
               Registro de Reporte Diario — Campo
@@ -635,7 +635,7 @@ export default function App() {
       {/* Main Workspace Area */}
       <main className="flex-1 flex flex-col justify-start">
         {activeTab === "campo" && (
-          <div className="py-4">
+          <div className="py-2 lg:py-4">
             <SmartMockup title="Simulador de Reporte Campo">
               <ReportForm
                 projects={projects}

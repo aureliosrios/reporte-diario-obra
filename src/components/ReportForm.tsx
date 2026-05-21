@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics 
 } from "../types";
@@ -32,7 +32,7 @@ export function ReportForm({
   const [selectedProjectCode, setSelectedProjectCode] = useState("");
   const [reportDate, setReportDate] = useState("");
   const [supervisorName, setSupervisorName] = useState("");
-  const [shift, setShift] = useState<'MaÃ±ana' | 'Tarde' | 'Noche' | 'Continuo'>("MaÃ±ana");
+  const [shift, setShift] = useState<'Mañana' | 'Tarde' | 'Noche' | 'Continuo'>("Mañana");
   const [effectiveHours, setEffectiveHours] = useState<number>(8);
   const [weatherMorning, setWeatherMorning] = useState<'Soleado' | 'Nublado' | 'Lluvia' | 'Viento'>("Soleado");
   const [weatherAfternoon, setWeatherAfternoon] = useState<'Soleado' | 'Nublado' | 'Lluvia' | 'Viento'>("Soleado");
@@ -40,10 +40,10 @@ export function ReportForm({
   // Historic auto-completions
   const [supervisorHistory, setSupervisorHistory] = useState<string[]>([]);
 
-  // Tipo de reporte: ProducciÃ³n (por EDT) o Seguridad (integral)
+  // Tipo de reporte: Producción (por EDT) o Seguridad (integral)
   const [reportType, setReportType] = useState<"produccion" | "seguridad">("produccion");
   
-  // CapÃ­tulo EDT seleccionado (1 capÃ­tulo por reporte, solo para producciÃ³n)
+  // Capítulo EDT seleccionado (1 capítulo por reporte, solo para producción)
   const [selectedEdtChapter, setSelectedEdtChapter] = useState<string>("");
 
   // Section 2: Actividades Ejecutadas (EV)
@@ -79,7 +79,7 @@ export function ReportForm({
   const [safetyDetails, setSafetyDetails] = useState<string>("");
   const [incidents, setIncidents] = useState<string>("");
 
-  // Section 7: Problemas y PlanificaciÃ³n
+  // Section 7: Problemas y Planificación
   const [conflicts, setConflicts] = useState<string>("");
   const [plannedNextDay, setPlannedNextDay] = useState<string>("");
   const [generalNotes, setGeneralNotes] = useState<string>("");
@@ -398,25 +398,25 @@ export function ReportForm({
       ["SUPERVISOR", supervisorName],
       ["TURNO", shift],
       ["HORAS EFECTIVAS", effectiveHours],
-      ["CLIMA MAÃ‘ANA", weatherMorning],
+      ["CLIMA MA�ANA", weatherMorning],
       ["CLIMA TARDE", weatherAfternoon],
       ["TOTAL PERSONAL EN OBRA", totalStaff],
-      ["SEGURIDAD REVISADA", safetyInspected ? "SÃ" : "NO"],
+      ["SEGURIDAD REVISADA", safetyInspected ? "SÍ" : "NO"],
       ["DETALLE SEGURIDAD", safetyDetails],
       ["INCIDENTES", incidents],
       ["CONFLICTOS/RESTRICCIONES", conflicts],
-      ["TRABAJOS PLANIFICADOS SIG. DÃA", plannedNextDay],
+      ["TRABAJOS PLANIFICADOS SIG. DÍA", plannedNextDay],
       ["OBSERVACIONES GENERALES", generalNotes],
       [""],
-      ["RESUMEN DE METODOLOGÃA VALOR GANADO (EVM)"],
-      ["INDICADOR", "VALOR ($ USD)", "DESCRIPCIÃ“N"],
+      ["RESUMEN DE METODOLOGÍA VALOR GANADO (EVM)"],
+      ["INDICADOR", "VALOR ($ USD)", "DESCRIPCI�N"],
       ["Valor Planificado (PV)", metrics.plannedValue, "Presupuesto programado hoy"],
       ["Valor Ganado (EV)", metrics.earnedValue, "Presupuesto de lo realmente avanzado hoy"],
       ["Costo Real (AC)", metrics.actualCost, "Mano de Obra + Materiales + Equipos consumidos"],
       ["Variaza Cronograma (SV)", metrics.sv, "EV - PV (Negativo = Retraso)"],
-      ["Varianza Costos (CV)", metrics.cv, "EV - AC (Negativo = PÃ©rdida)"],
-      ["Ãndice Plazo (SPI)", metrics.spi, "EV / PV (Menor que 1 = Retrasado)"],
-      ["Ãndice Costo (CPI)", metrics.cpi, "EV / AC (Menor que 1 = Sobrecosto)"],
+      ["Varianza Costos (CV)", metrics.cv, "EV - AC (Negativo = Pérdida)"],
+      ["Índice Plazo (SPI)", metrics.spi, "EV / PV (Menor que 1 = Retrasado)"],
+      ["Índice Costo (CPI)", metrics.cpi, "EV / AC (Menor que 1 = Sobrecosto)"],
     ];
     const wsMeta = XLSX.utils.aoa_to_sheet(metaData);
     XLSX.utils.book_append_sheet(wb, wsMeta, "Resumen General");
@@ -425,7 +425,7 @@ export function ReportForm({
     const actRows = activities.map(act => {
       const edtInfo = getEdtItemNameAndUnit(act.edtCode);
       return {
-        "CÃ³digo EDT": act.edtCode,
+        "Código EDT": act.edtCode,
         "Actividad Especialidad": edtInfo.name,
         "Unidad": edtInfo.unit,
         "Costo Unitario ($)": edtInfo.price,
@@ -445,7 +445,7 @@ export function ReportForm({
       costRows.push({
         "Tipo Recurso": "Mano de Obra",
         "ID Recurso": mo.resourceId,
-        "DescripciÃ³n": resMatch?.name || "",
+        "Descripción": resMatch?.name || "",
         "Frente/EDT": mo.edtGroupCode,
         "Cantidad / Horas": mo.hoursWorked,
         "Costo Unitario ($)": resMatch?.unitCost || 0,
@@ -458,7 +458,7 @@ export function ReportForm({
       costRows.push({
         "Tipo Recurso": "Material Consumido",
         "ID Recurso": mat.resourceId,
-        "DescripciÃ³n": resMatch?.name || "",
+        "Descripción": resMatch?.name || "",
         "Frente/EDT": mat.edtGroupCode,
         "Cantidad / Horas": mat.qtyConsumed,
         "Costo Unitario ($)": resMatch?.unitCost || 0,
@@ -471,7 +471,7 @@ export function ReportForm({
       costRows.push({
         "Tipo Recurso": "Equipo / Maquinaria",
         "ID Recurso": eq.resourceId,
-        "DescripciÃ³n": resMatch?.name || "",
+        "Descripción": resMatch?.name || "",
         "Frente/EDT": eq.edtGroupCode,
         "Cantidad / Horas": eq.qtyUsed,
         "Costo Unitario ($)": resMatch?.unitCost || 0,
@@ -496,11 +496,11 @@ export function ReportForm({
       return;
     }
     if (reportType === "produccion" && !selectedEdtChapter) {
-      setSubmitMessage({ type: 'error', text: 'Seleccione un capÃ­tulo EDT antes de enviar el reporte.' });
+      setSubmitMessage({ type: 'error', text: 'Seleccione un capítulo EDT antes de enviar el reporte.' });
       return;
     }
     if (reportType === "produccion" && activities.length === 0) {
-      setSubmitMessage({ type: 'error', text: 'No hay actividades para el capÃ­tulo seleccionado en esta fecha.' });
+      setSubmitMessage({ type: 'error', text: 'No hay actividades para el capítulo seleccionado en esta fecha.' });
       return;
     }
 
@@ -577,7 +577,7 @@ export function ReportForm({
 
         setSubmitMessage({ 
           type: 'success', 
-          text: `Â¡Reporte registrado correctamente! ID asignado: ${resData.reportId}` 
+          text: `¡Reporte registrado correctamente! ID asignado: ${resData.reportId}` 
         });
 
         // Trigger callback to update dashboard metrics
@@ -603,13 +603,13 @@ export function ReportForm({
       if (hasWebhook) {
         setSubmitMessage({
           type: 'success',
-          text: 'Â¡Reporte enviado directamente a Google Sheets! (Servidor local no disponible)'
+          text: '¡Reporte enviado directamente a Google Sheets! (Servidor local no disponible)'
         });
         onReportSubmitted(finalPayload as DailyReport, calculatedMetrics);
       } else {
         setSubmitMessage({ 
           type: 'error', 
-          text: `Error de red o conexiÃ³n: Se guardÃ³ un respaldo local offline. Detalles: ${err.message}` 
+          text: `Error de red o conexión: Se guardó un respaldo local offline. Detalles: ${err.message}` 
         });
       }
     } finally {
@@ -621,16 +621,16 @@ export function ReportForm({
   return (
     <form onSubmit={handleSubmit} className="flex-1 flex flex-col font-sans select-none text-slate-100 bg-slate-950 w-full">
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          HEADER BANNER â€” Oscuro premium con gradiente
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      {/* �"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"�
+          HEADER BANNER � Oscuro premium con gradiente
+      �"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"� */}
       <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border-b border-slate-800 px-4 py-3 shrink-0 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="bg-gradient-to-br from-sky-500 to-sky-700 p-2 rounded-xl shadow-lg shadow-sky-500/20">
             <HardHat className="w-5 h-5 text-white" />
           </div>
           <div>
-            <p className="text-[9px] font-black tracking-[0.2em] text-sky-400 uppercase">Sistema RDO Â· EVM</p>
+            <p className="text-[9px] font-black tracking-[0.2em] text-sky-400 uppercase">Sistema RDO · EVM</p>
             <h1 className="text-sm font-black text-white leading-none mt-0.5">REPORTE DIARIO DE CAMPO</h1>
           </div>
         </div>
@@ -648,20 +648,20 @@ export function ReportForm({
         />
       </div>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+      {/* �"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"�
           CONTENIDO PRINCIPAL SCROLLABLE
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      �"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"� */}
       <div className="flex-1 overflow-y-auto scrollbar-none space-y-0.5 bg-slate-950 pb-28">
 
         {isDraftLoadedToast && (
-          <div className="mx-3 mt-3 bg-amber-500/10 border border-amber-500/30 text-amber-300 p-3 rounded-xl flex items-center gap-2 text-xs">
+          <div className="mx-1 mt-3 bg-amber-500/10 border border-amber-500/30 text-amber-300 p-3 rounded-xl flex items-center gap-2 text-xs">
             <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Borrador previo restaurado automÃ¡ticamente.</span>
+            <span>Borrador previo restaurado automáticamente.</span>
           </div>
         )}
 
         {submitMessage && (
-          <div className={`mx-3 mt-3 p-3 rounded-xl flex items-start gap-2.5 text-xs border ${
+          <div className={`mx-1 mt-3 p-3 rounded-xl flex items-start gap-2.5 text-xs border ${
             submitMessage.type === 'success'
               ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
               : 'bg-rose-500/10 border-rose-500/30 text-rose-300'
@@ -671,21 +671,21 @@ export function ReportForm({
           </div>
         )}
 
-        {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-            â”‚  SECCIÃ“N 1 Â· DATOS GENERALES                â”‚
-            â”‚  Color: Sky Blue â€” IdentificaciÃ³n operativa â”‚
-            â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
-        <div id="sec-datos-generales" className="mx-3 mt-4 rounded-2xl overflow-hidden border border-sky-500/20 shadow-lg shadow-sky-500/5">
+        {/* �R��������������������������������������������������������������������������������������������
+            �  SECCI�N 1 · DATOS GENERALES                �
+            �  Color: Sky Blue � Identificación operativa �
+            ��������������������������������������������������������������������������������������������� */}
+        <div id="sec-datos-generales" className="mx-1 mt-4 rounded-xl overflow-hidden border border-sky-500/20 shadow-lg shadow-sky-500/5">
           <div className="bg-gradient-to-r from-sky-950/80 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-sky-500/20">
             <div className="w-1 h-6 bg-sky-400 rounded-full shrink-0" />
             <Layers className="w-4 h-4 text-sky-400" />
             <div>
-              <span className="text-[9px] font-black tracking-[0.15em] text-sky-500 uppercase">SecciÃ³n 01</span>
+              <span className="text-[9px] font-black tracking-[0.15em] text-sky-500 uppercase">Sección 01</span>
               <h2 className="text-xs font-black text-sky-200 leading-none">DATOS GENERALES DEL REPORTE</h2>
             </div>
           </div>
 
-          <div className="bg-slate-900/70 p-4 space-y-3.5">
+          <div className="bg-slate-900/70 p-3 space-y-3.5">
 
             <div>
               <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Proyecto Activo</label>
@@ -712,7 +712,7 @@ export function ReportForm({
                       : "bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700"
                   }`}
                 >
-                  ðŸ— ProducciÃ³n
+                  �x� Producción
                 </button>
                 <button
                   type="button"
@@ -723,14 +723,14 @@ export function ReportForm({
                       : "bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700"
                   }`}
                 >
-                  ðŸ›¡ Seguridad
+                  �x:� Seguridad
                 </button>
               </div>
             </div>
 
             <div>
               <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase flex justify-between">
-                <span>Fecha de OperaciÃ³n</span>
+                <span>Fecha de Operación</span>
                 <span className="text-amber-500 normal-case font-medium">No fechas futuras</span>
               </label>
               <div className="relative">
@@ -775,7 +775,7 @@ export function ReportForm({
                 <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Turno</label>
                 <select value={shift} onChange={(e) => setShift(e.target.value as any)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-sky-500 outline-none font-semibold">
-                  <option value="MaÃ±ana">MaÃ±ana</option>
+                  <option value="Mañana">Mañana</option>
                   <option value="Tarde">Tarde</option>
                   <option value="Noche">Noche</option>
                   <option value="Continuo">Continuo</option>
@@ -796,58 +796,58 @@ export function ReportForm({
 
             <div className="grid grid-cols-2 gap-3 pt-1 border-t border-slate-800">
               <div>
-                <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Clima MaÃ±ana</label>
+                <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Clima Mañana</label>
                 <select value={weatherMorning} onChange={(e) => setWeatherMorning(e.target.value as any)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-sky-500 outline-none">
-                  <option value="Soleado">â˜€ï¸ Soleado</option>
-                  <option value="Nublado">â˜ï¸ Nublado</option>
-                  <option value="Lluvia">ðŸŒ§ï¸ Lluvia</option>
-                  <option value="Viento">ðŸ’¨ Viento</option>
+                  <option value="Soleado">�ܬ️ Soleado</option>
+                  <option value="Nublado">�܁️ Nublado</option>
+                  <option value="Lluvia">�xR�️ Lluvia</option>
+                  <option value="Viento">�x� Viento</option>
                 </select>
               </div>
               <div>
                 <label className="block text-[10px] font-bold text-sky-500/80 mb-1.5 tracking-wider uppercase">Clima Tarde</label>
                 <select value={weatherAfternoon} onChange={(e) => setWeatherAfternoon(e.target.value as any)}
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-sky-500 outline-none">
-                  <option value="Soleado">â˜€ï¸ Soleado</option>
-                  <option value="Nublado">â˜ï¸ Nublado</option>
-                  <option value="Lluvia">ðŸŒ§ï¸ Lluvia</option>
-                  <option value="Viento">ðŸ’¨ Viento</option>
+                  <option value="Soleado">�ܬ️ Soleado</option>
+                  <option value="Nublado">�܁️ Nublado</option>
+                  <option value="Lluvia">�xR�️ Lluvia</option>
+                  <option value="Viento">�x� Viento</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
 
-        {/* â•â•â•â•â•â• SECCIONES DE PRODUCCIÃ“N â•â•â•â•â•â• */}
+        {/* �"��"��"��"��"��"� SECCIONES DE PRODUCCI�N �"��"��"��"��"��"� */}
         {reportType === "produccion" && (
           <>
-            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-                â”‚  SECCIÃ“N 2 Â· VALOR GANADO (EV)              â”‚
-                â”‚  Color: Violet/Purple â€” Avance fÃ­sico       â”‚
-                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
-            <div id="sec-valor-ganado" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-violet-500/20 shadow-lg shadow-violet-500/5">
+            {/* �R��������������������������������������������������������������������������������������������
+                �  SECCI�N 2 · VALOR GANADO (EV)              �
+                �  Color: Violet/Purple � Avance físico       �
+                ��������������������������������������������������������������������������������������������� */}
+            <div id="sec-valor-ganado" className="mx-1 mt-3 rounded-xl overflow-hidden border border-violet-500/20 shadow-lg shadow-violet-500/5">
               <div className="bg-gradient-to-r from-violet-950/80 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-violet-500/20">
                 <div className="w-1 h-6 bg-violet-400 rounded-full shrink-0" />
                 <Plus className="w-4 h-4 text-violet-400" />
                 <div>
-                  <span className="text-[9px] font-black tracking-[0.15em] text-violet-500 uppercase">SecciÃ³n 02 Â· EV</span>
+                  <span className="text-[9px] font-black tracking-[0.15em] text-violet-500 uppercase">Sección 02 · EV</span>
                   <h2 className="text-xs font-black text-violet-200 leading-none">REPORTE DE VALOR GANADO (EV)</h2>
                 </div>
               </div>
-              <div className="bg-slate-900/70 p-4 space-y-3.5">
+              <div className="bg-slate-900/70 p-3 space-y-3.5">
                 <div>
-                  <label className="block text-[10px] font-bold text-violet-500/80 mb-1.5 tracking-wider uppercase">CapÃ­tulo EDT Activo</label>
+                  <label className="block text-[10px] font-bold text-violet-500/80 mb-1.5 tracking-wider uppercase">Capítulo EDT Activo</label>
                   <select value={selectedEdtChapter} onChange={(e) => setSelectedEdtChapter(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 focus:ring-1 focus:ring-violet-500 focus:border-violet-500 outline-none font-bold">
-                    <option value="">â€” Seleccionar capÃ­tulo EDT â€”</option>
+                    <option value="">� Seleccionar capítulo EDT �</option>
                     {edtList.filter(e => e.parentId === null).map(ch => (
                       <option key={ch.code} value={ch.code}>[{ch.code}] {ch.name}</option>
                     ))}
                   </select>
                   {selectedEdtChapter && (
                     <p className="text-[9px] text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2 mt-2 font-medium">
-                      âš  Reporte vinculado a <strong>[{selectedEdtChapter}]</strong>. Para otro capÃ­tulo, genere un nuevo reporte.
+                      �a� Reporte vinculado a <strong>[{selectedEdtChapter}]</strong>. Para otro capítulo, genere un nuevo reporte.
                     </p>
                   )}
                 </div>
@@ -872,10 +872,10 @@ export function ReportForm({
                             </button>
                           )}
                           <div>
-                            <label className="block text-[9px] font-bold text-violet-400 mb-1 uppercase tracking-wider">Actividad EspecÃ­fica</label>
+                            <label className="block text-[9px] font-bold text-violet-400 mb-1 uppercase tracking-wider">Actividad Específica</label>
                             <select value={act.edtCode} onChange={(e) => updateActivityField(index, "edtCode", e.target.value)}
                               className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2.5 py-2 text-[11px] text-slate-100 focus:ring-1 focus:ring-violet-500 outline-none font-bold">
-                              <option value="">â€” Elegir actividad â€”</option>
+                              <option value="">� Elegir actividad �</option>
                               {chapterActivities.map(item => (
                                 <option key={item.code} value={item.code}>[{item.code}] {item.name}</option>
                               ))}
@@ -897,7 +897,7 @@ export function ReportForm({
                               </div>
                               <div>
                                 <label className="text-[9px] font-bold text-violet-400 uppercase tracking-wider">Observaciones</label>
-                                <input type="text" placeholder="UbicaciÃ³n, ejes, notasâ€¦" value={act.notes}
+                                <input type="text" placeholder="Ubicación, ejes, notas⬦" value={act.notes}
                                   onChange={(e) => updateActivityField(index, "notes", e.target.value)}
                                   className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2.5 py-2 text-[11px] text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-violet-500 outline-none mt-1" />
                               </div>
@@ -911,17 +911,17 @@ export function ReportForm({
               </div>
             </div>
 
-            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-                â”‚  SECCIÃ“N 3 Â· COSTO REAL AC â€” MANO DE OBRA  â”‚
-                â”‚  Color: Amber â€” Recursos humanos            â”‚
-                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
-            <div id="sec-mano-obra" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-amber-500/20">
+            {/* �R��������������������������������������������������������������������������������������������
+                �  SECCI�N 3 · COSTO REAL AC � MANO DE OBRA  �
+                �  Color: Amber � Recursos humanos            �
+                ��������������������������������������������������������������������������������������������� */}
+            <div id="sec-mano-obra" className="mx-1 mt-3 rounded-xl overflow-hidden border border-amber-500/20">
               <div className="bg-gradient-to-r from-amber-950/60 to-slate-900 px-4 py-3 flex items-center justify-between border-b border-amber-500/20">
                 <div className="flex items-center gap-2.5">
                   <div className="w-1 h-6 bg-amber-400 rounded-full shrink-0" />
                   <User className="w-4 h-4 text-amber-400" />
                   <div>
-                    <span className="text-[9px] font-black tracking-[0.15em] text-amber-500 uppercase">SecciÃ³n 03 Â· AC</span>
+                    <span className="text-[9px] font-black tracking-[0.15em] text-amber-500 uppercase">Sección 03 · AC</span>
                     <h2 className="text-xs font-black text-amber-200 leading-none">MANO DE OBRA (AC)</h2>
                   </div>
                 </div>
@@ -930,7 +930,7 @@ export function ReportForm({
                   + Obrero
                 </button>
               </div>
-              <div className="bg-slate-900/70 p-4 space-y-3">
+              <div className="bg-slate-900/70 p-3 space-y-3">
                 {manoObra.map((mo, i) => (
                   <div key={i} className="relative bg-slate-800/60 p-3 rounded-xl border border-amber-500/10 space-y-2 text-xs">
                     <div className="flex items-start gap-2">
@@ -940,7 +940,7 @@ export function ReportForm({
                           onChange={(e) => { const u = [...manoObra]; u[i].resourceId = e.target.value; setManoObra(u); }}
                           className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1.5 text-[10px] text-slate-100 outline-none font-semibold">
                           {resources.filter(r => r.type === "mano_obra").map(r => (
-                            <option key={r.id} value={r.id}>{r.name} â€” S/{r.unitCost}/hr</option>
+                            <option key={r.id} value={r.id}>{r.name} � S/{r.unitCost}/hr</option>
                           ))}
                         </select>
                       </div>
@@ -950,7 +950,7 @@ export function ReportForm({
                     </div>
                     <div className="grid grid-cols-2 gap-3 bg-slate-900/60 p-2.5 rounded-lg border border-amber-500/10">
                       <div>
-                        <span className="text-[9px] text-slate-500">N.Â° trabajadores</span>
+                        <span className="text-[9px] text-slate-500">N.° trabajadores</span>
                         <input type="text" inputMode="numeric" value={mo.quantity === 0 ? "" : String(mo.quantity)}
                           onChange={(e) => { const raw = e.target.value.replace(/[^0-9]/g, ""); const u = [...manoObra]; u[i].quantity = raw === "" ? 0 : parseInt(raw); setManoObra(u); }}
                           placeholder="0" className="w-full bg-amber-500/10 border border-amber-500/20 rounded-lg px-2 py-1.5 text-sm font-mono font-black text-amber-300 focus:ring-1 focus:ring-amber-500 outline-none mt-0.5" />
@@ -968,17 +968,17 @@ export function ReportForm({
               </div>
             </div>
 
-            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-                â”‚  SECCIÃ“N 3B Â· MATERIALES CONSUMIDOS (AC)   â”‚
-                â”‚  Color: Orange â€” Materiales                 â”‚
-                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
-            <div id="sec-materiales" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-orange-500/20">
+            {/* �R��������������������������������������������������������������������������������������������
+                �  SECCI�N 3B · MATERIALES CONSUMIDOS (AC)   �
+                �  Color: Orange � Materiales                 �
+                ��������������������������������������������������������������������������������������������� */}
+            <div id="sec-materiales" className="mx-1 mt-3 rounded-xl overflow-hidden border border-orange-500/20">
               <div className="bg-gradient-to-r from-orange-950/60 to-slate-900 px-4 py-3 flex items-center justify-between border-b border-orange-500/20">
                 <div className="flex items-center gap-2.5">
                   <div className="w-1 h-6 bg-orange-400 rounded-full shrink-0" />
                   <FileSpreadsheet className="w-4 h-4 text-orange-400" />
                   <div>
-                    <span className="text-[9px] font-black tracking-[0.15em] text-orange-500 uppercase">SecciÃ³n 03b Â· AC</span>
+                    <span className="text-[9px] font-black tracking-[0.15em] text-orange-500 uppercase">Sección 03b · AC</span>
                     <h2 className="text-xs font-black text-orange-200 leading-none">MATERIALES CONSUMIDOS (AC)</h2>
                   </div>
                 </div>
@@ -987,14 +987,14 @@ export function ReportForm({
                   + Material
                 </button>
               </div>
-              <div className="bg-slate-900/70 p-4 space-y-3">
+              <div className="bg-slate-900/70 p-3 space-y-3">
                 {materials.map((mat, i) => {
                   const rInfo = resources.find(r => r.id === mat.resourceId);
                   return (
                     <div key={i} className="relative bg-slate-800/60 p-3 rounded-xl border border-orange-500/10 space-y-2 text-xs">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
-                          <span className="text-[9px] font-bold text-orange-400 uppercase tracking-wider block mb-1">CatÃ¡logo de Materiales</span>
+                          <span className="text-[9px] font-bold text-orange-400 uppercase tracking-wider block mb-1">Catálogo de Materiales</span>
                           <select value={mat.resourceId}
                             onChange={(e) => { const u = [...materials]; u[i].resourceId = e.target.value; setMaterials(u); }}
                             className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1.5 text-[10px] text-slate-100 outline-none font-semibold">
@@ -1023,17 +1023,17 @@ export function ReportForm({
               </div>
             </div>
 
-            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-                â”‚  SECCIÃ“N 3C Â· EQUIPOS Y MAQUINARIA (AC)    â”‚
-                â”‚  Color: Teal â€” Maquinaria                   â”‚
-                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
-            <div id="sec-equipos" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-teal-500/20">
+            {/* �R��������������������������������������������������������������������������������������������
+                �  SECCI�N 3C · EQUIPOS Y MAQUINARIA (AC)    �
+                �  Color: Teal � Maquinaria                   �
+                ��������������������������������������������������������������������������������������������� */}
+            <div id="sec-equipos" className="mx-1 mt-3 rounded-xl overflow-hidden border border-teal-500/20">
               <div className="bg-gradient-to-r from-teal-950/60 to-slate-900 px-4 py-3 flex items-center justify-between border-b border-teal-500/20">
                 <div className="flex items-center gap-2.5">
                   <div className="w-1 h-6 bg-teal-400 rounded-full shrink-0" />
                   <RefreshCw className="w-4 h-4 text-teal-400" />
                   <div>
-                    <span className="text-[9px] font-black tracking-[0.15em] text-teal-500 uppercase">SecciÃ³n 03c Â· AC</span>
+                    <span className="text-[9px] font-black tracking-[0.15em] text-teal-500 uppercase">Sección 03c · AC</span>
                     <h2 className="text-xs font-black text-teal-200 leading-none">EQUIPOS Y MAQUINARIA (AC)</h2>
                   </div>
                 </div>
@@ -1042,14 +1042,14 @@ export function ReportForm({
                   + Equipo
                 </button>
               </div>
-              <div className="bg-slate-900/70 p-4 space-y-3">
+              <div className="bg-slate-900/70 p-3 space-y-3">
                 {equipos.map((eq, i) => {
                   const rInfo = resources.find(r => r.id === eq.resourceId);
                   return (
                     <div key={i} className="relative bg-slate-800/60 p-3 rounded-xl border border-teal-500/10 space-y-2 text-xs">
                       <div className="flex items-start gap-2">
                         <div className="flex-1 min-w-0">
-                          <span className="text-[9px] font-bold text-teal-400 uppercase tracking-wider block mb-1">CatÃ¡logo de Equipos</span>
+                          <span className="text-[9px] font-bold text-teal-400 uppercase tracking-wider block mb-1">Catálogo de Equipos</span>
                           <select value={eq.resourceId}
                             onChange={(e) => { const u = [...equipos]; u[i].resourceId = e.target.value; setEquipos(u); }}
                             className="w-full bg-slate-700 border border-slate-600 rounded-lg px-2 py-1.5 text-[10px] text-slate-100 outline-none font-semibold">
@@ -1078,33 +1078,33 @@ export function ReportForm({
               </div>
             </div>
 
-            {/* â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-                â”‚  SECCIÃ“N 4 Â· OTROS REPORTES                 â”‚
-                â”‚  Color: Emerald â€” PlanificaciÃ³n y gestiÃ³n   â”‚
-                â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ */}
-            <div id="sec-otros-reportes" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-emerald-500/20">
+            {/* �R��������������������������������������������������������������������������������������������
+                �  SECCI�N 4 · OTROS REPORTES                 �
+                �  Color: Emerald � Planificación y gestión   �
+                ��������������������������������������������������������������������������������������������� */}
+            <div id="sec-otros-reportes" className="mx-1 mt-3 rounded-xl overflow-hidden border border-emerald-500/20">
               <div className="bg-gradient-to-r from-emerald-950/60 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-emerald-500/20">
                 <div className="w-1 h-6 bg-emerald-400 rounded-full shrink-0" />
                 <AlertTriangle className="w-4 h-4 text-emerald-400" />
                 <div>
-                  <span className="text-[9px] font-black tracking-[0.15em] text-emerald-500 uppercase">SecciÃ³n 04</span>
-                  <h2 className="text-xs font-black text-emerald-200 leading-none">OTROS REPORTES: RESTRICCIONES Y PLANIFICACIÃ“N</h2>
+                  <span className="text-[9px] font-black tracking-[0.15em] text-emerald-500 uppercase">Sección 04</span>
+                  <h2 className="text-xs font-black text-emerald-200 leading-none">OTROS REPORTES: RESTRICCIONES Y PLANIFICACI�N</h2>
                 </div>
               </div>
-              <div className="bg-slate-900/70 p-4 space-y-3.5">
+              <div className="bg-slate-900/70 p-3 space-y-3.5">
                 <div>
                   <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Conflictos, Restricciones y Retrasos</label>
-                  <textarea rows={2} placeholder="Carencia de planos MEP, llegada tardÃ­a de mixer, lluviasâ€¦" value={conflicts} onChange={(e) => setConflicts(e.target.value)}
+                  <textarea rows={2} placeholder="Carencia de planos MEP, llegada tardía de mixer, lluvias⬦" value={conflicts} onChange={(e) => setConflicts(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Trabajos Planificados DÃ­a Siguiente</label>
-                  <textarea rows={2} placeholder="Vaciado zapatas eje C-3 a C-8, tarrajeo fachadaâ€¦" value={plannedNextDay} onChange={(e) => setPlannedNextDay(e.target.value)}
+                  <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Trabajos Planificados Día Siguiente</label>
+                  <textarea rows={2} placeholder="Vaciado zapatas eje C-3 a C-8, tarrajeo fachada⬦" value={plannedNextDay} onChange={(e) => setPlannedNextDay(e.target.value)}
                     className="w-full bg-slate-800 border border-emerald-500/30 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none" />
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Observaciones Generales</label>
-                  <textarea rows={2} placeholder="Visita de supervisiÃ³n tÃ©cnica sin anotaciones negativasâ€¦" value={generalNotes} onChange={(e) => setGeneralNotes(e.target.value)}
+                  <textarea rows={2} placeholder="Visita de supervisión técnica sin anotaciones negativas⬦" value={generalNotes} onChange={(e) => setGeneralNotes(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none" />
                 </div>
               </div>
@@ -1112,19 +1112,19 @@ export function ReportForm({
           </>
         )}
 
-        {/* â•â•â•â•â•â• SECCIONES DE SEGURIDAD â•â•â•â•â•â• */}
+        {/* �"��"��"��"��"��"� SECCIONES DE SEGURIDAD �"��"��"��"��"��"� */}
         {reportType === "seguridad" && (
           <>
-            <div id="sec-seguridad" className="mx-3 mt-3 rounded-2xl overflow-hidden border border-emerald-500/20">
+            <div id="sec-seguridad" className="mx-1 mt-3 rounded-xl overflow-hidden border border-emerald-500/20">
               <div className="bg-gradient-to-r from-emerald-950/60 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-emerald-500/20">
                 <div className="w-1 h-6 bg-emerald-400 rounded-full shrink-0" />
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 <div>
-                  <span className="text-[9px] font-black tracking-[0.15em] text-emerald-500 uppercase">SecciÃ³n 01 Â· HSE</span>
+                  <span className="text-[9px] font-black tracking-[0.15em] text-emerald-500 uppercase">Sección 01 · HSE</span>
                   <h2 className="text-xs font-black text-emerald-200 leading-none">SEGURIDAD E INCIDENTES</h2>
                 </div>
               </div>
-              <div className="bg-slate-900/70 p-4 space-y-3.5">
+              <div className="bg-slate-900/70 p-3 space-y-3.5">
                 <div>
                   <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Censo Total en Campo</label>
                   <input type="text" inputMode="numeric" value={totalStaff === 0 ? "" : String(totalStaff)}
@@ -1134,44 +1134,44 @@ export function ReportForm({
                 <div className="flex items-center gap-3 bg-slate-800/60 p-3 rounded-xl border border-emerald-500/10">
                   <input type="checkbox" id="safe-check" checked={safetyInspected} onChange={(e) => setSafetyInspected(e.target.checked)}
                     className="w-4 h-4 text-emerald-500 border-slate-600 rounded focus:ring-emerald-500 bg-slate-700" />
-                  <label htmlFor="safe-check" className="text-[11px] font-bold text-slate-200 cursor-pointer">Â¿Charla e InspecciÃ³n de Seguridad Realizada?</label>
+                  <label htmlFor="safe-check" className="text-[11px] font-bold text-slate-200 cursor-pointer">¿Charla e Inspección de Seguridad Realizada?</label>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Detalles PrevenciÃ³n / EPPs</label>
-                  <textarea rows={2} placeholder="InspecciÃ³n de andamios, charla de 5 minutosâ€¦" value={safetyDetails} onChange={(e) => setSafetyDetails(e.target.value)}
+                  <label className="block text-[10px] font-bold text-emerald-500/80 mb-1.5 tracking-wider uppercase">Detalles Prevención / EPPs</label>
+                  <textarea rows={2} placeholder="Inspección de andamios, charla de 5 minutos⬦" value={safetyDetails} onChange={(e) => setSafetyDetails(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-emerald-500 outline-none resize-none" />
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-rose-500/80 mb-1.5 tracking-wider uppercase">Registro de Accidentes / Incidentes</label>
-                  <textarea rows={2} placeholder="Escribe 'Ninguno' o detalla cualquier golpe, corteâ€¦" value={incidents} onChange={(e) => setIncidents(e.target.value)}
+                  <textarea rows={2} placeholder="Escribe 'Ninguno' o detalla cualquier golpe, corte⬦" value={incidents} onChange={(e) => setIncidents(e.target.value)}
                     className="w-full bg-slate-800 border border-rose-500/20 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-rose-500 outline-none resize-none" />
                 </div>
               </div>
             </div>
 
-            <div className="mx-3 mt-3 rounded-2xl overflow-hidden border border-amber-500/20">
+            <div className="mx-1 mt-3 rounded-xl overflow-hidden border border-amber-500/20">
               <div className="bg-gradient-to-r from-amber-950/60 to-slate-900 px-4 py-3 flex items-center gap-2.5 border-b border-amber-500/20">
                 <div className="w-1 h-6 bg-amber-400 rounded-full shrink-0" />
                 <AlertTriangle className="w-4 h-4 text-amber-400" />
                 <div>
-                  <span className="text-[9px] font-black tracking-[0.15em] text-amber-500 uppercase">SecciÃ³n 02</span>
+                  <span className="text-[9px] font-black tracking-[0.15em] text-amber-500 uppercase">Sección 02</span>
                   <h2 className="text-xs font-black text-amber-200 leading-none">RESTRICCIONES E INTERFERENCIAS</h2>
                 </div>
               </div>
-              <div className="bg-slate-900/70 p-4 space-y-3.5">
+              <div className="bg-slate-900/70 p-3 space-y-3.5">
                 <div>
                   <label className="block text-[10px] font-bold text-amber-500/80 mb-1.5 tracking-wider uppercase">Conflictos y Restricciones</label>
-                  <textarea rows={2} placeholder="Detalles de restriccionesâ€¦" value={conflicts} onChange={(e) => setConflicts(e.target.value)}
+                  <textarea rows={2} placeholder="Detalles de restricciones⬦" value={conflicts} onChange={(e) => setConflicts(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-amber-500 outline-none resize-none" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-amber-500/80 mb-1.5 tracking-wider uppercase">Trabajos Planificados DÃ­a Siguiente</label>
-                  <textarea rows={2} placeholder="Plan del siguiente turnoâ€¦" value={plannedNextDay} onChange={(e) => setPlannedNextDay(e.target.value)}
+                  <label className="block text-[10px] font-bold text-amber-500/80 mb-1.5 tracking-wider uppercase">Trabajos Planificados Día Siguiente</label>
+                  <textarea rows={2} placeholder="Plan del siguiente turno⬦" value={plannedNextDay} onChange={(e) => setPlannedNextDay(e.target.value)}
                     className="w-full bg-slate-800 border border-amber-500/20 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-amber-500 outline-none resize-none" />
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-amber-500/80 mb-1.5 tracking-wider uppercase">Observaciones Generales</label>
-                  <textarea rows={2} placeholder="Observaciones adicionalesâ€¦" value={generalNotes} onChange={(e) => setGeneralNotes(e.target.value)}
+                  <textarea rows={2} placeholder="Observaciones adicionales⬦" value={generalNotes} onChange={(e) => setGeneralNotes(e.target.value)}
                     className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:ring-1 focus:ring-amber-500 outline-none resize-none" />
                 </div>
               </div>
@@ -1180,18 +1180,18 @@ export function ReportForm({
         )}
 
         {/* Config Webhook */}
-        <div className="mx-3 mt-3 mb-3 bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-2">
-          <span className="text-[9px] font-black text-slate-500 block uppercase tracking-[0.15em]">SincronizaciÃ³n Â· API Webhook</span>
+        <div className="mx-1 mt-3 mb-3 bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-2">
+          <span className="text-[9px] font-black text-slate-500 block uppercase tracking-[0.15em]">Sincronización · API Webhook</span>
           <input type="text" placeholder="https://script.google.com/macros/s/..." value={appsScriptUrl} onChange={(e) => setAppsScriptUrl(e.target.value)}
             className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-[10px] font-mono text-sky-400 focus:ring-1 focus:ring-sky-500 outline-none" />
         </div>
 
       </div>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          FOOTER FIJO â€” Acciones principales
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-      <div className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-3 py-3 grid grid-cols-3 gap-2 z-50">
+      {/* �"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"�
+          FOOTER FIJO � Acciones principales
+      �"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"� */}
+      <div className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-1.5 py-2.5 grid grid-cols-3 gap-1.5 z-50">
         <button type="button" onClick={saveDraftManually}
           className="flex flex-col items-center justify-center bg-slate-800 hover:bg-slate-700 py-3 rounded-xl border border-slate-700 transition text-[10px] font-bold text-slate-300 gap-1">
           <Save className="w-4 h-4 text-slate-400 shrink-0" />
