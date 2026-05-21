@@ -305,11 +305,14 @@ El dashboard carga datos con esta prioridad (de más confiable a menos):
 │  Render:                                                                 │
 │    ├── Curva S (PV, EV, AC acumulados por fecha)                        │
 │    ├── Métricas: BAC, PV, EV, AC, SV, CV, SPI, CPI, %Avance             │
-│    ├── Cuaderno de Obra (tarjetas colapsables por día)                   │
-│    │     PV: actividades planeadas × P.U.                               │
-│    │     EV: actividades ejecutadas × P.U.                              │
-│    │     AC: MO (horas×$/h) + Mat (qty×$/und) + Eq (qty×$/und)          │
-│    └── Tabla de capítulos EDT con EVM completo                           │
+│    ├── Tabla de capítulos EDT con EVM completo                           │
+│    └── Cuaderno de Obra (reporte seleccionado)                           │
+│          PV/EV/AC del día (3 tarjetas)                                   │
+│          1. Actividades: código, nombre, und, meta, ejec., P.U.,         │
+│             PV (meta × PU), EV (ejec. × PU), notas                       │
+│          2. Recursos: MO (horas × $/h), Materiales (cant × $/und),       │
+│             Equipos (cant × $/und) — cada uno con subtotal               │
+│          3. Safety + Incidentes                                          │
 │                                                                          │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
