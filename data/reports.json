@@ -1454,5 +1454,17 @@
     "signatureBase64": "",
     "photoBase64s": [],
     "createdAt": "2026-05-20T15:32:22.986Z"
+  },
+  {
+    "date": "2026-05-20",
+    "projectCode": "PRJ-001",
+    "supervisor": "Test",
+    "reportType": "produccion",
+    "activities": [],
+    "id": "REP-20260520-225351",
+    "signatureUrlLocal": "",
+    "photoUrlsLocal": [],
+    "photoBase64s": [],
+    "createdAt": "2026-05-21T03:53:51.255Z"
   }
 ]

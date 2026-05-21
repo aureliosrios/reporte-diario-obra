@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
@@ -10,9 +9,6 @@ dotenv.config();
 
 const app = express();
 const PORT = 3000;
-
-// Default Google Apps Script Webhook URL
-const DEFAULT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwO73sIZFyexqLhq79sJuS9yjEtQXj_mdIy2cW3az4lZgkuWIJEhudYUYdsDnfUfHnlYw/exec";
 
 // Middleware for parsing large JSON files (we are uploading base64 signatures/photos)
 app.use(express.json({ limit: "50mb" }));
@@ -434,23 +430,6 @@ app.post("/api/reports", (req, res) => {
   // Write database updates
   fs.writeFileSync(REPORTS_FILE, JSON.stringify(submittedReports, null, 2));
 
-  // Forward to Google Sheets (server-to-server, no CORS issues)
-  const webhookUrl = data.appsScriptUrl || DEFAULT_WEBHOOK_URL;
-  if (webhookUrl && webhookUrl.startsWith("http")) {
-    // Fire-and-forget: don't block the response
-    fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newReport)
-    }).then(gsRes => {
-      if (!gsRes.ok) {
-        console.warn("Google Sheets webhook responded with status:", gsRes.status);
-      }
-    }).catch(err => {
-      console.error("Error forwarding to Google Sheets:", err.message);
-    });
-  }
-
   res.json({
     status: "success",
     reportId: reportId,
@@ -569,15 +548,8 @@ Redacta de manera profesional en español con formato Markdown limpio y elegante
 
 // Serve Vite or static assets depending on environment
 const startServer = async () => {
-  if (process.env.NODE_ENV !== "production") {
-    // Development mode
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-  } else {
-    // Production mode
+  if (process.env.NODE_ENV === "production") {
+    // Production mode: serve pre-built frontend
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
@@ -587,6 +559,9 @@ const startServer = async () => {
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`[RDO BACKEND] Servidor Express corriendo en el puerto ${PORT}`);
+    if (process.env.NODE_ENV !== "production") {
+      console.log(`[RDO BACKEND] Modo desarrollo: inicia Vite aparte con "npx vite" en otra terminal (puerto 5173)`);
+    }
   });
 };
 
