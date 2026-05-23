@@ -193,9 +193,9 @@ const generate30DaysSyntheticReports = (): DailyReport[] => {
 
     // ── Recursos consumidos (IDs reales BD_RRHH + BD_Almacen) ─────────────────
     const manoObra: DailyReport["manoObra"] = [
-      { resourceId: "LH-CAP", name: "Capataz de Edificación", hoursWorked: effectiveHours,    edtGroupCode: chapterWbsId },
-      { resourceId: "LH-OPE", name: "Operario de Obra Civil",  hoursWorked: effectiveHours * 4, edtGroupCode: chapterWbsId },
-      { resourceId: "LH-PEO", name: "Peón de Construcción",   hoursWorked: effectiveHours * 8, edtGroupCode: chapterWbsId }
+      { resourceId: "LH-CAP", name: "Capataz de Edificación", quantity: 2, hoursWorked: effectiveHours,    edtGroupCode: chapterWbsId },
+      { resourceId: "LH-OPE", name: "Operario de Obra Civil", quantity: 6, hoursWorked: effectiveHours * 4, edtGroupCode: chapterWbsId },
+      { resourceId: "LH-PEO", name: "Peón de Construcción",   quantity: 12, hoursWorked: effectiveHours * 8, edtGroupCode: chapterWbsId }
     ];
     const materials: DailyReport["materials"] = [];
     const equipos:   DailyReport["equipos"]   = [];
@@ -215,8 +215,10 @@ const generate30DaysSyntheticReports = (): DailyReport[] => {
       materials.push({ resourceId: "MAT-POR", name: "Porcelanato pulido premium 60x60cm", qtyConsumed: day >= 16 ? 20 : 0, unit: "m2", edtGroupCode: "ARQ-ACAB" });
     } else {
       // INS-SAN
-      materials.push({ resourceId: "MAT-DES", name: "Tubería PVC Sanitaria pesada de 4\"", qtyConsumed: 15, unit: "m", edtGroupCode: "INS-SAN" });
-      materials.push({ resourceId: "MAT-AGU", name: "Tubería PVC agua fría de 1/2\"", qtyConsumed: 22, unit: "m", edtGroupCode: "INS-SAN" });
+      materials.push({ resourceId: "MAT-DES", name: "Tubería PVC Sanitaria pesada de 4\"", qtyConsumed: 320, unit: "m", edtGroupCode: "INS-SAN" });
+      materials.push({ resourceId: "MAT-AGU", name: "Tubería PVC agua fría de 1/2\"", qtyConsumed: 550, unit: "m", edtGroupCode: "INS-SAN" });
+      materials.push({ resourceId: "MAT-POR", name: "Porcelanato pulido premium 60x60cm", qtyConsumed: 180, unit: "m2", edtGroupCode: "INS-SAN" });
+      equipos.push({ resourceId: "EQ-RET", name: "Retroexcavadora CAT 320 Orugas", qtyUsed: effectiveHours, unit: "Hora Máquina", edtGroupCode: "INS-SAN" });
     }
 
     reports.push({

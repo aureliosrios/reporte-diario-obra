@@ -133,7 +133,7 @@ export function ProjectDashboard({
     // Calculate AC from resource log
     r.manoObra?.forEach(mo => {
       const cost = RESOURCE_COSTS[mo.resourceId] || 20.0;
-      ac += (mo.hoursWorked || 0) * cost;
+      ac += (mo.quantity || 1) * (mo.hoursWorked || 0) * cost;
     });
 
     r.materials?.forEach(mat => {
