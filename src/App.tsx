@@ -557,6 +557,7 @@ export default function App() {
             pvCurveData={pvCurveData}
             pvByChapter={pvByChapter}
             bac={projectBac}
+            plannedValues={plannedValues}
           />
         </main>
       </div>
@@ -656,6 +657,7 @@ export default function App() {
               pvCurveData={pvCurveData}
               pvByChapter={pvByChapter}
               bac={projectBac}
+              plannedValues={plannedValues}
             />
           </div>
         )}
