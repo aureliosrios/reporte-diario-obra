@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DailyReport, EvmMetrics, EdtItem, ResourceItem } from "../types";
+import { DailyReport, EvmMetrics, EdtItem, ResourceItem, PlannedValue } from "../types";
 import { 
   TrendingUp, TrendingDown, Clock, Shield, CalendarDays, Image as ImageIcon, 
   UserCheck, AlertTriangle, ArrowRight, Table, FileText, CheckCircle2, 
@@ -43,6 +43,7 @@ interface ProjectDashboardProps {
   resources?: ResourceItem[];
   /** BAC total proveniente de pv-edt-data.json */
   bac?: number;
+  plannedValues?: PlannedValue[];
 }
 
 export function ProjectDashboard({ 
@@ -54,7 +55,8 @@ export function ProjectDashboard({
   pvCurveData = [],
   pvByChapter = [],
   resources = [],
-  bac: bacFromProps
+  bac: bacFromProps,
+  plannedValues = []
 }: ProjectDashboardProps) {
   
   // Build resource cost lookup from BD_RRHH data, fall back to hardcoded defaults
@@ -77,35 +79,41 @@ export function ProjectDashboard({
   useEffect(() => {
     if (reports.length > 0) {
       if (!selectedReportId || reports.length > prevReportsLength) {
-        const lastReport = reports[reports.length - 1];
+        const sorted = [...reports].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        const lastReport = sorted[sorted.length - 1];
         setSelectedReportId(lastReport.id);
         setCutoffDate(lastReport.date);
       } else if (!cutoffDate) {
-        const lastReport = reports[reports.length - 1];
+        const sorted = [...reports].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        const lastReport = sorted[sorted.length - 1];
         setCutoffDate(lastReport.date);
       }
     }
     setPrevReportsLength(reports.length);
   }, [reports, pvCurveData]);
 
+  // Parse chronological reports
+  const sortedReports = [...reports].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
   // Determine the active cutoff date, falling back to today or last report date
   const defaultToday = new Date().toISOString().split('T')[0];
   let activeCutoffDate = cutoffDate || defaultToday;
 
-  // Clamp activeCutoffDate to PV curve bounds if available
+  // Find the absolute range of dates available in the system (minimum/maximum of both reports and S-curve)
+  let minAllowedDate = sortedReports.length > 0 ? sortedReports[0].date : "";
+  let maxAllowedDate = sortedReports.length > 0 ? sortedReports[sortedReports.length - 1].date : "";
+
   if (pvCurveData.length > 0) {
-    const start = pvCurveData[0].date;
-    const end = pvCurveData[pvCurveData.length - 1].date;
-    if (activeCutoffDate < start) activeCutoffDate = start;
-    if (activeCutoffDate > end) activeCutoffDate = end;
-  } else if (reports.length > 0 && activeCutoffDate > reports[reports.length - 1].date) {
-    // If no PV curve data but reports exist, clamp to latest report date
-    const end = reports[reports.length - 1].date;
-    if (activeCutoffDate > end) activeCutoffDate = end;
+    const pvStart = pvCurveData[0].date;
+    const pvEnd = pvCurveData[pvCurveData.length - 1].date;
+    
+    if (!minAllowedDate || pvStart < minAllowedDate) minAllowedDate = pvStart;
+    if (!maxAllowedDate || pvEnd > maxAllowedDate) maxAllowedDate = pvEnd;
   }
 
-  // Parse chronological reports
-  const sortedReports = [...reports].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  // Clamp activeCutoffDate to the absolute allowed range
+  if (minAllowedDate && activeCutoffDate < minAllowedDate) activeCutoffDate = minAllowedDate;
+  if (maxAllowedDate && activeCutoffDate > maxAllowedDate) activeCutoffDate = maxAllowedDate;
 
   // 1. Enrich reports with mathematically exact live EVM calculations
   const enrichedReports = sortedReports.map(r => {
@@ -167,6 +175,64 @@ export function ProjectDashboard({
 
   // Find the selected report to determine the "Status Date" (Fecha de Corte)
   const selectedReport = enrichedReports.find(r => r.id === selectedReportId) || enrichedReports[enrichedReports.length - 1];
+
+  // Merge planned activities for this date (from plannedValues) and executed activities (from the report)
+  const mergedActivities = (() => {
+    if (!selectedReport) return [];
+    
+    const targetDate = selectedReport.date;
+    
+    // Get planned values for this date
+    const dayPlanned = (plannedValues || []).filter(pv => pv.date === targetDate && pv.plannedQty > 0);
+    
+    // Create map of edtCode -> activities
+    const map = new Map<string, {
+      edtCode: string;
+      name: string;
+      unit: string;
+      plannedQty: number;
+      qtyExecuted: number;
+      notes: string;
+    }>();
+    
+    // Populate planned values
+    dayPlanned.forEach(pv => {
+      const edt = edtList.find(e => e.code === pv.edtCode);
+      if (edt) {
+        map.set(pv.edtCode, {
+          edtCode: pv.edtCode,
+          name: edt.name,
+          unit: edt.unit,
+          plannedQty: pv.plannedQty,
+          qtyExecuted: 0,
+          notes: ""
+        });
+      }
+    });
+    
+    // Populate or merge executed activities from report
+    if (selectedReport.activities) {
+      selectedReport.activities.forEach(act => {
+        const existing = map.get(act.edtCode);
+        if (existing) {
+          existing.qtyExecuted = act.qtyExecuted;
+          existing.notes = act.notes || "";
+        } else {
+          const edt = edtList.find(e => e.code === act.edtCode);
+          map.set(act.edtCode, {
+            edtCode: act.edtCode,
+            name: act.name || (edt ? edt.name : ""),
+            unit: act.unit || (edt ? edt.unit : ""),
+            plannedQty: act.plannedQty || 0,
+            qtyExecuted: act.qtyExecuted,
+            notes: act.notes || ""
+          });
+        }
+      });
+    }
+    
+    return Array.from(map.values());
+  })();
 
   // 2. Generate cumulative series for the S-Curve SVG Plot
   // PV = full project baseline from PV.xlsx (177 dates)
@@ -247,13 +313,40 @@ export function ProjectDashboard({
   let latestEv = 0;
   let latestAc = 0;
 
-  chartData.forEach(d => {
-    if (d.ev !== undefined && d.ac !== undefined) {
-      latestPv = d.pv;
-      latestEv = d.ev;
-      latestAc = d.ac;
+  // 1. Calculate cumulative EV and AC directly from reports up to activeCutoffDate
+  let cumEv = 0;
+  let cumAc = 0;
+  enrichedReports.forEach(r => {
+    if (r.date <= activeCutoffDate) {
+      cumEv += r.computedMetrics.earnedValue;
+      cumAc += r.computedMetrics.actualCost;
+      latestEv = cumEv;
+      latestAc = cumAc;
     }
   });
+
+  // 2. Calculate cumulative PV up to activeCutoffDate from S-curve or fallback reports
+  if (pvCurveData.length > 0) {
+    let closestPoint = pvCurveData.find(p => p.date === activeCutoffDate);
+    if (!closestPoint) {
+      for (const p of pvCurveData) {
+        if (p.date <= activeCutoffDate) {
+          closestPoint = p;
+        } else {
+          break;
+        }
+      }
+    }
+    latestPv = closestPoint ? closestPoint.pvCumulative : 0;
+  } else {
+    let cumPv = 0;
+    enrichedReports.forEach(r => {
+      if (r.date <= activeCutoffDate) {
+        cumPv += r.computedMetrics.plannedValue;
+        latestPv = cumPv;
+      }
+    });
+  }
 
   // BAC = Budget at Completion (total PV del proyecto)
   // Prioridad: 1) prop bac (de pv-edt-data.json), 2) último punto de pvCurveData, 3) latestPv
@@ -634,8 +727,8 @@ export function ProjectDashboard({
                   type="date"
                   value={activeCutoffDate}
                   onChange={e => handleDateChange(e.target.value)}
-                  min={pvCurveData.length > 0 ? pvCurveData[0].date : (enrichedReports.length > 0 ? enrichedReports[0].date : undefined)}
-                  max={pvCurveData.length > 0 ? pvCurveData[pvCurveData.length - 1].date : (enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : undefined)}
+                  min={minAllowedDate || undefined}
+                  max={maxAllowedDate || undefined}
                   className="bg-transparent text-xs font-mono font-bold text-white border-none outline-none appearance-none cursor-pointer [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-50 w-[130px]"
                 />
               </div>
@@ -1152,7 +1245,7 @@ export function ProjectDashboard({
             })()}
 
             {/* Activities Table */}
-            {selectedReport.activities && selectedReport.activities.length > 0 ? (
+            {mergedActivities && mergedActivities.length > 0 ? (
               <div className="space-y-3">
                 <span className="text-xs font-bold text-slate-400 block uppercase tracking-wider">1. Avance Físico Registrado (Earned Value):</span>
                 <div className="border border-slate-850 rounded-xl overflow-hidden bg-slate-900/30">
@@ -1171,7 +1264,7 @@ export function ProjectDashboard({
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-850">
-                      {selectedReport.activities.map((act, index) => {
+                      {mergedActivities.map((act, index) => {
                         const edt = edtList.find(e => e.code === act.edtCode);
                         const pu = edt?.unitPrice || 0;
                         const pv = (act.plannedQty || 0) * pu;
@@ -1179,10 +1272,18 @@ export function ProjectDashboard({
                         return (
                           <tr key={index} className="hover:bg-slate-900/20">
                             <td className="p-3 font-mono font-bold text-sky-400">{act.edtCode}</td>
-                            <td className="p-3 font-bold text-slate-200">{act.name || "Actividad del RDO"}</td>
+                            <td className="p-3 font-bold text-slate-200">
+                              {act.name || "Actividad del RDO"}
+                              {act.plannedQty > 0 && act.qtyExecuted === 0 && (
+                                <span className="ml-2 bg-indigo-500/10 text-indigo-400 text-[8px] font-black uppercase px-2 py-0.5 rounded-full border border-indigo-500/20">Solo Programado</span>
+                              )}
+                              {act.plannedQty === 0 && act.qtyExecuted > 0 && (
+                                <span className="ml-2 bg-amber-500/10 text-amber-400 text-[8px] font-black uppercase px-2 py-0.5 rounded-full border border-amber-500/20">No Planificado</span>
+                              )}
+                            </td>
                             <td className="p-3 text-right font-mono text-slate-500">{act.unit || "-"}</td>
                             <td className="p-3 text-right font-mono text-slate-400">{act.plannedQty || 0}</td>
-                            <td className="p-3 text-right font-mono font-extrabold text-emerald-400">{act.qtyExecuted}</td>
+                            <td className={`p-3 text-right font-mono font-extrabold ${act.qtyExecuted > 0 ? "text-emerald-400" : "text-slate-500"}`}>{act.qtyExecuted}</td>
                             <td className="p-3 text-right font-mono text-slate-400">S/ {pu}</td>
                             <td className="p-3 text-right font-mono text-indigo-400">
                               S/ {pv.toLocaleString('es-PE', { maximumFractionDigits: 0 })}
@@ -1199,20 +1300,20 @@ export function ProjectDashboard({
                       <tr className="bg-slate-900/60 text-[10px] font-extrabold">
                         <td colSpan={3} className="p-3 text-right text-slate-300">TOTALES</td>
                         <td className="p-3 text-right font-mono text-slate-400">
-                          {selectedReport.activities.reduce((s, a) => s + (a.plannedQty || 0), 0)}
+                          {mergedActivities.reduce((s, a) => s + (a.plannedQty || 0), 0)}
                         </td>
                         <td className="p-3 text-right font-mono text-emerald-400">
-                          {selectedReport.activities.reduce((s, a) => s + (a.qtyExecuted || 0), 0)}
+                          {mergedActivities.reduce((s, a) => s + (a.qtyExecuted || 0), 0)}
                         </td>
                         <td></td>
                         <td className="p-3 text-right font-mono text-indigo-300">
-                          S/ {selectedReport.activities.reduce((s, a) => {
+                          S/ {mergedActivities.reduce((s, a) => {
                             const e = edtList.find(e => e.code === a.edtCode);
                             return s + ((a.plannedQty || 0) * (e?.unitPrice || 0));
                           }, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
                         </td>
                         <td className="p-3 text-right font-mono text-emerald-300">
-                          S/ {selectedReport.activities.reduce((s, a) => {
+                          S/ {mergedActivities.reduce((s, a) => {
                             const e = edtList.find(e => e.code === a.edtCode);
                             return s + ((a.qtyExecuted || 0) * (e?.unitPrice || 0));
                           }, 0).toLocaleString('es-PE', { maximumFractionDigits: 0 })}
