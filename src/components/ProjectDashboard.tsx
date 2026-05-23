@@ -178,9 +178,7 @@ export function ProjectDashboard({
 
   // Merge planned activities for this date (from plannedValues) and executed activities (from the report)
   const mergedActivities = (() => {
-    if (!selectedReport) return [];
-    
-    const targetDate = selectedReport.date;
+    const targetDate = activeCutoffDate;
     
     // Get planned values for this date
     const dayPlanned = (plannedValues || []).filter(pv => pv.date === targetDate && pv.plannedQty > 0);
@@ -210,26 +208,29 @@ export function ProjectDashboard({
       }
     });
     
+    // Only merge actual activities if a report actually exists FOR THIS EXACT DATE
+    const reportedActs = (selectedReport && selectedReport.date === targetDate) 
+      ? (selectedReport.activities || []) 
+      : [];
+      
     // Populate or merge executed activities from report
-    if (selectedReport.activities) {
-      selectedReport.activities.forEach(act => {
-        const existing = map.get(act.edtCode);
-        if (existing) {
-          existing.qtyExecuted = act.qtyExecuted;
-          existing.notes = act.notes || "";
-        } else {
-          const edt = edtList.find(e => e.code === act.edtCode);
-          map.set(act.edtCode, {
-            edtCode: act.edtCode,
-            name: act.name || (edt ? edt.name : ""),
-            unit: act.unit || (edt ? edt.unit : ""),
-            plannedQty: act.plannedQty || 0,
-            qtyExecuted: act.qtyExecuted,
-            notes: act.notes || ""
-          });
-        }
-      });
-    }
+    reportedActs.forEach(act => {
+      const existing = map.get(act.edtCode);
+      if (existing) {
+        existing.qtyExecuted = act.qtyExecuted;
+        existing.notes = act.notes || "";
+      } else {
+        const edt = edtList.find(e => e.code === act.edtCode);
+        map.set(act.edtCode, {
+          edtCode: act.edtCode,
+          name: act.name || (edt ? edt.name : ""),
+          unit: act.unit || (edt ? edt.unit : ""),
+          plannedQty: act.plannedQty || 0,
+          qtyExecuted: act.qtyExecuted,
+          notes: act.notes || ""
+        });
+      }
+    });
     
     return Array.from(map.values());
   })();
@@ -495,20 +496,24 @@ export function ProjectDashboard({
 
   // Navigate days with arrow buttons
   const handlePrevDay = () => {
-    const idx = enrichedReports.findIndex(r => r.id === selectedReportId);
-    if (idx > 0) {
-      const prevReport = enrichedReports[idx - 1];
-      setSelectedReportId(prevReport.id);
-      setCutoffDate(prevReport.date);
-    }
+    if (!activeCutoffDate) return;
+    const dateObj = new Date(`${activeCutoffDate}T12:00:00Z`);
+    dateObj.setUTCDate(dateObj.getUTCDate() - 1);
+    const newDateStr = dateObj.toISOString().split("T")[0];
+    
+    if (minAllowedDate && newDateStr < minAllowedDate) return;
+    
+    handleDateChange(newDateStr);
   };
   const handleNextDay = () => {
-    const idx = enrichedReports.findIndex(r => r.id === selectedReportId);
-    if (idx < enrichedReports.length - 1) {
-      const nextReport = enrichedReports[idx + 1];
-      setSelectedReportId(nextReport.id);
-      setCutoffDate(nextReport.date);
-    }
+    if (!activeCutoffDate) return;
+    const dateObj = new Date(`${activeCutoffDate}T12:00:00Z`);
+    dateObj.setUTCDate(dateObj.getUTCDate() + 1);
+    const newDateStr = dateObj.toISOString().split("T")[0];
+    
+    if (maxAllowedDate && newDateStr > maxAllowedDate) return;
+    
+    handleDateChange(newDateStr);
   };
 
   // Handle live sheets refresh trigger

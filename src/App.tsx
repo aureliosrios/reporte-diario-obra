@@ -80,7 +80,7 @@ const BACKUP_RESOURCES: ResourceItem[] = [
 
 const generateBackupPlannedValues = (): PlannedValue[] => {
   const values: PlannedValue[] = [];
-  const baseDate = new Date("2026-06-01");
+  const baseDate = new Date("2026-05-20");
 
   for (let i = 0; i < 20; i++) {
     const d = new Date(baseDate.getTime() + i * 24 * 60 * 60 * 1000);
@@ -101,7 +101,7 @@ const generateBackupPlannedValues = (): PlannedValue[] => {
 
 const generate20DaysSyntheticReports = (): DailyReport[] => {
   const reports: DailyReport[] = [];
-  const baseDate = new Date("2026-06-01");
+  const baseDate = new Date("2026-05-20");
 
   // Fases reales del cronograma EDT (nuevo: 5 capítulos, 90 días):
   //  Días 01-04: OBR-PRE  - Obras Preliminares (OBR-PRE-01 … OBR-PRE-04)
