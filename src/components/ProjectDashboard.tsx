@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DailyReport, EvmMetrics, EdtItem, ResourceItem } from "../types";
 import { 
   TrendingUp, TrendingDown, Clock, Shield, CalendarDays, Image as ImageIcon, 
@@ -66,9 +66,43 @@ export function ProjectDashboard({
   const [selectedReportId, setSelectedReportId] = useState<string | null>(
     reports.length > 0 ? reports[reports.length - 1].id : null
   );
+
+  const [cutoffDate, setCutoffDate] = useState<string>("");
+  const [prevReportsLength, setPrevReportsLength] = useState(reports.length);
   
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
+
+  // Sync state on mount/fetch or when new reports are added
+  useEffect(() => {
+    if (reports.length > 0) {
+      if (!selectedReportId || reports.length > prevReportsLength) {
+        const lastReport = reports[reports.length - 1];
+        setSelectedReportId(lastReport.id);
+        setCutoffDate(lastReport.date);
+      } else if (!cutoffDate) {
+        const lastReport = reports[reports.length - 1];
+        setCutoffDate(lastReport.date);
+      }
+    }
+    setPrevReportsLength(reports.length);
+  }, [reports, pvCurveData]);
+
+  // Determine the active cutoff date, falling back to today or last report date
+  const defaultToday = new Date().toISOString().split('T')[0];
+  let activeCutoffDate = cutoffDate || defaultToday;
+
+  // Clamp activeCutoffDate to PV curve bounds if available
+  if (pvCurveData.length > 0) {
+    const start = pvCurveData[0].date;
+    const end = pvCurveData[pvCurveData.length - 1].date;
+    if (activeCutoffDate < start) activeCutoffDate = start;
+    if (activeCutoffDate > end) activeCutoffDate = end;
+  } else if (reports.length > 0 && activeCutoffDate > reports[reports.length - 1].date) {
+    // If no PV curve data but reports exist, clamp to latest report date
+    const end = reports[reports.length - 1].date;
+    if (activeCutoffDate > end) activeCutoffDate = end;
+  }
 
   // Parse chronological reports
   const sortedReports = [...reports].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -138,7 +172,7 @@ export function ProjectDashboard({
   // PV = full project baseline from PV.xlsx (177 dates)
   // EV & AC = accumulated from reports up to selected status date
   const generateChartData = () => {
-    const statusDate = selectedReport ? selectedReport.date : (enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : '');
+    const statusDate = activeCutoffDate;
     const statusDateTime = new Date(statusDate).getTime();
 
     // Build cumulative EV and AC from reports
@@ -247,9 +281,7 @@ export function ProjectDashboard({
   //   ETC = (BAC - EV) / CPI          (proyección al ritmo actual)
   //   EAC = AC + ETC                  (estimado a la terminación)
   const generateChaptersData = () => {
-    const statusDate = selectedReport
-      ? selectedReport.date
-      : (enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : '');
+    const statusDate = activeCutoffDate;
     const statusDateTime = new Date(statusDate).getTime();
 
     // ── Lookup: código del capítulo → PV acumulado a la fecha de corte ──
@@ -353,6 +385,7 @@ export function ProjectDashboard({
 
   // Calendar date picker: find report closest to selected date
   const handleDateChange = (dateStr: string) => {
+    setCutoffDate(dateStr);
     // Find the last report on or before the selected date
     let bestReport: typeof enrichedReports[0] | null = null;
     for (const r of enrichedReports) {
@@ -370,11 +403,19 @@ export function ProjectDashboard({
   // Navigate days with arrow buttons
   const handlePrevDay = () => {
     const idx = enrichedReports.findIndex(r => r.id === selectedReportId);
-    if (idx > 0) setSelectedReportId(enrichedReports[idx - 1].id);
+    if (idx > 0) {
+      const prevReport = enrichedReports[idx - 1];
+      setSelectedReportId(prevReport.id);
+      setCutoffDate(prevReport.date);
+    }
   };
   const handleNextDay = () => {
     const idx = enrichedReports.findIndex(r => r.id === selectedReportId);
-    if (idx < enrichedReports.length - 1) setSelectedReportId(enrichedReports[idx + 1].id);
+    if (idx < enrichedReports.length - 1) {
+      const nextReport = enrichedReports[idx + 1];
+      setSelectedReportId(nextReport.id);
+      setCutoffDate(nextReport.date);
+    }
   };
 
   // Handle live sheets refresh trigger
@@ -505,7 +546,7 @@ export function ProjectDashboard({
 
         {/* Cutoff date vertical line */}
         {(() => {
-          const statusIdx = chartData.findIndex(d => d.date === (selectedReport?.date || ''));
+          const statusIdx = chartData.findIndex(d => d.date === activeCutoffDate);
           if (statusIdx >= 0) {
             const x = getX(statusIdx);
             return (
@@ -578,7 +619,7 @@ export function ProjectDashboard({
         <div className="flex flex-wrap items-center gap-4">
           
           {/* Calendar date picker */}
-          {selectedReport && (
+          {activeCutoffDate && (
             <div className="flex items-center gap-1 bg-slate-900 border border-slate-800 rounded-xl p-1.5">
               <button
                 onClick={handlePrevDay}
@@ -591,10 +632,10 @@ export function ProjectDashboard({
                 <CalendarDays className="w-4 h-4 text-sky-400 shrink-0" />
                 <input
                   type="date"
-                  value={selectedReport.date}
+                  value={activeCutoffDate}
                   onChange={e => handleDateChange(e.target.value)}
-                  min={enrichedReports.length > 0 ? enrichedReports[0].date : undefined}
-                  max={enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : undefined}
+                  min={pvCurveData.length > 0 ? pvCurveData[0].date : (enrichedReports.length > 0 ? enrichedReports[0].date : undefined)}
+                  max={pvCurveData.length > 0 ? pvCurveData[pvCurveData.length - 1].date : (enrichedReports.length > 0 ? enrichedReports[enrichedReports.length - 1].date : undefined)}
                   className="bg-transparent text-xs font-mono font-bold text-white border-none outline-none appearance-none cursor-pointer [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:opacity-50 w-[130px]"
                 />
               </div>
@@ -756,7 +797,7 @@ export function ProjectDashboard({
               Curva S de Rendimiento EVM
             </h2>
             <span className="text-[10px] font-mono text-slate-500 mt-1 block">
-              Fecha de corte: <span className="text-sky-400 font-bold">{selectedReport?.date || '—'}</span> | 
+              Fecha de corte: <span className="text-sky-400 font-bold">{activeCutoffDate || '—'}</span> | 
               PV: proyecto completo ({pvCurveData.length} días) | 
               EV/AC: acumulado hasta la fecha
             </span>
@@ -835,7 +876,10 @@ export function ProjectDashboard({
               return (
                 <button
                   key={r.id}
-                  onClick={() => setSelectedReportId(r.id)}
+                  onClick={() => {
+                    setSelectedReportId(r.id);
+                    setCutoffDate(r.date);
+                  }}
                   className={`w-full text-left p-3.5 rounded-xl border transition-all duration-150 flex items-center justify-between cursor-pointer ${
                     isSelected
                       ? "bg-slate-100 border-white text-slate-950 shadow-lg shadow-white/5"
