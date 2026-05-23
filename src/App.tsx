@@ -99,7 +99,7 @@ const generateBackupPlannedValues = (): PlannedValue[] => {
   return values;
 };
 
-const generate20DaysSyntheticReports = (): DailyReport[] => {
+const generate30DaysSyntheticReports = (): DailyReport[] => {
   const reports: DailyReport[] = [];
   const baseDate = new Date("2026-05-01");
 
@@ -108,9 +108,9 @@ const generate20DaysSyntheticReports = (): DailyReport[] => {
   //  Días 05-08: MOV-TIE  - Movimiento de Tierras (MOV-TIE-01 … MOV-TIE-04)
   //  Días 09-14: EST-CON  - Estructuras de Concreto (EST-CON-01 … EST-CON-09)
   //  Días 15-18: ARQ-ACAB - Arquitectura y Acabados (ARQ-ACAB-01 … ARQ-ACAB-08)
-  //  Días 19-20: INS-SAN  - Instalaciones Sanitarias y Eléctricas (INS-SAN-01 … INS-SAN-05)
+  //  Días 19-30: INS-SAN  - Instalaciones Sanitarias y Eléctricas (INS-SAN-01 … INS-SAN-05)
 
-  for (let day = 0; day < 20; day++) {
+  for (let day = 0; day < 30; day++) {
     const currentDate  = new Date(baseDate.getTime() + day * 24 * 60 * 60 * 1000);
     const dateString   = currentDate.toISOString().split("T")[0];
     const dateStrShort = dateString.replace(/-/g, "");
@@ -236,7 +236,7 @@ const generate20DaysSyntheticReports = (): DailyReport[] => {
 
   return reports;
 };
-const BACKUP_REPORTS = generate20DaysSyntheticReports();
+const BACKUP_REPORTS = generate30DaysSyntheticReports();
 
 export default function App() {
   const hash = typeof window !== "undefined" ? window.location.hash.replace("#", "") : "";
