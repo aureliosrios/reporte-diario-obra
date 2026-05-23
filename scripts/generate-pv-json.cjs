@@ -25,9 +25,10 @@ const XLSX = require('xlsx');
 const fs   = require('fs');
 const path = require('path');
 
-const ROOT      = path.resolve(__dirname, '..');
-const dataDir   = path.join(ROOT, 'data');
-const publicDir = path.join(ROOT, 'public', 'data');
+const ROOT       = path.resolve(__dirname, '..');
+const EXCEL_DIR  = path.join(ROOT, '_excel-fuente');
+const dataDir    = path.join(ROOT, 'data');
+const publicDir  = path.join(ROOT, 'public', 'data');
 
 // Asegurar directorios
 [dataDir, publicDir].forEach(d => { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); });
@@ -49,19 +50,19 @@ function writeJson(filename, data, copyToPublic = true) {
 
 // ─── 1. Leer BD_Presupuesto_EDT.xlsx ─────────────────────────────────────────
 console.log('\n[1/7] Leyendo BD_Presupuesto_EDT.xlsx …');
-const wbEdt  = XLSX.readFile(path.join(ROOT, 'BD_Presupuesto_EDT.xlsx'));
+const wbEdt  = XLSX.readFile(path.join(EXCEL_DIR, 'BD_Presupuesto_EDT.xlsx'));
 const edtRaw = XLSX.utils.sheet_to_json(wbEdt.Sheets['Presupuesto'], { defval: '' });
 console.log(`  → ${edtRaw.length} filas leídas de la hoja "Presupuesto"`);
 
 // ─── 2. Leer BD_PV_Diario_EDT.xlsx ───────────────────────────────────────────
 console.log('\n[2/7] Leyendo BD_PV_Diario_EDT.xlsx …');
-const wbMet  = XLSX.readFile(path.join(ROOT, 'BD_PV_Diario_EDT.xlsx'));
+const wbMet  = XLSX.readFile(path.join(EXCEL_DIR, 'BD_PV_Diario_EDT.xlsx'));
 const metRaw = XLSX.utils.sheet_to_json(wbMet.Sheets['PV_Diario_EDT'], { defval: '' });
 console.log(`  → ${metRaw.length} registros diarios leídos de "PV_Diario_EDT"`);
 
 // ─── 3. Leer BD_PV_CurvaS_Proyecto.xlsx ─────────────────────────────────────
 console.log('\n[3/7] Leyendo BD_PV_CurvaS_Proyecto.xlsx …');
-const wbCurva = XLSX.readFile(path.join(ROOT, 'BD_PV_CurvaS_Proyecto.xlsx'));
+const wbCurva = XLSX.readFile(path.join(EXCEL_DIR, 'BD_PV_CurvaS_Proyecto.xlsx'));
 const curvaRaw = XLSX.utils.sheet_to_json(wbCurva.Sheets['CurvaS'], { defval: '' });
 console.log(`  → ${curvaRaw.length} fechas leídas de la curva S`);
 
@@ -69,7 +70,7 @@ console.log(`  → ${curvaRaw.length} fechas leídas de la curva S`);
 console.log('\n[3b/7] Leyendo BD_Proyecto.xlsx …');
 let projectMeta = null;
 try {
-  const wbProj = XLSX.readFile(path.join(ROOT, 'BD_Proyecto.xlsx'));
+  const wbProj = XLSX.readFile(path.join(EXCEL_DIR, 'BD_Proyecto.xlsx'));
   const projRaw = XLSX.utils.sheet_to_json(wbProj.Sheets['Proyecto'], { header: 1, defval: '' });
 
   const meta = {};
@@ -103,7 +104,7 @@ let resourceItems = [];
 
 // A. Cargar personal de BD_RRHH.xlsx
 try {
-  const wbRrhh = XLSX.readFile(path.join(ROOT, 'BD_RRHH.xlsx'));
+  const wbRrhh = XLSX.readFile(path.join(EXCEL_DIR, 'BD_RRHH.xlsx'));
   const rrhhRaw = XLSX.utils.sheet_to_json(wbRrhh.Sheets['Recursos_MO'], { defval: '' });
   rrhhRaw.forEach(r => {
     if (r.codigo && r.nombre) {
@@ -123,7 +124,7 @@ try {
 
 // B. Cargar materiales y equipos de BD_Almacen.xlsx
 try {
-  const wbAlmacen = XLSX.readFile(path.join(ROOT, 'BD_Almacen.xlsx'));
+  const wbAlmacen = XLSX.readFile(path.join(EXCEL_DIR, 'BD_Almacen.xlsx'));
   const almacenRaw = XLSX.utils.sheet_to_json(wbAlmacen.Sheets['Materiales_Equipos'], { defval: '' });
   almacenRaw.forEach(r => {
     if (r.id_recurso && r.descripcion) {

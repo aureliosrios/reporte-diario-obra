@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { SmartMockup } from "./components/SmartMockup";
 import { ReportForm } from "./components/ReportForm";
 import { ProjectDashboard } from "./components/ProjectDashboard";
 import { Project, EdtItem, PlannedValue, ResourceItem, DailyReport, EvmMetrics, PvCurvePoint } from "./types";
 import { FALLBACK_PV_CURVE } from "./data/pv-curve-fallback";
 import { PV_BY_CHAPTER, type PvChapterPoint } from "./data/pv-chapter-fallback";
 import { 
-  Building2, LineChart, FileText, ChevronRight, Loader2, Info, HardHat, Compass, ServerCrash, ExternalLink, ClipboardList, BarChart3
+  Building2, LineChart, FileText, Loader2, HardHat, BarChart3
 } from "lucide-react";
 
 // Backup fallback structures if server fetch fails or is slow
@@ -241,8 +240,8 @@ const BACKUP_REPORTS = generate20DaysSyntheticReports();
 
 export default function App() {
   const hash = typeof window !== "undefined" ? window.location.hash.replace("#", "") : "";
-  const initialTab = hash === "campo" || hash === "gerencia" || hash === "control" ? hash : "control";
-  const [activeTab, setActiveTab] = useState<"campo" | "control" | "gerencia">(initialTab as any);
+  const initialTab = hash === "campo" ? "campo" : "gerencia";
+  const [activeTab, setActiveTab] = useState<"campo" | "gerencia">(initialTab as any);
   const [projects, setProjects] = useState<Project[]>(BACKUP_PROJECTS);
   const [edtList, setEdtList] = useState<EdtItem[]>(BACKUP_EDT);
   const [plannedValues, setPlannedValues] = useState<PlannedValue[]>([]);
@@ -475,7 +474,7 @@ export default function App() {
     setReports(prev => [...prev, enrichedReport]);
     // Redirect to dashboard only if NOT in standalone campo mode
     if (window.location.hash !== "#campo") {
-      setActiveTab("control");
+      setActiveTab("gerencia");
     }
   };
 
@@ -603,18 +602,7 @@ export default function App() {
               }`}
             >
               <HardHat className="w-4 h-4" />
-              Reporte a Campo
-            </a>
-            <a
-              href="#control"
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold tracking-tight transition-all duration-150 ${
-                activeTab === "control"
-                  ? "bg-sky-500 text-slate-950 shadow-md shadow-sky-500/10"
-                  : "text-slate-300 hover:bg-slate-800 hover:text-white"
-              }`}
-            >
-              <BarChart3 className="w-4 h-4" />
-              Tablero EVM
+              Reporte Diario
             </a>
             <a
               href="#gerencia"
@@ -624,8 +612,8 @@ export default function App() {
                   : "text-slate-300 hover:bg-slate-800 hover:text-white"
               }`}
             >
-              <LineChart className="w-4 h-4" />
-              Reporte a Gerencia
+              <BarChart3 className="w-4 h-4" />
+              Dashboard EVM
             </a>
           </nav>
 
@@ -635,34 +623,24 @@ export default function App() {
       {/* Main Workspace Area */}
       <main className="flex-1 flex flex-col justify-start">
         {activeTab === "campo" && (
-          <div className="py-2 lg:py-4">
-            <SmartMockup title="Simulador de Reporte Campo">
-              <ReportForm
-                projects={projects}
-                edtList={edtList}
-                plannedValues={plannedValues}
-                resources={resources}
-                onReportSubmitted={handleReportSubmitted}
-                appsScriptUrl={appsScriptUrl}
-                setAppsScriptUrl={setAppsScriptUrl}
-              />
-            </SmartMockup>
-          </div>
-        )}
-
-        {activeTab === "control" && (
-          <div className="max-w-7xl mx-auto w-full px-2 sm:px-6 lg:px-8 py-6 flex-1">
-            <ProjectDashboard
-              reports={reports}
-              edtList={edtList}
-              resources={resources}
-              projectName={projects.length > 0 ? projects[0].name : "Edificio Multifamiliar Girasoles"}
-              onRefresh={() => fetchAllData(appsScriptUrl)}
-              isSheetsConnected={!!appsScriptUrl}
-              pvCurveData={pvCurveData}
-              pvByChapter={pvByChapter}
-              bac={projectBac}
-            />
+          <div className="py-2 sm:py-6">
+            <div className="max-w-4xl mx-auto px-0 sm:px-6">
+              <div className="bg-slate-950 border-0 sm:border border-slate-800 rounded-none sm:rounded-2xl p-2 sm:p-6 shadow-xl">
+                <h2 className="text-base font-bold text-white flex items-center gap-2 mb-4 border-b border-slate-800 pb-3">
+                  <FileText className="w-5 h-5 text-sky-400" />
+                  Registro de Reporte Diario — Campo
+                </h2>
+                <ReportForm
+                  projects={projects}
+                  edtList={edtList}
+                  plannedValues={plannedValues}
+                  resources={resources}
+                  onReportSubmitted={handleReportSubmitted}
+                  appsScriptUrl={appsScriptUrl}
+                  setAppsScriptUrl={setAppsScriptUrl}
+                />
+              </div>
+            </div>
           </div>
         )}
 
