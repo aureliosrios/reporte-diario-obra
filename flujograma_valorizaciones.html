@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flujograma de Valorizaciones - Proyecto Vial</title>
+    <title>Flujograma de Valorizaciones (Vertical) - Proyecto Vial</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Panzoom CDN para zoom y arrastre -->
+    <!-- Panzoom CDN para zoom y arrastre de elementos HTML -->
     <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
 
     <style>
         :root {
             --bg-color: #080c14;
-            --panel-bg: rgba(15, 23, 42, 0.75);
+            --panel-bg: rgba(15, 23, 42, 0.85);
             --panel-border: rgba(255, 255, 255, 0.08);
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
@@ -23,24 +23,28 @@
             
             /* Carriles y Roles */
             --contratista-color: #0ea5e9;
-            --contratista-bg: rgba(14, 165, 233, 0.04);
-            --contratista-border: rgba(14, 165, 233, 0.15);
+            --contratista-bg: rgba(14, 165, 233, 0.03);
+            --contratista-border: rgba(14, 165, 233, 0.1);
             
             --supervision-color: #f59e0b;
-            --supervision-bg: rgba(245, 158, 11, 0.04);
-            --supervision-border: rgba(245, 158, 11, 0.15);
+            --supervision-bg: rgba(245, 158, 11, 0.03);
+            --supervision-border: rgba(245, 158, 11, 0.1);
             
             --cliente-color: #10b981;
-            --cliente-bg: rgba(16, 185, 129, 0.04);
-            --cliente-border: rgba(16, 185, 129, 0.15);
+            --cliente-bg: rgba(16, 185, 129, 0.03);
+            --cliente-border: rgba(16, 185, 129, 0.1);
 
             /* Light theme variables */
             --light-bg-color: #f8fafc;
-            --light-panel-bg: rgba(255, 255, 255, 0.85);
+            --light-panel-bg: rgba(255, 255, 255, 0.9);
             --light-panel-border: rgba(15, 23, 42, 0.08);
             --light-text-primary: #0f172a;
             --light-text-secondary: #475569;
             --light-connector-color: #cbd5e1;
+            
+            --contratista-light-bg: rgba(14, 165, 233, 0.05);
+            --supervision-light-bg: rgba(245, 158, 11, 0.05);
+            --cliente-light-bg: rgba(16, 185, 129, 0.05);
         }
 
         body.light-theme {
@@ -50,9 +54,9 @@
             --text-primary: var(--light-text-primary);
             --text-secondary: var(--light-text-secondary);
             --connector-color: var(--light-connector-color);
-            --contratista-bg: rgba(14, 165, 233, 0.08);
-            --supervision-bg: rgba(245, 158, 11, 0.08);
-            --cliente-bg: rgba(16, 185, 129, 0.08);
+            --contratista-bg: var(--contratista-light-bg);
+            --supervision-bg: var(--supervision-light-bg);
+            --cliente-bg: var(--cliente-light-bg);
         }
 
         * {
@@ -101,73 +105,101 @@
             position: relative;
         }
 
-        /* ---------------- DISEÑO POR CARRILES (SWIMLANES) ---------------- */
+        /* ---------------- DISEÑO POR CARRILES VERTICALES ---------------- */
 
-        .swimlanes-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        .grid-container {
+            display: grid;
+            grid-template-columns: 320px 320px 320px; /* 3 Carriles */
+            grid-auto-rows: 130px; /* Altura de fila */
+            gap: 30px 40px;
             position: relative;
+            z-index: 5;
         }
 
-        /* Fila de Carril */
-        .swimlane {
-            display: flex;
-            align-items: center;
-            min-height: 180px;
-            border-radius: 16px;
-            padding: 20px 40px;
-            position: relative;
-            min-width: 1950px; /* Ancho suficiente para albergar los pasos horizontales */
-        }
-
-        .lane-contratista {
-            background-color: var(--contratista-bg);
-            border: 1px solid var(--contratista-border);
-            --lane-color: var(--contratista-color);
-        }
-
-        .lane-supervision {
-            background-color: var(--supervision-bg);
-            border: 1px solid var(--supervision-border);
-            --lane-color: var(--supervision-color);
-        }
-
-        .lane-cliente {
-            background-color: var(--cliente-bg);
-            border: 1px solid var(--cliente-border);
-            --lane-color: var(--cliente-color);
-        }
-
-        /* Etiqueta del Carril */
-        .lane-header {
+        /* Fondos de Columnas de Carril */
+        .lanes-background-layer {
             position: absolute;
-            left: -20px;
-            top: 50%;
-            transform: translateY(-50%) rotate(-90deg);
-            transform-origin: center;
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--lane-color);
-            background-color: var(--bg-color);
-            padding: 6px 16px;
-            border-radius: 8px;
-            border: 1px solid var(--lane-color);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-        }
-
-        /* Contenedor de Pasos alineados horizontalmente */
-        .flow-row {
-            display: flex;
-            position: relative;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            display: grid;
+            grid-template-columns: 320px 320px 320px;
+            gap: 40px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .lane-column-bg {
+            border-radius: 20px;
+            height: 100%;
+            border: 1px dashed transparent;
+        }
+
+        .bg-contratista {
+            background-color: var(--contratista-bg);
+            border-color: var(--contratista-border);
+        }
+
+        .bg-supervision {
+            background-color: var(--supervision-bg);
+            border-color: var(--supervision-border);
+        }
+
+        .bg-cliente {
+            background-color: var(--cliente-bg);
+            border-color: var(--cliente-border);
+        }
+
+        /* Encabezados de Carril en el Grid */
+        .grid-header {
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10;
+            display: flex;
             align-items: center;
-            gap: 150px; /* Espacio para las flechas conectoras */
-            padding-left: 60px;
+            justify-content: center;
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        .h-contratista {
+            background-color: #0c4a6e;
+            border-color: var(--contratista-color);
+            color: #e0f2fe;
+        }
+
+        .h-supervision {
+            background-color: #78350f;
+            border-color: var(--supervision-color);
+            color: #fef3c7;
+        }
+
+        .h-cliente {
+            background-color: #064e3b;
+            border-color: var(--cliente-color);
+            color: #d1fae5;
+        }
+
+        body.light-theme .h-contratista { background-color: #e0f2fe; color: #0369a1; }
+        body.light-theme .h-supervision { background-color: #fef3c7; color: #b45309; }
+        body.light-theme .h-cliente { background-color: #d1fae5; color: #047857; }
+
+        /* Celda de la Cuadrícula */
+        .grid-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
         }
 
         /* ---------------- TARJETAS DE PASO (STEPS) ---------------- */
@@ -175,67 +207,70 @@
         .flow-step {
             background-color: var(--panel-bg);
             border: 1px solid var(--panel-border);
-            border-left: 5px solid var(--lane-color);
+            border-left: 5px solid var(--step-color);
             border-radius: 12px;
-            padding: 16px 20px;
-            width: 240px;
-            min-height: 90px;
+            padding: 12px 18px;
+            width: 280px;
+            height: 100px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
             cursor: pointer;
             position: relative;
-            z-index: 5;
             transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
         .flow-step:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-            border-color: var(--lane-color);
+            border-color: var(--step-color);
         }
 
         .flow-step.active {
-            border-color: var(--lane-color) !important;
-            box-shadow: 0 0 15px var(--lane-color) !important;
+            border-color: var(--step-color) !important;
+            box-shadow: 0 0 15px var(--step-color) !important;
         }
 
         .step-number {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
-            color: var(--lane-color);
-            margin-bottom: 4px;
+            color: var(--step-color);
+            margin-bottom: 2px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .flow-step h3 {
-            font-size: 0.92rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            line-height: 1.35;
+            line-height: 1.3;
             color: var(--text-primary);
         }
 
         .flow-step p {
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             color: var(--text-secondary);
-            margin-top: 6px;
+            margin-top: 4px;
+            line-height: 1.2;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
-        /* Nodos de Decisión (Rombos) */
+        /* Decisión (Rombo en Grid) */
         .flow-decision {
             background-color: var(--panel-bg);
-            border: 2px solid var(--lane-color);
-            width: 120px;
-            height: 120px;
+            border: 2px solid var(--step-color);
+            width: 100px;
+            height: 100px;
             transform: rotate(45deg);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            z-index: 5;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
             position: relative;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -246,20 +281,25 @@
         }
 
         .flow-decision.active {
-            box-shadow: 0 0 15px var(--lane-color) !important;
+            box-shadow: 0 0 15px var(--step-color) !important;
         }
 
         .decision-text {
             transform: rotate(-45deg);
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             line-height: 1.2;
             color: var(--text-primary);
-            width: 100px;
+            width: 85px;
         }
 
-        /* ---------------- CONECTORES Y FLECHAS SVG ---------------- */
+        /* Colores de pasos por columna */
+        .step-contratista { --step-color: var(--contratista-color); }
+        .step-supervision { --step-color: var(--supervision-color); }
+        .step-cliente { --step-color: var(--cliente-color); }
+
+        /* ---------------- CAPA SVG CONECTORES ---------------- */
 
         .connector-svg-layer {
             position: absolute;
@@ -271,7 +311,7 @@
             z-index: 2;
         }
 
-        /* ---------------- GLASS PANELS (INTERFAZ UI) ---------------- */
+        /* ---------------- GLASS PANELS (INTERFAZ) ---------------- */
 
         .glass-panel {
             background: var(--panel-bg);
@@ -371,7 +411,7 @@
             border-color: #0284c7;
         }
 
-        /* Controles de Zoom */
+        /* Zoom */
         .controls-panel {
             position: absolute;
             bottom: 20px;
@@ -541,7 +581,7 @@
 <body>
 
     <div class="app-container">
-        <!-- Área Interactiva Pan & Zoom -->
+        <!-- Área Interactiva de Zoom y Movimiento -->
         <div class="viewport-wrapper" id="viewport-wrapper">
             <div id="panzoom-element">
                 
@@ -554,118 +594,126 @@
                     </defs>
                 </svg>
 
-                <div class="swimlanes-container">
+                <!-- Cuadrícula del Árbol de Valorizaciones -->
+                <div class="grid-container">
                     
-                    <!-- CARRIL 1: CONTRATISTA -->
-                    <div class="swimlane lane-contratista" id="lane-contratista">
-                        <div class="lane-header">Contratista</div>
-                        <div class="flow-row">
-                            
-                            <!-- Paso 1 -->
-                            <div class="flow-step" id="step-1" data-role="1">
-                                <div class="step-number">Paso 1</div>
-                                <h3>Medición de Campo</h3>
-                                <p>Topografía y frentes viales miden el avance ejecutado.</p>
-                            </div>
+                    <!-- Capa de fondo para las columnas de carril -->
+                    <div class="lanes-background-layer">
+                        <div class="lane-column-bg bg-contratista"></div>
+                        <div class="lane-column-bg bg-supervision"></div>
+                        <div class="lane-column-bg bg-cliente"></div>
+                    </div>
 
-                            <!-- Paso 2 (Coordinación) -->
-                            <div class="flow-step" id="step-2" data-role="2">
-                                <div class="step-number">Paso 2</div>
-                                <h3>Conciliación de Metrados</h3>
-                                <p>Ingenieros del contratista y supervisión concilian metrados.</p>
-                            </div>
+                    <!-- Fila de Encabezados (Grid Row 1) -->
+                    <div class="grid-header h-contratista">Contratista</div>
+                    <div class="grid-header h-supervision">Supervisión</div>
+                    <div class="grid-header h-cliente">Cliente</div>
 
-                            <!-- Paso 3 -->
-                            <div class="flow-step" id="step-3" data-role="3">
-                                <div class="step-number">Paso 3</div>
-                                <h3>Elaboración del Expediente</h3>
-                                <p>Oficina Técnica compila planos, ensayos y memorias.</p>
-                            </div>
+                    <!-- Fila 1: Paso 1 (Grid Row 2) -->
+                    <div class="grid-cell">
+                        <div class="flow-step step-contratista" id="step-1" data-role="1">
+                            <div class="step-number">Paso 1</div>
+                            <h3>Medición de Avance Físico</h3>
+                            <p>Topografía y frentes viales miden el avance ejecutado en campo.</p>
+                        </div>
+                    </div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
 
-                            <!-- Paso 4 -->
-                            <div class="flow-step" id="step-4" data-role="4">
-                                <div class="step-number">Paso 4</div>
-                                <h3>Presentación Formal</h3>
-                                <p>Envío oficial de la valorización a la Supervisión.</p>
-                            </div>
+                    <!-- Fila 2: Paso 2 (Grid Row 3) -->
+                    <div class="grid-cell">
+                        <div class="flow-step step-contratista" id="step-2" data-role="2">
+                            <div class="step-number">Paso 2</div>
+                            <h3>Conciliación de Metrados</h3>
+                            <p>Ingenieros del contratista y supervisión concilian metrados in-situ.</p>
+                        </div>
+                    </div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
 
-                            <!-- Espaciador para pasos del carril inferior -->
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 120px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                    <!-- Fila 3: Paso 3 (Grid Row 4) -->
+                    <div class="grid-cell">
+                        <div class="flow-step step-contratista" id="step-3" data-role="3">
+                            <div class="step-number">Paso 3</div>
+                            <h3>Elaboración del Expediente</h3>
+                            <p>Oficina Técnica compila planos, ensayos y memorias justificativas.</p>
+                        </div>
+                    </div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
 
-                            <!-- Paso 9 -->
-                            <div class="flow-step" id="step-9" data-role="9">
-                                <div class="step-number">Paso 9</div>
-                                <h3>Emisión de Factura</h3>
-                                <p>Carga de la factura electrónica en el portal del cliente.</p>
-                            </div>
+                    <!-- Fila 4: Paso 4 (Grid Row 5) -->
+                    <div class="grid-cell">
+                        <div class="flow-step step-contratista" id="step-4" data-role="4">
+                            <div class="step-number">Paso 4</div>
+                            <h3>Presentación Formal</h3>
+                            <p>Ingreso y foliatura formal de la valorización a la Supervisión.</p>
+                        </div>
+                    </div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
 
+                    <!-- Fila 5: Paso 5 (Grid Row 6) -->
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell">
+                        <div class="flow-step step-supervision" id="step-5" data-role="5">
+                            <div class="step-number">Paso 5</div>
+                            <h3>Evaluación Técnica</h3>
+                            <p>Supervisión audita cálculos, fórmulas y certificados de calidad.</p>
+                        </div>
+                    </div>
+                    <div class="grid-cell"></div>
+
+                    <!-- Fila 6: Decisión 6 (Grid Row 7) -->
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell">
+                        <div class="flow-decision step-supervision" id="step-6" data-role="6">
+                            <div class="decision-text">¿Existen Observaciones?</div>
+                        </div>
+                    </div>
+                    <div class="grid-cell"></div>
+
+                    <!-- Fila 7: Paso 7 (Grid Row 8) -->
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell">
+                        <div class="flow-step step-supervision" id="step-7" data-role="7">
+                            <div class="step-number">Paso 7</div>
+                            <h3>Aprobación y Certificado</h3>
+                            <p>Supervisión emite certificado técnico aprobatorio para Cliente.</p>
+                        </div>
+                    </div>
+                    <div class="grid-cell"></div>
+
+                    <!-- Fila 8: Paso 8 (Grid Row 9) -->
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell">
+                        <div class="flow-step step-cliente" id="step-8" data-role="8">
+                            <div class="step-number">Paso 8</div>
+                            <h3>Revisión Financiera</h3>
+                            <p>Evaluación del cliente y autorización formal de facturación.</p>
                         </div>
                     </div>
 
-                    <!-- CARRIL 2: SUPERVISIÓN DE OBRA -->
-                    <div class="swimlane lane-supervision" id="lane-supervision">
-                        <div class="lane-header">Supervisión</div>
-                        <div class="flow-row">
-                            
-                            <!-- Espaciadores horizontales para alinear con los pasos superiores -->
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-
-                            <!-- Paso 5 -->
-                            <div class="flow-step" id="step-5" data-role="5">
-                                <div class="step-number">Paso 5</div>
-                                <h3>Evaluación Técnica</h3>
-                                <p>Supervisión audita cálculos y certificados de calidad.</p>
-                            </div>
-
-                            <!-- Decisión 6 (Rombo) -->
-                            <div class="flow-decision" id="step-6" data-role="6">
-                                <div class="decision-text">¿Existen Observaciones?</div>
-                            </div>
-
-                            <!-- Paso 7 -->
-                            <div class="flow-step" id="step-7" data-role="7">
-                                <div class="step-number">Paso 7</div>
-                                <h3>Aprobación y Certificado</h3>
-                                <p>Emisión del informe técnico aprobatorio y envío a Cliente.</p>
-                            </div>
-
+                    <!-- Fila 9: Paso 9 (Grid Row 10) -->
+                    <div class="grid-cell">
+                        <div class="flow-step step-contratista" id="step-9" data-role="9">
+                            <div class="step-number">Paso 9</div>
+                            <h3>Emisión de Factura</h3>
+                            <p>Emisión y carga de factura electrónica aprobada en el portal.</p>
                         </div>
                     </div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
 
-                    <!-- CARRIL 3: CLIENTE (ENTIDAD) -->
-                    <div class="swimlane lane-cliente" id="lane-cliente">
-                        <div class="lane-header">Cliente</div>
-                        <div class="flow-row">
-                            
-                            <!-- Espaciadores horizontales -->
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 120px; pointer-events: none; opacity: 0;"></div>
-                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
-
-                            <!-- Paso 8 -->
-                            <div class="flow-step" id="step-8" data-role="8">
-                                <div class="step-number">Paso 8</div>
-                                <h3>Revisión Financiera</h3>
-                                <p>Evaluación administrativa del cliente y autorización de factura.</p>
-                            </div>
-
-                            <!-- Paso 10 -->
-                            <div class="flow-step" id="step-10" data-role="10">
-                                <div class="step-number">Paso 10</div>
-                                <h3>Desembolso y Pago</h3>
-                                <p>Transferencia bancaria por el avance aprobado al contratista.</p>
-                            </div>
-
+                    <!-- Fila 10: Paso 10 (Grid Row 11) -->
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell"></div>
+                    <div class="grid-cell">
+                        <div class="flow-step step-cliente" id="step-10" data-role="10">
+                            <div class="step-number">Paso 10</div>
+                            <h3>Desembolso y Pago</h3>
+                            <p>Transferencia bancaria final al contratista cerrando el ciclo mensual.</p>
                         </div>
                     </div>
 
@@ -677,8 +725,8 @@
         <!-- Cabecera -->
         <div class="glass-panel header-panel">
             <div class="header-left">
-                <h1>Flujograma del Proceso de Valorizaciones</h1>
-                <p>Ciclo Mensual de Aprobación y Pago: Contratista ➔ Supervisión ➔ Cliente</p>
+                <h1>Flujograma de Valorizaciones (Vertical)</h1>
+                <p>Carriles Organizacionales: Contratista ➔ Supervisión ➔ Cliente</p>
             </div>
             <div class="header-right">
                 <div class="search-box">
@@ -739,7 +787,7 @@
 
         <!-- Toast de Instrucciones -->
         <div class="glass-panel instruction-toast">
-            💡 Arrastra para mover • Rueda del mouse para Zoom • Haz clic en un paso para ver el expediente requerido
+            💡 Arrastra para mover • Rueda del mouse para Zoom • Haz clic en un paso para detalles
         </div>
     </div>
 
@@ -800,7 +848,7 @@
                 dept: "Contratista",
                 resp: "Gerente de Proyecto / Residente de Obra",
                 deadline: "Hasta el día 5 del mes",
-                desc: "Se ingresa de manera física y digital el Expediente de Valorización Completo a la oficina principal de la Supervisión de Obra, mediante una carta notarial o cuaderno de obra digital oficial.",
+                desc: "Se ingresa de manera física y digital el Expediente de Valorización Completo a la oficina principal de la Supervisión de Obra, mediante una carta formal firmada por el Gerente de Obra.",
                 inputs: [
                     "Expediente final estructurado y foliado",
                     "Carta formal de presentación emitida por el PM"
@@ -913,10 +961,10 @@
 
             // Inicializar Panzoom
             panzoomInstance = Panzoom(elem, {
-                maxScale: 3,
+                maxScale: 2.5,
                 minScale: 0.25,
                 canvas: true,
-                startScale: 0.8
+                startScale: 0.65
             });
 
             // Zoom con rueda
@@ -924,8 +972,8 @@
 
             // Centrar inicialmente
             setTimeout(() => {
-                panzoomInstance.zoom(0.8);
-                panzoomInstance.pan(40, 60);
+                panzoomInstance.zoom(0.65);
+                panzoomInstance.pan(40, 20);
                 drawConnectors(); // Dibujar las flechas iniciales
             }, 300);
 
@@ -934,8 +982,8 @@
             document.getElementById('zoom-out').addEventListener('click', panzoomInstance.zoomOut);
             document.getElementById('zoom-reset').addEventListener('click', () => {
                 panzoomInstance.reset();
-                panzoomInstance.zoom(0.8);
-                panzoomInstance.pan(40, 60);
+                panzoomInstance.zoom(0.65);
+                panzoomInstance.pan(40, 20);
                 drawConnectors();
             });
 
@@ -993,7 +1041,7 @@
                         step.style.filter = 'none';
                     } else if (matchTitle || matchDesc || matchResp || matchDeadline) {
                         step.style.opacity = '1';
-                        step.style.filter = 'drop-shadow(0 0 10px var(--lane-color))';
+                        step.style.filter = 'drop-shadow(0 0 10px var(--step-color))';
                     } else {
                         step.style.opacity = '0.15';
                         step.style.filter = 'grayscale(80%)';
@@ -1009,7 +1057,7 @@
         function showDetails(id, step) {
             const data = flowDetails[id];
             const panel = document.getElementById('detail-panel');
-            const accentColor = getComputedStyle(step).getPropertyValue('--lane-color');
+            const accentColor = getComputedStyle(step).getPropertyValue('--step-color');
 
             document.getElementById('role-badge').innerText = data.dept;
             document.getElementById('role-badge').style.borderColor = accentColor;
@@ -1045,7 +1093,7 @@
         function drawConnectors() {
             const svg = document.getElementById('connector-layer');
             // Limpiar líneas viejas
-            const oldPaths = svg.querySelectorAll('path');
+            const oldPaths = svg.querySelectorAll('path, text');
             oldPaths.forEach(p => p.remove());
 
             const isDark = !document.body.classList.contains('light-theme');
@@ -1053,16 +1101,18 @@
 
             // Definición de conexiones entre pasos: [desdeId, haciaId, tipo, textoOpcional, colorEspecial]
             const connections = [
-                ['step-1', 'step-2', 'h'],
-                ['step-2', 'step-3', 'h'],
-                ['step-3', 'step-4', 'h'],
-                ['step-4', 'step-5', 'v'], // Cruza carril a supervisión
-                ['step-5', 'step-6', 'h'],
-                ['step-6', 'step-7', 'h', 'No (Aprobar)'],
-                ['step-6', 'step-3', 'return', 'Sí (Observar)', '#ef4444'], // Retorno al contratista en rojo
-                ['step-7', 'step-8', 'v'], // Cruza carril a cliente
-                ['step-8', 'step-9', 'v_up'], // Sube carril para que el contratista emita factura
-                ['step-9', 'step-10', 'v_down'] // Baja carril para pago final
+                ['step-1', 'step-2', 'vertical'],
+                ['step-2', 'step-3', 'vertical'],
+                ['step-3', 'step-4', 'vertical'],
+                ['step-4', 'step-5', 'diagonal'], // Contratista (Col 1) -> Supervisión (Col 2)
+                ['step-5', 'step-6', 'vertical'],
+                ['step-6', 'step-7', 'vertical', 'No (Aprobar)'],
+                ['step-6', 'step-3', 'return', 'Sí (Observar)', '#ef4444'], // Bucle de retorno
+                ['step-7', 'step-8', 'diagonal'], // Supervisión (Col 2) -> Cliente (Col 3)
+                
+                // --- NUEVAS LÍNEAS DE FLUJO DEL PASO 7 AL PASO 10 ---
+                ['step-8', 'step-9', 'diagonal_left'], // Cliente (Col 3) -> Contratista (Col 1)
+                ['step-9', 'step-10', 'diagonal_right'] // Contratista (Col 1) -> Cliente (Col 3) para Pago
             ];
 
             connections.forEach(conn => {
@@ -1073,11 +1123,9 @@
                 const rFrom = elFrom.getBoundingClientRect();
                 const rTo = elTo.getBoundingClientRect();
                 
-                // Necesitamos coordenadas relativas al contenedor #panzoom-element
+                // Coordenadas relativas a #panzoom-element
                 const container = document.getElementById('panzoom-element');
                 const cRect = container.getBoundingClientRect();
-
-                // Quitar el factor escala actual de panzoom para los puntos de trazado
                 const scale = panzoomInstance.getScale();
 
                 const fromX = (rFrom.left - cRect.left) / scale;
@@ -1093,57 +1141,54 @@
                 let pathD = '';
                 const strokeColor = conn[4] || lineColor;
 
-                if (conn[2] === 'h') {
-                    // Conexión Horizontal estándar (de la derecha de uno al inicio del otro)
-                    const x1 = fromX + fromW;
-                    const y1 = fromY + fromH / 2;
-                    const x2 = toX;
-                    const y2 = toY + toH / 2;
+                if (conn[2] === 'vertical') {
+                    // Flecha vertical directa hacia abajo
+                    const x1 = fromX + fromW / 2;
+                    const y1 = fromY + fromH;
+                    const x2 = toX + toW / 2;
+                    const y2 = toY;
                     pathD = `M ${x1} ${y1} L ${x2} ${y2}`;
                 } 
-                else if (conn[2] === 'v') {
-                    // Conexión Vertical Directa (Hacia abajo, e.g. Step 4 a Step 5)
+                else if (conn[2] === 'diagonal') {
+                    // Curva diagonal de una columna a la derecha
                     const x1 = fromX + fromW / 2;
                     const y1 = fromY + fromH;
                     const x2 = toX + toW / 2;
                     const y2 = toY;
-                    
-                    // Curva ortogonal en S vertical
                     const midY = (y1 + y2) / 2;
                     pathD = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
                 }
-                else if (conn[2] === 'v_up') {
-                    // Sube verticalmente (e.g. Step 8 a Step 9)
-                    const x1 = fromX + fromW / 2;
-                    const y1 = fromY;
-                    const x2 = toX + toW / 2;
-                    const y2 = toY + toH;
-                    
-                    const midY = (y1 + y2) / 2;
-                    pathD = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
-                }
-                else if (conn[2] === 'v_down') {
-                    // Baja verticalmente de forma ortogonal
+                else if (conn[2] === 'diagonal_left') {
+                    // Curva diagonal de derecha a izquierda cruzando columnas (Cliente a Contratista)
                     const x1 = fromX + fromW / 2;
                     const y1 = fromY + fromH;
                     const x2 = toX + toW / 2;
                     const y2 = toY;
-                    
+                    const midY = (y1 + y2) / 2;
+                    pathD = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
+                }
+                else if (conn[2] === 'diagonal_right') {
+                    // Curva diagonal de izquierda a derecha (Contratista a Cliente para Pago)
+                    const x1 = fromX + fromW / 2;
+                    const y1 = fromY + fromH;
+                    const x2 = toX + toW / 2;
+                    const y2 = toY;
                     const midY = (y1 + y2) / 2;
                     pathD = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
                 }
                 else if (conn[2] === 'return') {
-                    // Línea de Retorno (Bucle hacia atrás de Supervisión a Contratista)
-                    // Sale de la parte superior del rombo (Step 6) y sube hasta el Step 3.
-                    // Para un rombo, el punto superior es (fromX + fromW/2, fromY)
-                    const x1 = fromX + fromW / 2;
-                    const y1 = fromY;
-                    const x2 = toX + toW / 2;
-                    const y2 = y1 - 100; // Sube libre
-                    const x3 = toX + toW / 2;
-                    const y3 = toY; // Cae directo en la cabeza del Step 3
+                    // Bucle de retorno hacia arriba (de decisión en supervisión a borrador en contratista)
+                    // Sale del pico izquierdo del rombo (Step 6)
+                    const x1 = fromX;
+                    const y1 = fromY + fromH / 2;
+                    // Sube por la izquierda hasta alinearse con el Step 3
+                    const x2 = toX - 35; // Holgura lateral izquierda
+                    const y2 = y1;
+                    const x3 = toX - 35;
+                    const y3 = toY + toH / 2;
+                    const x4 = toX; // Entra por la izquierda del Step 3
 
-                    pathD = `M ${x1} ${y1} L ${x1} ${y2} L ${x3} ${y2} L ${x3} ${y3}`;
+                    pathD = `M ${x1} ${y1} L ${x2} ${y2} L ${x3} ${y3} L ${x4} ${y3}`;
                 }
 
                 // Crear ruta SVG
@@ -1158,17 +1203,17 @@
                 path.setAttribute('marker-end', 'url(#arrow)');
                 svg.appendChild(path);
 
-                // Agregar texto de decisión si existe
+                // Agregar etiqueta de decisión
                 if (conn[3]) {
                     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                     let tx = 0, ty = 0;
                     
-                    if (conn[2] === 'h') {
-                        tx = (fromX + fromW + toX) / 2;
-                        ty = (fromY + fromH / 2) - 10;
+                    if (conn[2] === 'vertical') {
+                        tx = (fromX + fromW / 2) + 40;
+                        ty = (fromY + fromH + toY) / 2;
                     } else if (conn[2] === 'return') {
-                        tx = x1 + 10;
-                        ty = y1 - 25;
+                        tx = x1 - 50;
+                        ty = y1 - 10;
                     }
                     
                     text.setAttribute('x', tx);
