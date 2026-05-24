@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organigrama Interactivo - Construcción de Carreteras</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Mermaid CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.2.4/dist/mermaid.min.js"></script>
+    <!-- SVG Pan & Zoom CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #0284c7;
+            --accent-hover: #0369a1;
+            --node-shadow: rgba(2, 132, 199, 0.3);
+            
+            /* Light theme variables */
+            --light-bg-color: #f8fafc;
+            --light-panel-bg: rgba(255, 255, 255, 0.8);
+            --light-panel-border: rgba(15, 23, 42, 0.08);
+            --light-text-primary: #0f172a;
+            --light-text-secondary: #475569;
+            --light-accent-color: #0284c7;
+            --light-accent-hover: #0369a1;
+        }
+
+        body.light-theme {
+            --bg-color: var(--light-bg-color);
+            --panel-bg: var(--light-panel-bg);
+            --panel-border: var(--light-panel-border);
+            --text-primary: var(--light-text-primary);
+            --text-secondary: var(--light-text-secondary);
+            --accent-color: var(--light-accent-color);
+            --accent-hover: var(--light-accent-hover);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+
+        /* Contenedor Principal */
+        .app-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Lienzo del Diagrama */
+        #diagram-viewport {
+            flex: 1;
+            height: 100%;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+        }
+
+        #diagram-viewport:active {
+            cursor: grabbing;
+        }
+
+        /* Paneles con Glassmorphism */
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        /* Cabecera / Buscador */
+        .header-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .header-left {
+            pointer-events: auto;
+        }
+
+        .header-left h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            margin-bottom: 2px;
+        }
+
+        .header-left p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            padding-left: 36px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            width: 260px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+            width: 320px;
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 12px;
+            width: 16px;
+            height: 16px;
+            fill: var(--text-secondary);
+        }
+
+        /* Botón de Tema */
+        .btn-toggle {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .btn-toggle:hover {
+            background: rgba(15, 23, 42, 0.6);
+            border-color: var(--accent-color);
+        }
+
+        /* Barra de Control de Navegación */
+        .controls-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 8px;
+        }
+
+        .btn-ctrl {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--panel-border);
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Panel de Detalle Derecho */
+        .detail-panel {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            width: 340px;
+            max-height: calc(100% - 140px);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+            transform: translateX(380px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .detail-panel.open {
+            transform: translateX(0);
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .detail-badge {
+            background: rgba(2, 132, 199, 0.15);
+            color: #38bdf8;
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .btn-close:hover {
+            color: var(--text-primary);
+        }
+
+        .detail-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .detail-divider {
+            height: 1px;
+            background: var(--panel-border);
+            width: 100%;
+        }
+
+        .detail-section-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .detail-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .detail-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detail-list li {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .detail-list li::before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Personalización de los elementos SVG de Mermaid */
+        svg {
+            user-select: none;
+        }
+
+        .node {
+            cursor: pointer !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .node:hover {
+            filter: drop-shadow(0 0 10px var(--node-shadow)) !important;
+            transform: scale(1.03);
+        }
+
+        .node-selected {
+            stroke: var(--accent-color) !important;
+            stroke-width: 3px !important;
+            filter: drop-shadow(0 0 12px var(--node-shadow)) !important;
+        }
+
+        /* Instrucción Inicial */
+        .instruction-toast {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            pointer-events: none;
+            opacity: 0.8;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.9; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Lienzo del Diagrama -->
+        <div id="diagram-viewport">
+            <div id="loading" style="color: var(--text-secondary); font-size: 1.1rem; font-weight: 500;">
+                Construyendo estructura digital del organigrama...
+            </div>
+        </div>
+
+        <!-- Cabecera -->
+        <div class="glass-panel header-panel">
+            <div class="header-left">
+                <h1>Organigrama del Proyecto Vial</h1>
+                <p>Estructura Organizacional Integral de Construcción de Carreteras</p>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="text" id="search-input" placeholder="Buscar rol o área (ej: Laboratorio)...">
+                </div>
+                <button class="btn-toggle" id="theme-toggle" title="Cambiar Tema">
+                    🌙
+                </button>
+            </div>
+        </div>
+
+        <!-- Controles de Navegación -->
+        <div class="glass-panel controls-panel">
+            <button class="btn-ctrl" id="zoom-in" title="Acercar">+</button>
+            <button class="btn-ctrl" id="zoom-out" title="Alejar">-</button>
+            <button class="btn-ctrl" id="zoom-reset" title="Ajustar y Centrar">⛶</button>
+        </div>
+
+        <!-- Panel de Detalle Derecho -->
+        <div class="glass-panel detail-panel" id="detail-panel">
+            <div class="detail-header">
+                <span class="detail-badge" id="role-badge">Departamento</span>
+                <button class="btn-close" id="btn-close-detail" title="Cerrar panel">✕</button>
+            </div>
+            <h2 class="detail-title" id="role-title">Nombre del Cargo</h2>
+            <div class="detail-divider"></div>
+            <div>
+                <h3 class="detail-section-title">Descripción y Misión</h3>
+                <p class="detail-desc" id="role-desc">Descripción detallada del puesto dentro de la carretera...</p>
+            </div>
+            <div class="detail-divider"></div>
+            <div>
+                <h3 class="detail-section-title">Funciones Clave</h3>
+                <ul class="detail-list" id="role-functions">
+                    <li>Responsabilidad 1</li>
+                    <li>Responsabilidad 2</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Toast de Instrucciones -->
+        <div class="glass-panel instruction-toast">
+            💡 Arrastra para mover • Rueda del mouse para Zoom • Haz clic en un rol para ver detalles
+        </div>
+    </div>
+
+    <script>
+        // Datos enriquecidos de todos los roles
+        const roleDetails = {
+            "PM": {
+                title: "Gerente de Proyecto (PM)",
+                dept: "Dirección de Obra",
+                desc: "Líder absoluto de la obra y representante legal ante el cliente y la supervisión. Responsable de garantizar la rentabilidad, los plazos, el cumplimiento contractual y la seguridad general de la autopista.",
+                functions: [
+                    "Dirigir y alinear todos los departamentos de la obra hacia las metas contractuales.",
+                    "Liderar el comité directivo técnico, control de avance y resultado operativo mensual.",
+                    "Aprobar valorizaciones principales y gestionar adendas o disputas contractuales mayores.",
+                    "Asegurar la relación estratégica con la supervisión de obra, clientes e inversionistas."
+                ]
+            },
+            "AC": {
+                title: "Administrador de Contratos",
+                dept: "Staff de Dirección",
+                desc: "Responsable de salvaguardar los intereses jurídicos, contractuales y económicos del proyecto vial. Se encarga de mitigar riesgos, evaluar órdenes de cambio y documentar reclamos (claims).",
+                functions: [
+                    "Analizar e interpretar los términos de los pliegos de bases y el contrato vial principal.",
+                    "Identificar desviaciones de alcance, retrasos imputables al cliente y preparar sustentos de ampliaciones de plazo.",
+                    "Elaborar, estructurar y negociar subcontratos clave (ej. asfaltado, puentes especiales).",
+                    "Mantener la correspondencia contractual blindada técnica y jurídicamente."
+                ]
+            },
+            "SSOMA": {
+                title: "Jefe de SSOMA (HSE)",
+                dept: "Staff de Seguridad y Medio Ambiente",
+                desc: "Diseña, implementa y fiscaliza el Plan de Seguridad, Salud Ocupacional y Medio Ambiente. Vital en obras lineales (carreteras) debido al manejo de botaderos (DME), polvareda, canteras e interferencias de tránsito.",
+                functions: [
+                    "Desarrollar planes de contingencia para trabajos en altura (puentes), excavaciones profundas y voladuras.",
+                    "Garantizar el cumplimiento del Plan de Manejo Ambiental (PMA) y control de áreas protegidas.",
+                    "Establecer la señalética de seguridad vial en desvíos temporales para protección del tráfico público.",
+                    "Reportar y liderar las investigaciones de incidentes y capacitar diariamente al personal."
+                ]
+            },
+            "RRC": {
+                title: "Jefe de Relaciones Comunitarias",
+                dept: "Staff Social y de Expropiaciones",
+                desc: "Gestiona el plan de relaciones sociales y vecinales del trazo de la carretera. Interviene en la adquisición de predios (derecho de vía), canteras y mitigación de conflictos sociales.",
+                functions: [
+                    "Establecer canales de comunicación con comunidades nativas, alcaldes y propietarios a lo largo de la ruta.",
+                    "Negociar derechos de paso y convenios de uso de terrenos comunales para campamentos o botaderos.",
+                    "Gestionar las quejas comunitarias por polvo, ruido o afectación de vías locales.",
+                    "Promover el empleo de mano de obra local no calificada en conjunto con Administración."
+                ]
+            },
+            "OT": {
+                title: "Jefe de Oficina Técnica",
+                dept: "Ingeniería y Soporte Técnico",
+                desc: "Líder de la ingeniería de detalle en campo. Responsable de validar planos, resolver incompatibilidades geométricas del trazo, y proveer la documentación necesaria apta para la ejecución.",
+                functions: [
+                    "Dirigir el rediseño geométrico, hidrológico y estructural de la carretera ante discrepancias en campo.",
+                    "Aprobar y certificar los metrados mensuales para valorizaciones del cliente y de subcontratistas.",
+                    "Coordinar con la gerencia de construcción los métodos y secuencias constructivas optimizadas.",
+                    "Responder técnicamente a las observaciones planteadas por la supervisión de obra."
+                ]
+            },
+            "DC": {
+                title: "Control Documentario",
+                dept: "Oficina Técnica",
+                desc: "Gestiona la recepción oficial, control de versiones, distribución y resguardo del acervo documentario técnico del proyecto (planos, normas, especificaciones y comunicaciones).",
+                functions: [
+                    "Asegurar que los ingenieros en campo utilicen la última revisión aprobada de los planos de obra (Aptos para Construcción).",
+                    "Administrar la plataforma de gestión documental electrónica (CDE) y controlar códigos oficiales.",
+                    "Registrar y rastrear los RDI (Requerimientos de Información) enviados a supervisión/diseñador.",
+                    "Organizar los tomos finales de planos 'As-Built' para el cierre y entrega de la carretera."
+                ]
+            },
+            "ING": {
+                title: "Ingeniería y Diseño",
+                dept: "Oficina Técnica",
+                desc: "Garantiza la correcta adaptación del expediente técnico original a las condiciones físicas reales en el terreno (alineamiento horizontal, rasante, drenaje y taludes).",
+                functions: [
+                    "Modelar y recalcular movimientos de tierras y estabilidad de taludes.",
+                    "Diseñar adaptaciones para obras de drenaje vial (alcantarillas tipificadas, subdrenes, cunetas).",
+                    "Emitir planos detallados de estructuras menores, puentes, señalización y defensas metálicas.",
+                    "Garantizar la consistencia geométrica mediante software CAD e infraestructura vial especializada."
+                ]
+            },
+            "MV": {
+                title: "Metrados y Valorizaciones",
+                dept: "Oficina Técnica",
+                desc: "Cuantifica el avance de obra ejecutado y realiza el cálculo de valorizaciones mensuales para convertirlas en los cobros del proyecto.",
+                functions: [
+                    "Realizar levantamiento tridimensional de volúmenes excavados y terraplenes consolidados.",
+                    "Conciliar mensualmente los metrados finales con los especialistas de la Supervisión de obra.",
+                    "Elaborar las planillas de sustento y carpetas de facturación al cliente.",
+                    "Auditar y visar las estimaciones físicas presentadas por los subcontratistas."
+                ]
+            },
+            "CP": {
+                title: "Jefe de Control de Proyectos",
+                dept: "Planeamiento y Costos",
+                desc: "Direcciona el monitoreo del rendimiento de plazo (cronograma) y costo (presupuesto). Es el encargado de alertar desviaciones tempranas mediante técnicas de valor ganado (EVM).",
+                functions: [
+                    "Dirigir la planificación maestra a mediano (Lookahead de 3 a 6 semanas) y largo plazo.",
+                    "Generar y analizar la Curva S financiera y de recursos del proyecto.",
+                    "Elaborar el Resultado Operativo RO mensual (costo incurrido vs venta devengada).",
+                    "Definir estrategias de recuperación de cronograma en conjunto con Construcción."
+                ]
+            },
+            "PLAN": {
+                title: "Planificación y Cronogramas",
+                dept: "Control de Proyectos",
+                desc: "Especialista en estructuración de plazos, CPM (Método de Ruta Crítica) y asignación de duraciones. Es el custodio de la línea base de tiempo en herramientas de alto desempeño.",
+                functions: [
+                    "Actualizar semanalmente el cronograma máster del proyecto (usualmente en Primavera P6 o MS Project).",
+                    "Monitorear la holgura de las actividades de la ruta crítica (explanaciones, pavimentación, puentes).",
+                    "Registrar diariamente los rendimientos reales de maquinaria clave vs los teóricos del presupuesto.",
+                    "Elaborar reportes visuales de hitos contractuales y avances lineales (Diagramas de Tiempo-Camino)."
+                ]
+            },
+            "COST": {
+                title: "Controlador de Costos",
+                dept: "Control de Proyectos",
+                desc: "Monitorea, audita y consolida la facturación de gastos, mano de obra y adquisiciones reales del proyecto para compararlo con la estimación presupuestal.",
+                functions: [
+                    "Asignar códigos de costo (EDT/WBS) a cada orden de compra, planilla y consumo en obra.",
+                    "Auditar los consumos reales de combustible de maquinaria pesada.",
+                    "Calcular las proyecciones del costo a la terminación (EAC - Estimate at Completion).",
+                    "Elaborar el flujo de caja (Cashflow) real e identificar desvíos presupuestales a nivel de partida."
+                ]
+            },
+            "QAQC": {
+                title: "Jefe de Aseguramiento de Calidad",
+                dept: "Calidad y Ensayos",
+                desc: "Garantiza de forma independiente que la construcción geométrica, los materiales aplicados y los acabados estructurales cumplan con las normas técnicas y pliegos de especificaciones del proyecto.",
+                functions: [
+                    "Redactar, implementar y auditar el Plan de Aseguramiento de Calidad (PAC) de la obra.",
+                    "Coordinar los protocolos de liberación de capas (subrasante, subbase, base y asfalto).",
+                    "Organizar el Dossier de Calidad final del proyecto, documento obligatorio para la recepción vial.",
+                    "Dirigir el plan de calibración de balanzas, prensas de laboratorio e instrumentos de campo."
+                ]
+            },
+            "SUP_QAQC": {
+                title: "Supervisores QA/QC",
+                dept: "Calidad y Ensayos",
+                desc: "Ingenieros de campo encargados de inspeccionar físicamente la colocación, compactación y acabado de los elementos estructurales y capas viales, liberando los protocolos en sitio.",
+                functions: [
+                    "Verificar y registrar la temperatura de la mezcla asfáltica durante el tendido y compactación.",
+                    "Inspeccionar visualmente las estructuras metálicas, soldaduras y encofrados de los puentes.",
+                    "Llenar y firmar las actas y protocolos de aceptación conjuntamente con la supervisión del cliente.",
+                    "Controlar la trazabilidad de los materiales aprobados y detectar productos No Conformes."
+                ]
+            },
+            "LAB": {
+                title: "Jefe de Laboratorio",
+                dept: "Calidad y Ensayos",
+                desc: "Lidera las operaciones científicas del laboratorio central de obra. Certifica la viabilidad de canteras de agregados y autoriza las fórmulas de diseño de mezclas de asfalto y concreto.",
+                functions: [
+                    "Aprobar la calidad física de los materiales provenientes de las canteras (desgaste Los Ángeles, plasticidad).",
+                    "Diseñar y validar las mezclas asfálticas en caliente (Superpave o Marshall) y de concreto hidráulico.",
+                    "Firmar y emitir los certificados oficiales de resistencia y compactación de la obra.",
+                    "Coordinar la logística de toma y ensayo de briquetas, núcleos (cores) y cilindros en la obra."
+                ]
+            },
+            "TEC_LAB": {
+                title: "Técnicos de Laboratorio",
+                dept: "Laboratorio de Campo",
+                desc: "Personal encargado del trabajo físico, muestreo y ejecución de ensayos geotécnicos e hidrométricos tanto en el laboratorio de obra como in-situ.",
+                functions: [
+                    "Ejecutar ensayos de densidad de campo usando el método del cono de arena o densímetro nuclear.",
+                    "Moldear cilindros de concreto y briquetas de asfalto en los frentes de vaciado y colocación.",
+                    "Realizar análisis granulométricos, límites de Atterberg y Proctor Modificado en el laboratorio.",
+                    "Extraer probetas diamantadas (núcleos) de las carpetas asfálticas terminadas."
+                ]
+            },
+            "CONS": {
+                title: "Gerente de Construcción",
+                dept: "Dirección de Ejecución",
+                desc: "Responsable directo de la producción física en campo. Lidera las operaciones de los frentes de trabajo, optimiza el uso diario de la maquinaria, cuadrillas y coordina con los departamentos de soporte técnico.",
+                functions: [
+                    "Planificar y organizar el despliegue diario de personal y maquinaria en los diversos frentes viales.",
+                    "Asegurar el cumplimiento de los rendimientos de excavación, compactación y colocación de concreto.",
+                    "Resolver interferencias físicas de campo y autorizar actividades de construcción rápida.",
+                    "Asegurar que los frentes ejecuten según los estándares de seguridad y especificaciones de calidad."
+                ]
+            },
+            "F1": {
+                title: "Frente 1: Movimiento de Tierras",
+                dept: "Frente de Construcción Vial",
+                desc: "Ingeniero de frente responsable del movimiento masivo de tierras, incluyendo el corte de taludes, conformación de rellenos (terraplenes) y preparación de la subrasante de la vía.",
+                functions: [
+                    "Coordinar el ciclo de excavación, carguío, acarreo y descarga de tierras en los DME (Botaderos).",
+                    "Monitorear la conformación y compactación de rellenos capa por capa (normalmente 20-30 cm).",
+                    "Garantizar el correcto uso de tractores, excavadoras, motoniveladoras y rodillos compactadores.",
+                    "Controlar la humedad del suelo con cuadrillas de camiones cisterna para lograr el Proctor óptimo."
+                ]
+            },
+            "F2": {
+                title: "Frente 2: Pavimentación",
+                dept: "Frente de Construcción Vial",
+                desc: "Responsable del tendido y compactación de las capas estructurales superiores del pavimento (subbase granular, base granular y carpeta asfáltica o pavimento de concreto).",
+                functions: [
+                    "Planificar el suministro continuo de mezcla asfáltica en caliente desde la planta de asfalto.",
+                    "Controlar la velocidad, frecuencia y temperatura de compactación de la pavimentadora y los rodillos lisos/neumáticos.",
+                    "Supervisar la aplicación de riegos de imprimación y de liga en las superficies preparadas.",
+                    "Asegurar los acabados superficiales de rugosidad (IRI) y deflexiones exigidas."
+                ]
+            },
+            "F3": {
+                title: "Frente 3: Obras de Arte y Drenaje",
+                dept: "Frente de Construcción Vial",
+                desc: "Ingeniero encargado de las estructuras de concreto y drenaje vial que protegen la carretera contra la erosión y encauzan las aguas superficiales y subterráneas.",
+                functions: [
+                    "Dirigir el encofrado, vaciado y desencofrado de alcantarillas, cabezales, cunetas revestidas y subdrenes.",
+                    "Supervisar la construcción de muros de contención de concreto ciclópeo o armado.",
+                    "Coordinar los trabajos de excavación estructural e instalación de geotextiles filtrantes.",
+                    "Construir pontones, pasos de agua y disipadores de energía hidráulica."
+                ]
+            },
+            "TOPO": {
+                title: "Jefe de Topografía",
+                dept: "Soporte de Construcción",
+                desc: "Garantiza la exactitud en la geometría vial de la carretera: cotas, alineamientos horizontales, peraltes, pendientes y curvas de transición, conforme al diseño del proyecto.",
+                functions: [
+                    "Establecer la red de puntos de control geodésicos principales (BM) de alta precisión.",
+                    "Dirigir el replanteo topográfico de los anchos de calzada, bermas, zanjas de drenaje y taludes.",
+                    "Calcular diariamente los volúmenes reales excavados (comparativa superficies digitales).",
+                    "Controlar la cota final de rasante previa a la colocación del pavimento asfáltico (tolerancia en milímetros)."
+                ]
+            },
+            "S_TOPO": {
+                title: "Cuadrillas de Topografía",
+                dept: "Soporte de Construcción",
+                desc: "Personal técnico distribuido a lo largo de los frentes encargados de realizar las lecturas de medición directas y colocar estacas de control de niveles en campo.",
+                functions: [
+                    "Operar estaciones totales, niveles automáticos y sistemas GPS diferenciales (RTK) en los frentes de obra.",
+                    "Colocar estacas indicativas de cortes y rellenos para guiar a los operadores de maquinaria pesada.",
+                    "Realizar levantamientos de control de capas concluidas para su protocolo técnico.",
+                    "Verificar desplomes de encofrados y cotas de cimentación de alcantarillas."
+                ]
+            },
+            "EQ_MAQ": {
+                title: "Jefe de Equipos y Maquinaria",
+                dept: "Soporte de Construcción",
+                desc: "Responsable de la disponibilidad operativa, logística y mantenimiento de la flota de maquinaria pesada y vehículos auxiliares distribuidos en el proyecto vial.",
+                functions: [
+                    "Diseñar y ejecutar el plan de mantenimiento preventivo y predictivo de la maquinaria de obra.",
+                    "Controlar los ratios de disponibilidad mecánica y uso eficiente de combustible.",
+                    "Gestionar las compras de repuestos críticos (neumáticos, filtros, elementos de desgaste de palas).",
+                    "Dirigir el equipo de mecánicos asignados al taller central y auxilio rápido en campo."
+                ]
+            },
+            "TALLER": {
+                title: "Mecánicos y Mantenimiento",
+                dept: "Soporte de Construcción",
+                desc: "Personal técnico especializado encargado de las reparaciones mecánicas, eléctricas e hidráulicas de la maquinaria vial en campamento o emergencias en carretera.",
+                functions: [
+                    "Solucionar fallas hidráulicas, de motor y eléctricas de cargadores, excavadoras y volquetes en campo.",
+                    "Realizar cambios programados de aceites, lubricantes y filtros de toda la flota vial.",
+                    "Operar el camión taller móvil para auxiliar a maquinaria atascada en el trazo.",
+                    "Garantizar el correcto desecho ecológico de aceites usados e insumos contaminantes en talleres."
+                ]
+            },
+            "ADM": {
+                title: "Jefe de Administración",
+                dept: "Soporte Operativo",
+                desc: "Líder de los servicios de soporte comercial y humano del campamento de obra. Vela por el abastecimiento, caja chica, cumplimiento legal laboral, y el bienestar del campamento.",
+                functions: [
+                    "Administrar el presupuesto de servicios internos de obra (alimentación, campamentos, energía).",
+                    "Supervisar los flujos de pago a proveedores locales y rendiciones de fondos fijos (caja chica).",
+                    "Garantizar el cumplimiento de las normativas de inspección gubernamental de trabajo.",
+                    "Coordinar el transporte y alojamiento para el personal de régimen especial (obra)."
+                ]
+            },
+            "RRHH": {
+                title: "Recursos Humanos y Nómina",
+                dept: "Soporte Operativo",
+                desc: "Encargado de la contratación, control de asistencia, pago de salarios de obreros y empleados, y la resolución de incidentes laborales en obra.",
+                functions: [
+                    "Gestionar la contratación, afiliación a seguros (SCTR) e inducción del personal obrero ingresante.",
+                    "Elaborar las planillas semanales de construcción civil cumpliendo los pactos colectivos del sector.",
+                    "Controlar la rotación de turnos, descansos médicos y horas extra del personal de campo.",
+                    "Atender y resolver las disputas de sindicatos u obreros en coordinación con la gerencia social."
+                ]
+            },
+            "LOG": {
+                title: "Logística y Compras",
+                dept: "Soporte Operativo",
+                desc: "Gestiona el proceso de cotización, compra, seguimiento de entregas y contratos menores de insumos e infraestructura de obra vial.",
+                functions: [
+                    "Negociar tarifas y cerrar órdenes de suministro de materiales críticos (cemento, acero, asfalto, emulsión).",
+                    "Coordinar con proveedores de transporte el traslado de materiales hasta el campamento.",
+                    "Evaluar y homologar proveedores locales a lo largo del trayecto de la carretera.",
+                    "Generar cuadros comparativos técnicos-económicos para compras y subcontratos menores."
+                ]
+            },
+            "ALM": {
+                title: "Jefe de Almacén y Stocks",
+                dept: "Soporte Operativo",
+                desc: "Responsable de la recepción física, almacenamiento seguro, control de inventario y distribución de los insumos y herramientas del campamento y obra.",
+                functions: [
+                    "Recepcionar y verificar que el acero, tuberías, y aditivos coincidan con la orden de compra física.",
+                    "Implementar registros digitalizados de entrada y salida de materiales (Kárdex).",
+                    "Controlar el correcto almacenamiento de materiales químicos (aditivos de concreto) y herramientas.",
+                    "Realizar inventarios físicos periódicos y alertar stocks mínimos de seguridad (como combustibles)."
+                ]
+            },
+            "CONT": {
+                title: "Contabilidad y Tesorería",
+                dept: "Soporte Operativo",
+                desc: "Responsable de la gestión contable tributaria local de la obra y el procesamiento de pagos directos aprobados por el administrador.",
+                functions: [
+                    "Contabilizar y registrar las facturas recibidas de proveedores locales en el ERP del consorcio.",
+                    "Gestionar los pagos mensuales de impuestos, detracciones y retenciones aplicables.",
+                    "Efectuar los desembolsos de caja chica, viáticos y nóminas semanales del personal local.",
+                    "Sustentar auditorías contables e integrarse periódicamente al sistema contable central corporativo."
+                ]
+            }
+        };
+
+        // Código del organigrama en Mermaid
+        const diagramDefinition = `
+graph TD
+    %% Estilos de Nodos
+    classDef pm fill:#1e293b,stroke:#0f172a,stroke-width:2px,color:#fff;
+    classDef staff fill:#475569,stroke:#334155,stroke-width:2px,color:#fff;
+    classDef dep fill:#0284c7,stroke:#0369a1,stroke-width:2px,color:#fff;
+    classDef sub fill:#f0f9ff,stroke:#bae6fd,stroke-width:1px,color:#0369a1;
+    classDef sec fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#475569;
+
+    %% Nivel 1: Gerencia de Proyecto
+    PM["Gerente de Proyecto (PM)"]:::pm
+
+    %% Nivel Staff Directo (Apoyo y Asesoría a la Gerencia)
+    subgraph Staff ["Staff de Asesoría y Control Directo"]
+        AC["Administrador de Contratos"]:::staff
+        SSOMA["Jefe de SSOMA (HSE)<br>(Seguridad, Salud y Medio Ambiente)"]:::staff
+        RRC["Jefe de Relaciones Comunitarias<br>(Sociales / Expropiaciones)"]:::staff
+    end
+
+    PM --> AC
+    PM --> SSOMA
+    PM --> RRC
+
+    %% Nivel 2: Jefaturas de Departamento
+    OT["Jefe de Oficina Técnica"]:::dep
+    CP["Jefe de Control de Proyectos"]:::dep
+    QAQC["Jefe de Aseguramiento y Control de Calidad (QA/QC)"]:::dep
+    CONS["Gerente de Construcción"]:::dep
+    ADM["Jefe de Administración y Finanzas"]:::dep
+
+    PM --> OT
+    PM --> CP
+    PM --> QAQC
+    PM --> CONS
+    PM --> ADM
+
+    %% Sub-niveles de Oficina Técnica
+    subgraph Dept_OT ["Oficina Técnica"]
+        DC["Control Documentario"]:::sub
+        ING["Ingeniería y Diseño (Modificaciones)"]:::sub
+        MV["Metrados, Valorizaciones y Liquidaciones"]:::sub
+    end
+    OT --> DC
+    OT --> ING
+    OT --> MV
+
+    %% Sub-niveles de Control de Proyectos
+    subgraph Dept_CP ["Control de Proyectos"]
+        PLAN["Planificación y Cronograma (Primavera P6)"]:::sub
+        COST["Control de Costos y Presupuestos"]:::sub
+    end
+    CP --> PLAN
+    CP --> COST
+
+    %% Sub-niveles de QA/QC
+    subgraph Dept_QAQC ["Calidad y Ensayos"]
+        SUP_QAQC["Supervisores QA/QC<br>(Tramos y Estructuras)"]:::sub
+        LAB["Jefe de Laboratorio"]:::sub
+        TEC_LAB["Técnicos de Laboratorio (Suelos, Asfalto, Concreto)"]:::sec
+    end
+    QAQC --> SUP_QAQC
+    QAQC --> LAB
+    LAB --> TEC_LAB
+
+    %% Sub-niveles de Construcción
+    subgraph Dept_CONS ["Frentes de Obra e Infraestructura"]
+        F1["Frente 1: Movimiento de Tierras<br>(Cortes, Rellenos, Explanaciones)"]:::sub
+        F2["Frente 2: Pavimentación<br>(Sub-base, Base, Asfalto/Concreto)"]:::sub
+        F3["Frente 3: Obras de Arte y Drenaje<br>(Cunetas, Alcantarillas, Pontones)"]:::sub
+        TOPO["Jefe de Topografía"]:::sub
+        EQ_MAQ["Jefe de Equipos y Maquinaria"]:::sub
+        
+        %% Ramas operativas de Topografía y Equipos
+        S_TOPO["Cuadrillas de Topografía"]:::sec
+        TALLER["Taller de Mantenimiento y Mecánica"]:::sec
+    end
+    CONS --> F1
+    CONS --> F2
+    CONS --> F3
+    CONS --> TOPO
+    CONS --> EQ_MAQ
+    
+    TOPO --> S_TOPO
+    EQ_MAQ --> TALLER
+
+    %% Sub-niveles de Administración
+    subgraph Dept_ADM ["Soporte Administrativo"]
+        RRHH["Recursos Humanos y Nóminas"]:::sub
+        LOG["Logística, Compras y Contratos Menores"]:::sub
+        ALM["Jefe de Almacén y Control de Stocks"]:::sub
+        CONT["Contabilidad y Tesorería"]:::sub
+    end
+    ADM --> RRHH
+    ADM --> LOG
+    ADM --> ALM
+    ADM --> CONT
+
+    %% Enlaces y dependencias cruzadas (líneas punteadas de coordinación)
+    CP -.->|Coordinación de Avances| CONS
+    QAQC -.->|Liberación de Tramos| CONS
+    OT -.->|Planos Aptos para Construir| CONS
+    LOG -.->|Suministro de Materiales| ALM
+        `;
+
+        // Inicializar Mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: 'loose',
+            theme: 'dark',
+            fontFamily: 'Outfit'
+        });
+
+        let panZoomInstance = null;
+
+        // Renderizar el organigrama
+        const renderDiagram = () => {
+            const viewport = document.getElementById('diagram-viewport');
+            
+            mermaid.render('mermaid-svg-container', diagramDefinition).then(({ svg }) => {
+                viewport.innerHTML = svg;
+                
+                const svgElement = viewport.querySelector('svg');
+                svgElement.setAttribute('width', '100%');
+                svgElement.setAttribute('height', '100%');
+                svgElement.style.maxWidth = '100%';
+                svgElement.style.maxHeight = '100%';
+                
+                // Configurar Pan & Zoom
+                panZoomInstance = svgPanZoom(svgElement, {
+                    zoomEnabled: true,
+                    controlIconsEnabled: false,
+                    fit: true,
+                    center: true,
+                    minZoom: 0.2,
+                    maxZoom: 8,
+                    zoomScaleSensitivity: 0.3
+                });
+
+                // Registrar eventos en los nodos
+                setupNodeEvents();
+            }).catch(err => {
+                console.error("Error renderizando Mermaid:", err);
+                viewport.innerHTML = `<div style="color: #ef4444; padding: 20px;">Error al cargar el organigrama. Verifica la consola.</div>`;
+            });
+        };
+
+        // Identificar el ID simplificado de un nodo a partir del elemento SVG
+        const getRoleIdFromElement = (el) => {
+            const idAttr = el.id || ''; // e.g. "flowchart-PM-123"
+            const parts = idAttr.split('-');
+            if (parts.length >= 2) {
+                const candidate = parts[1]; // "PM"
+                if (roleDetails[candidate]) return candidate;
+            }
+            // Fallback: buscar coincidencia en el texto
+            const textContent = el.textContent || '';
+            for (const key in roleDetails) {
+                if (textContent.includes(roleDetails[key].title) || textContent.includes(key)) {
+                    return key;
+                }
+            }
+            return null;
+        };
+
+        // Configurar los eventos de clic y hover en los nodos generados
+        const setupNodeEvents = () => {
+            const nodes = document.querySelectorAll('.node');
+            const detailPanel = document.getElementById('detail-panel');
+            
+            nodes.forEach(node => {
+                node.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    
+                    // Remover clase seleccionada anterior
+                    document.querySelectorAll('.node').forEach(n => n.classList.remove('node-selected'));
+                    node.classList.add('node-selected');
+                    
+                    const roleId = getRoleIdFromElement(node);
+                    if (roleId && roleDetails[roleId]) {
+                        showRoleDetails(roleId);
+                    }
+                });
+            });
+
+            // Cerrar panel al hacer clic en el fondo
+            document.getElementById('diagram-viewport').addEventListener('click', () => {
+                detailPanel.classList.remove('open');
+                document.querySelectorAll('.node').forEach(n => n.classList.remove('node-selected'));
+            });
+        };
+
+        // Mostrar los detalles en el panel derecho
+        const showRoleDetails = (id) => {
+            const role = roleDetails[id];
+            const panel = document.getElementById('detail-panel');
+            
+            document.getElementById('role-badge').innerText = role.dept;
+            document.getElementById('role-title').innerText = role.title;
+            document.getElementById('role-desc').innerText = role.desc;
+            
+            const functionsList = document.getElementById('role-functions');
+            functionsList.innerHTML = '';
+            role.functions.forEach(func => {
+                const li = document.createElement('li');
+                li.innerText = func;
+                functionsList.appendChild(li);
+            });
+            
+            panel.classList.add('open');
+        };
+
+        // Configuración de Controles de Navegación
+        document.getElementById('zoom-in').addEventListener('click', () => {
+            if (panZoomInstance) panZoomInstance.zoomIn();
+        });
+
+        document.getElementById('zoom-out').addEventListener('click', () => {
+            if (panZoomInstance) panZoomInstance.zoomOut();
+        });
+
+        document.getElementById('zoom-reset').addEventListener('click', () => {
+            if (panZoomInstance) {
+                panZoomInstance.reset();
+                panZoomInstance.fit();
+                panZoomInstance.center();
+            }
+        });
+
+        // Búsqueda y Filtrado Dinámico de Roles
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const nodes = document.querySelectorAll('.node');
+            
+            nodes.forEach(node => {
+                const roleId = getRoleIdFromElement(node);
+                const role = roleDetails[roleId];
+                
+                if (!role) return;
+
+                const matchTitle = role.title.toLowerCase().includes(query);
+                const matchDesc = role.desc.toLowerCase().includes(query);
+                const matchDept = role.dept.toLowerCase().includes(query);
+                const matchKey = roleId.toLowerCase().includes(query);
+
+                if (query === '') {
+                    // Restablecer estilos
+                    node.style.opacity = '1';
+                    node.style.filter = 'none';
+                } else if (matchTitle || matchDesc || matchDept || matchKey) {
+                    // Resaltar
+                    node.style.opacity = '1';
+                    node.style.filter = 'drop-shadow(0 0 10px #0284c7)';
+                } else {
+                    // Opacar no coincidentes
+                    node.style.opacity = '0.15';
+                    node.style.filter = 'grayscale(80%)';
+                }
+            });
+        });
+
+        // Control de Cierre del Panel
+        document.getElementById('btn-close-detail').addEventListener('click', () => {
+            document.getElementById('detail-panel').classList.remove('open');
+            document.querySelectorAll('.node').forEach(n => n.classList.remove('node-selected'));
+        });
+
+        // Alternar entre Tema Claro y Oscuro
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            themeToggle.innerText = isLight ? '☀️' : '🌙';
+            
+            // Re-renderizar Mermaid con el tema adecuado
+            const viewport = document.getElementById('diagram-viewport');
+            viewport.innerHTML = `<div style="color: var(--text-secondary); font-size: 1.1rem;">Cargando tema...</div>`;
+            
+            mermaid.initialize({
+                startOnLoad: false,
+                securityLevel: 'loose',
+                theme: isLight ? 'default' : 'dark',
+                fontFamily: 'Outfit'
+            });
+            
+            renderDiagram();
+        });
+
+        // Ejecutar carga inicial
+        window.addEventListener('DOMContentLoaded', () => {
+            // Un pequeño delay para asegurar la carga completa de recursos CDN
+            setTimeout(renderDiagram, 500);
+        });
+    </script>
+</body>
+</html>
