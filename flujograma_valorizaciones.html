@@ -11,6 +11,8 @@
     
     <!-- Panzoom CDN para zoom y arrastre de elementos HTML -->
     <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+    <!-- html-to-image CDN para exportación premium a PNG -->
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
 
     <style>
         :root {
@@ -411,6 +413,35 @@
             border-color: #0284c7;
         }
 
+        .btn-download {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 0 16px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-download:hover {
+            background: rgba(15, 23, 42, 0.6);
+            border-color: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-download svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
         /* Zoom */
         .controls-panel {
             position: absolute;
@@ -734,6 +765,10 @@
                     <input type="text" id="search-input" placeholder="Buscar paso, documento o plazo...">
                 </div>
                 <button class="btn-toggle" id="theme-toggle" title="Cambiar Tema">🌙</button>
+                <button class="btn-download" id="btn-download-png" title="Descargar como Imagen PNG">
+                    <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+                    <span>Descargar PNG</span>
+                </button>
             </div>
         </div>
 
@@ -1051,6 +1086,66 @@
 
             // Redibujar conectores cuando cambie el tamaño de ventana
             window.addEventListener('resize', drawConnectors);
+
+            // Exportar e iniciar descarga de la imagen PNG de forma interactiva y premium
+            document.getElementById('btn-download-png').addEventListener('click', () => {
+                const btn = document.getElementById('btn-download-png');
+                const originalText = btn.querySelector('span').innerText;
+                btn.querySelector('span').innerText = 'Procesando...';
+                btn.style.opacity = '0.7';
+                btn.disabled = true;
+
+                // Restablecer temporalmente zoom y rotación para una captura perfecta a escala 1:1
+                const originalTransform = elem.style.transform;
+                
+                // Forzar escala a 1 y re-dibujar conectores temporalmente
+                panzoomInstance.zoom(1.0, { animate: false });
+                panzoomInstance.pan(0, 0, { animate: false });
+                
+                // Darle un pequeño respiro al navegador para aplicar estilos y refrescar coordenadas
+                setTimeout(() => {
+                    drawConnectors();
+
+                    const isDark = !document.body.classList.contains('light-theme');
+                    const bgColor = isDark ? '#080c14' : '#f8fafc';
+
+                    // Convertir el lienzo DOM a una imagen PNG de alta calidad
+                    htmlToImage.toPng(elem, {
+                        backgroundColor: bgColor,
+                        style: {
+                            transform: 'none',
+                            padding: '160px 80px 100px 80px'
+                        },
+                        width: elem.scrollWidth,
+                        height: elem.scrollHeight
+                    })
+                    .then((dataUrl) => {
+                        const link = document.createElement('a');
+                        link.download = 'flujograma_valorizaciones.png';
+                        link.href = dataUrl;
+                        link.click();
+
+                        // Restaurar estado del botón y del lienzo
+                        btn.querySelector('span').innerText = originalText;
+                        btn.style.opacity = '1';
+                        btn.disabled = false;
+                        panzoomInstance.zoom(0.65, { animate: false });
+                        panzoomInstance.pan(40, 20, { animate: false });
+                        setTimeout(drawConnectors, 50);
+                    })
+                    .catch((error) => {
+                        console.error('Error al exportar el flujograma a PNG:', error);
+                        btn.querySelector('span').innerText = 'Error';
+                        btn.style.opacity = '1';
+                        btn.disabled = false;
+                        
+                        // Restaurar estado del lienzo ante error
+                        panzoomInstance.zoom(0.65, { animate: false });
+                        panzoomInstance.pan(40, 20, { animate: false });
+                        setTimeout(drawConnectors, 50);
+                    });
+                }, 150);
+            });
         });
 
         // Mostrar detalles en el panel derecho
@@ -1072,16 +1167,18 @@
 
             const inputList = document.getElementById('role-inputs');
             inputList.innerHTML = '';
-            data.inputs.forEach(text => {
-                const li = document.createElement('li');
-                li.innerText = text;
-                inputList.appendChild(li);
-            });
+                        const outputList = document.getElementById('role-outputs');
+             outputList.innerHTML = '';
+             data.outputs.forEach(text => {
+                 const li = document.createElement('li');
+                 li.innerText = text;
+                 outputList.appendChild(li);
+             });
 
-            const outputList = document.getElementById('role-outputs');
-            outputList.innerHTML = '';
-            data.outputs.forEach(text => {
-                const         // ---------------- DIBUJADO DINÁMICO DE LAS FLECHAS CONECTORAS SVG ----------------
+             panel.classList.add('open');
+         }
+
+        // ---------------- DIBUJADO DINÁMICO DE LAS FLECHAS CONECTORAS SVG ----------------
         // Función para calcular coordenadas locales precisas sin importar la escala de Panzoom
         function getLocalCoords(element) {
             const container = document.getElementById('panzoom-element');
@@ -1220,11 +1317,6 @@
                     text.setAttribute('font-size', '0.75rem');
                     text.setAttribute('font-weight', '600');
                     text.setAttribute('text-anchor', 'middle');
-                    text.textContent = conn[3];
-                    svg.appendChild(text);
-                }
-            });
-        }                 text.setAttribute('text-anchor', 'middle');
                     text.textContent = conn[3];
                     svg.appendChild(text);
                 }
