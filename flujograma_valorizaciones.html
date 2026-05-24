@@ -1081,17 +1081,41 @@
             const outputList = document.getElementById('role-outputs');
             outputList.innerHTML = '';
             data.outputs.forEach(text => {
-                const li = document.createElement('li');
-                li.innerText = text;
-                outputList.appendChild(li);
-            });
-
-            panel.classList.add('open');
+                const         // ---------------- DIBUJADO DINÁMICO DE LAS FLECHAS CONECTORAS SVG ----------------
+        // Función para calcular coordenadas locales precisas sin importar la escala de Panzoom
+        function getLocalCoords(element) {
+            const container = document.getElementById('panzoom-element');
+            let x = 0;
+            let y = 0;
+            let el = element;
+            
+            // Recorrer los padres posicionados hasta llegar al contenedor principal
+            while (el && el !== container) {
+                x += el.offsetLeft;
+                y += el.offsetTop;
+                el = el.offsetParent;
+            }
+            
+            return {
+                x: x,
+                y: y,
+                w: element.offsetWidth,
+                h: element.offsetHeight
+            };
         }
 
-        // ---------------- DIBUJADO DINÁMICO DE LAS FLECHAS CONECTORAS SVG ----------------
         function drawConnectors() {
             const svg = document.getElementById('connector-layer');
+            const container = document.getElementById('panzoom-element');
+            
+            // Ajustar el tamaño del SVG al tamaño exacto de su contenedor para evitar recortes
+            const scrollW = container.scrollWidth;
+            const scrollH = container.scrollHeight;
+            svg.setAttribute('width', scrollW);
+            svg.setAttribute('height', scrollH);
+            svg.style.width = scrollW + 'px';
+            svg.style.height = scrollH + 'px';
+
             // Limpiar líneas viejas
             const oldPaths = svg.querySelectorAll('path, text');
             oldPaths.forEach(p => p.remove());
@@ -1099,7 +1123,7 @@
             const isDark = !document.body.classList.contains('light-theme');
             const lineColor = isDark ? '#475569' : '#cbd5e1';
 
-            // Definición de conexiones entre pasos: [desdeId, haciaId, tipo, textoOpcional, colorEspecial]
+            // Definición de conexiones entre pasos
             const connections = [
                 ['step-1', 'step-2', 'vertical'],
                 ['step-2', 'step-3', 'vertical'],
@@ -1109,8 +1133,6 @@
                 ['step-6', 'step-7', 'vertical', 'No (Aprobar)'],
                 ['step-6', 'step-3', 'return', 'Sí (Observar)', '#ef4444'], // Bucle de retorno
                 ['step-7', 'step-8', 'diagonal'], // Supervisión (Col 2) -> Cliente (Col 3)
-                
-                // --- NUEVAS LÍNEAS DE FLUJO DEL PASO 7 AL PASO 10 ---
                 ['step-8', 'step-9', 'diagonal_left'], // Cliente (Col 3) -> Contratista (Col 1)
                 ['step-9', 'step-10', 'diagonal_right'] // Contratista (Col 1) -> Cliente (Col 3) para Pago
             ];
@@ -1120,23 +1142,19 @@
                 const elTo = document.getElementById(conn[1]);
                 if (!elFrom || !elTo) return;
 
-                const rFrom = elFrom.getBoundingClientRect();
-                const rTo = elTo.getBoundingClientRect();
-                
-                // Coordenadas relativas a #panzoom-element
-                const container = document.getElementById('panzoom-element');
-                const cRect = container.getBoundingClientRect();
-                const scale = panzoomInstance.getScale();
+                // Obtener coordenadas locales exactas e inmunes al zoom
+                const cFrom = getLocalCoords(elFrom);
+                const cTo = getLocalCoords(elTo);
 
-                const fromX = (rFrom.left - cRect.left) / scale;
-                const fromY = (rFrom.top - cRect.top) / scale;
-                const fromW = rFrom.width / scale;
-                const fromH = rFrom.height / scale;
+                const fromX = cFrom.x;
+                const fromY = cFrom.y;
+                const fromW = cFrom.w;
+                const fromH = cFrom.h;
 
-                const toX = (rTo.left - cRect.left) / scale;
-                const toY = (rTo.top - cRect.top) / scale;
-                const toW = rTo.width / scale;
-                const toH = rTo.height / scale;
+                const toX = cTo.x;
+                const toY = cTo.y;
+                const toW = cTo.w;
+                const toH = cTo.h;
 
                 let pathD = '';
                 const strokeColor = conn[4] || lineColor;
@@ -1149,26 +1167,8 @@
                     const y2 = toY;
                     pathD = `M ${x1} ${y1} L ${x2} ${y2}`;
                 } 
-                else if (conn[2] === 'diagonal') {
-                    // Curva diagonal de una columna a la derecha
-                    const x1 = fromX + fromW / 2;
-                    const y1 = fromY + fromH;
-                    const x2 = toX + toW / 2;
-                    const y2 = toY;
-                    const midY = (y1 + y2) / 2;
-                    pathD = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
-                }
-                else if (conn[2] === 'diagonal_left') {
-                    // Curva diagonal de derecha a izquierda cruzando columnas (Cliente a Contratista)
-                    const x1 = fromX + fromW / 2;
-                    const y1 = fromY + fromH;
-                    const x2 = toX + toW / 2;
-                    const y2 = toY;
-                    const midY = (y1 + y2) / 2;
-                    pathD = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
-                }
-                else if (conn[2] === 'diagonal_right') {
-                    // Curva diagonal de izquierda a derecha (Contratista a Cliente para Pago)
+                else if (conn[2] === 'diagonal' || conn[2] === 'diagonal_left' || conn[2] === 'diagonal_right') {
+                    // Curva diagonal cruzando columnas de carril
                     const x1 = fromX + fromW / 2;
                     const y1 = fromY + fromH;
                     const x2 = toX + toW / 2;
@@ -1178,17 +1178,15 @@
                 }
                 else if (conn[2] === 'return') {
                     // Bucle de retorno hacia arriba (de decisión en supervisión a borrador en contratista)
-                    // Sale del pico izquierdo del rombo (Step 6)
                     const x1 = fromX;
                     const y1 = fromY + fromH / 2;
-                    // Sube por la izquierda hasta alinearse con el Step 3
                     const x2 = toX - 35; // Holgura lateral izquierda
                     const y2 = y1;
                     const x3 = toX - 35;
                     const y3 = toY + toH / 2;
                     const x4 = toX; // Entra por la izquierda del Step 3
 
-                    pathD = `M ${x1} ${y1} L ${x2} ${y2} L ${x3} ${y3} L ${x4} ${y3}`;
+                    pathD = `M ${x1} ${y1} L ${x2} ${y2} L ${x3} ${y2} L ${x4} ${y3}`;
                 }
 
                 // Crear ruta SVG
@@ -1222,6 +1220,11 @@
                     text.setAttribute('font-size', '0.75rem');
                     text.setAttribute('font-weight', '600');
                     text.setAttribute('text-anchor', 'middle');
+                    text.textContent = conn[3];
+                    svg.appendChild(text);
+                }
+            });
+        }                 text.setAttribute('text-anchor', 'middle');
                     text.textContent = conn[3];
                     svg.appendChild(text);
                 }
