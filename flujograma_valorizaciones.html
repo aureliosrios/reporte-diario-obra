@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flujograma de Valorizaciones - Proyecto Vial</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Panzoom CDN para zoom y arrastre -->
+    <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #080c14;
+            --panel-bg: rgba(15, 23, 42, 0.75);
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --connector-color: #475569;
+            
+            /* Carriles y Roles */
+            --contratista-color: #0ea5e9;
+            --contratista-bg: rgba(14, 165, 233, 0.04);
+            --contratista-border: rgba(14, 165, 233, 0.15);
+            
+            --supervision-color: #f59e0b;
+            --supervision-bg: rgba(245, 158, 11, 0.04);
+            --supervision-border: rgba(245, 158, 11, 0.15);
+            
+            --cliente-color: #10b981;
+            --cliente-bg: rgba(16, 185, 129, 0.04);
+            --cliente-border: rgba(16, 185, 129, 0.15);
+
+            /* Light theme variables */
+            --light-bg-color: #f8fafc;
+            --light-panel-bg: rgba(255, 255, 255, 0.85);
+            --light-panel-border: rgba(15, 23, 42, 0.08);
+            --light-text-primary: #0f172a;
+            --light-text-secondary: #475569;
+            --light-connector-color: #cbd5e1;
+        }
+
+        body.light-theme {
+            --bg-color: var(--light-bg-color);
+            --panel-bg: var(--light-panel-bg);
+            --panel-border: var(--light-panel-border);
+            --text-primary: var(--light-text-primary);
+            --text-secondary: var(--light-text-secondary);
+            --connector-color: var(--light-connector-color);
+            --contratista-bg: rgba(14, 165, 233, 0.08);
+            --supervision-bg: rgba(245, 158, 11, 0.08);
+            --cliente-bg: rgba(16, 185, 129, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+
+        /* Contenedor Principal */
+        .app-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Área Interactiva Pan & Zoom */
+        .viewport-wrapper {
+            flex: 1;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            cursor: grab;
+        }
+
+        .viewport-wrapper:active {
+            cursor: grabbing;
+        }
+
+        /* Lienzo del Flujograma */
+        #panzoom-element {
+            display: inline-flex;
+            flex-direction: column;
+            padding: 160px 80px 100px 80px;
+            transform-origin: 0 0;
+            position: relative;
+        }
+
+        /* ---------------- DISEÑO POR CARRILES (SWIMLANES) ---------------- */
+
+        .swimlanes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* Fila de Carril */
+        .swimlane {
+            display: flex;
+            align-items: center;
+            min-height: 180px;
+            border-radius: 16px;
+            padding: 20px 40px;
+            position: relative;
+            min-width: 1950px; /* Ancho suficiente para albergar los pasos horizontales */
+        }
+
+        .lane-contratista {
+            background-color: var(--contratista-bg);
+            border: 1px solid var(--contratista-border);
+            --lane-color: var(--contratista-color);
+        }
+
+        .lane-supervision {
+            background-color: var(--supervision-bg);
+            border: 1px solid var(--supervision-border);
+            --lane-color: var(--supervision-color);
+        }
+
+        .lane-cliente {
+            background-color: var(--cliente-bg);
+            border: 1px solid var(--cliente-border);
+            --lane-color: var(--cliente-color);
+        }
+
+        /* Etiqueta del Carril */
+        .lane-header {
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--lane-color);
+            background-color: var(--bg-color);
+            padding: 6px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--lane-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        /* Contenedor de Pasos alineados horizontalmente */
+        .flow-row {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            gap: 150px; /* Espacio para las flechas conectoras */
+            padding-left: 60px;
+        }
+
+        /* ---------------- TARJETAS DE PASO (STEPS) ---------------- */
+
+        .flow-step {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-left: 5px solid var(--lane-color);
+            border-radius: 12px;
+            padding: 16px 20px;
+            width: 240px;
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            cursor: pointer;
+            position: relative;
+            z-index: 5;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .flow-step:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+            border-color: var(--lane-color);
+        }
+
+        .flow-step.active {
+            border-color: var(--lane-color) !important;
+            box-shadow: 0 0 15px var(--lane-color) !important;
+        }
+
+        .step-number {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--lane-color);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .flow-step h3 {
+            font-size: 0.92rem;
+            font-weight: 600;
+            line-height: 1.35;
+            color: var(--text-primary);
+        }
+
+        .flow-step p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        /* Nodos de Decisión (Rombos) */
+        .flow-decision {
+            background-color: var(--panel-bg);
+            border: 2px solid var(--lane-color);
+            width: 120px;
+            height: 120px;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 5;
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .flow-decision:hover {
+            transform: rotate(45deg) scale(1.08);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+        }
+
+        .flow-decision.active {
+            box-shadow: 0 0 15px var(--lane-color) !important;
+        }
+
+        .decision-text {
+            transform: rotate(-45deg);
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--text-primary);
+            width: 100px;
+        }
+
+        /* ---------------- CONECTORES Y FLECHAS SVG ---------------- */
+
+        .connector-svg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* ---------------- GLASS PANELS (INTERFAZ UI) ---------------- */
+
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px) saturate(120%);
+            -webkit-backdrop-filter: blur(16px) saturate(120%);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        /* Cabecera */
+        .header-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .header-left {
+            pointer-events: auto;
+        }
+
+        .header-left h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            margin-bottom: 2px;
+        }
+
+        .header-left p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            padding-left: 36px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            width: 260px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+            width: 320px;
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 12px;
+            width: 16px;
+            height: 16px;
+            fill: var(--text-secondary);
+        }
+
+        .btn-toggle {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .btn-toggle:hover {
+            background: rgba(15, 23, 42, 0.6);
+            border-color: #0284c7;
+        }
+
+        /* Controles de Zoom */
+        .controls-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 8px;
+        }
+
+        .btn-ctrl {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--panel-border);
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: #0284c7;
+            border-color: #0284c7;
+            color: white;
+        }
+
+        /* Panel de Detalle Derecho */
+        .detail-panel {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            width: 360px;
+            max-height: calc(100% - 140px);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .detail-panel.open {
+            transform: translateX(0);
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .detail-badge {
+            background: rgba(2, 132, 199, 0.15);
+            color: #38bdf8;
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .btn-close:hover {
+            color: var(--text-primary);
+        }
+
+        .detail-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        .detail-divider {
+            height: 1px;
+            background: var(--panel-border);
+            width: 100%;
+        }
+
+        .detail-section-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .detail-desc {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .meta-item {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
+
+        .meta-item-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .meta-item-val {
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .detail-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .detail-list li {
+            font-size: 0.88rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .detail-list li::before {
+            content: "➔";
+            color: var(--accent-color, #0284c7);
+            font-size: 0.75rem;
+            margin-top: 3px;
+        }
+
+        .instruction-toast {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            pointer-events: none;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Área Interactiva Pan & Zoom -->
+        <div class="viewport-wrapper" id="viewport-wrapper">
+            <div id="panzoom-element">
+                
+                <!-- Capa SVG para las flechas conectoras -->
+                <svg class="connector-svg-layer" id="connector-layer">
+                    <defs>
+                        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="context-stroke" />
+                        </marker>
+                    </defs>
+                </svg>
+
+                <div class="swimlanes-container">
+                    
+                    <!-- CARRIL 1: CONTRATISTA -->
+                    <div class="swimlane lane-contratista" id="lane-contratista">
+                        <div class="lane-header">Contratista</div>
+                        <div class="flow-row">
+                            
+                            <!-- Paso 1 -->
+                            <div class="flow-step" id="step-1" data-role="1">
+                                <div class="step-number">Paso 1</div>
+                                <h3>Medición de Campo</h3>
+                                <p>Topografía y frentes viales miden el avance ejecutado.</p>
+                            </div>
+
+                            <!-- Paso 2 (Coordinación) -->
+                            <div class="flow-step" id="step-2" data-role="2">
+                                <div class="step-number">Paso 2</div>
+                                <h3>Conciliación de Metrados</h3>
+                                <p>Ingenieros del contratista y supervisión concilian metrados.</p>
+                            </div>
+
+                            <!-- Paso 3 -->
+                            <div class="flow-step" id="step-3" data-role="3">
+                                <div class="step-number">Paso 3</div>
+                                <h3>Elaboración del Expediente</h3>
+                                <p>Oficina Técnica compila planos, ensayos y memorias.</p>
+                            </div>
+
+                            <!-- Paso 4 -->
+                            <div class="flow-step" id="step-4" data-role="4">
+                                <div class="step-number">Paso 4</div>
+                                <h3>Presentación Formal</h3>
+                                <p>Envío oficial de la valorización a la Supervisión.</p>
+                            </div>
+
+                            <!-- Espaciador para pasos del carril inferior -->
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 120px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+
+                            <!-- Paso 9 -->
+                            <div class="flow-step" id="step-9" data-role="9">
+                                <div class="step-number">Paso 9</div>
+                                <h3>Emisión de Factura</h3>
+                                <p>Carga de la factura electrónica en el portal del cliente.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- CARRIL 2: SUPERVISIÓN DE OBRA -->
+                    <div class="swimlane lane-supervision" id="lane-supervision">
+                        <div class="lane-header">Supervisión</div>
+                        <div class="flow-row">
+                            
+                            <!-- Espaciadores horizontales para alinear con los pasos superiores -->
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+
+                            <!-- Paso 5 -->
+                            <div class="flow-step" id="step-5" data-role="5">
+                                <div class="step-number">Paso 5</div>
+                                <h3>Evaluación Técnica</h3>
+                                <p>Supervisión audita cálculos y certificados de calidad.</p>
+                            </div>
+
+                            <!-- Decisión 6 (Rombo) -->
+                            <div class="flow-decision" id="step-6" data-role="6">
+                                <div class="decision-text">¿Existen Observaciones?</div>
+                            </div>
+
+                            <!-- Paso 7 -->
+                            <div class="flow-step" id="step-7" data-role="7">
+                                <div class="step-number">Paso 7</div>
+                                <h3>Aprobación y Certificado</h3>
+                                <p>Emisión del informe técnico aprobatorio y envío a Cliente.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- CARRIL 3: CLIENTE (ENTIDAD) -->
+                    <div class="swimlane lane-cliente" id="lane-cliente">
+                        <div class="lane-header">Cliente</div>
+                        <div class="flow-row">
+                            
+                            <!-- Espaciadores horizontales -->
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 120px; pointer-events: none; opacity: 0;"></div>
+                            <div style="width: 240px; pointer-events: none; opacity: 0;"></div>
+
+                            <!-- Paso 8 -->
+                            <div class="flow-step" id="step-8" data-role="8">
+                                <div class="step-number">Paso 8</div>
+                                <h3>Revisión Financiera</h3>
+                                <p>Evaluación administrativa del cliente y autorización de factura.</p>
+                            </div>
+
+                            <!-- Paso 10 -->
+                            <div class="flow-step" id="step-10" data-role="10">
+                                <div class="step-number">Paso 10</div>
+                                <h3>Desembolso y Pago</h3>
+                                <p>Transferencia bancaria por el avance aprobado al contratista.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Cabecera -->
+        <div class="glass-panel header-panel">
+            <div class="header-left">
+                <h1>Flujograma del Proceso de Valorizaciones</h1>
+                <p>Ciclo Mensual de Aprobación y Pago: Contratista ➔ Supervisión ➔ Cliente</p>
+            </div>
+            <div class="header-right">
+                <div class="search-box">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="text" id="search-input" placeholder="Buscar paso, documento o plazo...">
+                </div>
+                <button class="btn-toggle" id="theme-toggle" title="Cambiar Tema">🌙</button>
+            </div>
+        </div>
+
+        <!-- Controles de Zoom -->
+        <div class="glass-panel controls-panel">
+            <button class="btn-ctrl" id="zoom-in" title="Acercar">+</button>
+            <button class="btn-ctrl" id="zoom-out" title="Alejar">-</button>
+            <button class="btn-ctrl" id="zoom-reset" title="Ajustar y Centrar">⛶</button>
+        </div>
+
+        <!-- Panel de Detalle Derecho -->
+        <div class="glass-panel detail-panel" id="detail-panel">
+            <div class="detail-header">
+                <span class="detail-badge" id="role-badge">CONTRATISTA</span>
+                <button class="btn-close" id="btn-close-detail" title="Cerrar panel">✕</button>
+            </div>
+            <h2 class="detail-title" id="role-title">1. Medición de Avance Físico</h2>
+            <div class="detail-divider"></div>
+            
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <div class="meta-item-label">Responsable</div>
+                    <div class="meta-item-val" id="role-resp">Jefe de Topografía</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-item-label">Plazo Máximo</div>
+                    <div class="meta-item-val" id="role-deadline">Del 25 al 28 de cada mes</div>
+                </div>
+            </div>
+
+            <div class="detail-divider"></div>
+            <div>
+                <h3 class="detail-section-title">Descripción del Proceso</h3>
+                <p class="detail-desc" id="role-desc">Descripción del paso...</p>
+            </div>
+            <div class="detail-divider"></div>
+            <div>
+                <h3 class="detail-section-title">Documentos de Entrada (Inputs)</h3>
+                <ul class="detail-list" id="role-inputs">
+                    <li>Planos de diseño geométrico vial.</li>
+                </ul>
+            </div>
+            <div class="detail-divider"></div>
+            <div>
+                <h3 class="detail-section-title">Documentos de Salida (Outputs)</h3>
+                <ul class="detail-list" id="role-outputs">
+                    <li>Planillas de metrados crudos.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Toast de Instrucciones -->
+        <div class="glass-panel instruction-toast">
+            💡 Arrastra para mover • Rueda del mouse para Zoom • Haz clic en un paso para ver el expediente requerido
+        </div>
+    </div>
+
+    <script>
+        // Datos de cada paso del flujograma
+        const flowDetails = {
+            "1": {
+                title: "1. Medición de Avance en Campo",
+                dept: "Contratista",
+                resp: "Jefe de Topografía / Especialista Vial",
+                deadline: "Días 25 al 28 del mes",
+                desc: "Se efectúa el levantamiento topográfico de la subrasante, base y carpeta asfáltica colocada. Asimismo, se cuantifica el volumen de concreto vaciado en obras de arte (puentes, alcantarillas) y excavaciones de zanjas.",
+                inputs: [
+                    "Planos de alineación geométrica y secciones típicas",
+                    "Red de Benchmarks (BM) de control geodésico",
+                    "Libretas de campo y registros de excavaciones"
+                ],
+                outputs: [
+                    "Nube de puntos y superficies tridimensionales (Civil 3D)",
+                    "Planillas preliminares de metrados físicos"
+                ]
+            },
+            "2": {
+                title: "2. Conciliación de Metrados",
+                dept: "Coordinación (Contratista + Supervisión)",
+                resp: "Jefe de Oficina Técnica vs. Especialista de Supervisión",
+                deadline: "Días 28 al 30 del mes",
+                desc: "Los equipos de ingeniería de campo del Contratista y de la Supervisión realizan una medición conjunta in-situ para validar las cantidades. Esto previene disputas y devoluciones posteriores del expediente.",
+                inputs: [
+                    "Planillas preliminares de metrados de ambas partes",
+                    "Protocolos de control geométrico vial",
+                    "Dossiers de control topográfico del período"
+                ],
+                outputs: [
+                    "Acta de Conciliación de Metrados (firmada por ambas partes)",
+                    "Planilla única consensuada de metrados mensuales"
+                ]
+            },
+            "3": {
+                title: "3. Elaboración del Expediente de Valorización",
+                dept: "Contratista",
+                resp: "Jefe de Oficina Técnica / Administrador de Contratos",
+                deadline: "Día 1 al 3 del mes siguiente",
+                desc: "Oficina Técnica recopila y compila toda la documentación que respalda el metrado conciliado: informes de SSOMA, certificados de calidad de laboratorio, planos de replanteo y registros fotográficos.",
+                inputs: [
+                    "Acta de Conciliación de Metrados firmada",
+                    "Precios Unitarios contractuales",
+                    "Resultados de laboratorio (compactación, CBR, probetas)",
+                    "Informe mensual de SSOMA e Impacto Ambiental"
+                ],
+                outputs: [
+                    "Borrador del Expediente de Valorización Mensual",
+                    "Pre-factura o cálculo de amortización de adelantos"
+                ]
+            },
+            "4": {
+                title: "4. Presentación Formal a la Supervisión",
+                dept: "Contratista",
+                resp: "Gerente de Proyecto / Residente de Obra",
+                deadline: "Hasta el día 5 del mes",
+                desc: "Se ingresa de manera física y digital el Expediente de Valorización Completo a la oficina principal de la Supervisión de Obra, mediante una carta notarial o cuaderno de obra digital oficial.",
+                inputs: [
+                    "Expediente final estructurado y foliado",
+                    "Carta formal de presentación emitida por el PM"
+                ],
+                outputs: [
+                    "Cargo de Recepción oficial de la Supervisión",
+                    "Registro de entrada en mesa de partes técnica"
+                ]
+            },
+            "5": {
+                title: "5. Evaluación Técnica por Supervisión",
+                dept: "Supervisión",
+                resp: "Jefe de Supervisión / Especialista de Costos",
+                deadline: "Días 6 al 12 del mes",
+                desc: "La supervisión realiza una auditoría completa del expediente presentado: revisa fórmulas polinómicas de reajuste, amortización de adelantos directos y de materiales, y comprueba que todo el volumen cobrado cuente con ensayos de laboratorio aprobados.",
+                inputs: [
+                    "Expediente de valorización del Contratista",
+                    "Especificaciones Técnicas Generales (EG-2020)",
+                    "Libros e informes diarios de obra"
+                ],
+                outputs: [
+                    "Informe de observaciones técnicas (si las hay)",
+                    "Aprobación técnica preliminar de las partidas"
+                ]
+            },
+            "6": {
+                title: "6. Evaluación de Observaciones",
+                dept: "Supervisión",
+                resp: "Jefe de Supervisión",
+                deadline: "Plazo de 48 horas",
+                desc: "Punto de decisión crítico. Si la Supervisión encuentra discrepancias aritméticas, falta de sustento técnico o ensayos de calidad fallidos, el expediente se devuelve de inmediato al Contratista para su subsanación. Si el expediente es correcto, avanza a la certificación.",
+                inputs: [
+                    "Análisis de consistencia del expediente",
+                    "Protocolos de calidad y pruebas estructurales"
+                ],
+                outputs: [
+                    "Acta de observaciones (Regreso al Paso 3)",
+                    "Aprobación definitiva sin observaciones (Paso al Paso 7)"
+                ]
+            },
+            "7": {
+                title: "7. Emisión de Certificado y Envío a Cliente",
+                dept: "Supervisión",
+                resp: "Jefe de Supervisión de Obra",
+                deadline: "Hasta el día 15 del mes",
+                desc: "Una vez subsanadas las observaciones, la Supervisión emite el Certificado de Aprobación de Valorización y redacta un informe final de recomendación de pago dirigido al Cliente (la Entidad).",
+                inputs: [
+                    "Expediente de valorización final subsanado",
+                    "Dossier de Calidad e informes mensuales visados"
+                ],
+                outputs: [
+                    "Certificado de Aprobación de Valorización firmado",
+                    "Oficio de remisión técnica al Cliente"
+                ]
+            },
+            "8": {
+                title: "8. Revisión Administrativa y Financiera",
+                dept: "Cliente",
+                resp: "Gerente de Infraestructura / Auditor del Cliente",
+                deadline: "Días 16 al 25 del mes",
+                desc: "El Cliente evalúa el expediente a nivel administrativo y presupuestal. Verifica seguros vigentes (CAR, Responsabilidad Civil), cumplimiento del plan de relaciones comunitarias y disponibilidad de caja del proyecto. Autoriza al Contratista a emitir la factura formal.",
+                inputs: [
+                    "Informe de aprobación de la Supervisión",
+                    "Polizas de seguros de obra vigentes",
+                    "Garantías y cartas fianza contractuales"
+                ],
+                outputs: [
+                    "Orden de facturación formal autorizada al contratista",
+                    "Aprobación presupuestal interna del gasto"
+                ]
+            },
+            "9": {
+                title: "9. Emisión de Factura",
+                dept: "Contratista",
+                resp: "Jefe de Administración y Finanzas del Contratista",
+                deadline: "Hasta 24 horas después de autorizado",
+                desc: "El departamento administrativo del contratista emite la factura electrónica correspondiente al metrado certificado por el monto neto aprobado, aplicando detracciones y amortizaciones.",
+                inputs: [
+                    "Orden de facturación del cliente",
+                    "Monto neto final visado"
+                ],
+                outputs: [
+                    "Factura Electrónica XML y PDF ingresada al portal del Cliente",
+                    "Guías de remisión técnica asociadas"
+                ]
+            },
+            "10": {
+                title: "10. Desembolso y Pago",
+                dept: "Cliente",
+                resp: "Gerente de Tesorería del Cliente",
+                deadline: "Fin de mes (Neto 30 días)",
+                desc: "La entidad o cliente realiza la transferencia interbancaria de los fondos correspondientes a la cuenta corriente o cuenta de fideicomiso del Contratista, cerrando el ciclo de la valorización del mes.",
+                inputs: [
+                    "Factura electrónica aceptada",
+                    "Cuentas corrientes aprobadas (CCI)",
+                    "Constancia de depósitos de detracciones"
+                ],
+                outputs: [
+                    "Voucher de transferencia interbancaria (Pago ejecutado)",
+                    "Cierre financiero de valorización en el balance del mes"
+                ]
+            }
+        };
+
+        let panzoomInstance = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const elem = document.getElementById('panzoom-element');
+            const wrapper = document.getElementById('viewport-wrapper');
+
+            // Inicializar Panzoom
+            panzoomInstance = Panzoom(elem, {
+                maxScale: 3,
+                minScale: 0.25,
+                canvas: true,
+                startScale: 0.8
+            });
+
+            // Zoom con rueda
+            wrapper.addEventListener('wheel', panzoomInstance.zoomWithWheel);
+
+            // Centrar inicialmente
+            setTimeout(() => {
+                panzoomInstance.zoom(0.8);
+                panzoomInstance.pan(40, 60);
+                drawConnectors(); // Dibujar las flechas iniciales
+            }, 300);
+
+            // Botones de Zoom
+            document.getElementById('zoom-in').addEventListener('click', panzoomInstance.zoomIn);
+            document.getElementById('zoom-out').addEventListener('click', panzoomInstance.zoomOut);
+            document.getElementById('zoom-reset').addEventListener('click', () => {
+                panzoomInstance.reset();
+                panzoomInstance.zoom(0.8);
+                panzoomInstance.pan(40, 60);
+                drawConnectors();
+            });
+
+            // Alternar Tema
+            const themeBtn = document.getElementById('theme-toggle');
+            themeBtn.addEventListener('click', () => {
+                document.body.classList.toggle('light-theme');
+                themeBtn.innerText = document.body.classList.contains('light-theme') ? '☀️' : '🌙';
+                drawConnectors(); // Redibujar líneas por cambio de color
+            });
+
+            // Registro de clics en las tarjetas
+            const steps = document.querySelectorAll('.flow-step, .flow-decision');
+            const detailPanel = document.getElementById('detail-panel');
+
+            steps.forEach(step => {
+                step.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    steps.forEach(s => s.classList.remove('active'));
+                    step.classList.add('active');
+
+                    const roleId = step.getAttribute('data-role');
+                    if (roleId && flowDetails[roleId]) {
+                        showDetails(roleId, step);
+                    }
+                });
+            });
+
+            wrapper.addEventListener('click', () => {
+                detailPanel.classList.remove('open');
+                steps.forEach(s => s.classList.remove('active'));
+            });
+
+            document.getElementById('btn-close-detail').addEventListener('click', () => {
+                detailPanel.classList.remove('open');
+                steps.forEach(s => s.classList.remove('active'));
+            });
+
+            // Buscador
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                steps.forEach(step => {
+                    const roleId = step.getAttribute('data-role');
+                    const data = flowDetails[roleId];
+                    if (!data) return;
+
+                    const matchTitle = data.title.toLowerCase().includes(query);
+                    const matchDesc = data.desc.toLowerCase().includes(query);
+                    const matchResp = data.resp.toLowerCase().includes(query);
+                    const matchDeadline = data.deadline.toLowerCase().includes(query);
+
+                    if (query === '') {
+                        step.style.opacity = '1';
+                        step.style.filter = 'none';
+                    } else if (matchTitle || matchDesc || matchResp || matchDeadline) {
+                        step.style.opacity = '1';
+                        step.style.filter = 'drop-shadow(0 0 10px var(--lane-color))';
+                    } else {
+                        step.style.opacity = '0.15';
+                        step.style.filter = 'grayscale(80%)';
+                    }
+                });
+            });
+
+            // Redibujar conectores cuando cambie el tamaño de ventana
+            window.addEventListener('resize', drawConnectors);
+        });
+
+        // Mostrar detalles en el panel derecho
+        function showDetails(id, step) {
+            const data = flowDetails[id];
+            const panel = document.getElementById('detail-panel');
+            const accentColor = getComputedStyle(step).getPropertyValue('--lane-color');
+
+            document.getElementById('role-badge').innerText = data.dept;
+            document.getElementById('role-badge').style.borderColor = accentColor;
+            document.getElementById('role-badge').style.color = accentColor;
+            
+            document.getElementById('role-title').innerText = data.title;
+            document.getElementById('role-resp').innerText = data.resp;
+            document.getElementById('role-deadline').innerText = data.deadline;
+            document.getElementById('role-desc').innerText = data.desc;
+            
+            panel.style.setProperty('--accent-color', accentColor);
+
+            const inputList = document.getElementById('role-inputs');
+            inputList.innerHTML = '';
+            data.inputs.forEach(text => {
+                const li = document.createElement('li');
+                li.innerText = text;
+                inputList.appendChild(li);
+            });
+
+            const outputList = document.getElementById('role-outputs');
+            outputList.innerHTML = '';
+            data.outputs.forEach(text => {
+                const li = document.createElement('li');
+                li.innerText = text;
+                outputList.appendChild(li);
+            });
+
+            panel.classList.add('open');
+        }
+
+        // ---------------- DIBUJADO DINÁMICO DE LAS FLECHAS CONECTORAS SVG ----------------
+        function drawConnectors() {
+            const svg = document.getElementById('connector-layer');
+            // Limpiar líneas viejas
+            const oldPaths = svg.querySelectorAll('path');
+            oldPaths.forEach(p => p.remove());
+
+            const isDark = !document.body.classList.contains('light-theme');
+            const lineColor = isDark ? '#475569' : '#cbd5e1';
+
+            // Definición de conexiones entre pasos: [desdeId, haciaId, tipo, textoOpcional, colorEspecial]
+            const connections = [
+                ['step-1', 'step-2', 'h'],
+                ['step-2', 'step-3', 'h'],
+                ['step-3', 'step-4', 'h'],
+                ['step-4', 'step-5', 'v'], // Cruza carril a supervisión
+                ['step-5', 'step-6', 'h'],
+                ['step-6', 'step-7', 'h', 'No (Aprobar)'],
+                ['step-6', 'step-3', 'return', 'Sí (Observar)', '#ef4444'], // Retorno al contratista en rojo
+                ['step-7', 'step-8', 'v'], // Cruza carril a cliente
+                ['step-8', 'step-9', 'v_up'], // Sube carril para que el contratista emita factura
+                ['step-9', 'step-10', 'v_down'] // Baja carril para pago final
+            ];
+
+            connections.forEach(conn => {
+                const elFrom = document.getElementById(conn[0]);
+                const elTo = document.getElementById(conn[1]);
+                if (!elFrom || !elTo) return;
+
+                const rFrom = elFrom.getBoundingClientRect();
+                const rTo = elTo.getBoundingClientRect();
+                
+                // Necesitamos coordenadas relativas al contenedor #panzoom-element
+                const container = document.getElementById('panzoom-element');
+                const cRect = container.getBoundingClientRect();
+
+                // Quitar el factor escala actual de panzoom para los puntos de trazado
+                const scale = panzoomInstance.getScale();
+
+                const fromX = (rFrom.left - cRect.left) / scale;
+                const fromY = (rFrom.top - cRect.top) / scale;
+                const fromW = rFrom.width / scale;
+                const fromH = rFrom.height / scale;
+
+                const toX = (rTo.left - cRect.left) / scale;
+                const toY = (rTo.top - cRect.top) / scale;
+                const toW = rTo.width / scale;
+                const toH = rTo.height / scale;
+
+                let pathD = '';
+                const strokeColor = conn[4] || lineColor;
+
+                if (conn[2] === 'h') {
+                    // Conexión Horizontal estándar (de la derecha de uno al inicio del otro)
+                    const x1 = fromX + fromW;
+                    const y1 = fromY + fromH / 2;
+                    const x2 = toX;
+                    const y2 = toY + toH / 2;
+                    pathD = `M ${x1} ${y1} L ${x2} ${y2}`;
+                } 
+                else if (conn[2] === 'v') {
+                    // Conexión Vertical Directa (Hacia abajo, e.g. Step 4 a Step 5)
+                    const x1 = fromX + fromW / 2;
+                    const y1 = fromY + fromH;
+                    const x2 = toX + toW / 2;
+                    const y2 = toY;
+                    
+                    // Curva ortogonal en S vertical
+                    const midY = (y1 + y2) / 2;
+                    pathD = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
+                }
+                else if (conn[2] === 'v_up') {
+                    // Sube verticalmente (e.g. Step 8 a Step 9)
+                    const x1 = fromX + fromW / 2;
+                    const y1 = fromY;
+                    const x2 = toX + toW / 2;
+                    const y2 = toY + toH;
+                    
+                    const midY = (y1 + y2) / 2;
+                    pathD = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
+                }
+                else if (conn[2] === 'v_down') {
+                    // Baja verticalmente de forma ortogonal
+                    const x1 = fromX + fromW / 2;
+                    const y1 = fromY + fromH;
+                    const x2 = toX + toW / 2;
+                    const y2 = toY;
+                    
+                    const midY = (y1 + y2) / 2;
+                    pathD = `M ${x1} ${y1} C ${x1} ${midY}, ${x2} ${midY}, ${x2} ${y2}`;
+                }
+                else if (conn[2] === 'return') {
+                    // Línea de Retorno (Bucle hacia atrás de Supervisión a Contratista)
+                    // Sale de la parte superior del rombo (Step 6) y sube hasta el Step 3.
+                    // Para un rombo, el punto superior es (fromX + fromW/2, fromY)
+                    const x1 = fromX + fromW / 2;
+                    const y1 = fromY;
+                    const x2 = toX + toW / 2;
+                    const y2 = y1 - 100; // Sube libre
+                    const x3 = toX + toW / 2;
+                    const y3 = toY; // Cae directo en la cabeza del Step 3
+
+                    pathD = `M ${x1} ${y1} L ${x1} ${y2} L ${x3} ${y2} L ${x3} ${y3}`;
+                }
+
+                // Crear ruta SVG
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', pathD);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke', strokeColor);
+                path.setAttribute('stroke-width', conn[4] ? '3' : '2');
+                if (conn[2] === 'return') {
+                    path.setAttribute('stroke-dasharray', '6 4');
+                }
+                path.setAttribute('marker-end', 'url(#arrow)');
+                svg.appendChild(path);
+
+                // Agregar texto de decisión si existe
+                if (conn[3]) {
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    let tx = 0, ty = 0;
+                    
+                    if (conn[2] === 'h') {
+                        tx = (fromX + fromW + toX) / 2;
+                        ty = (fromY + fromH / 2) - 10;
+                    } else if (conn[2] === 'return') {
+                        tx = x1 + 10;
+                        ty = y1 - 25;
+                    }
+                    
+                    text.setAttribute('x', tx);
+                    text.setAttribute('y', ty);
+                    text.setAttribute('fill', strokeColor);
+                    text.setAttribute('font-size', '0.75rem');
+                    text.setAttribute('font-weight', '600');
+                    text.setAttribute('text-anchor', 'middle');
+                    text.textContent = conn[3];
+                    svg.appendChild(text);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
